@@ -39,7 +39,7 @@ public class ParseJSON {
 		writer.beginObject();
 		writer.name("url").value(media.getUrl());
 		//writer.name("width").value(media);
-		
+		//questa riga l'ho commentata io 
 	}
 	
 	
