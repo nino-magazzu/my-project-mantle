@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Mantle</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="db">Dropbox</string>
+    <string name="gett">Gett</string>
+    <string name="gd">Google Drive</string>
+    <string name="welcome">Benvenuto</string>
+    <string name="download">Download</string>
+    <string name="upload">Upload</string>
+    <string name="dbLogin">Login</string>
+    <string name="rubrica">Rubrica</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="ok">Ok</string>
+    <string name="esci">Esci</string>
+    <string name="title_notification_list">Notifications</string>
+    <string name="title_notification_detail">Notification Detail</string>
+    <string name="prompt_username">Username</string>
+    <string name="prompt_pass">Password</string>
+
+</resources>
