@@ -1,14 +1,18 @@
 package com.project.mantle_v1.parser;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+
+import android.util.JsonReader;
 import android.util.JsonWriter;
 
 public class ParseJSON {
 	
 	public ParseJSON(MediaType media) {
 		this.media = media;
+		this.charset = "UTF-8";
 		this.out = new OutputStream() {
 			
 			@Override
@@ -16,11 +20,11 @@ public class ParseJSON {
 				// TODO Auto-generated method stub
 			}
 		};
+		
 	}
 	
 	public void writerJsonStream() throws IOException {
-		JsonWriter writer = null;
-		writer = new JsonWriter(new OutputStreamWriter(out, "UTF-8"));
+		JsonWriter writer = new JsonWriter(new OutputStreamWriter(out, charset));
 		writer.setIndent("  ");
 		writeMedia(writer);
 		writer.close();
@@ -32,17 +36,16 @@ public class ParseJSON {
 		writer.name("objectType").value(media.getObjectType());
 		writer.name("username").value(media.getUsername());
 		writer.name("published").value(media.getData());
-		writer.name("image");
+		writer.name("icon").value(media.getIcon());
+		writer.endObject();
 	}
 	
-	public void writeImage(JsonWriter writer) throws IOException {
-		writer.beginObject();
-		writer.name("url").value(media.getUrl());
-		//writer.name("width").value(media);
-		//questa riga l'ho commentata io 
+	public void readMedia() {
+		JsonReader reader = new JsonReader(new InputStreamReader(in, charset));
+		
 	}
-	
 	
 	private MediaType media;
 	private OutputStream out;
+	private String charset;
 }

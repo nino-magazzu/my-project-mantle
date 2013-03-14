@@ -8,13 +8,11 @@ public class MediaType {
 		this.url = link;
 		this.data = ent.modified;
 		this.objectType = ent.mimeType;
+	
 		if(objectType.contains("image")) 
 			this.icon = "page_white_picture48";
 		else 
 			this.icon = "page_white_acrobat48";
-		
-		//this.username = ent.;
-		
 	}
 	
 	
