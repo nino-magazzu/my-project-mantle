@@ -28,8 +28,23 @@ public class MioDatabaseHelper extends SQLiteOpenHelper{
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		
+	
 		String sql = "";
+		sql += "CREATE TABLE User (";
+		sql += " idUser INTEGER,";
+		sql += " email TEXT,";
+		sql += " username TEXT,";
+		sql += " name TEXT,";
+		sql += " surname TEXT,";
+		sql += " key TEXT,";
+		sql += ")";
+		db.execSQL(sql);
+
+		sql = "";
+		sql += "CREATE TABLE share (";
+		
+		
+		sql = "";
 		sql += "CREATE TABLE share (";
 		sql += " idFile INTEGER,";				
 		sql += " idFriend INTEGER,";
