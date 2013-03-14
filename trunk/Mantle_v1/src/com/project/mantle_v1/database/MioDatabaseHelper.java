@@ -41,8 +41,12 @@ public class MioDatabaseHelper extends SQLiteOpenHelper{
 		db.execSQL(sql);
 
 		sql = "";
-		sql += "CREATE TABLE share (";
-		
+		sql += "CREATE TABLE service (";
+		sql += " service TEXT,";
+		sql += " useracces TEXT,";
+		sql += " passacces TEXT,";
+		sql += ")";
+		db.execSQL(sql);
 		
 		sql = "";
 		sql += "CREATE TABLE share (";
