@@ -134,10 +134,9 @@ public class LoginActivity extends Activity {
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
 			
-			
-			/* TODO: Chiamo il metodo di mio databaseHelper:
-			 * 						if(username.exist)
-			 * 								if(password_inserita == password_nel_db)
+			/* TODO: Chiamo il metodo di mio databaseHelper(mUsername, mPassword):
+			 * 						if(mUsername.exist)
+			 * 								if(mPassword == password_nel_db)
 			 * 									effettuo il login;
 			 * 								else
 			 * 									accesso negato;
