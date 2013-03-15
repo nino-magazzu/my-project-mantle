@@ -185,7 +185,12 @@ public class Dropbox extends Activity {
     				finish();
     			else {
     				File file = new File(filePath);
-        			Uploader upload = new Uploader(this, mApi, FILE_DIR, file);
+    				
+    				/* TODO: username rapprensenta l'username dell'utente che viene prelevato
+    				 * 		dall'istanza del database
+    				 */
+    				
+        			Uploader upload = new Uploader(this, mApi, FILE_DIR, file, username);
         			upload.execute();
         			
         			try {
