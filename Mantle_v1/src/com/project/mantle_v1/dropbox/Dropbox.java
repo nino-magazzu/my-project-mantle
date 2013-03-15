@@ -174,7 +174,6 @@ public class Dropbox extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	String filePath = null;
     	String savingPath = null;
-    	String url = null;
     	MediaType mt = null;
     	
     	if(requestCode == UPLOAD_REQUEST_CODE) {
@@ -190,7 +189,7 @@ public class Dropbox extends Activity {
     				 * 		dall'istanza del database
     				 */
     				
-        			Uploader upload = new Uploader(this, mApi, FILE_DIR, file, username);
+        			Uploader upload = new Uploader(this, mApi, FILE_DIR, file, "pippo");
         			upload.execute();
         			
         			try {
