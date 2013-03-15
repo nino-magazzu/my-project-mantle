@@ -44,11 +44,14 @@ public class Uploader extends AsyncTask<Void, Long, MediaType> {
     
     private String mErrorMsg;
     private DropboxLink link;
+    private String username;
     
-	public Uploader(Context context, DropboxAPI<?> api, String dropboxPath, File file) {
+	public Uploader(Context context, DropboxAPI<?> api, String dropboxPath, File file, String username) {
         // We set the context this way so we don't accidentally leak activities
         mContext = context.getApplicationContext();
-
+        
+        this.username = username;
+        
         mFileLen = file.length();
         mApi = api;
         mPath = dropboxPath;
@@ -93,7 +96,7 @@ public class Uploader extends AsyncTask<Void, Long, MediaType> {
             if (mRequest != null) {
                 Entry ent = mRequest.upload();
                  link = mApi.share(ent.path);
-                 MediaType mt = new MediaType(ent, link, username);
+                 MediaType mt = new MediaType(ent, link.url, username);
                  return mt;
             }
 
