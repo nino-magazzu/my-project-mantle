@@ -1,9 +1,34 @@
 package com.project.mantle_v1.parser;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.io.StringReader;
+import java.io.StringWriter;
+
+import android.util.Log;
+
 import com.dropbox.client2.DropboxAPI.Entry;
 
-public class MediaType {
- 
+public class MediaType  implements Serializable{
+	/**
+	 * 		La classe si occupa di raccogliere le informazioni sui media condivisibili 
+	 * 		tramite l'applicazione. Permette anche la lettura e scrittura di Json 
+	 * 		atti alla condivisione dei media. 
+	 */
+	private static final long serialVersionUID = 6107134499898867188L;
+	
+	
+	public MediaType(String username, String url, String data,
+			String objectType, String icon) {
+		super();
+		this.username = username;
+		this.url = url;
+		this.data = data;
+		this.objectType = objectType;
+		this.icon = icon;
+	}
+
+	
 	public MediaType() {
 		this.username = null;
 		this.url = null;
@@ -12,7 +37,7 @@ public class MediaType {
 		this.icon = null;
 	}
 
-
+	
 	public MediaType(Entry ent, String link, String username) {
 		this.url = link;
 		this.data = ent.modified;
@@ -24,6 +49,29 @@ public class MediaType {
 			this.icon = "page_white_acrobat48";
 		
 		this.username = username;
+	}
+	
+	
+	public void getFromJson(StringReader sr) {
+		ParseJSON parser = new ParseJSON(this);
+		try {
+			parser.readJson(sr);
+		} catch (IOException e) {
+			Log.d(MEDIA, e.getMessage());
+		}
+	}
+	
+	
+	public String getWritableJson() {
+		StringWriter sw = new StringWriter();
+		ParseJSON parser = new ParseJSON(this);
+		try {
+			parser.writeJson(sw);
+		} catch (IOException e) {
+			Log.d(MEDIA, e.getMessage());
+			return null;
+		}
+		return sw.toString();
 	}
 	
 	
@@ -59,7 +107,6 @@ public class MediaType {
 		return icon;
 	}
 
-
 	public void setIcon(String icon) {
 		this.icon = icon;
 	}
@@ -69,4 +116,5 @@ public class MediaType {
 	private String data;
 	private String objectType;
 	private String icon;
+	private final String MEDIA = "MediaType";
 }
