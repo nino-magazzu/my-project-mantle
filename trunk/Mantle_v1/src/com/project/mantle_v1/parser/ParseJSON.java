@@ -20,7 +20,7 @@ public class ParseJSON {
 		writer.close();
 	}
 	
-	public void writeMedia(JsonWriter writer) throws IOException {
+	private void writeMedia(JsonWriter writer) throws IOException {
 		writer.beginObject();
 		writer.name("url").value(media.getUrl());
 		writer.name("objectType").value(media.getObjectType());
@@ -40,7 +40,7 @@ public class ParseJSON {
 		}
 	}
 		
-	public void readMedia(JsonReader reader) throws IOException {
+	private void readMedia(JsonReader reader) throws IOException {
 		reader.beginObject();
 		while(reader.hasNext()) {
 				String name = reader.nextName();

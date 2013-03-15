@@ -24,13 +24,14 @@ import com.dropbox.client2.exception.DropboxParseException;
 import com.dropbox.client2.exception.DropboxPartialFileException;
 import com.dropbox.client2.exception.DropboxServerException;
 import com.dropbox.client2.exception.DropboxUnlinkedException;
+import com.project.mantle_v1.parser.MediaType;
 
 /**
  * Here we show uploading a file in a background thread, trying to show
  * typical exception handling and flow of control for an app that uploads a
  * file from Dropbox.
  */
-public class Uploader extends AsyncTask<Void, Long, String> {
+public class Uploader extends AsyncTask<Void, Long, MediaType> {
 
     private DropboxAPI<?> mApi;
     private String mPath;
@@ -69,7 +70,7 @@ public class Uploader extends AsyncTask<Void, Long, String> {
     }
 
     @Override
-    protected String doInBackground(Void... params) {
+    protected MediaType doInBackground(Void... params) {
         try {
             // By creating a request, we get a handle to the putFile operation,
             // so we can cancel it later if we want to
@@ -92,8 +93,8 @@ public class Uploader extends AsyncTask<Void, Long, String> {
             if (mRequest != null) {
                 Entry ent = mRequest.upload();
                  link = mApi.share(ent.path);
-                 
-                 return link.url;
+                 MediaType mt = new MediaType(ent, link, username);
+                 return mt;
             }
 
         } catch (DropboxUnlinkedException e) {
@@ -153,7 +154,7 @@ public class Uploader extends AsyncTask<Void, Long, String> {
     }
 
     @Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(MediaType result) {
         mDialog.dismiss();
         if (result != null) {
         	showToast("File successfully uploaded");

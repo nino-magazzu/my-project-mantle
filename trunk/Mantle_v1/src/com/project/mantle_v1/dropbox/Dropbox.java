@@ -30,6 +30,7 @@ import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.fileChooser.FileChooser;
 import com.project.mantle_v1.gmail.Sender;
+import com.project.mantle_v1.parser.MediaType;
 
 public class Dropbox extends Activity {
 	
@@ -174,6 +175,7 @@ public class Dropbox extends Activity {
     	String filePath = null;
     	String savingPath = null;
     	String url = null;
+    	MediaType mt = null;
     	
     	if(requestCode == UPLOAD_REQUEST_CODE) {
     		filePath = data.getStringExtra("path");
@@ -187,13 +189,12 @@ public class Dropbox extends Activity {
         			upload.execute();
         			
         			try {
-        				url = upload.get();
+        				mt = upload.get();
         			} catch (InterruptedException e) {
         				Log.i(TAG, "Error authenticating", e);
         			} catch (ExecutionException e) {
         				Log.i(TAG, "Error authenticating", e);
         			}
-        			
         			Intent intent = new Intent(this, FriendsList.class);
         			startActivityForResult(intent, FRIEND_CHOOSED_CODE);        			
     			}
@@ -213,7 +214,8 @@ public class Dropbox extends Activity {
     	
     	if(requestCode == FRIEND_CHOOSED_CODE) {
     		String contact = data.getStringExtra("contact");
-    		Sender sender = new Sender(this, url, contact);
+    		String body = mt.getWritableJson();
+    		Sender sender = new Sender(this, body, contact);
         	sender.execute();
     	}
     	
