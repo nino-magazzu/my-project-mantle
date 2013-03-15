@@ -4,7 +4,16 @@ import com.dropbox.client2.DropboxAPI.Entry;
 
 public class MediaType {
  
-	public MediaType(Entry ent, String link) {
+	public MediaType() {
+		this.username = null;
+		this.url = null;
+		this.data = null;
+		this.objectType = null;
+		this.icon = null;
+	}
+
+
+	public MediaType(Entry ent, String link, String username) {
 		this.url = link;
 		this.data = ent.modified;
 		this.objectType = ent.mimeType;
@@ -13,6 +22,8 @@ public class MediaType {
 			this.icon = "page_white_picture48";
 		else 
 			this.icon = "page_white_acrobat48";
+		
+		this.username = username;
 	}
 	
 	
@@ -44,14 +55,6 @@ public class MediaType {
 		this.username = username;
 	}
 	
-	public boolean isImage() {
-		return isImage;
-	}
-
-	public void setImage(boolean isImage) {
-		this.isImage = isImage;
-	}
-
 	public String getIcon() {
 		return icon;
 	}
@@ -65,6 +68,5 @@ public class MediaType {
 	private String url;
 	private String data;
 	private String objectType;
-	private boolean isImage;
 	private String icon;
 }
