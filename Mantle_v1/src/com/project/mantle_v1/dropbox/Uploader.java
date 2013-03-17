@@ -56,7 +56,7 @@ public class Uploader extends AsyncTask<Void, Long, MediaType> {
         mApi = api;
         mPath = dropboxPath;
         mFile = file;
-
+        
         mDialog = new ProgressDialog(context);
         mDialog.setMax(100);
         mDialog.setMessage("Uploading " + file.getName());
@@ -96,7 +96,7 @@ public class Uploader extends AsyncTask<Void, Long, MediaType> {
             if (mRequest != null) {
                 Entry ent = mRequest.upload();
                  link = mApi.share(ent.path);
-                 MediaType mt = new MediaType(ent, link.url, username);
+                 MediaType mt = new MediaType(ent, link.url, username, mFile);
                  return mt;
             }
 
