@@ -1,10 +1,14 @@
 package com.project.mantle_v1.parser;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 
 import com.dropbox.client2.DropboxAPI.Entry;
@@ -38,11 +42,13 @@ public class MediaType  implements Serializable{
 	}
 
 	
-	public MediaType(Entry ent, String link, String username) {
+	public MediaType(Entry ent, String link, String username, File file) {
 		this.url = link;
 		this.data = ent.modified;
 		this.objectType = ent.mimeType;
-	
+		this.isImage = objectType.contains("image");
+		this.bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+		
 		if(objectType.contains("image")) 
 			this.icon = "page_white_picture48";
 		else 
@@ -111,10 +117,32 @@ public class MediaType  implements Serializable{
 		this.icon = icon;
 	}
 	
+	
+	public boolean isImage() {
+		return isImage;
+	}
+
+
+	public void setImage(boolean isImage) {
+		this.isImage = isImage;
+	}
+	
+	
+	public Bitmap getBitmap() {
+		return bitmap;
+	}
+
+
+	public void setBitmap(Bitmap bitmap) {
+		this.bitmap = bitmap;
+	}
+	
 	private String username;
 	private String url;
 	private String data;
 	private String objectType;
 	private String icon;
+	private boolean isImage;
+	private Bitmap bitmap;
 	private final String MEDIA = "MediaType";
 }

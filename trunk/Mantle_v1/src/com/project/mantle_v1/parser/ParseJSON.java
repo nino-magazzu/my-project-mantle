@@ -26,10 +26,33 @@ public class ParseJSON {
 		writer.name("objectType").value(media.getObjectType());
 		writer.name("username").value(media.getUsername());
 		writer.name("published").value(media.getData());
-		writer.name("icon").value(media.getIcon());
+		if(media.isImage()) {
+			writer.name("image");
+			imageDetails(writer);
+			writer.name("fullImage");
+			fullImageDetails(writer);
+		}
 		writer.endObject();
 	}
 	
+	
+	private void imageDetails(JsonWriter writer) throws IOException {
+		writer.beginObject();
+		writer.name("icon").value(media.getIcon());
+		writer.name("width").value(48);
+		writer.name("height").value(48);
+		writer.endObject();
+	}
+	
+	private void fullImageDetails(JsonWriter writer) throws IOException {
+		writer.beginObject();
+		writer.name("url").value(media.getUrl());
+		writer.name("width").value(media.getBitmap().getWidth());
+		writer.name("height").value(media.getBitmap().getHeight());
+		writer.endObject();
+	}
+	
+
 	public void readJson(StringReader sr) throws IOException {
 		JsonReader reader = new JsonReader(sr);
 		try {
