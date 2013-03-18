@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Register extends Activity{
 	
@@ -40,10 +41,11 @@ public class Register extends Activity{
 		Log.d("REGISTER", password);
 		
 		
+		
 		forward.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
-				// VERIFICA CHE I CAMPI NON SONO VUOTI 
+				
 				
 				String name = nameEditText.getText().toString();
 				String surname = surnameEditText.getText().toString();
@@ -51,11 +53,16 @@ public class Register extends Activity{
 				String dropboxUser = dropboxUserEditText.getText().toString();
 				String dropboxPass = dropboxPassEditText.getText().toString();
 				
+				if(!name.equals("")&&!surname.equals("")&&!email.equals("")&&!dropboxPass.equals("")&&!dropboxUser.equals("")){
+					db.insertUser(email, username, name, surname, password);
+					db.insertService("Dropbox", dropboxUser,dropboxPass);
+					db.showAll();	
+				}
 				
-				db.insertUser(email, username, name, surname, password);
-				db.insertService("Dropbox", dropboxUser,dropboxPass);
-				
-				db.showAll();
+				else{
+					Toast error = Toast.makeText(Register.this,"Insert all the values", Toast.LENGTH_LONG);
+					error.show();
+					}
 			}
 			
 		});

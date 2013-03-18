@@ -1,5 +1,6 @@
 package com.project.mantle_v1.login;
 
+import com.project.mantle_v1.Home;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.R.id;
 import com.project.mantle_v1.R.layout;
@@ -163,6 +164,7 @@ public class LoginActivity extends Activity {
 				
 				// Inserisco i dati username e password come nuovo db e 
 				// avvio il form per la registrazione
+				db.insertService("mantle", mUsername, mPassword);
 				Intent intent = new Intent(LoginActivity.this, Register.class);
     	    	intent.putExtra("username",mUsername );
     	    	intent.putExtra("password",mPassword);
@@ -173,18 +175,27 @@ public class LoginActivity extends Activity {
 				///////////////						
 				Log.d("LOGIN :)", "Le stringe sono uguli");
 				///////////////
-				// Avviare il login
+				Intent intent = new Intent(LoginActivity.this, Home.class);
+	    	    startActivity(intent);
 				}
+			
 			if((!res[0].equals(mUsername))&&(!res[0].equals(" "))){
 				///////////////
 				Log.d("LOGIN :(", "le stringe sono diverse");
-				
+				///////////////					
+				showProgress(false);
 				mUsernameView.setError("username errato");
-				///////////////	
-				}
+				mUsernameView.setText("");
+				
+			}
+			
 			if(!res[1].equals(mPassword)&&(!res[1].equals(" "))){
+				///////////////
 				Log.d("LOGIN :(", "le stringe sono diverse");
+				///////////////
+				showProgress(false);
 				mPasswordView.setError("password errata");
+				mPasswordView.setText("");
 			}
 			///////////////
 			Log.d("LOGGIN","log che non deve essere mai raggiunto");
