@@ -5,9 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
-public class MioDatabaseHelper extends SQLiteOpenHelper{
+public class MioDatabaseHelper extends SQLiteOpenHelper {
 	
 	private static final String DB_NAME = "Mantle";
 	private static final int DB_VERSION = 6;
@@ -31,27 +33,45 @@ public class MioDatabaseHelper extends SQLiteOpenHelper{
 	
 		String sql = "";
 		sql += "CREATE TABLE User (";
-		sql += " idUser INTEGER,";
+		sql += " idUser INTEGER PRIMARY KEY,";
 		sql += " email TEXT,";
 		sql += " username TEXT,";
 		sql += " name TEXT,";
 		sql += " surname TEXT,";
-		sql += " key TEXT,";
+		sql += " key TEXT";
 		sql += ")";
 		db.execSQL(sql);
 
 		sql = "";
-		sql += "CREATE TABLE service (";
+		sql += "CREATE TABLE Service (";
 		sql += " service TEXT,";
 		sql += " useracces TEXT,";
-		sql += " passacces TEXT,";
+		sql += " passacces TEXT";
 		sql += ")";
 		db.execSQL(sql);
 		
 		sql = "";
-		sql += "CREATE TABLE share (";
+		sql += "CREATE TABLE Share (";
 		sql += " idFile INTEGER,";				
-		sql += " idFriend INTEGER,";
+		sql += " idUser INTEGER";
+		sql += ")";
+		db.execSQL(sql);
+
+		sql = "";
+		sql += "CREATE TABLE File (";
+		sql += " idFile INTEGER PRIMARY KEY,";				
+		sql += " fileName TEXT,";
+		sql += " linkFile TEXT,";
+		sql += " linkComment TEXT,";
+		sql += " fileKey TEXT";
+		sql += ")";
+		db.execSQL(sql);
+
+		sql = "";
+		sql += "CREATE TABLE History (";
+		sql += " idFile INTEGER,";				
+		sql += " idUser INTEGER,";
+		sql += " date INTEGER";
 		sql += ")";
 		db.execSQL(sql);
 
@@ -62,44 +82,111 @@ public class MioDatabaseHelper extends SQLiteOpenHelper{
 			}
 
 	
-	//-- metodo di inizializzazione
-		// settare i parametri username, password....di mioi databasehelper
-		// verifica se i parametri ci sono nella tabella user
-			//se ci sono mi setta anche l'id user e restituisce true
-			//se non ci sono li aggiunge setta l'id user e restituisce false 
-	//--mentodo che controlla email
-	//--metodi per l'inserimenti nelle tabelle
 	
 //============== METODI PER LA GESTIONE DEL DATABASE ===============
-    
 	
 //Prelevo l'id di un determinato utente dal nome e dal cognome
-	    public String getId(SQLiteDatabase db, String name, String surname){
+	    public String getId(String name, String surname){
 	    	
 	    	//quale campo mi restituisce la query
-	    	String[] columns = { "_id" };
+	    	String[] columns = { "idUser" };
 	    	//clausola where
 	    	String selection = "name = ? AND surname = ?";
 	    	//cosa devo sostituire al posto dei ?
 	    	String[] selectionArgs = { name , surname };
 	    	//esecuzione della query
-	    	Cursor c = db.query("friend", columns, selection, selectionArgs, null, null, null);
+	    	Cursor c = db.query("User", columns, selection, selectionArgs, null, null, null);
 
 	    	c.moveToNext();
 	    	
 	    	return c.getString(0);
 	    }
 		
-		
-	    public long insertFriend(SQLiteDatabase db,String name,String surname){
+	    public long insertUser(String email, String username, String name, String surname, String key ){
 	    	ContentValues values = new ContentValues();
-	        values.put("name", name);
+	    	values.put("email", email);
+	    	values.put("username", username);
+	    	values.put("name", name);
 	        values.put("surname", surname);
-	        long r = db.insert("friend", null, values);
+	        values.put("key", key);
+	        long r = db.insert("User", null, values);
 	        return r;
 	    }
 	    
-		
+	    public long insertService(String service, String useracces, String passacces) {
+	    	ContentValues values = new ContentValues();
+	    	values.put("service", service);
+	    	values.put("useracces", useracces);
+	    	values.put("passacces", passacces);
+	    	long r = db.insert("Service", null, values);
+	        return r;
+		}
+	    
+	    public void deleteAll(){
+	    	db.delete("User", null,null);
+	        db.delete("Service", null, null);
+	        db.delete("File", null, null);
+	        db.delete("Share", null, null);
+	        db.delete("History", null, null);
+	      
+	    }
+	    
+	    //verifica che il servizio mantle esiste
+	    public boolean serviceMantle(){
+	    	boolean res = false;
+	    	String[] columns = {"service"};
+	    	String selection = "service = 'mantle'";
+	    	Cursor cursor = db.query("Service", columns, selection, null, null, null, null);
+	    	
+	    	int i = cursor.getCount();
+	    	
+	    	if(i<1){
+	    		return false;
+	    	}
+	    	
+	    	else{
+		    	return true;	
+	    	}
+	    		
+	    }
+	  //verifica che il servizio mantle esiste
+	    public String[] login(String useracces, String passacces){
+	    	String selection = "service = 'mantle'";
+	    	String[] columns = {"useracces","passacces"};
+	    	Cursor cursor = db.query("Service", columns, selection, null, null, null, null);
+	    	
+	    	Integer i = cursor.getCount();
+	    	Log.d("MIODATABASEHELPER","i = " + i.toString());
+	    	
+	    	if(i<1){
+	    		String[] res = new String[2];
+		    	res[0]= " ";
+		    	res[1]= " ";
+		    	Log.d("MiodatabaseHelper","L'utente non è registrato sto restituendo res[0]= " + res[0] + " res[1] = "  + res[1]);
+		    	return res;
+	    		
+	    	}
+	    	
+	    	else{
+	    		String[] res = new String[i*2];
+	    		i = 0;
+	    		
+	    		//cursor.moveToNext();
+	    		//Log.d("MioDatabaseHelper query result = ",cursor.getString(0)+cursor.getString(1)+cursor.getString(2));
+	    		
+	    		while (cursor.moveToNext()) {
+	 	    		res[i] = cursor.getString(0);
+	 	    		res[i+1]= cursor.getString(1);
+	 	    		Log.d("DATABASE HELPER", res[i]+" "+res[i+1]);
+	 	    		i=i+2;
+	 	    	}
+	    		Log.d("MiodatabaseHelper","L'utente è registrato sto restituendo res[0]= " + res[0] + " res[1] = "  + res[1]);
+	    		return res;	
+	    	}
+	    		
+	    }
+	    
+		/*
 	    public long insertContact(SQLiteDatabase db, String name, String surname, String email){
 	    	ContentValues values = new ContentValues();
 	        String _id = getId(db, name, surname);
@@ -123,7 +210,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper{
 	    //elimina l'utente sia dalla tabella friend, sia da contact
 	    public void deleteFriend(SQLiteDatabase db, String name , String surname){
 	    	
-	    	String _id = getId(db, name, surname);
+	    	String _id = getId(name, surname);
 	    	Log.d("Id : ",_id);
 	    	
 	    	String whereClause = "_id = ?";
@@ -144,60 +231,99 @@ public class MioDatabaseHelper extends SQLiteOpenHelper{
 
 // ============== METODI PER LA VISUALIZZAZIONE DEL DATABASE ===============
 
+*/
+	public void showAll() {
+				
+		int i;
+		
+	    Cursor cursor = db.query("User", null, null, null, null, null, null);
+	    i = cursor.getCount();
+	    String[] result = new String[i];
+	    i = 0;
+
+	    Log.d("DATABASE HELPER", "------USER-----");
+	    while (cursor.moveToNext()) {
+	    		result[i] = cursor.getString(0)+" "+cursor.getString(1)+" "+cursor.getString(2)+" "+cursor.getString(3)+" "+cursor.getString(4)+" "+cursor.getString(5);
+	    		Log.d("DATABASE HELPER", result[i]);
+	    		i++;
+	    	}
 	    
-	  
-    public String[] showFrind(SQLiteDatabase db) {
+	    cursor = db.query("Service", null, null, null, null, null, null);
+	    i = cursor.getCount();
+	    result = new String[i];
+	    i = 0;
+	    Log.d("DATABASE HELPER", "------SERVICE-----");
+	    while (cursor.moveToNext()) {
+	    		result[i] = cursor.getString(0) + " " + cursor.getString(1)+ " " + cursor.getString(2);
+	    		Log.d("DATABASE HELPER", result[i]);
+	    		i++;
+	    	}
+	    
+	    cursor = db.query("File", null, null, null, null, null, null);
+	    i = cursor.getCount();
+	    result = new String[i];
+	    i = 0;
+	    Log.d("DATABASE HELPER", "------FILE-----");
+	    while (cursor.moveToNext()) {
+	    		result[i] = cursor.getString(0)+" "+cursor.getString(1)+" "+cursor.getString(2)+" "+cursor.getString(3)+" "+cursor.getString(4);
+	    		Log.d("DATABASE HELPER", result[i]);
+	    		i++;
+	    	}
+	    
+	    cursor = db.query("Share", null, null, null, null, null, null);
+	    i = cursor.getCount();
+	    result = new String[i];
+	    i = 0;
+	    Log.d("DATABASE HELPER", "------SHARE-----");
+	    while (cursor.moveToNext()) {
+	    		result[i] = cursor.getString(0) + " " + cursor.getString(1);
+	    		Log.d("DATABASE HELPER", result[i]);
+	    		i++;
+	    	}
+	    
+	    cursor = db.query("History", null, null, null, null, null, null);
+	    i = cursor.getCount();
+	    result = new String[i];
+	    i = 0;
+	    Log.d("DATABASE HELPER", "------HISTORY-----");
+	    while (cursor.moveToNext()) {
+	    		result[i] = cursor.getString(0) + " " + cursor.getString(1)+" "+cursor.getString(2);
+	    		Log.d("DATABASE HELPER", result[i]);
+	    		i++;
+	    	}
+		}    
+    
+	
+	public void showUser() {
     	
-    	Cursor cursor = db.query("friend", null, null, null, null, null, null);
+    	Cursor cursor = db.query("User", null, null, null, null, null, null);
     	int i = cursor.getCount();
     	String[] result = new String[i];
     	i = 0;
     	
     	while (cursor.moveToNext()) {
-    		result[i] = cursor.getString(1) + " " + cursor.getString(2);
+    		result[i] = cursor.getString(0) + " " + cursor.getString(1)+ " " + cursor.getString(2);
+    		Log.d("DATABASE HELPER", result[i]);
     		i++;
     	}
     	
-    	return result;
 	}
+
     
-    
-    public String[] showContact(SQLiteDatabase db) {
+    public void showService() {
     	
-    	Cursor cursor = db.query("contact", null, null, null, null, null, null);
-    	int i = (cursor.getCount())*2;
+    	Cursor cursor = db.query("Service", null, null, null, null, null, null);
+    	int i = cursor.getCount();
     	String[] result = new String[i];
     	i = 0;
     	
     	while (cursor.moveToNext()) {
-    	      
-    		result[i] = cursor.getString(0);
-    		result[i+1] = cursor.getString(1);
-    		i=i+2;
+    		result[i] = cursor.getString(0) + " " + cursor.getString(1)+ " " + cursor.getString(2);
+    		Log.d("DATABASE HELPER", result[i]);
+    		i++;
     	}
-    	
-    	return result;
     	
 	}
     
-
-    public void showFile(SQLiteDatabase db) {
-    	Cursor cursor = db.query("file", null, null, null, null, null, null);
-
-    	while (cursor.moveToNext()) {
-    		String idFile = cursor.getString(0);
-    		String name = cursor.getString(1);
-    		String service = cursor.getString(2);
-    		String link = cursor.getString(3);
-    		
-    		Log.d("id : ",idFile);
-    		Log.d("name : ",name);
-    		Log.d("service : ",service);
-    		Log.d("link : ",link);
-    	
-    	}
-
-	}
-
-	
+    
 }

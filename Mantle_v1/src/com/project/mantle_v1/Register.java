@@ -1,0 +1,63 @@
+package com.project.mantle_v1;
+
+import com.project.mantle_v1.database.MioDatabaseHelper;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+public class Register extends Activity{
+	
+	private Button forward;
+    private EditText nameEditText;
+    private EditText surnameEditText;
+    private EditText emailEditText;
+    private EditText dropboxUserEditText;
+    private EditText dropboxPassEditText;
+    private String username;
+    private String password;
+    
+	@Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.register);
+        
+        nameEditText = (EditText) findViewById(R.id.nameEditText);
+        surnameEditText = (EditText) findViewById(R.id.surnameEditText);
+        emailEditText = (EditText) findViewById(R.id.emailEditText);
+        dropboxUserEditText = (EditText) findViewById(R.id.dropUsernameEditText);
+        dropboxPassEditText = (EditText) findViewById(R.id.dropboxPassEditText);
+        forward = (Button) findViewById(R.id.forwardButton);
+        final MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+        
+        Intent theIntent = this.getIntent();
+		username = (String)theIntent.getSerializableExtra("username");
+		Log.d("REGISTER", username);
+		password = (String)theIntent.getSerializableExtra("password");
+		Log.d("REGISTER", password);
+		
+		
+		forward.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+
+				// VERIFICA CHE I CAMPI NON SONO VUOTI 
+				
+				String name = nameEditText.getText().toString();
+				String surname = surnameEditText.getText().toString();
+				String email = emailEditText.getText().toString();
+				String dropboxUser = dropboxUserEditText.getText().toString();
+				String dropboxPass = dropboxPassEditText.getText().toString();
+				
+				
+				db.insertUser(email, username, name, surname, password);
+				db.insertService("Dropbox", dropboxUser,dropboxPass);
+				
+				db.showAll();
+			}
+			
+		});
+	}
+}

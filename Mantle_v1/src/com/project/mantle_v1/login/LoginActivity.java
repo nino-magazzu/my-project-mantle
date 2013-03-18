@@ -5,15 +5,20 @@ import com.project.mantle_v1.R.id;
 import com.project.mantle_v1.R.layout;
 import com.project.mantle_v1.R.menu;
 import com.project.mantle_v1.R.string;
+import com.project.mantle_v1.Register;
+import com.project.mantle_v1.database.MioDatabaseHelper;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings.Global;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -42,13 +47,16 @@ public class LoginActivity extends Activity {
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
-
+	private MioDatabaseHelper db;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_login);
-
+		db = new MioDatabaseHelper(this);
+        
+		
+		
 		// Set up the login form.
 		mUsername = getIntent().getStringExtra(EXTRA_NAME);
 		mUsernameView = (EditText) findViewById(R.id.username);
@@ -111,7 +119,7 @@ public class LoginActivity extends Activity {
 			mPasswordView.setError(getString(R.string.error_field_required));
 			focusView = mPasswordView;
 			cancel = true;
-		} else if (mPassword.length() < 4) {
+		} else if (mPassword.length() < 0) {
 			mPasswordView.setError(getString(R.string.error_invalid_password));
 			focusView = mPasswordView;
 			cancel = true;
@@ -133,18 +141,58 @@ public class LoginActivity extends Activity {
 			// perform the user login attempt.
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
+			//Ho commentato la riga di sopra perche noi non dobbiamo perdere tempo ad effettuare il
+			//login ma possiamo lanciare direttamente l'activity seguente(home,registrazione)
 			
-			/* TODO: Chiamo il metodo di mio databaseHelper(mUsername, mPassword):
-			 * 						if(mUsername.exist)
-			 * 								if(mPassword == password_nel_db)
-			 * 									effettuo il login;
-			 * 								else
-			 * 									accesso negato;
-			 * 
-			 * 						else
-			 * 							registrazione;
-			 */
+			//////////////
+			db.deleteAll();
+			db.showAll();
+			///////////////
 			
+			String[] res = db.login(mUsername,mPassword);
+			
+			///////////////
+			Log.d("LOGIN","res[0]= " + res[0] + "res[1]= " + res[1]);
+			Log.d("LOGIN","username = " + mUsername+"password = "+mPassword);
+			///////////////
+			
+			if(res[0].equals(" ")){
+				///////////////
+				Log.d("LOGIN","l'utente non è registrato");
+				///////////////
+				
+				// Inserisco i dati username e password come nuovo db e 
+				// avvio il form per la registrazione
+				Intent intent = new Intent(LoginActivity.this, Register.class);
+    	    	intent.putExtra("username",mUsername );
+    	    	intent.putExtra("password",mPassword);
+    	    	startActivityForResult(intent, 1);
+			}
+			
+			if(res[0].equals(mUsername)&&res[1].equals(mPassword)){
+				///////////////						
+				Log.d("LOGIN :)", "Le stringe sono uguli");
+				///////////////
+				// Avviare il login
+				}
+			if((!res[0].equals(mUsername))&&(!res[0].equals(" "))){
+				///////////////
+				Log.d("LOGIN :(", "le stringe sono diverse");
+				
+				mUsernameView.setError("username errato");
+				///////////////	
+				}
+			if(!res[1].equals(mPassword)&&(!res[1].equals(" "))){
+				Log.d("LOGIN :(", "le stringe sono diverse");
+				mPasswordView.setError("password errata");
+			}
+			///////////////
+			Log.d("LOGGIN","log che non deve essere mai raggiunto");
+			//android.os.SystemClock.sleep(3000);
+			//showProgress(false);
+
+			///////////////
+						
 		}
 	}
 
