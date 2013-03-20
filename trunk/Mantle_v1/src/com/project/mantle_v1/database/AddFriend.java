@@ -52,7 +52,7 @@ public class AddFriend extends Activity{
 				else if(!db.isAlreadyFriend(email)&&email.contains("@")){
 					Toast error = Toast.makeText(AddFriend.this,"Request is sent", Toast.LENGTH_LONG);
 					error.show();
-					Sender upload = new Sender(AddFriend.this,"RICHIESTA DI AMICIZIA","cann.alberto91@gmail.com");
+					Sender upload = new Sender(AddFriend.this,"RICHIESTA DI AMICIZIA",email);
         			upload.execute();
         			
 					//manda la richiesta d'amicizia
