@@ -24,6 +24,19 @@ import android.support.v4.app.FragmentActivity;
  * {@link NotificationListFragment.Callbacks} interface to listen for item
  * selections.
  */
+
+
+/*
+ *  Questa è la prima activity lanciata. Nella quale risiedono le due liste:
+ *  - NotificationListFragment
+ *  - NotificationDetailFragment
+ *  nel caso in cui l'applicazione venga usata su tablet. 
+ *  
+ *  Se usato invece su dispositivi con display più piccoli, viene visualizzata la lista
+ *  delle notifiche, cliccando sulle quali vengono visualizzati i dettagli nella 
+ *  NotificationDetailActivity 
+ */
+
 public class NotificationListActivity extends FragmentActivity implements
 		NotificationListFragment.Callbacks {
 
