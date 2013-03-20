@@ -1,6 +1,8 @@
 package com.project.mantle_v1;
 
 import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.login.LoginActivity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -56,7 +58,9 @@ public class Register extends Activity{
 				if(!name.equals("")&&!surname.equals("")&&!email.equals("")&&!dropboxPass.equals("")&&!dropboxUser.equals("")){
 					db.insertUser(email, username, name, surname, password);
 					db.insertService("Dropbox", dropboxUser,dropboxPass);
-					db.showAll();	
+					db.showAll();
+					Intent intent = new Intent(Register.this, Home.class);
+		    	    startActivity(intent);
 				}
 				
 				else{

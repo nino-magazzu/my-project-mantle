@@ -147,7 +147,7 @@ public class LoginActivity extends Activity {
 			
 			//////////////
 
-//			db.deleteAll();
+			//db.deleteAll();
 			db.showAll();
 			///////////////
 			

@@ -32,7 +32,7 @@
         <activity android:name="com.project.mantle_v1.fileChooser.FileDownloadChooser" />
         <activity android:name="com.project.mantle_v1.Home" />
         <activity android:name="com.project.mantle_v1.Register" />
-        <activity android:name="com.project.mantle_v1.database.HomeDatabase" />
+        <activity android:name="com.project.mantle_v1.database.AddFriend" />
         <activity android:name="com.project.mantle_v1.database.MioDatabaseHelper" />
         <activity android:name="com.project.mantle_v1.database.FriendsList" />
         <activity

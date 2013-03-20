@@ -325,5 +325,44 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
     	
 	}
     
+    public boolean isAlreadyFriend(String email){
+
+    	String[] columns = {"Username"};
+    	String selection = "email = ?";
+    	String[] selectionArg = {email};
+    	Cursor cursor = db.query("User",columns,selection,selectionArg,null,null,null);
+    	Integer i = cursor.getCount();
+    	
+    	if(i<1){
+
+    		return false;
+    	}
+    	
+    	else{
+    		
+    		return true;
+    	}
+    
+    }
+
+
+	public String[] getFriends() {
+		String[] columns = {"name","surname","email"};
+    	String selection = "idUser != 1";
+    	Cursor c = db.query("User",columns,selection,null,null,null,null);
+    	int i = c.getCount();
+    	String[] result = new String[i*2];
+    	i = 0;
+    	
+    	while (c.moveToNext()) {
+    		result[i] = c.getString(0) + " " + c.getString(1);
+    		Log.d("DATABASE_HELPER_FRIENDLIST", result[i]);
+    		result[i+1] = c.getString(2);
+    		i=i+2;
+    	}
+    	
+		return result;
+	}
     
 }
+
