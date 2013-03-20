@@ -198,7 +198,7 @@ public class LoginActivity extends Activity {
 				mPasswordView.setText("");
 			}
 			///////////////
-			Log.d("LOGGIN","log che non deve essere mai raggiunto");
+			Log.d("LOGIN","log che non deve essere mai raggiunto");
 			//android.os.SystemClock.sleep(3000);
 			//showProgress(false);
 
