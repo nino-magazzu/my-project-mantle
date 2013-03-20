@@ -146,11 +146,12 @@ public class LoginActivity extends Activity {
 			//login ma possiamo lanciare direttamente l'activity seguente(home,registrazione)
 			
 			//////////////
+
 //			db.deleteAll();
 			db.showAll();
 			///////////////
 			
-			String[] res = db.login(mUsername,mPassword);
+			String[] res = db.login();
 			
 			///////////////
 			Log.d("LOGIN","res[0]= " + res[0] + "res[1]= " + res[1]);
