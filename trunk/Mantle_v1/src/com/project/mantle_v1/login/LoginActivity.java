@@ -146,7 +146,7 @@ public class LoginActivity extends Activity {
 			//login ma possiamo lanciare direttamente l'activity seguente(home,registrazione)
 			
 			//////////////
-			db.deleteAll();
+//			db.deleteAll();
 			db.showAll();
 			///////////////
 			
