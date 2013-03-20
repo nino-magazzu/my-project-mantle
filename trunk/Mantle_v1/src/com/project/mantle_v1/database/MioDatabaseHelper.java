@@ -80,8 +80,6 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			}
-
-	
 	
 //============== METODI PER LA GESTIONE DEL DATABASE ===============
 	
@@ -150,7 +148,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	    		
 	    }
 	  //verifica che il servizio mantle esiste
-	    public String[] login(String useracces, String passacces){
+	    public String[] login(){
 	    	String selection = "service = 'mantle'";
 	    	String[] columns = {"useracces","passacces"};
 	    	Cursor cursor = db.query("Service", columns, selection, null, null, null, null);
@@ -158,6 +156,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	    	Integer i = cursor.getCount();
 	    	Log.d("MIODATABASEHELPER","i = " + i.toString());
 	    	
+	    	//non c'è il servizio mantle l'utente deve registrarsi 
 	    	if(i<1){
 	    		String[] res = new String[2];
 		    	res[0]= " ";
@@ -167,6 +166,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	    		
 	    	}
 	    	
+	    	//ho trovato il servizio restituisco anche user e password per effettuare il controllo
 	    	else{
 	    		String[] res = new String[i*2];
 	    		i = 0;

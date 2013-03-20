@@ -50,7 +50,7 @@ public class Login extends Activity {
 					db.showAll();
 					///////////////
 					
-					String[] res = db.login(mUsername,mPassword);
+					String[] res = db.login();
 					
 					///////////////
 					Log.d("LOGIN","res[0]= " + res[0] + "res[1]= " + res[1]);
