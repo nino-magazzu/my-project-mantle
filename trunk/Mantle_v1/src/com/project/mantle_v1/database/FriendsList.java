@@ -1,5 +1,10 @@
 package com.project.mantle_v1.database;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.project.mantle_v1.R;
 
 import android.app.Activity;
@@ -11,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 public class FriendsList extends Activity{
 
@@ -18,44 +24,37 @@ public class FriendsList extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friend_list);
-
+        int i;
         Intent theIntent = this.getIntent();
-		String [] Friend = (String[])theIntent.getSerializableExtra("Friend");
+		String [] Friend = (String[])theIntent.getSerializableExtra("Friends");
 		
-		final String [] Contact = (String[])theIntent.getSerializableExtra("Contact");
+		ListView listView = (ListView) findViewById(R.id.list);
+        
 		
-		// Paramenter
-        // First - Context
-        // Second - Layout for the row
-        // Third - ID of the TextView to which the data is written
-        // Forth - the Array of data
-        
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, android.R.id.text1, Friend);
-        ListView listView = (ListView) findViewById(R.id.list);
-        // Assign adapter to ListView
-        
-        listView.setAdapter(adapter); 
-        
-        listView.setOnItemClickListener(new OnItemClickListener(){
-        
+		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+		
+		for (i=0;i<Friend.length;i=i+2) {
+		    Map<String, String> datum = new HashMap<String, String>(2);
+		    datum.put("user",Friend[i]);
+		    datum.put("email",Friend[i+1]);
+		    data.add(datum);
+		}
+	  
+		SimpleAdapter adapter = new SimpleAdapter(this, data, android.R.layout.simple_list_item_2,new String[] {"user", "email"},new int[] {android.R.id.text1,android.R.id.text2});
+		listView.setAdapter(adapter);		
+		
+		listView.setOnItemClickListener(new OnItemClickListener(){
+	        
         	@Override
         	 public void onItemClick ( AdapterView<?> listView, View itemView, int position,long itemId ){
-        		
-        		String contact = Contact[position];
-        		
-        		Intent data = new Intent();
-        		data.putExtra("Contact", contact);
-        		setResult(1, data);
         		
         		Log.d("ListViewActivity", "Hai selezionato " + listView.getItemAtPosition(position));
         		Log.d("ListViewActivity", "con id = " + itemId + " e position = " + position);
         		
-        		for(int c = 0;c<Contact.length;c++)
-        		{
-        			Log.d("Contact", Contact[c]);
-        		}
         	}
+        	
         });
+	
  		}	 
 
 

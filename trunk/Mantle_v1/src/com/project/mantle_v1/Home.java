@@ -3,7 +3,7 @@ package com.project.mantle_v1;
 
 import java.io.File;
 
-import com.project.mantle_v1.database.HomeDatabase;
+import com.project.mantle_v1.database.AddFriend;
 import com.project.mantle_v1.dropbox.Dropbox;
 import com.project.mantle_v1.gmail.ReaderTask;
 
@@ -73,7 +73,8 @@ public class Home extends Activity {
         rubrica.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(Home.this, HomeDatabase.class));
+				Intent intent = new Intent(Home.this, AddFriend.class);
+	    	    startActivity(intent);
 			}
 		});
     }
