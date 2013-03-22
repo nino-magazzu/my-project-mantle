@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import com.project.mantle_v1.Home;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.dropbox.Uploader;
 import com.project.mantle_v1.gmail.Sender;
+
 
 public class AddFriend extends Activity{
 
@@ -45,6 +47,7 @@ public class AddFriend extends Activity{
 				email = edit_email.getText().toString();
 				
 				if(email.equals("")||!email.contains("@")){
+					//l'indirizzo è scritto male o non è stato riempito il campo
 					Toast error = Toast.makeText(AddFriend.this,"Invalid value", Toast.LENGTH_LONG);
 					error.show();
 				}
@@ -52,10 +55,12 @@ public class AddFriend extends Activity{
 				else if(!db.isAlreadyFriend(email)&&email.contains("@")){
 					Toast error = Toast.makeText(AddFriend.this,"Request is sent", Toast.LENGTH_LONG);
 					error.show();
+					//manda la richiesta d'amicizia
+        			
 					Sender upload = new Sender(AddFriend.this,"RICHIESTA DI AMICIZIA",email);
         			upload.execute();
         			
-					//manda la richiesta d'amicizia
+					
 				}
 					else{
 						//L'utente è gia tuo amico la richiesta non viene inviata
@@ -80,5 +85,6 @@ public class AddFriend extends Activity{
         });	
         
     }
+    
     
 }
