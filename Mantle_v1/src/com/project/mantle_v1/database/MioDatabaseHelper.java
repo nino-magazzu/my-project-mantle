@@ -79,7 +79,8 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			}
+			
+	}
 	
 //============== METODI PER LA GESTIONE DEL DATABASE ===============
 	
@@ -177,25 +178,27 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	    		while (cursor.moveToNext()) {
 	 	    		res[i] = cursor.getString(0);
 	 	    		res[i+1]= cursor.getString(1);
-	 	    		Log.d("DATABASE HELPER", res[i]+" "+res[i+1]);
+	 	    		Log.d("MIO_DATABASE_HELPER", res[i]+" "+res[i+1]);
 	 	    		i=i+2;
 	 	    	}
-	    		Log.d("MiodatabaseHelper","L'utente è registrato sto restituendo res[0]= " + res[0] + " res[1] = "  + res[1]);
+	    		Log.d("MIO_DATABASE_HELPER","L'utente è registrato sto restituendo res[0]= " + res[0] + " res[1] = "  + res[1]);
 	    		return res;	
 	    	}
 	    		
 	    }
-	    
-		/*
-	    public long insertContact(SQLiteDatabase db, String name, String surname, String email){
-	    	ContentValues values = new ContentValues();
-	        String _id = getId(db, name, surname);
-	    	values.put("_id",_id);
-	    	values.put("email", email);
-	        long r = db.insert("contact", null, values);
-	        return r;
+
+	    //elimina l'utente sia dalla tabella friend, sia da contact
+	    public void deleteFriend(String email){
+	    	
+	    	String whereClause = "email = ?";
+	    	String[] whereArgs = { email };
+	    	
+	    	db.delete("User", whereClause, whereArgs);
+	    	Log.d("MIO_DATABASE_HELPER","Ho elimnato l'utente richiesto : " + email);
 	    	
 	    }
+
+/*
 	    
 	    public long insertFile(SQLiteDatabase db, String name, String service, String link){
 	    	ContentValues values = new ContentValues();
@@ -207,31 +210,11 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	    	
 	    }
 	    
-	    //elimina l'utente sia dalla tabella friend, sia da contact
-	    public void deleteFriend(SQLiteDatabase db, String name , String surname){
-	    	
-	    	String _id = getId(name, surname);
-	    	Log.d("Id : ",_id);
-	    	
-	    	String whereClause = "_id = ?";
-	    	String[] whereArgs = { _id };
-	    	
-	    	db.delete("friend", whereClause, whereArgs);
-	    	db.delete("contact", whereClause, whereArgs);
-	    	
-	    }
+*/
 	    
-	    public void deleteAll(SQLiteDatabase db){
-	    	db.delete("friend", null,null);
-	        db.delete("contact", null, null);
-	        db.delete("file", null, null);
-	      
-	    }
-	
-
 // ============== METODI PER LA VISUALIZZAZIONE DEL DATABASE ===============
 
-*/
+
 	public void showAll() {
 				
 		int i;
@@ -241,10 +224,10 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	    String[] result = new String[i];
 	    i = 0;
 
-	    Log.d("DATABASE HELPER", "------USER-----");
+	    Log.d("MIO_DATABASE_HELPER", "------USER-----");
 	    while (cursor.moveToNext()) {
 	    		result[i] = cursor.getString(0)+" "+cursor.getString(1)+" "+cursor.getString(2)+" "+cursor.getString(3)+" "+cursor.getString(4)+" "+cursor.getString(5);
-	    		Log.d("DATABASE HELPER", result[i]);
+	    		Log.d("MIO_DATABASE_HELPER", result[i]);
 	    		i++;
 	    	}
 	    
@@ -252,10 +235,10 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	    i = cursor.getCount();
 	    result = new String[i];
 	    i = 0;
-	    Log.d("DATABASE HELPER", "------SERVICE-----");
+	    Log.d("MIO_DATABASE_HELPER", "------SERVICE-----");
 	    while (cursor.moveToNext()) {
 	    		result[i] = cursor.getString(0) + " " + cursor.getString(1)+ " " + cursor.getString(2);
-	    		Log.d("DATABASE HELPER", result[i]);
+	    		Log.d("MIO_DATABASE_HELPER", result[i]);
 	    		i++;
 	    	}
 	    
@@ -263,10 +246,10 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	    i = cursor.getCount();
 	    result = new String[i];
 	    i = 0;
-	    Log.d("DATABASE HELPER", "------FILE-----");
+	    Log.d("MIO_DATABASE_HELPER", "------FILE-----");
 	    while (cursor.moveToNext()) {
 	    		result[i] = cursor.getString(0)+" "+cursor.getString(1)+" "+cursor.getString(2)+" "+cursor.getString(3)+" "+cursor.getString(4);
-	    		Log.d("DATABASE HELPER", result[i]);
+	    		Log.d("MIO_DATABASE_HELPER", result[i]);
 	    		i++;
 	    	}
 	    
@@ -274,10 +257,10 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	    i = cursor.getCount();
 	    result = new String[i];
 	    i = 0;
-	    Log.d("DATABASE HELPER", "------SHARE-----");
+	    Log.d("MIO_DATABASE_HELPER", "------SHARE-----");
 	    while (cursor.moveToNext()) {
 	    		result[i] = cursor.getString(0) + " " + cursor.getString(1);
-	    		Log.d("DATABASE HELPER", result[i]);
+	    		Log.d("MIO_DATABASE_HELPER", result[i]);
 	    		i++;
 	    	}
 	    
@@ -285,10 +268,10 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	    i = cursor.getCount();
 	    result = new String[i];
 	    i = 0;
-	    Log.d("DATABASE HELPER", "------HISTORY-----");
+	    Log.d("MIO_DATABASE_HELPER", "------HISTORY-----");
 	    while (cursor.moveToNext()) {
 	    		result[i] = cursor.getString(0) + " " + cursor.getString(1)+" "+cursor.getString(2);
-	    		Log.d("DATABASE HELPER", result[i]);
+	    		Log.d("MIO_DATABASE_HELPER", result[i]);
 	    		i++;
 	    	}
 		}    
@@ -303,7 +286,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
     	
     	while (cursor.moveToNext()) {
     		result[i] = cursor.getString(0) + " " + cursor.getString(1)+ " " + cursor.getString(2);
-    		Log.d("DATABASE HELPER", result[i]);
+    		Log.d("MIO_DATABASE_HELPER", result[i]);
     		i++;
     	}
     	
@@ -319,7 +302,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
     	
     	while (cursor.moveToNext()) {
     		result[i] = cursor.getString(0) + " " + cursor.getString(1)+ " " + cursor.getString(2);
-    		Log.d("DATABASE HELPER", result[i]);
+    		Log.d("MIO_DATABASE_HELPER", result[i]);
     		i++;
     	}
     	
@@ -334,12 +317,9 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
     	Integer i = cursor.getCount();
     	
     	if(i<1){
-
     		return false;
     	}
-    	
     	else{
-    		
     		return true;
     	}
     
@@ -356,7 +336,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
     	
     	while (c.moveToNext()) {
     		result[i] = c.getString(0) + " " + c.getString(1);
-    		Log.d("DATABASE_HELPER_FRIENDLIST", result[i]);
+    		Log.d("MIO_DATABASE_HELPER", result[i]);
     		result[i+1] = c.getString(2);
     		i=i+2;
     	}

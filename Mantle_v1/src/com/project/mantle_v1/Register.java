@@ -18,6 +18,7 @@ public class Register extends Activity{
     private EditText nameEditText;
     private EditText surnameEditText;
     private EditText emailEditText;
+    private EditText emailPassEditText;
     private EditText dropboxUserEditText;
     private EditText dropboxPassEditText;
     private String username;
@@ -33,7 +34,10 @@ public class Register extends Activity{
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         dropboxUserEditText = (EditText) findViewById(R.id.dropUsernameEditText);
         dropboxPassEditText = (EditText) findViewById(R.id.dropboxPassEditText);
+        emailPassEditText = (EditText) findViewById(R.id.emailPassEditText);
         forward = (Button) findViewById(R.id.forwardButton);
+        
+        
         final MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
         
         Intent theIntent = this.getIntent();
@@ -52,12 +56,15 @@ public class Register extends Activity{
 				String name = nameEditText.getText().toString();
 				String surname = surnameEditText.getText().toString();
 				String email = emailEditText.getText().toString();
+				String emailPass = emailPassEditText.getText().toString();
 				String dropboxUser = dropboxUserEditText.getText().toString();
 				String dropboxPass = dropboxPassEditText.getText().toString();
+				
 				
 				if(!name.equals("")&&!surname.equals("")&&!email.equals("")&&!dropboxPass.equals("")&&!dropboxUser.equals("")){
 					db.insertUser(email, username, name, surname, password);
 					db.insertService("Dropbox", dropboxUser,dropboxPass);
+					db.insertService("Email", email, emailPass);
 					db.showAll();
 					Intent intent = new Intent(Register.this, Home.class);
 		    	    startActivity(intent);
