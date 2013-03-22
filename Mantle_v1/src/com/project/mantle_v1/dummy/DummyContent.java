@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.project.mantle_v1.notification_home.Notifica;
+
 /**
  * E' una classe d'appoggio che serve a fornire il contenuto alle interfacce utenti create. 
  * <p>
@@ -15,12 +17,12 @@ public class DummyContent {
 	/**
 	 * Lista di quelle che sono le notifiche da visualizzare.
 	 */
-	public static List<DummyItem> ITEMS = new ArrayList<DummyItem>();
+	public static List<Notifica> ITEMS = new ArrayList<Notifica>();
 
 	/**
 	 * Una semplice mappa chiave, valore che raccoglie tutti i dati delle notifiche. Il .
 	 */
-	public static Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
+	public static Map<String,Notifica> ITEM_MAP = new HashMap<String, Notifica>();
 
 	/*
 	 * Queste due stutture dati sono implementate per facilitare la gestione delle notifiche. 
@@ -29,9 +31,9 @@ public class DummyContent {
 	
 	static {
 		// Add 3 sample items.
-		addItem(new DummyItem("1", "Item 1"));
-		addItem(new DummyItem("2", "Item 2"));
-		addItem(new DummyItem("3", "Item 3"));
+		addItem(new Notifica("Oggi", "Pippo"), "1");
+		addItem(new Notifica("ieri", "Pluto"), "2");
+		addItem(new Notifica("Anni orsono", "Topolino"), "3");
 	}
 	
 	/*
@@ -40,26 +42,13 @@ public class DummyContent {
 	 * possono essere modificati o restare invariati
 	 */
 	
-	private static void addItem(DummyItem item) {
+	private static void addItem(Notifica item, String id) {
+		ITEM_MAP.put(id, item);
 		ITEMS.add(item);
-		ITEM_MAP.put(item.id, item);
 	}
 
 	/* TODO: capire se è possibile integrare in un fragment un immagine e del testo
 	 *	 o una cosa del genere.	
 	 */
-	public static class DummyItem {
-		public String id;
-		public String content;
-
-		public DummyItem(String id, String content) {
-			this.id = id;
-			this.content = content;
-		}
-
-		@Override
-		public String toString() {
-			return content;
-		}
-	}
-}
+	
+}	

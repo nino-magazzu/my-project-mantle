@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.project.mantle_v1.R;
 import com.project.mantle_v1.dummy.DummyContent;
 
 /**
@@ -71,9 +72,9 @@ public class NotificationListFragment extends ListFragment {
 		super.onCreate(savedInstanceState);
 
 		// TODO: replace with a real list adapter.
-		setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, DummyContent.ITEMS));
+		setListAdapter(new NotificaAdapter(getActivity(),
+				R.layout.note_layout,
+				DummyContent.ITEMS));
 	}
 
 	@Override
@@ -116,7 +117,7 @@ public class NotificationListFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+		mCallbacks.onItemSelected(String.valueOf(position + 1));
 	}
 
 	@Override

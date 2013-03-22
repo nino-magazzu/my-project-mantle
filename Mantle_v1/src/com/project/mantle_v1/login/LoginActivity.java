@@ -8,6 +8,7 @@ import com.project.mantle_v1.R.menu;
 import com.project.mantle_v1.R.string;
 import com.project.mantle_v1.Register;
 import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.notification_home.NotificationListActivity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -176,7 +177,7 @@ public class LoginActivity extends Activity {
 				///////////////						
 				Log.d("LOGIN :)", "Le stringe sono uguli");
 				///////////////
-				Intent intent = new Intent(LoginActivity.this, Home.class);
+				Intent intent = new Intent(LoginActivity.this, NotificationListActivity.class);// Home.class);
 	    	    startActivity(intent);
 				}
 			
