@@ -1,15 +1,17 @@
 package com.project.mantle_v1.notification_home;
 
+import java.util.List;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.R.id;
-import com.project.mantle_v1.R.layout;
+import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.dummy.DummyContent;
 
 /**
@@ -27,7 +29,7 @@ public class NotificationDetailFragment extends Fragment {
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
-	private DummyContent.DummyItem mItem;
+	private Notifica mItem;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -52,15 +54,24 @@ public class NotificationDetailFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_notification_detail,
-				container, false);
-
-		// Show the dummy content as text in a TextView.
+		View rootView = null;
 		if (mItem != null) {
-			((TextView) rootView.findViewById(R.id.notification_detail))
-					.setText(mItem.content);
-		}
+			if(mItem.getNotificationType() == Notifica.FRIENDSHIP_ID) {
+				rootView = inflater.inflate(R.layout.fragment_friendship,
+						container, false);
+				((TextView) rootView.findViewById(R.id.FriendshipRequest))
+				.setText(mItem.getWho() + " vuole stringere amicizia con te.");
+			}
+			else {
+				rootView = inflater.inflate(R.layout.fragment_photo_sharing,
+						container, false);
 
+				// Show the dummy content as text in a TextView.
+		
+				((ListView) rootView.findViewById(R.id.notification_detail))
+				.setAdapter(new NoteAdapter(container.getContext(), R.layout.note_layout,mItem.getNotes()));
+			}
+		}	
 		return rootView;
 	}
 }
