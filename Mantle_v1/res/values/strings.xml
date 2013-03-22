@@ -21,5 +21,7 @@
     <string name="title_notification_detail">Notification Detail</string>
     <string name="prompt_username">Username</string>
     <string name="prompt_pass">Password</string>
+    <string name="accetta">Accetta</string>
+    <string name="rifiuta">Rifiuta</string>
 
 </resources>

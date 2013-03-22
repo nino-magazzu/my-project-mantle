@@ -35,7 +35,7 @@ public class Home extends Activity {
         }
         
 //        googleDrive = (Button) findViewById(R.id.button1);
-        dropbox = (Button) findViewById(R.id.button2);
+        dropbox = (Button) findViewById(R.id.AccettaFriend);
         
         /* TODO: implementare tutto
          * 
