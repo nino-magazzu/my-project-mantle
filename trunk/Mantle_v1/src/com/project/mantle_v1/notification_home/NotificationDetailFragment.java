@@ -1,6 +1,5 @@
 package com.project.mantle_v1.notification_home;
 
-import java.util.List;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +10,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.dummy.DummyContent;
 
 /**
