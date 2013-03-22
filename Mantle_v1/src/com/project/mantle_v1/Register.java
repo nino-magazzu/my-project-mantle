@@ -1,7 +1,7 @@
 package com.project.mantle_v1;
 
 import com.project.mantle_v1.database.MioDatabaseHelper;
-import com.project.mantle_v1.login.LoginActivity;
+import com.project.mantle_v1.notification_home.NotificationListActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -66,7 +66,7 @@ public class Register extends Activity{
 					db.insertService("Dropbox", dropboxUser,dropboxPass);
 					db.insertService("Email", email, emailPass);
 					db.showAll();
-					Intent intent = new Intent(Register.this, Home.class);
+					Intent intent = new Intent(Register.this, NotificationListActivity.class);//Home.class);
 		    	    startActivity(intent);
 				}
 				

@@ -1,11 +1,6 @@
 package com.project.mantle_v1.login;
 
-import com.project.mantle_v1.Home;
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.R.id;
-import com.project.mantle_v1.R.layout;
-import com.project.mantle_v1.R.menu;
-import com.project.mantle_v1.R.string;
 import com.project.mantle_v1.Register;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
@@ -14,11 +9,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings.Global;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
