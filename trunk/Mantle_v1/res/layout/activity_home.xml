@@ -5,7 +5,7 @@
     tools:context=".Home" >
 
  <Button
-     android:id="@+id/LOGIN_EXIT"
+     android:id="@+id/upload"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"
      android:layout_alignParentLeft="true"
@@ -14,7 +14,7 @@
      android:text="@string/gd" />
 
     <Button
-        android:id="@+id/AccettaFriend"
+        android:id="@+id/download"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/AccettaFriend"
+        android:layout_below="@+id/download"
         android:text="@string/gett" />
 
     <Button
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/LOGIN_EXIT"
+        android:layout_below="@+id/upload"
         android:text="@string/rubrica" />
 
 </RelativeLayout>

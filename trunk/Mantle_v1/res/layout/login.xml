@@ -56,7 +56,7 @@
         android:text="@string/ok" />
 
     <Button
-        android:id="@+id/LOGIN_EXIT"
+        android:id="@+id/upload"
         android:layout_width="94dp"
         android:layout_height="wrap_content"
         android:text="@string/esci" />
