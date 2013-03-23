@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.project.mantle_v1.notification_home.Note;
 import com.project.mantle_v1.notification_home.Notifica;
 
 /**
@@ -33,7 +34,11 @@ public class DummyContent {
 		// Add 3 sample items.
 		addItem(new Notifica("Oggi", "Pippo"), "1");
 		addItem(new Notifica("ieri", "Pluto"), "2");
-		addItem(new Notifica("Anni orsono", "Topolino"), "3");
+		List<Note> list = new ArrayList<Note>();
+		list.add(new Note("io", "spam", "1"));
+		list.add(new Note("io", "spam", "2"));
+		list.add(new Note("io", "spam", "3"));
+		addItem(new Notifica("Anni orsono", Notifica.NEW_SHARED_PHOTO_ID, "Paperino", list), "3");
 	}
 	
 	/*
