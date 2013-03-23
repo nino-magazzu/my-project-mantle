@@ -1,8 +1,7 @@
 package com.project.mantle_v1.notification_home;
 
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.R.id;
-import com.project.mantle_v1.R.layout;
+import com.project.mantle_v1.database.MioDatabaseHelper;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -51,6 +50,7 @@ public class NotificationListActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_notification_list);
 
+				
 		if (findViewById(R.id.notification_detail_container) != null) {
 			// The detail container view will be present only in the
 			// large-screen layouts (res/values-large and
