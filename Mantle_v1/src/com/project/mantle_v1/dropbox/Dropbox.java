@@ -106,7 +106,7 @@ public class Dropbox extends Activity {
             }
         });
 
-        download = (Button)findViewById(R.id.AccettaFriend);
+        download = (Button)findViewById(R.id.download);
 
         download.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -115,7 +115,7 @@ public class Dropbox extends Activity {
         });
 
 
-        upload = (Button)findViewById(R.id.LOGIN_EXIT);
+        upload = (Button)findViewById(R.id.upload);
 
         upload.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
