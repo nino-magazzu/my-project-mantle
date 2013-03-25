@@ -1,15 +1,9 @@
 package com.project.mantle_v1.parser;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
-import java.io.StringReader;
-import java.io.StringWriter;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
 
 import com.dropbox.client2.DropboxAPI.Entry;
 
@@ -56,30 +50,6 @@ public class MediaType  implements Serializable{
 		
 		this.username = username;
 	}
-	
-	
-	public void getFromJson(StringReader sr) {
-		ParseJSON parser = new ParseJSON(this);
-		try {
-			parser.readJson(sr);
-		} catch (IOException e) {
-			Log.d(MEDIA, e.getMessage());
-		}
-	}
-	
-	
-	public String getWritableJson() {
-		StringWriter sw = new StringWriter();
-		ParseJSON parser = new ParseJSON(this);
-		try {
-			parser.writeJson(sw);
-		} catch (IOException e) {
-			Log.d(MEDIA, e.getMessage());
-			return null;
-		}
-		return sw.toString();
-	}
-	
 	
 	public String getUrl() {
 		return url;

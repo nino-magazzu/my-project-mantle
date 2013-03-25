@@ -1,6 +1,8 @@
 package com.project.mantle_v1.dropbox;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
@@ -31,6 +33,7 @@ import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.fileChooser.FileChooser;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MediaType;
+import com.project.mantle_v1.parser.ParseJSON;
 
 public class Dropbox extends Activity {
 	
@@ -218,7 +221,13 @@ public class Dropbox extends Activity {
     	
     	if(requestCode == FRIEND_CHOOSED_CODE) {
     		String contact = data.getStringExtra("contact");
-    		String body = mt.getWritableJson();
+    		
+    		String body = "";
+			try {
+				body = new ParseJSON(new StringWriter()).writeJson(mt);
+			} catch (IOException e) {
+				Log.e(TAG, e.getMessage());
+			}
     		Sender sender = new Sender(this, body, contact);
         	sender.execute();
     	}
