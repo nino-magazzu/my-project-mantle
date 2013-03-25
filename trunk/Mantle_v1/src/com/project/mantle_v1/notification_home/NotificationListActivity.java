@@ -1,10 +1,14 @@
 package com.project.mantle_v1.notification_home;
 
+import com.project.mantle_v1.Home;
+import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.gmail.ReaderTask;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 
 /*
@@ -66,6 +70,9 @@ public class NotificationListActivity extends FragmentActivity implements
 		}
 
 		// TODO: If exposing deep links into your app, handle intents here.
+		
+		Handler handler = new MyHandler(NotificationListActivity.this);
+		new ReaderTask(handler).start();
 	}
 
 	/**

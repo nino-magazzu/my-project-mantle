@@ -64,6 +64,4 @@ public class User {
 	public void setKey(String key) {
 		this.key = key;
 	}
-
-	
 }
