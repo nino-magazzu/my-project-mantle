@@ -3,6 +3,7 @@ package com.project.mantle_v1.notification_home;
 import com.project.mantle_v1.Home;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
+import com.project.mantle_v1.database.AddFriend;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.gmail.ReaderTask;
 
@@ -10,6 +11,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 
 /*
  * An activity representing a list of Notifications. This activity has different
@@ -101,5 +105,18 @@ public class NotificationListActivity extends FragmentActivity implements
 			detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID, id);
 			startActivity(detailIntent);
 		}
+	}
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add("Aggiungi un amico").setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+            	startActivity(new Intent(getApplicationContext(), AddFriend.class));
+				return true;
+			}
+		});
+		return true;
 	}
 }
