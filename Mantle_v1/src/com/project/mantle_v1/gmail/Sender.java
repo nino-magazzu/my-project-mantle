@@ -13,7 +13,7 @@ public class Sender extends AsyncTask<Void, Long, Boolean> {
 	
 	private Context context;
 	private String link;
-	private String user = Global.USE_GOOGLE_MAIL;   	//"cann.alberto91@gmail.com";
+	private String user = "nmagazzu@gmail.com";   	//"cann.alberto91@gmail.com";
 	private String psw = "89vale46";
 	private Boolean fl;
 	private String addressee;
