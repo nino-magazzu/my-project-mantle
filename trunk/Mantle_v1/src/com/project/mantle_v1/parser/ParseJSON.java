@@ -3,24 +3,47 @@ package com.project.mantle_v1.parser;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-
+import com.project.mantle_v1.User;
 import android.util.JsonReader;
 import android.util.JsonWriter;
 
 public class ParseJSON {
 	
-	public ParseJSON(MediaType media) {
-		this.media = media;
+	public ParseJSON(StringReader Sr) {
+		this.sr = Sr;
 	}
 	
-	public void writeJson(StringWriter sw) throws IOException {
-		JsonWriter writer = new JsonWriter(sw);
+	public ParseJSON(StringWriter Sw) {
+		this.sw = Sw;
+	}
+	
+	public String writeJson(MediaType mt) throws IOException {
+		this.writer = new JsonWriter(sw);
 		writer.setIndent("  ");
-		writeMedia(writer);
+		writeMedia(mt);
 		writer.close();
+		return sw.toString();
 	}
 	
-	private void writeMedia(JsonWriter writer) throws IOException {
+	public String writeJson(User user) throws IOException {
+		this.writer = new JsonWriter(sw);
+		writer.setIndent("  ");
+		writeUser(user);
+		writer.close();
+		return sw.toString();
+	}
+	
+	private void writeUser(User user) throws IOException {
+		writer.beginObject();
+		writer.name("name").value(user.getName());
+		writer.name("surname").value(user.getSurname());
+		writer.name("username").value(user.getUsername());
+		writer.name("email").value(user.getEmail());
+		writer.name("publicKey").value(user.getKey());
+		writer.endObject();
+	}
+
+	private void writeMedia(MediaType media) throws IOException {
 		writer.beginObject();
 		writer.name("url").value(media.getUrl());
 		writer.name("objectType").value(media.getObjectType());
@@ -28,15 +51,15 @@ public class ParseJSON {
 		writer.name("published").value(media.getData());
 		if(media.isImage()) {
 			writer.name("image");
-			imageDetails(writer);
+			imageDetails(media);
 			writer.name("fullImage");
-			fullImageDetails(writer);
+			fullImageDetails(media);
 		}
 		writer.endObject();
 	}
 	
 	
-	private void imageDetails(JsonWriter writer) throws IOException {
+	private void imageDetails(MediaType media) throws IOException {
 		writer.beginObject();
 		writer.name("icon").value(media.getIcon());
 		writer.name("width").value(48);
@@ -44,7 +67,7 @@ public class ParseJSON {
 		writer.endObject();
 	}
 	
-	private void fullImageDetails(JsonWriter writer) throws IOException {
+	private void fullImageDetails(MediaType media) throws IOException {
 		writer.beginObject();
 		writer.name("url").value(media.getUrl());
 		writer.name("width").value(media.getBitmap().getWidth());
@@ -53,17 +76,17 @@ public class ParseJSON {
 	}
 	
 
-	public void readJson(StringReader sr) throws IOException {
-		JsonReader reader = new JsonReader(sr);
+	public void readJson(MediaType media) throws IOException {
+		this.reader = new JsonReader(sr);
 		try {
-			readMedia(reader);
+			readMedia(media);
 		} 
 		finally {
 			reader.close();
 		}
 	}
 		
-	private void readMedia(JsonReader reader) throws IOException {
+	private void readMedia(MediaType media) throws IOException {
 		reader.beginObject();
 		while(reader.hasNext()) {
 				String name = reader.nextName();
@@ -80,6 +103,42 @@ public class ParseJSON {
 		}
 		reader.endObject();
 	}
+
+	public void readJson(User user) throws IOException {
+		this.reader = new JsonReader(sr);
+		try {
+			readUser(user);
+		} 
+		finally {
+			reader.close();
+		}
+	}
 	
-	private MediaType media;
+	private void readUser(User user) throws IOException {
+		reader.beginObject();
+		while(reader.hasNext()) {
+				String name = reader.nextName();
+				if(name.equals("name")) 
+					user.setName(reader.nextString());
+				else if(name.equals("surname"))
+					user.setSurname(reader.nextString());
+				else if(name.equals("username"))
+					user.setUsername(reader.nextString());
+				else if(name.equals("email"))
+					user.setEmail(reader.nextString());
+				else if(name.equals("publicKey"))
+					user.setKey(reader.nextString());
+		}
+		reader.endObject();
+	}
+
+	public String toString() {
+		return sw.toString();
+	}
+	
+	private StringWriter sw;
+	private StringReader sr;
+	private JsonWriter writer;
+	private JsonReader reader;
 }
+

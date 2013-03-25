@@ -1,26 +1,27 @@
 package com.project.mantle_v1.database;
 
+import java.io.IOException;
+import java.io.StringWriter;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.project.mantle_v1.Home;
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.dropbox.Uploader;
+import com.project.mantle_v1.User;
 import com.project.mantle_v1.gmail.Sender;
-import com.project.mantle_v1.parser.MediaType;
+
+import com.project.mantle_v1.parser.ParseJSON;
 
 
 public class AddFriend extends Activity{
 
+	private String TAG = "AddFriend";
 	private MioDatabaseHelper db;
 	private Button addFriend;
 	private Button showFriends;
@@ -57,8 +58,13 @@ public class AddFriend extends Activity{
 					Toast error = Toast.makeText(AddFriend.this,"Request is sent", Toast.LENGTH_LONG);
 					error.show();
 					//manda la richiesta d'amicizia
-        			MediaType mt = new MediaType();
-					Sender upload = new Sender(AddFriend.this,"RICHIESTA DI AMICIZIA",email);
+					ParseJSON parser = new ParseJSON(new StringWriter());
+					try {
+						parser.writeJson(new User(2, "nmagazzu@gmail.com", "Ninuz", "Nino", "Magazzù", "cacca"));
+					} catch (IOException e) {
+						Log.e(TAG, e.getMessage());
+					}
+					Sender upload = new Sender(AddFriend.this,parser.toString(), email);
         			upload.execute();
         			
 					
@@ -86,6 +92,4 @@ public class AddFriend extends Activity{
         });	
         
     }
-    
-    
 }
