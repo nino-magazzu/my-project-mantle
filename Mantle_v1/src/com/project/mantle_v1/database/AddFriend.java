@@ -16,6 +16,7 @@ import com.project.mantle_v1.Home;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.dropbox.Uploader;
 import com.project.mantle_v1.gmail.Sender;
+import com.project.mantle_v1.parser.MediaType;
 
 
 public class AddFriend extends Activity{
@@ -56,7 +57,7 @@ public class AddFriend extends Activity{
 					Toast error = Toast.makeText(AddFriend.this,"Request is sent", Toast.LENGTH_LONG);
 					error.show();
 					//manda la richiesta d'amicizia
-        			
+        			MediaType mt = new MediaType();
 					Sender upload = new Sender(AddFriend.this,"RICHIESTA DI AMICIZIA",email);
         			upload.execute();
         			
