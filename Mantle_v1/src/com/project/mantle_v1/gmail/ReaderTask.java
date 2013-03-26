@@ -12,7 +12,7 @@ public class ReaderTask extends Thread {
 	public ReaderTask(Handler handler, String email, String pass){
 		this.handler = handler;
 		this.pass = pass;
-		this.account = email.substring(0, email.indexOf("@")-1);
+		this.account = email.substring(0, email.indexOf("@"));
 	}
 	
 	@Override
@@ -31,6 +31,7 @@ public class ReaderTask extends Thread {
 
 		} catch (Exception e) {
 			Log.d(TAG, e.getMessage());
+			Log.d(TAG, account);
 		}
 	}
 }
