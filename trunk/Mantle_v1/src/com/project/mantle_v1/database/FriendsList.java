@@ -58,7 +58,6 @@ public class FriendsList extends Activity{
 	        
         	@Override
         	 public void onItemClick ( AdapterView<?> listView, View itemView, int position,long itemId ){
-        		arr.add ((String) listView.getItemAtPosition(position));
         		Log.d("ListViewActivity", "Hai selezionato " + listView.getItemAtPosition(position));
         		Log.d("ListViewActivity", "con id = " + itemId + " e position = " + position);
         		
@@ -67,10 +66,7 @@ public class FriendsList extends Activity{
         		String[] contatto = selectedFromList.split(", user=");
         		arr.add(contatto[0].substring(7));
         		
-        		//Operazioni da fare alla fine della scelta dei contatti
-        		//Object[] array= arr.toArray();
-        		//for(int j=0;j<array.length;j++)
-        		//	Log.d("l'elemento dell'array",array[j].toString());
+        		Log.d("LIST_View_Activity",contatto[0].substring(7));
         	}
         	
         });
