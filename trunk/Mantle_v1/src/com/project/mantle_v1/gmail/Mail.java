@@ -19,6 +19,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 public class Mail extends javax.mail.Authenticator { 
+
+	public static String MAGIC_NUMBER = "Mantle001 ";
 	
 	private String user; 
 	private String pass; 

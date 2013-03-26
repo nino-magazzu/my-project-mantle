@@ -3,14 +3,11 @@ package com.project.mantle_v1.gmail;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.provider.Settings.Global;
 import android.util.Log;
 import android.widget.Toast;
 
 public class Sender extends AsyncTask<Void, Long, Boolean> {
 
-	final protected String MAGIC_NUMBER = "Mantle001 ";
-	
 	private Context context;
 	private String link;
 	private String user = "nmagazzu@gmail.com";   	//"cann.alberto91@gmail.com";
@@ -42,7 +39,7 @@ public class Sender extends AsyncTask<Void, Long, Boolean> {
 	      
 	    m.setFrom(user); 
 	    m.setSubject("Applicazione Mantle"); 
-	    m.setBody(MAGIC_NUMBER + link); 
+	    m.setBody(Mail.MAGIC_NUMBER + link); 
 	 
 	    try { 
 	    	//m.addAttachment("/sdcard/filelocation"); 
@@ -71,5 +68,4 @@ public class Sender extends AsyncTask<Void, Long, Boolean> {
 			Toast.makeText(context, "Email was not sent.", Toast.LENGTH_LONG).show();
 		}
 	}
-	
 }

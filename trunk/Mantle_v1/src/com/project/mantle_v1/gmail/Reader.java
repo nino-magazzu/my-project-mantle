@@ -13,14 +13,12 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.event.MessageCountEvent;
 import javax.mail.event.MessageCountListener;
-
-import com.project.mantle_v1.Configuratore;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
 public class Reader extends Authenticator {
+	
 	private static final String TAG = "GMAILreader";
 	private String mailhost = "imap.gmail.com";  
 	private Session session;
@@ -60,11 +58,11 @@ public class Reader extends Authenticator {
 	    		Message[] msg = folder.getMessages();
 	        
 	    		for (int i = 0; i < msg.length ; i++) {
-	    			if(!msg[i].isSet(Flags.Flag.SEEN)){
-	    				Log.d("From", msg[i].getFrom()[0] + "");  
-	    				Log.d("Subject", msg[i].getSubject() + "");
-	    				String content = msg[i].getContent().toString();
-	    				Log.d("content", content + "");
+	    		
+	    			if(!msg[i].isSet(Flags.Flag.SEEN) && msg[i].getContent().toString().contains(Mail.MAGIC_NUMBER)){
+	    			
+	    				notifyMessage(msg[i].getFrom()[0].toString(), msg[i].getContent().toString());
+ 						msg[i].setFlag(Flags.Flag.DELETED, true);
 	    			}
 	    		}
 	    	} catch (Exception e) { 
@@ -96,7 +94,7 @@ public class Reader extends Authenticator {
 	 				try {
 	 					String[] splitted = msgs[i].getContent().toString().split(" ");
 	 					String magicNumber = splitted[0];
-	 					if(magicNumber.compareTo(Configuratore.getMagicNumber()) == 0) {
+	 					if(magicNumber.compareTo(Mail.MAGIC_NUMBER) == 0) {
 	 						notifyMessage(msgs[0].getFrom()[0].toString(), splitted[1]);
 	 						msgs[0].setFlag(Flags.Flag.DELETED, true);
 	 					}

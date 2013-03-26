@@ -9,6 +9,7 @@ import com.project.mantle_v1.gmail.ReaderTask;
 
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.app.Activity;
 import android.content.Intent;
@@ -22,13 +23,16 @@ public class Home extends Activity {
 //    private Button googleDrive;
  //   private Button geTT;
 		private Button rubrica;
-	
+
+		private final String HOME_DIR = Environment.getExternalStorageDirectory().getAbsoluteFile() + "/Mantle";
+		
+		
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         
-        File HomeDir = new File(Configuratore.getHomeDir());
+        File HomeDir = new File(HOME_DIR);
         Log.d("HomeDir", HomeDir.getAbsolutePath());
         if(!HomeDir.exists()) {
         	HomeDir.mkdir();
@@ -59,9 +63,9 @@ public class Home extends Activity {
          *  	ReaderTask ha il compito di andare a leggere le mail per andare a capire se vi sono notifiche relative all'applicazione
          */
         
-        ReaderTask thr = new ReaderTask(handler);
+        //ReaderTask thr = new ReaderTask(handler);
    	   // IBinder mbinder = thr.onBind(new Intent());
-   	   thr.start();
+   	   //thr.start();
         
         dropbox.setOnClickListener(new View.OnClickListener() {
 			@Override
