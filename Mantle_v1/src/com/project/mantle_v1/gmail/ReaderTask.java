@@ -6,10 +6,13 @@ import android.util.Log;
 public class ReaderTask extends Thread {
 	private final String TAG = "READER TASK";
 	private Handler handler;
-	private Reader email;
+	private String account;
+	private String pass;
 	  
-	public ReaderTask(Handler handler){
+	public ReaderTask(Handler handler, String email, String pass){
 		this.handler = handler;
+		this.pass = pass;
+		this.account = email.substring(0, email.indexOf("@")-1);
 	}
 	
 	@Override
@@ -22,10 +25,9 @@ public class ReaderTask extends Thread {
 			 * 		dispositivi Apple
 			 */
 			
-			
-			email = new Reader("nmagazzu", "89vale46", handler);
-			email.readMail();
-			email.readNewMail();
+			Reader read = new Reader(account, pass, handler);
+			read.readMail();
+			read.readNewMail();
 
 		} catch (Exception e) {
 			Log.d(TAG, e.getMessage());
