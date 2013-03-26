@@ -94,6 +94,16 @@ public class FriendsList extends Activity{
 		menu.add("Condividi").setOnMenuItemClickListener(new OnMenuItemClickListener() {
              public boolean onMenuItemClick(MenuItem item) {
             	 Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+            	 
+            	 if(arr.isEmpty()){
+            		 
+            	 }
+            	 Object[] array= arr.toArray();
+            	 
+            	 Intent data = new Intent();
+     			 data.putExtra("contacts", array);
+     			 setResult(8, data);
+     			 finish();
             	 return true;
              }
 		});;
