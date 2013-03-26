@@ -58,7 +58,7 @@ public class FriendsList extends Activity{
 	        
         	@Override
         	 public void onItemClick ( AdapterView<?> listView, View itemView, int position,long itemId ){
-        		//arr.add ((String) listView.getItemAtPosition(position));
+        		arr.add ((String) listView.getItemAtPosition(position));
         		Log.d("ListViewActivity", "Hai selezionato " + listView.getItemAtPosition(position));
         		Log.d("ListViewActivity", "con id = " + itemId + " e position = " + position);
         		
