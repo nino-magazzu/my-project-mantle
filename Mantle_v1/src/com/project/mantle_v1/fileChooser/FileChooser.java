@@ -165,7 +165,6 @@ public class FileChooser extends ListActivity {
 			Log.d(TAG, selectedFilePath);
 			finish();
 		}
-			
 	}
 		
 	private String onFileClick(Option o) {

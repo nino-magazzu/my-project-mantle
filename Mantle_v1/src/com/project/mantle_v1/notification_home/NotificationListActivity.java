@@ -153,11 +153,6 @@ public class NotificationListActivity extends FragmentActivity implements
            	 	return true;
             	}
 			});;
-
-		
 		return true;
-		  
     }
-	
-	
 }
