@@ -1,5 +1,7 @@
 package com.project.mantle_v1;
 
+import android.content.Context;
+
 public class User {
 	private int idUser;
 	private String email;
@@ -16,7 +18,19 @@ public class User {
 		this.surname = surname;
 		this.key = key;
 	}
-
+	
+	// Costruttore per prendere uno specifico amico
+	
+	public User(Context cont, int id) {
+		
+	}
+	
+	
+	// Costrutore per prendere i dati del proprietario dell'app
+	public User(Context cont) {
+		
+	}
+	
 	public int getIdUser() {
 		return idUser;
 	}
