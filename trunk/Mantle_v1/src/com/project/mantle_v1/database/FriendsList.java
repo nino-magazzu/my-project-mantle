@@ -64,6 +64,8 @@ public class FriendsList extends Activity{
         		
         		String selectedFromList =(String) (listView.getItemAtPosition(position).toString());
         		String[] contatto = selectedFromList.split(", user=");
+        		//in contatto[0] viene salvato la prima parte della stringa fino a ",user=" in contatto[1] la restante parte della stringa
+        		//substring mi serve per eliminare "{email=" e mi restituisce solo l'indirizzo email
         		arr.add(contatto[0].substring(7));
         		
         		Log.d("LIST_View_Activity",contatto[0].substring(7));
