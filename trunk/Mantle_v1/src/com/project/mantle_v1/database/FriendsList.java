@@ -35,17 +35,18 @@ public class FriendsList extends Activity{
         arr = new ArrayList<String> ();
         int i;
         Intent theIntent = this.getIntent();
-		String [] Friend = (String[])theIntent.getSerializableExtra("Friends");
+        
         db = new MioDatabaseHelper(getApplicationContext());
 
-		listView = (ListView) findViewById(R.id.list);
+        String[] friends = db.getFriends();
+        listView = (ListView) findViewById(R.id.list);
 		
 		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 		
-		for (i=0;i<Friend.length;i=i+2) {
+		for (i=0;i<friends.length;i=i+2) {
 		    Map<String, String> datum = new HashMap<String, String>(2);
-		    datum.put("user",Friend[i]);
-		    datum.put("email",Friend[i+1]);
+		    datum.put("user",friends[i]);
+		    datum.put("email",friends[i+1]);
 		    data.add(datum);
 		}
 	  

@@ -87,7 +87,7 @@ public class AddFriend extends Activity{
 				
 				String[] friends = db.getFriends();
 				Intent intent = new Intent(AddFriend.this,FriendsList.class);
-	    	    intent.putExtra("Friends", friends);
+	    	    //intent.putExtra("Friends", friends);
 				startActivity(intent);
 				
 			}
