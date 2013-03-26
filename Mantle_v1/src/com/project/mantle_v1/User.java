@@ -20,7 +20,7 @@ public class User {
 	}
 	
 	// Costruttore per prendere uno specifico amico
-	
+	 
 	public User(Context cont, int id) {
 		
 	}
