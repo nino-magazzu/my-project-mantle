@@ -1,16 +1,25 @@
 package com.project.mantle_v1.notification_home;
 
+import com.project.mantle_v1.AddService;
 import com.project.mantle_v1.Home;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.AddFriend;
+import com.project.mantle_v1.database.FriendsList;
+import com.project.mantle_v1.database.AddFriend;
 import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.dropbox.Dropbox;
+import com.project.mantle_v1.fileChooser.FileChooser;
 import com.project.mantle_v1.gmail.ReaderTask;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
+import android.widget.Toast;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
@@ -109,14 +118,48 @@ public class NotificationListActivity extends FragmentActivity implements
 	
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("Aggiungi un amico").setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			
-			@Override
-			public boolean onMenuItemClick(MenuItem item) {
-            	startActivity(new Intent(getApplicationContext(), AddFriend.class));
-				return true;
-			}
-		});
+
+		menu.add("Add a service").setOnMenuItemClickListener(new OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+           	 	Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+           	 	Intent intent = new Intent(NotificationListActivity.this, AddService.class);
+           	 	startActivity(intent);
+           	 	return true;
+            	}
+			});;
+		
+		menu.add("Add a friend").setOnMenuItemClickListener(new OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+            	Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+           	 	Intent intent = new Intent(NotificationListActivity.this, AddFriend.class);
+           	 	startActivity(intent);
+           	 	return true;
+            	}
+			});;
+		
+		menu.add("File").setOnMenuItemClickListener(new OnMenuItemClickListener() {
+             public boolean onMenuItemClick(MenuItem item) {
+            	 Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+            	 Intent intent = new Intent(NotificationListActivity.this, Dropbox.class);
+             	 startActivity(intent);
+            	 return true;
+             	}
+			});;
+		  
+		// MODIFICA LA CLASSE CHE MOSTRA LA FRIENDLIST NON DEVE VOLERE IL VETTORE IN INGRESSO MA SE LO DEVE CALCOLARE LUI 
+		menu.add("Friend List").setOnMenuItemClickListener(new OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+           	 	Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+           	 	Intent intent = new Intent(NotificationListActivity.this, FriendsList.class);
+           	 	startActivity(intent);
+           	 	return true;
+            	}
+			});;
+
+		
 		return true;
-	}
+		  
+    }
+	
+	
 }

@@ -220,7 +220,8 @@ public class Dropbox extends Activity {
     	}
     	
     	if(requestCode == FRIEND_CHOOSED_CODE) {
-    		String contact = data.getStringExtra("contact");
+    		
+    		String[] contacts = (String[]) data.getSerializableExtra("contacts");
     		
     		String body = "";
 			try {
@@ -228,8 +229,13 @@ public class Dropbox extends Activity {
 			} catch (IOException e) {
 				Log.e(TAG, e.getMessage());
 			}
-    		Sender sender = new Sender(this, body, contact);
-        	sender.execute();
+    		for(int j=0;j<contacts.length;j++){
+    			Log.d("Dropbox", "Ho inviato la mail a " + contacts[j]);
+    			//Sender sender = new Sender(this, body, contacts[j]);	
+    			//sender.execute();
+    		}
+    		
+        	
     	}
     	
     	else

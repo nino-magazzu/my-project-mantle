@@ -31,6 +31,7 @@
         <activity android:name="com.project.mantle_v1.dropbox.DropBoxFile" />
         <activity android:name="com.project.mantle_v1.fileChooser.FileDownloadChooser" />
         <activity android:name="com.project.mantle_v1.Home" />
+        <activity android:name="com.project.mantle_v1.AddService" />
         <activity android:name="com.project.mantle_v1.Register" />
         <activity android:name="com.project.mantle_v1.database.AddFriend" />
         <activity android:name="com.project.mantle_v1.database.MioDatabaseHelper" />
