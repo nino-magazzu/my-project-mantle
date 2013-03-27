@@ -42,7 +42,8 @@ public class AddFriend extends Activity{
         //Ottengo un puntatore al database
         db = new MioDatabaseHelper(getApplicationContext());
         
-        db.insertUser("contattoDefaul@gmail.com", "Default", "Fault", "ult", "xxx");
+        User a = new User(getApplicationContext());
+        Log.d("ADD_FRIEND",a.getIdUser()+" "+a.getEmail());
         
         addFriend.setOnClickListener(new View.OnClickListener() {
 			
@@ -62,7 +63,7 @@ public class AddFriend extends Activity{
 					
 					ParseJSON parser = new ParseJSON(new StringWriter());
 					try {
-						parser.writeJson(new User(2, "nmagazzu@gmail.com", "Ninuz", "Nino", "Magazzù", "cacca"));
+						parser.writeJson(new User("2", "nmagazzu@gmail.com", "Ninuz", "Nino", "Magazzù", "cacca"));
 						
 					} catch (IOException e) {
 						Log.e(TAG, e.getMessage());

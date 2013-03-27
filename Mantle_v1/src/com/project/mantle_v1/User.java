@@ -1,16 +1,20 @@
 package com.project.mantle_v1;
 
+import com.project.mantle_v1.database.MioDatabaseHelper;
+
 import android.content.Context;
+import android.util.Log;
 
 public class User {
-	private int idUser;
+	private String idUser;
 	private String email;
 	private String username;
 	private String name;
 	private String surname;
 	private String key;
+	private MioDatabaseHelper db;
 	
-	public User(int idUser, String email, String username, String name, String surname, String key){
+	public User(String idUser, String email, String username, String name, String surname, String key){
 		this.idUser = idUser;
 		this.email = email;
 		this.username = username;
@@ -21,21 +25,29 @@ public class User {
 	
 	// Costruttore per prendere uno specifico amico
 	 
-	public User(Context cont, int id) {
+	public User(Context cont) {
+		db = new MioDatabaseHelper(cont);
+		String[] user = db.getUser();
+		this.idUser = user[0];
+		this.email = user[1];
+		this.username = user[2];
+		this.name = user[3];
+		this.surname = user[4];
+		this.key = user[5];
 		
 	}
 	
 	
 	// Costrutore per prendere i dati del proprietario dell'app
-	public User(Context cont) {
+	public User(Context cont, int id) {
 		
 	}
 	
-	public int getIdUser() {
+	public String getIdUser() {
 		return idUser;
 	}
 
-	public void setIdUser(int idUser) {
+	public void setIdUser(String idUser) {
 		this.idUser = idUser;
 	}
 
