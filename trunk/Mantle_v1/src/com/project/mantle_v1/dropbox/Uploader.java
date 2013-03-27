@@ -96,6 +96,11 @@ public class Uploader extends AsyncTask<Void, Long, MediaType> {
             if (mRequest != null) {
                 Entry ent = mRequest.upload();
                  link = mApi.share(ent.path);
+                 
+                 /*
+                  * TODO: implementare insertFile
+                  */
+                 
                  MediaType mt = new MediaType(ent, link.url, username, mFile);
                  return mt;
             }

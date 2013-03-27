@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.project.mantle_v1.R;
+import com.project.mantle_v1.parser.MediaType;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -34,7 +35,6 @@ public class FriendsList extends Activity{
         setContentView(R.layout.friend_list);
         arr = new ArrayList<String> ();
         int i;
-        Intent theIntent = this.getIntent();
         
         db = new MioDatabaseHelper(getApplicationContext());
 
