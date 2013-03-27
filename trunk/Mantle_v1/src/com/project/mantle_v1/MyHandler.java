@@ -1,5 +1,14 @@
 package com.project.mantle_v1;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.project.mantle_v1.notification_home.Notifica;
+import com.project.mantle_v1.parser.ParseJSON;
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -17,6 +26,11 @@ public class MyHandler extends Handler {
 	private Context context;
 	private String link;
 	
+	public static List<Notifica> ITEMS = new ArrayList<Notifica>();
+	public static Map<String,Notifica> ITEM_MAP = new HashMap<String, Notifica>();
+	
+	private final String TAG = "MyHandler";
+	
 	public MyHandler(Context context) {
 		super();
 		this.context = context;
@@ -29,6 +43,18 @@ public class MyHandler extends Handler {
     	  not = bundle.getString("notification"); 	  
     	  link = bundle.getString("link");
     	  createNotification();
+    	  
+    	  ParseJSON parser = new ParseJSON(new StringReader(link));
+    	  
+    	  User user = null;
+    	  try {
+    		  user = parser.readUserJson();
+    	  } catch (IOException e) {
+    		Log.e(TAG, "Problema lettura: " + e.getMessage());
+    	  }
+    	  
+    	  addItem(new Notifica(new Date(System.currentTimeMillis()).toString(), user));
+
     	  Log.d("EMAIL",not);
     	  Log.d("EMAIL",link);
       }
@@ -60,4 +86,10 @@ public class MyHandler extends Handler {
 	    noti.flags |= Notification.FLAG_AUTO_CANCEL;
 	    notificationManager.notify(0, noti);
 	  }
+		
+	private static void addItem(Notifica item) {
+		ITEM_MAP.put(String.valueOf(ITEM_MAP.size() + 1), item);
+		ITEMS.add(item);
+	}
+
 }

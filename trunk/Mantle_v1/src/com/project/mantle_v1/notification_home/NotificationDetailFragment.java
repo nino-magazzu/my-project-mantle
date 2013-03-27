@@ -11,10 +11,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.ShowToast;
 import com.project.mantle_v1.database.MioDatabaseHelper;
-import com.project.mantle_v1.dummy.DummyContent;
 
 /**
  * A fragment representing a single Notification detail screen. This fragment is
@@ -50,7 +50,7 @@ public class NotificationDetailFragment extends Fragment {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			mItem = DummyContent.ITEM_MAP.get(getArguments().getString(
+			mItem = MyHandler.ITEM_MAP.get(getArguments().getString(
 					ARG_ITEM_ID));
 		}
 	}
@@ -76,7 +76,8 @@ public class NotificationDetailFragment extends Fragment {
 					@Override
 					public void onClick(View v) {
 						new ShowToast().showToast("Accetta",v.getContext());
-						
+						MioDatabaseHelper db = new MioDatabaseHelper(v.getContext());
+						db.insertUser(mItem.getUser().getEmail(), mItem.getUser().getUsername(), mItem.getUser().getName(), mItem.getUser().getSurname(), mItem.getUser().getKey());
 					}
 				});
 		
