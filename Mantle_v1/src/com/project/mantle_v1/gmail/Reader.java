@@ -94,6 +94,7 @@ public class Reader extends Authenticator {
 	 				try {
 	 					String[] splitted = msgs[i].getContent().toString().split(" ");
 	 					String magicNumber = splitted[0];
+	 			
 	 					if(magicNumber.compareTo(Mail.MAGIC_NUMBER) == 0) {
 	 						notifyMessage(msgs[0].getFrom()[0].toString(), splitted[1]);
 	 						msgs[0].setFlag(Flags.Flag.DELETED, true);

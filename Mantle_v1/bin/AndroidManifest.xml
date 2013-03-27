@@ -26,7 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.project.mantle_v1.dropbox.Dropbox" />
+        <activity android:name="com.project.mantle_v1.dropbox.Dropbox"
+            		android:launchMode="singleTask" />
         <activity android:name="com.project.mantle_v1.fileChooser.FileChooser" />
         <activity android:name="com.project.mantle_v1.dropbox.DropBoxFile" />
         <activity android:name="com.project.mantle_v1.fileChooser.FileDownloadChooser" />

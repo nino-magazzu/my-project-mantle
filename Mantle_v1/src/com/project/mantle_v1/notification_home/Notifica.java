@@ -2,6 +2,8 @@ package com.project.mantle_v1.notification_home;
 
 import java.util.List;
 
+import com.project.mantle_v1.User;
+
 public class Notifica {
 
 	/**  Rappresenta una notifica ottenuta dalle mail. Raccoglie i dati 
@@ -18,10 +20,10 @@ public class Notifica {
 	
 	private String data;
 	private int NotificationType;
-	private String who;
+	private User user;
 	private List<Note> notes;
 	private String title;
-	
+	private String username;
 	/**
 	 * Costruttore da usare nel caso in cui la notifica sia relativa ad 
 	 * una richiesta d'amicizia 
@@ -29,12 +31,12 @@ public class Notifica {
 	 * @param who: Utente che desidera stringere l'amicizia
 	 */
 	
-	public Notifica(String data, String who) {
+	public Notifica(String data, User user) {
 		super();
 		this.data = data;
-		this.who = who;
+		this.user = user;
 		this.NotificationType = FRIENDSHIP_ID;
-		this.title = who + ": richiesta d'amicizia";
+		this.title = user.getName() + " " + user.getSurname() + " (" + user.getUsername() + ")" + ": richiesta d'amicizia";
 	}
 
 	/**
@@ -53,7 +55,7 @@ public class Notifica {
 		super();
 		this.data = data;
 		NotificationType = notificationType;
-		this.who = who;
+		this.username = who;
 		this.notes = notes;
 		if(notificationType == NOTE_ID) {
 			this.title = who + " ha commentato una tua foto";
@@ -71,7 +73,10 @@ public class Notifica {
 	}
 	
 	public String getWho() {
-		return who;
+		if(user != null)
+			return user.getName() + " " + user.getSurname() + " (" + user.getUsername() + ")";
+		else
+			return username;
 	}
 	
 	public List<Note> getNotes() {
@@ -80,5 +85,9 @@ public class Notifica {
 
 	public String getTitle() {
 		return title;
+	}
+	
+	public User getUser() {
+		return user;
 	}
 }

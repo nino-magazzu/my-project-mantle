@@ -358,6 +358,12 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
     	
 		return result;
 	}
+
+
+	public String getPassword(String email2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 	
 	public String[] getUser(){

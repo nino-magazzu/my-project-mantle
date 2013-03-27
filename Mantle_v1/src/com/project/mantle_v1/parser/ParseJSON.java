@@ -76,14 +76,17 @@ public class ParseJSON {
 	}
 	
 
-	public void readJson(MediaType media) throws IOException {
+	public MediaType readMediaJson() throws IOException {
 		this.reader = new JsonReader(sr);
+		MediaType media = new MediaType();
 		try {
 			readMedia(media);
-		} 
+		}
 		finally {
 			reader.close();
 		}
+		return media;
+		
 	}
 		
 	private void readMedia(MediaType media) throws IOException {
@@ -104,14 +107,16 @@ public class ParseJSON {
 		reader.endObject();
 	}
 
-	public void readJson(User user) throws IOException {
+	public User readUserJson() throws IOException {
 		this.reader = new JsonReader(sr);
+		User user = new User(0, null, null, null, null, null);
 		try {
 			readUser(user);
 		} 
 		finally {
 			reader.close();
 		}
+		return user;
 	}
 	
 	private void readUser(User user) throws IOException {
