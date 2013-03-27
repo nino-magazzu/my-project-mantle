@@ -6,6 +6,7 @@ import android.content.Context;
 import android.util.Log;
 
 public class User {
+	
 	private String idUser;
 	private String email;
 	private String username;
@@ -22,6 +23,18 @@ public class User {
 		this.surname = surname;
 		this.key = key;
 	}
+
+	public User() {
+		super();
+		this.idUser = null;
+		this.email = null;
+		this.username = null;
+		this.name = null;
+		this.surname = null;
+		this.key = null;
+	}
+
+
 	
 	// Costruttore per prendere uno specifico amico
 	 
