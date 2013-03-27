@@ -161,7 +161,7 @@ public class FileChooser extends ListActivity {
 			Intent data = new Intent();
 			data.putExtra("path", selectedFilePath);
 			data.putExtra("Size", o.getSize());
-			setResult(1, data);
+			setResult(RESULT_OK, data);
 			Log.d(TAG, selectedFilePath);
 			finish();
 		}

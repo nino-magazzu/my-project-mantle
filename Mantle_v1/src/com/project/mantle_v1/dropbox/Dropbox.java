@@ -79,7 +79,8 @@ public class Dropbox extends Activity {
     private TextView welcome;
     //private boolean isDownload;
     private ListOfFileDownloader dbFile;
-
+    private MediaType mt;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,71 +176,71 @@ public class Dropbox extends Activity {
     
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	String filePath = null;
-    	String savingPath = null;
-    	MediaType mt = null;
+    	super.onActivityResult(requestCode, resultCode, data);
     	
-    	if(requestCode == UPLOAD_REQUEST_CODE) {
-    		filePath = data.getStringExtra("path");
+    	switch(requestCode) {
     	
-    		if(filePath != null) {
-    			if(filePath.compareTo("null") == 0)
-    				finish();
-    			else {
-    				File file = new File(filePath);
+    		case UPLOAD_REQUEST_CODE :
+    			String filePath = data.getStringExtra("path");
+    				if(filePath != null) {
+    					if(filePath.compareTo("null") == 0)
+    						finish();
+    					else {
+    						File file = new File(filePath);
     				
-    				/* TODO: username rapprensenta l'username dell'utente che viene prelevato
-    				 * 		dall'istanza del database
-    				 */
+    						/* TODO: username rapprensenta l'username dell'utente che viene prelevato
+    						 * 		dall'istanza del database
+    						 */
     				
-        			Uploader upload = new Uploader(this, mApi, FILE_DIR, file, "pippo");
-        			upload.execute();
-        			
-        			try {
-        				mt = upload.get();
-        			} catch (InterruptedException e) {
-        				Log.i(TAG, "Error authenticating", e);
-        			} catch (ExecutionException e) {
-        				Log.i(TAG, "Error authenticating", e);
-        			}
-        			Intent intent = new Intent(this, FriendsList.class);
-        			startActivityForResult(intent, FRIEND_CHOOSED_CODE);        			
-    			}
-    		}
-    	}
+    						Uploader upload = new Uploader(this, mApi, FILE_DIR, file, "pippo");
+    						upload.execute();
+    						try {
+    							mt = upload.get();
+    							Log.e(TAG, mt.getObjectType());
+    						} catch (InterruptedException e) {
+    							Log.i(TAG, "Error authenticating", e);
+    						} catch (ExecutionException e) {
+    							Log.i(TAG, "Error authenticating", e);
+    						}
+    						Intent intent = new Intent(this, FriendsList.class);
+    						startActivityForResult(intent, FRIEND_CHOOSED_CODE);        			
+    					}
+    				}
+    				break;
     	
-    	if(requestCode == DOWNLOAD_REQUEST_CODE) {
-    		filePath = data.getStringExtra("path");
-    		long size = data.getLongExtra("Size", 100);
-    		showToast(filePath);
-    		if(filePath != null) {
-    			savingPath = HOME_DIR;   
-    			Downloader down = new Downloader(this, mApi, filePath, savingPath, size);
-    			down.execute();
-    		}
-    	}
+    			case DOWNLOAD_REQUEST_CODE:
+    				filePath = data.getStringExtra("path");
+    				long size = data.getLongExtra("Size", 100);
+    				showToast(filePath);
+    				if(filePath != null) {
+    					String savingPath = HOME_DIR;   
+    					Downloader down = new Downloader(this, mApi, filePath, savingPath, size);
+    					down.execute();
+    				}
+    				break;
     	
-    	if(requestCode == FRIEND_CHOOSED_CODE) {
-    		
-    		String[] contacts = (String[]) data.getSerializableExtra("contacts");
-    		
-    		String body = "";
-			try {
-				body = new ParseJSON(new StringWriter()).writeJson(mt);
-			} catch (IOException e) {
-				Log.e(TAG, e.getMessage());
-			}
-    		for(int j=0;j<contacts.length;j++){
-    			Log.d("Dropbox", "Ho inviato la mail a " + contacts[j]);
-    			//Sender sender = new Sender(this, body, contacts[j]);	
-    			//sender.execute();
-    		}
-    		
-        	
-    	}
+    			case FRIEND_CHOOSED_CODE:
+    				Object[] contacts = (Object[]) data.getSerializableExtra("contacts");
+    				Log.e(TAG, (String)contacts[0]);
+    				mt = new MediaType("Pino", "www", "10/12/12", "image/jpg", "large");
+    				Log.e(TAG, mt.getObjectType());
+    				String body = "";
+    				try {
+    					body = new ParseJSON(new StringWriter()).writeJson(mt);
+    				} catch (IOException e) {
+    					Log.e(TAG, e.getMessage());
+    				}
+    				for(int j=0;j<contacts.length;j++){
+    					Log.d("Dropbox", "Ho inviato la mail a " + contacts[j]);
+    					Sender sender = new Sender(this, body, (String) contacts[j]);	
+    					sender.execute();
+    				}
+    				break;
     	
-    	else
-    		Log.i(TAG, "File inesistente");
+    			default :
+    				Log.e(TAG, "Out Of Options. " + requestCode);
+    				break;
+    		}
     }
     
     @Override
@@ -273,8 +274,8 @@ public class Dropbox extends Activity {
                 Log.i(TAG, "Error authenticating", e);
             }
         }
-       }
- 
+    }
+    
     
     private void logOut() {
         // Remove credentials from the session
@@ -284,7 +285,6 @@ public class Dropbox extends Activity {
         clearKeys();
         // Change UI state to display logged out version
         setLoggedIn(false);
-        
     }
 
     /**
