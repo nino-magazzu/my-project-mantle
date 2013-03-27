@@ -360,9 +360,14 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	}
 
 
-	public String getPassword(String email2) {
-		// TODO Auto-generated method stub
-		return null;
+	public String getPassword(String email) {
+		
+		String[] columns={"passacces"};
+		String selection = "useracces=? AND service=?";
+		String[] selectionArgs = {email,"Email"};
+    	Cursor c = db.query("User", columns, selection, selectionArgs, null, null, null);
+    	c.moveToNext();
+    	return c.getString(0);
 	}
     
 	
