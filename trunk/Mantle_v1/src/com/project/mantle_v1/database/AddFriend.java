@@ -42,8 +42,8 @@ public class AddFriend extends Activity{
         //Ottengo un puntatore al database
         db = new MioDatabaseHelper(getApplicationContext());
         
-        User a = new User(getApplicationContext());
-        Log.d("ADD_FRIEND",a.getIdUser()+" "+a.getEmail());
+        User a = new User(getApplicationContext(),1);
+        Log.d("ADD_FRIEND","Id= "+a.getIdUser()+" Email="+a.getEmail()+" username="+a.getUsername()+" name="+a.getName()+" key="+a.getKey());
         
         addFriend.setOnClickListener(new View.OnClickListener() {
 			
