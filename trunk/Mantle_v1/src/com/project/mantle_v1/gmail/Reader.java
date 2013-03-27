@@ -82,20 +82,13 @@ public class Reader extends Authenticator {
 			public void messagesAdded(MessageCountEvent arg0) {
 				Message[] msgs = arg0.getMessages();
 
-				/*
-				 * 		WARNING: manca una condizione che mi vada a leggere il corpo delle mail e crei le notifiche SOLO per le 
-				 * 		mail interne al programma mantle
-				 * 
-				 * 		UPDATE: aggiunto un confronto con il Magic Number per stabilire se la mail è relativa all'applicazione
-				 */
-				
-	 			Log.d(TAG, "E' arrivata una nuova mail");
 	 			for(int i = 0; i < msgs.length; i++) {
 	 				try {
 	 					String[] splitted = msgs[i].getContent().toString().split(" ");
 	 					String magicNumber = splitted[0];
 	 			
 	 					if(magicNumber.compareTo(Mail.MAGIC_NUMBER) == 0) {
+	 			 			Log.d(TAG, "E' arrivata una nuova mail");
 	 						notifyMessage(msgs[0].getFrom()[0].toString(), splitted[1]);
 	 						msgs[0].setFlag(Flags.Flag.DELETED, true);
 	 					}

@@ -3,8 +3,10 @@ package com.project.mantle_v1.notification_home;
 import com.project.mantle_v1.AddService;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
+import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.AddFriend;
 import com.project.mantle_v1.database.FriendsList;
+import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.dropbox.Dropbox;
 import com.project.mantle_v1.gmail.ReaderTask;
 import android.content.Intent;
@@ -76,11 +78,11 @@ public class NotificationListActivity extends FragmentActivity implements
 
 		// TODO: If exposing deep links into your app, handle intents here.
 		
-		
-		// TODO: inizializzare le stringhe email e password con i rispettivi valori presenti nel db
-		 
-		String email = "nmagazzu@gmail.com";
-		String password = "89vale46";
+		User user = new User(getApplicationContext());
+		setTitle("Salve " + user.getUsername());
+		String email = user.getEmail();
+		MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+		String password = db.getPassword(email);
 		
 		Handler handler = new MyHandler(NotificationListActivity.this);
 		new ReaderTask(handler, email, password).start();
