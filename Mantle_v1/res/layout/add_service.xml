@@ -4,7 +4,7 @@
     android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/ServiceTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -13,53 +13,61 @@
         android:layout_marginTop="46dp"
         android:text="Service" />
 
-    <EditText
-        android:id="@+id/serviceEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView1"
-        android:layout_alignBottom="@+id/textView1"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="16dp"
-        android:ems="10"
-        android:inputType="textPersonName" >
-
-        <requestFocus />
-    </EditText>
-
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/usernameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignLeft="@+id/ServiceTextView"
         android:layout_below="@+id/serviceEditText"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="40dp"
         android:text="Username" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/passwordTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_below="@+id/textView2"
-        android:layout_marginTop="38dp"
+        android:layout_alignRight="@+id/usernameTextView"
+        android:layout_below="@+id/usernameTextView"
+        android:layout_marginTop="40dp"
         android:text="Password" />
-
+    
     <EditText
         android:id="@+id/usernameEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView3"
-        android:layout_alignLeft="@+id/serviceEditText"
+        android:layout_alignBottom="@+id/usernameTextView"
+        android:layout_alignParentRight="true"
         android:ems="10" />
 
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView3"
+        android:layout_alignBottom="@+id/passwordTextView"
         android:layout_alignLeft="@+id/usernameEditText"
+        android:layout_alignParentRight="true"
         android:ems="10"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"/>
+
+    <EditText
+        android:id="@+id/serviceEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ServiceTextView"
+        android:layout_alignParentRight="true"
+        android:ems="10"
+        android:inputType="textPersonName">
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/addServicebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/passwordEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Add Service" />
 
 </RelativeLayout>
