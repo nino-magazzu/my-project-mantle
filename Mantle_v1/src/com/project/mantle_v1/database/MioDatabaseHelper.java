@@ -100,6 +100,22 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	    	
 	    	return c.getString(0);
 	    }
+	    
+	    public String getId(String email){
+	    	
+	    	//quale campo mi restituisce la query
+	    	String[] columns = {"idUser"};
+	    	//clausola where
+	    	String selection = "email = ?";
+	    	//cosa devo sostituire al posto dei ?
+	    	String[] selectionArgs = {email};
+	    	//esecuzione della query
+	    	Cursor c = db.query("User", columns, selection, selectionArgs, null, null, null);
+
+	    	c.moveToNext();
+	    	
+	    	return c.getString(0);
+	    }	    
 		
 	    public long insertUser(String email, String username, String name, String surname, String key ){
 	    	ContentValues values = new ContentValues();
@@ -347,6 +363,19 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	public String[] getUser(){
 		String selection = "idUser=1";
 		Cursor c = db.query("User", null, selection, null,null,null,null);
+		String[] result = new String[6];
+		c.moveToNext();
+		for(int i=0;i<6;i++){
+			result[i]=c.getString(i);
+		}
+		return result;
+	}
+
+
+	public String[] getUser(String id) {
+		String selection = "idUser=?";
+		String[] selectionArgs = {id};
+		Cursor c = db.query("User",null,selection,selectionArgs,null,null,null);
 		String[] result = new String[6];
 		c.moveToNext();
 		for(int i=0;i<6;i++){
