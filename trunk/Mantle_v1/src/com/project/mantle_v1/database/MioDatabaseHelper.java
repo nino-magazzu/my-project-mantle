@@ -289,7 +289,6 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
     		Log.d("MIO_DATABASE_HELPER", result[i]);
     		i++;
     	}
-    	
 	}
 
     
@@ -344,5 +343,16 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		return result;
 	}
     
+	
+	public String[] getUser(){
+		String selection = "idUser=1";
+		Cursor c = db.query("User", null, selection, null,null,null,null);
+		String[] result = new String[6];
+		c.moveToNext();
+		for(int i=0;i<6;i++){
+			result[i]=c.getString(i);
+		}
+		return result;
+	}
 }
 
