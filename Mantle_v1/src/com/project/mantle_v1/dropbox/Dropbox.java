@@ -94,7 +94,7 @@ public class Dropbox extends Activity {
         setContentView(R.layout.dropbox_home);
 
         checkAppKeySetup();
-        welcome = (TextView) findViewById(R.id.textView2);
+        welcome = (TextView) findViewById(R.id.usernameTextView);
                 
         login = (Button)findViewById(R.id.button3);
 
@@ -266,7 +266,7 @@ public class Dropbox extends Activity {
                 TokenPair tokens = session.getAccessTokenPair();
                 storeKeys(tokens.key, tokens.secret);
                 
-                welcome = (TextView) findViewById(R.id.textView2);
+                welcome = (TextView) findViewById(R.id.usernameTextView);
 
                 setLoggedIn(true);
             } catch (IllegalStateException e) {
