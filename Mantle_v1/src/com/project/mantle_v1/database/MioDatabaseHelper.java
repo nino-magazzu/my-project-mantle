@@ -365,7 +365,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		String[] columns={"passacces"};
 		String selection = "useracces=? AND service=?";
 		String[] selectionArgs = {email,"Email"};
-    	Cursor c = db.query("User", columns, selection, selectionArgs, null, null, null);
+    	Cursor c = db.query("Service", columns, selection, selectionArgs, null, null, null);
     	c.moveToNext();
     	return c.getString(0);
 	}
