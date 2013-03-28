@@ -137,6 +137,19 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	        return r;
 		}
 	    
+	    public long insertFile(String fileName, String linkFile, String linkComment, String fileKey){
+	    	ContentValues values = new ContentValues();
+	    	values.put("fileName", fileName);
+	    	values.put("linkFile", linkFile);
+	    	values.put("fileComment", linkComment);
+	    	values.put("fileKey", fileKey);
+	    	long r = db.insert("File", null, values);
+	    	return r;
+	    	
+	    }
+	    
+	    
+	    
 	    public void deleteAll(){
 	    	db.delete("User", null,null);
 	        db.delete("Service", null, null);
