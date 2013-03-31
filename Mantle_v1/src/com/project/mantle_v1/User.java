@@ -52,16 +52,16 @@ public class User {
 	
 	
 	// Costrutore per prendere i dati del proprietario dell'app
-	public User(Context cont, int id) {
-		Integer idUser = new Integer(id);
+	public User(Context cont, int idUser) {
 		db = new MioDatabaseHelper(cont);
-		String[] user = db.getUser(idUser.toString());
+		String[] user = db.getUser(String.valueOf(idUser));
 		this.idUser = user[0];
 		this.email = user[1];
 		this.username = user[2];
 		this.name = user[3];
 		this.surname = user[4];
 		this.key = user[5];
+		db.close();
 	}
 	
 	public String getIdUser() {
