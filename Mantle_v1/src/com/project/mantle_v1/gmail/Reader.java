@@ -13,6 +13,11 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.event.MessageCountEvent;
 import javax.mail.event.MessageCountListener;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.search.FlagTerm;
+
+import com.project.mantle_v1.MyHandler;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -24,10 +29,10 @@ public class Reader extends Authenticator {
 	private Session session;
 	private Store store;
 	private Folder folder;
-	private Handler handler;
+	private MyHandler handler;
 	
 	
-	    public Reader(String user, String password, Handler handler) {
+	    public Reader(String user, String password, MyHandler handler) {
 
 	    	this.handler = handler;
 	    	
@@ -50,27 +55,43 @@ public class Reader extends Authenticator {
 	        }
 	}
 
-	    public synchronized void readMail() throws Exception { 
+	    public synchronized void detectMail() throws Exception { 
 	    	try { 
 	    		folder = store.getFolder("INBOX"); 
 	    		folder.open(Folder.READ_WRITE);
 	        
-	    		Message[] msg = folder.getMessages();
-	        
-	    		for (int i = 0; i < msg.length ; i++) {
+	    		Message[] msg = folder.search(
+	    				new FlagTerm(new Flags(Flags.Flag.SEEN), false));
 	    		
-	    			if(!msg[i].isSet(Flags.Flag.SEEN) && msg[i].getContent().toString().contains(Mail.MAGIC_NUMBER)){
+	    		Log.e(TAG, String.valueOf(msg.length));			
+	    		
+	    		if(msg.length > 0) {
+	    			readMail(msg);
 	    			
-	    				notifyMessage(msg[i].getFrom()[0].toString(), msg[i].getContent().toString());
- 						msg[i].setFlag(Flags.Flag.DELETED, true);
-	    			}
 	    		}
+	    		/**/
 	    	} catch (Exception e) { 
 	    		Log.e(TAG, e.getMessage(), e); 
 	    	} 
-	    } 
+	    }
 
-	public void readNewMail() throws Exception{
+		private void readMail(Message[] msg) throws IOException,
+				MessagingException {
+			for (int i = 0; i < msg.length ; i++) {
+				String body = "";
+				MimeMultipart multiPart = (MimeMultipart) msg[0].getContent();
+				for(int x = 0; x < multiPart.getCount(); x++) {
+					Object content = multiPart.getBodyPart(x).getContent();
+					body += content.toString();
+				}
+				if(body.contains(Mail.MAGIC_NUMBER)){
+					notifyMessage(body);
+					msg[i].setFlag(Flags.Flag.DELETED, true);
+				}
+			}
+		} 
+
+	public void detectNewMail() throws Exception{
 		folder = store.getFolder("INBOX"); 
 	    folder.open(Folder.READ_WRITE); 
 		folder.addMessageCountListener(new MessageCountListener() {
@@ -80,25 +101,22 @@ public class Reader extends Authenticator {
 			}
 			
 			public void messagesAdded(MessageCountEvent arg0) {
-				Message[] msgs = arg0.getMessages();
-
-	 			for(int i = 0; i < msgs.length; i++) {
-	 				try {
-	 					String[] splitted = msgs[i].getContent().toString().split(" ");
-	 					String magicNumber = splitted[0];
-	 			
-	 					if(magicNumber.compareTo(Mail.MAGIC_NUMBER) == 0) {
-	 			 			Log.d(TAG, "E' arrivata una nuova mail");
-	 						notifyMessage(msgs[0].getFrom()[0].toString(), splitted[1]);
-	 						msgs[0].setFlag(Flags.Flag.DELETED, true);
-	 					}
-	 					} catch (MessagingException e) {
+				try {
+				Message[] msg = arg0.getMessages();
+				
+				Log.d(TAG, "E' arrivata una nuova email");
+				
+				
+	    		if(msg.length > 0) {
+	    			readMail(msg);
+	    		}
+	    		} catch (MessagingException e) {
 	 						Log.e(TAG, e.getMessage());
 	 					}catch (IOException e) {
 	 						//problemi lettura corpo email
 	 						Log.e(TAG, e.getMessage());
 	 					}
-	 			}
+	 			
 	 			try {
 					folder.close(true);
 					folder = store.getFolder("INBOX"); 
@@ -113,14 +131,12 @@ public class Reader extends Authenticator {
 	     	Thread.sleep(10000);
 	     	folder.getMessageCount();
 	     }
-		
 	}
 
-	private void notifyMessage(String user, String link) {
+	private void notifyMessage(String body) {
 	    android.os.Message msg = handler.obtainMessage();
 	    Bundle b = new Bundle();
-	    b.putString("notification", ""+user);
-	    b.putString("link", ""+link);
+	    b.putString("body", body);
 	    msg.setData(b);
 	    handler.sendMessage(msg);
 	  }

@@ -8,7 +8,8 @@ import android.util.JsonReader;
 import android.util.JsonWriter;
 
 public class ParseJSON {
-	
+	  private boolean lenient = false;
+	  
 	public ParseJSON(StringReader Sr) {
 		this.sr = Sr;
 	}
@@ -78,6 +79,7 @@ public class ParseJSON {
 
 	public MediaType readMediaJson() throws IOException {
 		this.reader = new JsonReader(sr);
+		reader.setLenient(lenient);
 		MediaType media = new MediaType();
 		try {
 			readMedia(media);
@@ -109,6 +111,7 @@ public class ParseJSON {
 
 	public User readUserJson() throws IOException {
 		this.reader = new JsonReader(sr);
+		reader.setLenient(lenient);
 		User user = new User();
 		try {
 			readUser(user);
@@ -141,9 +144,9 @@ public class ParseJSON {
 		return sw.toString();
 	}
 	
+	
 	private StringWriter sw;
 	private StringReader sr;
 	private JsonWriter writer;
 	private JsonReader reader;
 }
-

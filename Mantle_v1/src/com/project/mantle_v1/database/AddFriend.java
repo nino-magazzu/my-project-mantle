@@ -55,7 +55,7 @@ public class AddFriend extends Activity{
 					error.show();
 				}
 				
-				else if(!db.isAlreadyFriend(email)&&email.contains("@")){
+				else if(/*!db.isAlreadyFriend(email)&&*/email.contains("@")){
 					Toast error = Toast.makeText(AddFriend.this,"Request is sent", Toast.LENGTH_LONG);
 					error.show();
 					
@@ -63,11 +63,14 @@ public class AddFriend extends Activity{
 					try {
 						parser.writeJson(new User(getApplicationContext()));
 						
+					/*String jsonText = null;
+					try {
+						jsonText = parser.writeProvaUser();*/
 					} catch (IOException e) {
 						Log.e(TAG, e.getMessage());
 					}
 
-					Sender upload = new Sender(AddFriend.this,parser.toString(), email);
+					Sender upload = new Sender(AddFriend.this, parser.toString(), email);
         			upload.execute();
         			
 					

@@ -20,6 +20,7 @@ import com.project.mantle_v1.R;
  */
 public class NotificationListFragment extends ListFragment {
 
+	private MyHandler handler;
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -64,16 +65,25 @@ public class NotificationListFragment extends ListFragment {
 	 * fragment (e.g. upon screen orientation changes).
 	 */
 	public NotificationListFragment() {
+		
 	}
 
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// TODO: replace with a real list adapter.
-		setListAdapter(new NotificaAdapter(getActivity(),
+		NotificaAdapter notifyAdapter = new NotificaAdapter(getActivity(),
 				R.layout.note_layout,
-				MyHandler.ITEMS));
+				MyHandler.ITEMS);
+		
+		//notifyAdapter.
+		// TODO: replace with a real list adapter.
+		setListAdapter(notifyAdapter);
+		
+		handler = new MyHandler(getActivity().getApplicationContext());
+		sendAdapter(notifyAdapter);
+		
 	}
 
 	@Override
@@ -87,7 +97,7 @@ public class NotificationListFragment extends ListFragment {
 					.getInt(STATE_ACTIVATED_POSITION));
 		}
 	}
-
+	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -149,4 +159,13 @@ public class NotificationListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
+	
+	private void sendAdapter(NotificaAdapter adapter) {
+	    android.os.Message msg = handler.obtainMessage();
+	    Bundle b = new Bundle();
+	    b.putSerializable("adapter", adapter);
+	    msg.setData(b);
+	    handler.sendMessage(msg);
+	  }
+	
 }

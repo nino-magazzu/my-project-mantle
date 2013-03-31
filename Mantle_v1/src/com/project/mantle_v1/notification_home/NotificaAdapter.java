@@ -1,5 +1,6 @@
 package com.project.mantle_v1.notification_home;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.project.mantle_v1.R;
@@ -11,9 +12,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class NotificaAdapter extends ArrayAdapter<Notifica>{
+public class NotificaAdapter extends ArrayAdapter<Notifica> implements Serializable{
 
-	 public NotificaAdapter(Context context, int textViewResourceId,
+	 /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8456027792111038581L;
+
+	public NotificaAdapter(Context context, int textViewResourceId,
 			List<Notifica> objects) {
 		super(context, textViewResourceId, objects);
 	}

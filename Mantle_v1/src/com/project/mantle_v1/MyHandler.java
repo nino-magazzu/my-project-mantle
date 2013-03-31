@@ -7,7 +7,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.project.mantle_v1.gmail.Mail;
 import com.project.mantle_v1.notification_home.Notifica;
+import com.project.mantle_v1.notification_home.NotificaAdapter;
 import com.project.mantle_v1.parser.ParseJSON;
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -22,7 +25,7 @@ import android.os.Message;
 import android.util.Log;
 
 public class MyHandler extends Handler {
-	private String not;
+	//private String not;
 	private Context context;
 	private String link;
 	
@@ -31,21 +34,29 @@ public class MyHandler extends Handler {
 	
 	private final String TAG = "MyHandler";
 	
+	private NotificaAdapter adapter;
+	
+	
 	public MyHandler(Context context) {
 		super();
 		this.context = context;
+		if(ITEMS.isEmpty())
+			addItem(new Notifica(new Date(System.currentTimeMillis()).toString(), "Benvenuto in Mantle"));
 	}
 
 	@Override
     public void handleMessage(Message msg) {
-      Bundle bundle = msg.getData();
-      if(bundle.containsKey("notification")) {
-    	  not = bundle.getString("notification"); 	  
-    	  link = bundle.getString("link");
+      
+	 Log.d(TAG,"Nuovo messaggio");	
+		
+	  Bundle bundle = msg.getData();
+	  
+      if(bundle.containsKey("body")) {
+    	  link = bundle.getString("body");
     	  createNotification();
-    	  
-    	  ParseJSON parser = new ParseJSON(new StringReader(link));
-    	  
+    	  String jsonText = link.substring(Mail.MAGIC_NUMBER.length(), link.length());
+    	  ParseJSON parser = new ParseJSON(new StringReader(jsonText));
+    	 	
     	  User user = null;
     	  try {
     		  user = parser.readUserJson();
@@ -54,16 +65,24 @@ public class MyHandler extends Handler {
     	  }
     	  
     	  addItem(new Notifica(new Date(System.currentTimeMillis()).toString(), user));
-
-    	  Log.d("EMAIL",not);
-    	  Log.d("EMAIL",link);
+    	  Log.d(TAG, String.valueOf(ITEMS.size()));
+    	  
+    	  adapter.notifyDataSetChanged();
+    	  
       }
+     
+      if(bundle.containsKey("adapter")) {
+    	  this.adapter = (NotificaAdapter) bundle.get("adapter");
+    	  bundle.remove("adapter");
+    	  Log.e(TAG, adapter.toString());
+      }
+     
 	}
-	
+	/*
 	public String getNotification(){
 		return not;
 	}
-	
+	*/
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public void createNotification() {
 	    // Prepare intent which is triggered if the
@@ -91,5 +110,4 @@ public class MyHandler extends Handler {
 		ITEM_MAP.put(String.valueOf(ITEM_MAP.size() + 1), item);
 		ITEMS.add(item);
 	}
-
 }
