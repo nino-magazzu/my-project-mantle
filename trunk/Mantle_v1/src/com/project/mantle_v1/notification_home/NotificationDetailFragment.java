@@ -62,13 +62,13 @@ public class NotificationDetailFragment extends Fragment {
 		
 		if (mItem != null) {
 			
-			if(mItem.getNotificationType() == Notifica.FRIENDSHIP_ID) {
+			if(mItem.getNotificationType() == Notifica.FRIENDSHIP || mItem.getNotificationType() == Notifica.SYSTEM) {
 				
 				rootView = inflater.inflate(R.layout.fragment_friendship,
 						container, false);
 
 				((TextView) rootView.findViewById(R.id.FriendshipRequest))
-				.setText(mItem.getWho() + " vuole stringere amicizia con te.");
+				.setText(mItem.getNotificationBody());
 				
 				Button bAccept = (Button) rootView.findViewById(R.id.accetta);
 				bAccept.setOnClickListener(new OnClickListener() {

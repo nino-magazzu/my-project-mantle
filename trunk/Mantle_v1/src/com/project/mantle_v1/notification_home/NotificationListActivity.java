@@ -61,6 +61,15 @@ public class NotificationListActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_notification_list);
 
+		User user = new User(getApplicationContext());
+		setTitle("Salve " + user.getUsername());
+		String email = user.getEmail();
+		MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+		String password = db.getPassword(email);
+		
+		MyHandler handler = new MyHandler(NotificationListActivity.this);
+		new ReaderTask(handler, email, password).start();
+
 				
 		if (findViewById(R.id.notification_detail_container) != null) {
 			// The detail container view will be present only in the
@@ -74,18 +83,11 @@ public class NotificationListActivity extends FragmentActivity implements
 			((NotificationListFragment) getSupportFragmentManager()
 					.findFragmentById(R.id.notification_list))
 					.setActivateOnItemClick(true);
+			
 		}
 
 		// TODO: If exposing deep links into your app, handle intents here.
 		
-		User user = new User(getApplicationContext());
-		setTitle("Salve " + user.getUsername());
-		String email = user.getEmail();
-		MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
-		String password = db.getPassword(email);
-		
-		Handler handler = new MyHandler(NotificationListActivity.this);
-		new ReaderTask(handler, email, password).start();
 	}
 
 	/**
@@ -154,7 +156,7 @@ public class NotificationListActivity extends FragmentActivity implements
            	 	startActivity(intent);
            	 	return true;
             	}
-			});;
+			});
 		
 		return true;
     }

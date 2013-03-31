@@ -13,10 +13,10 @@ public class Notifica {
 	
 	// NOTIFICATION TYPE ID
 
-	public static int NOTE_ID = 1;
-	public static int FRIENDSHIP_ID = 2;
-	public static int NEW_SHARED_PHOTO_ID = 3;
-	
+	public static int NOTE = 1;
+	public static int FRIENDSHIP = 2;
+	public static int NEW_SHARED_PHOTO = 3;
+	public static int SYSTEM = 4;
 	
 	private String data;
 	private int NotificationType;
@@ -24,6 +24,7 @@ public class Notifica {
 	private List<Note> notes;
 	private String title;
 	private String username;
+	private String body;
 	/**
 	 * Costruttore da usare nel caso in cui la notifica sia relativa ad 
 	 * una richiesta d'amicizia 
@@ -35,10 +36,25 @@ public class Notifica {
 		super();
 		this.data = data;
 		this.user = user;
-		this.NotificationType = FRIENDSHIP_ID;
+		this.NotificationType = FRIENDSHIP;
 		this.title = user.getName() + " " + user.getSurname() + " (" + user.getUsername() + ")" + ": richiesta d'amicizia";
+		this.body = user.getName() + " " + user.getSurname() + " (" + user.getUsername() + ")" +  " vuole stringere amicizia con te.";
 	}
 
+	/**
+	 * Costruttore da utilizzare in caso di notifiche di sistema
+	 * @param data : relativa alla creazione (invio) della mail
+	 * @param body : corpo della notifica
+	 */
+	
+	public Notifica(String data, String body) {
+		super();
+		this.data = data;
+		this.NotificationType = SYSTEM;
+		this.title ="Mantle";
+		this.body = body;
+	}
+	
 	/**
 	 *  Costruttore per le notifiche di condivisione di immagini o di nuovi
 	 *  commenti alle foto
@@ -57,7 +73,7 @@ public class Notifica {
 		NotificationType = notificationType;
 		this.username = who;
 		this.notes = notes;
-		if(notificationType == NOTE_ID) {
+		if(notificationType == NOTE) {
 			this.title = who + " ha commentato una tua foto";
 		}
 		else
@@ -89,5 +105,9 @@ public class Notifica {
 	
 	public User getUser() {
 		return user;
+	}
+	
+	public String getNotificationBody() {
+		return body;
 	}
 }

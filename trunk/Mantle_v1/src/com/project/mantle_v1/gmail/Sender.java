@@ -24,10 +24,13 @@ public class Sender extends AsyncTask<Void, Long, Boolean> {
 		link = url;
 		addressee = contact;
 		context = c.getApplicationContext();
-		User user = new User(context);
+		/*User user = new User(context);
 		this.email = user.getEmail();
 		MioDatabaseHelper db = new MioDatabaseHelper(context);
 		this.psw = db.getPassword(email);
+		*/
+		this.email = "cann.alberto91@gmail.com";
+		this.psw = "spiderman91";
 	}
 	
 	

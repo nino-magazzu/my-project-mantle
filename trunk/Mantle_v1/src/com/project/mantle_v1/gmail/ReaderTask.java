@@ -1,15 +1,17 @@
 package com.project.mantle_v1.gmail;
 
+import com.project.mantle_v1.MyHandler;
+
 import android.os.Handler;
 import android.util.Log;
 
 public class ReaderTask extends Thread {
 	private final String TAG = "READER TASK";
-	private Handler handler;
+	private MyHandler handler;
 	private String account;
 	private String pass;
 	  
-	public ReaderTask(Handler handler, String email, String pass){
+	public ReaderTask(MyHandler handler, String email, String pass){
 		this.handler = handler;
 		this.pass = pass;
 		this.account = email.substring(0, email.indexOf("@"));
@@ -26,8 +28,8 @@ public class ReaderTask extends Thread {
 			 */
 			
 			Reader read = new Reader(account, pass, handler);
-			read.readMail();
-			read.readNewMail();
+			read.detectMail();
+			read.detectNewMail();
 
 		} catch (Exception e) {
 			Log.d(TAG, e.getMessage());
