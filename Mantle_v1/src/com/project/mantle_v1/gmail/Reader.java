@@ -15,11 +15,8 @@ import javax.mail.event.MessageCountEvent;
 import javax.mail.event.MessageCountListener;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.search.FlagTerm;
-
 import com.project.mantle_v1.MyHandler;
-
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 
 public class Reader extends Authenticator {
@@ -29,7 +26,7 @@ public class Reader extends Authenticator {
 	private Session session;
 	private Store store;
 	private Folder folder;
-	private MyHandler handler;
+	private final MyHandler handler;
 	
 	
 	    public Reader(String user, String password, MyHandler handler) {

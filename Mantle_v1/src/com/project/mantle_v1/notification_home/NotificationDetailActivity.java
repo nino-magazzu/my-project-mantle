@@ -1,10 +1,6 @@
 package com.project.mantle_v1.notification_home;
 
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.R.id;
-import com.project.mantle_v1.R.layout;
-import com.project.mantle_v1.database.MioDatabaseHelper;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -45,7 +41,7 @@ public class NotificationDetailActivity extends FragmentActivity {
 
 			// ================   MioDatabaseHelper   ==========================
 			
-			final MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+		//	final MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
 
 			setTitle("Home");
 			

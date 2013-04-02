@@ -1,17 +1,13 @@
 package com.project.mantle_v1.notification_home;
 
 import com.project.mantle_v1.AddService;
-import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.AddFriend;
 import com.project.mantle_v1.database.FriendsList;
-import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.dropbox.Dropbox;
-import com.project.mantle_v1.gmail.ReaderTask;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,12 +59,12 @@ public class NotificationListActivity extends FragmentActivity implements
 
 		User user = new User(getApplicationContext());
 		setTitle("Salve " + user.getUsername());
-		String email = user.getEmail();
-		MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
-		String password = db.getPassword(email);
+//		String email = user.getEmail();
+//		MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+//		String password = db.getPassword(email);
 		
-		MyHandler handler = new MyHandler(NotificationListActivity.this);
-		new ReaderTask(handler, email, password).start();
+//		MyHandler handler = new MyHandler(NotificationListActivity.this);
+//		new ReaderTask(handler, email, password).start();
 
 				
 		if (findViewById(R.id.notification_detail_container) != null) {

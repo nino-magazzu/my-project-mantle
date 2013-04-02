@@ -8,6 +8,9 @@ import android.widget.ListView;
 
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
+import com.project.mantle_v1.User;
+import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.gmail.ReaderTask;
 
 /**
  * A list fragment representing a list of Notifications. This fragment also
@@ -77,11 +80,23 @@ public class NotificationListFragment extends ListFragment {
 				R.layout.note_layout,
 				MyHandler.ITEMS);
 		
+		
+		handler = new MyHandler(getActivity().getApplicationContext());
+		
+		User user = new User(getActivity().getApplicationContext());
+		String email = user.getEmail();
+		MioDatabaseHelper db = new MioDatabaseHelper(getActivity().getApplicationContext());
+		String password = db.getPassword(email);
+		db.close();
+		
+		new ReaderTask(handler, email, password).start();
+
+		
 		//notifyAdapter.
 		// TODO: replace with a real list adapter.
 		setListAdapter(notifyAdapter);
 		
-		handler = new MyHandler(getActivity().getApplicationContext());
+//		handler = new MyHandler(getActivity().getApplicationContext());
 		sendAdapter(notifyAdapter);
 		
 	}

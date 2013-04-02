@@ -26,7 +26,7 @@ public class NotificaAdapter extends ArrayAdapter<Notifica> implements Serializa
 
 	@Override
 	    public View getView(int position, View convertView, ViewGroup parent) {
-	        return getViewOptimize(position, convertView, parent);
+			return getViewOptimize(position, convertView, parent);
 	    }
 
 	    public View getViewOptimize(int position, View convertView, ViewGroup parent) {
