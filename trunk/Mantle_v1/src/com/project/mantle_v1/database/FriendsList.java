@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.parser.MediaType;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +16,6 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -73,7 +70,13 @@ public class FriendsList extends Activity{
         	
         });
 	
- 		}	 
+ 	}
+	
+	@Override
+	public void onDestroy() {
+		db.close();
+	}
+	
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
 		

@@ -61,7 +61,7 @@ public class Notifica {
 	 *  
 	 * @param data: del momento in cui la mail è arrivata
 	 * @param notificationType: per indicare con esattezza di che tipo di notifica si tratta.
-	 * NEW_SHARED_PHOTO_ID per le nuove condivisioni. NOTE_ID per nuovo commento  
+	 * NEW_SHARED_PHOTO per le nuove condivisioni. NOTE per nuovo commento  
 	 * @param who: nome di chi vuole condividere la foto o di chi ha commentato
 	 * @param notes: lista dei commenti alla foto
 	 */

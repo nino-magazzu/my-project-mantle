@@ -7,10 +7,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.project.mantle_v1.gmail.Mail;
 import com.project.mantle_v1.notification_home.Notifica;
 import com.project.mantle_v1.notification_home.NotificaAdapter;
+import com.project.mantle_v1.notification_home.NotificationListActivity;
 import com.project.mantle_v1.parser.ParseJSON;
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -25,7 +25,6 @@ import android.os.Message;
 import android.util.Log;
 
 public class MyHandler extends Handler {
-	//private String not;
 	private Context context;
 	private String link;
 	
@@ -53,7 +52,6 @@ public class MyHandler extends Handler {
 	  
       if(bundle.containsKey("body")) {
     	  link = bundle.getString("body");
-    	  createNotification();
     	  String jsonText = link.substring(Mail.MAGIC_NUMBER.length(), link.length());
     	  ParseJSON parser = new ParseJSON(new StringReader(jsonText));
     	 	
@@ -62,39 +60,36 @@ public class MyHandler extends Handler {
     		  user = parser.readUserJson();
     	  } catch (IOException e) {
     		Log.e(TAG, "Problema lettura: " + e.getMessage());
+
     	  }
-    	  
-    	  addItem(new Notifica(new Date(System.currentTimeMillis()).toString(), user));
-    	  Log.d(TAG, String.valueOf(ITEMS.size()));
-    	  
+    	  Notifica not = new Notifica(new Date(System.currentTimeMillis()).toString(), user);
+    	  createNotification(not.getTitle());
+    	  addItem(not);
+    	  Log.d(TAG, "ITEMS: " + String.valueOf(ITEMS.size()));
+    	  Log.d(TAG, "AdapterB: " + adapter.toString());
     	  adapter.notifyDataSetChanged();
     	  
       }
      
       if(bundle.containsKey("adapter")) {
     	  this.adapter = (NotificaAdapter) bundle.get("adapter");
-    	  bundle.remove("adapter");
-    	  Log.e(TAG, adapter.toString());
+    	  Log.d(TAG, "Adapter: " + adapter.toString());
+    	  
       }
-     
 	}
-	/*
-	public String getNotification(){
-		return not;
-	}
-	*/
+	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-	public void createNotification() {
+	public void createNotification(String title) {
 	    // Prepare intent which is triggered if the
 	    // notification is selected
-	    Intent intent = new Intent(context, Home.class);
+	    Intent intent = new Intent(context, NotificationListActivity.class);
 	    PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
 	    // Build notification
 	    // Actions are just fake
 	    Notification noti = new Notification.Builder(context)
 	        .setContentTitle("Nuova condivisione")
-	        .setContentText(link).setSmallIcon(R.drawable.ic_launcher)
+	        .setContentText(title).setSmallIcon(R.drawable.ic_launcher)
 	        .setContentIntent(pIntent)
 	        //.addAction(R.drawable.icon, "More", pIntent)
 	        //.addAction(R.drawable.icon, "Call", pIntent)

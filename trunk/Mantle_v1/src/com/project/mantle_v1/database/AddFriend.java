@@ -72,14 +72,13 @@ public class AddFriend extends Activity{
 
 					Sender upload = new Sender(AddFriend.this, parser.toString(), email);
         			upload.execute();
-        			
-					
+        			db.close();
+        			finish();
 				}
 					else{
 						//L'utente è gia tuo amico la richiesta non viene inviata
 						Toast error = Toast.makeText(AddFriend.this,"Is already your friend", Toast.LENGTH_LONG);
 						error.show();
-						
 					}				
         	}
 		});
@@ -88,11 +87,8 @@ public class AddFriend extends Activity{
 
 			@Override
 			public void onClick(View v) {
-				
-				String[] friends = db.getFriends();
 				Intent intent = new Intent(AddFriend.this,FriendsList.class);
 				startActivity(intent);
-				
 			}
         });	
         

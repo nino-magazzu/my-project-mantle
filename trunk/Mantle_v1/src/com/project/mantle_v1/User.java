@@ -3,7 +3,6 @@ package com.project.mantle_v1;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 
 import android.content.Context;
-import android.util.Log;
 
 public class User {
 	
