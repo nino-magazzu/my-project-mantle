@@ -20,7 +20,13 @@ import javax.mail.internet.MimeMultipart;
 
 public class Mail extends javax.mail.Authenticator { 
 
-	public static String MAGIC_NUMBER = "Mantle001 ";
+	public static String MAGIC_NUMBER = "Mantle";
+	public static String FRIENDSHIP_REQUEST = "001 ";
+	public static String FRIENDSHIP_ACCEPTED = "002";
+	public static String FRIENDSHIP_DENIED = "003";
+	public static String NOTE = "004";
+	public static String SHARING_PHOTO = "005";
+	
 	
 	private String user; 
 	private String pass; 

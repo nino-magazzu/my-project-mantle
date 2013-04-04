@@ -2,7 +2,6 @@ package com.project.mantle_v1.gmail;
 
 import com.project.mantle_v1.MyHandler;
 
-import android.os.Handler;
 import android.util.Log;
 
 public class ReaderTask extends Thread {

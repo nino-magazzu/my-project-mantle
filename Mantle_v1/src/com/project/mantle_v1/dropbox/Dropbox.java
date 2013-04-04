@@ -32,7 +32,7 @@ import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.fileChooser.FileChooser;
 import com.project.mantle_v1.gmail.Sender;
-import com.project.mantle_v1.parser.MediaType;
+import com.project.mantle_v1.parser.Media;
 import com.project.mantle_v1.parser.ParseJSON;
 
 public class Dropbox extends Activity {
@@ -79,7 +79,7 @@ public class Dropbox extends Activity {
     private TextView welcome;
     //private boolean isDownload;
     private ListOfFileDownloader dbFile;
-    private MediaType mt;
+    private Media mt;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,7 +222,7 @@ public class Dropbox extends Activity {
     			case FRIEND_CHOOSED_CODE:
     				Object[] contacts = (Object[]) data.getSerializableExtra("contacts");
     				Log.e(TAG, (String)contacts[0]);
-    				mt = new MediaType("Pino", "www", "10/12/12", "image/jpg", "large");
+    				mt = new Media("Pino", "www", "10/12/12", "image/jpg", "large");
     				Log.e(TAG, mt.getObjectType());
     				String body = "";
     				try {

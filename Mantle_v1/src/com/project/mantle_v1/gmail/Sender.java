@@ -1,9 +1,6 @@
 package com.project.mantle_v1.gmail;
 
 
-import com.project.mantle_v1.User;
-import com.project.mantle_v1.database.MioDatabaseHelper;
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;

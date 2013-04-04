@@ -18,7 +18,7 @@ public class ParseJSON {
 		this.sw = Sw;
 	}
 	
-	public String writeJson(MediaType mt) throws IOException {
+	public String writeJson(Media mt) throws IOException {
 		this.writer = new JsonWriter(sw);
 		writer.setIndent("  ");
 		writeMedia(mt);
@@ -44,7 +44,7 @@ public class ParseJSON {
 		writer.endObject();
 	}
 
-	private void writeMedia(MediaType media) throws IOException {
+	private void writeMedia(Media media) throws IOException {
 		writer.beginObject();
 		writer.name("url").value(media.getUrl());
 		writer.name("objectType").value(media.getObjectType());
@@ -60,7 +60,7 @@ public class ParseJSON {
 	}
 	
 	
-	private void imageDetails(MediaType media) throws IOException {
+	private void imageDetails(Media media) throws IOException {
 		writer.beginObject();
 		writer.name("icon").value(media.getIcon());
 		writer.name("width").value(48);
@@ -68,7 +68,7 @@ public class ParseJSON {
 		writer.endObject();
 	}
 	
-	private void fullImageDetails(MediaType media) throws IOException {
+	private void fullImageDetails(Media media) throws IOException {
 		writer.beginObject();
 		writer.name("url").value(media.getUrl());
 		writer.name("width").value(media.getBitmap().getWidth());
@@ -77,10 +77,10 @@ public class ParseJSON {
 	}
 	
 
-	public MediaType readMediaJson() throws IOException {
+	public Media readMediaJson() throws IOException {
 		this.reader = new JsonReader(sr);
 		reader.setLenient(lenient);
-		MediaType media = new MediaType();
+		Media media = new Media();
 		try {
 			readMedia(media);
 		}
@@ -91,7 +91,7 @@ public class ParseJSON {
 		
 	}
 		
-	private void readMedia(MediaType media) throws IOException {
+	private void readMedia(Media media) throws IOException {
 		reader.beginObject();
 		while(reader.hasNext()) {
 				String name = reader.nextName();
