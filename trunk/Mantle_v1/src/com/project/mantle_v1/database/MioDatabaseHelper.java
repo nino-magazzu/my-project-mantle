@@ -12,10 +12,10 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	private static final String DB_NAME = "Mantle";
 	private static final int DB_VERSION = 11;
 	final SQLiteDatabase db;
-	private String username;
-	private String email;
-	private String password;
-	private int idUser;
+	//private String username;
+	//private String email;
+	//private String password;
+	//private int idUser;
 	
 	//costruttore della classe
 	public MioDatabaseHelper(Context context) {
@@ -159,7 +159,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	    
 	    //verifica che il servizio mantle esiste
 	    public boolean serviceMantle(){
-	    	boolean res = false;
+//	    	boolean res = false;
 	    	String[] columns = {"service"};
 	    	String selection = "service = 'mantle'";
 	    	Cursor cursor = db.query("Service", columns, selection, null, null, null, null);
