@@ -59,9 +59,9 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
                 }
             }
         });
-        
         mDialog.show();
-    }
+    
+	}
 	
 	
 	@Override

@@ -5,12 +5,8 @@ import java.io.File;
 
 import com.project.mantle_v1.database.AddFriend;
 import com.project.mantle_v1.dropbox.Dropbox;
-import com.project.mantle_v1.gmail.ReaderTask;
-
-
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
@@ -57,7 +53,7 @@ public class Home extends Activity {
          */
         
         
-        Handler handler = new MyHandler(Home.this);
+       // Handler handler = new MyHandler(Home.this);
 
         /*
          *  	ReaderTask ha il compito di andare a leggere le mail per andare a capire se vi sono notifiche relative all'applicazione
