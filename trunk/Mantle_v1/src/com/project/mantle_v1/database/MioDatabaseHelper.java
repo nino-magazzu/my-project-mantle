@@ -407,5 +407,18 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		}
 		return result;
 	}
+
+
+	public String[] getFile(String idFile) {
+		String selection = "idFile=?";
+		String[] selectionArgs = {idFile};
+		Cursor c = db.query("File",null,selection,selectionArgs,null,null,null);
+		String[] result = new String[5];
+		c.moveToNext();
+		for(int i=0;i<5;i++){
+			result[i]=c.getString(i);
+		}
+		return result;
+	}
 }
 
