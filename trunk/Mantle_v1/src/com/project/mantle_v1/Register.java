@@ -66,6 +66,7 @@ public class Register extends Activity{
 					db.insertService("Dropbox", dropboxUser,dropboxPass);
 					db.insertService("Email", email, emailPass);
 					db.showAll();
+					db.close();
 					Intent intent = new Intent(Register.this, NotificationListActivity.class);//Home.class);
 		    	    startActivity(intent);
 				}

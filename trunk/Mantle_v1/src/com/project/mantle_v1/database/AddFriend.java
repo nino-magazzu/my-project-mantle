@@ -14,8 +14,10 @@ import android.widget.Toast;
 
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
+import com.project.mantle_v1.gmail.Mail;
 import com.project.mantle_v1.gmail.Sender;
 
+import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;
 
 
@@ -69,10 +71,9 @@ public class AddFriend extends Activity{
 					} catch (IOException e) {
 						Log.e(TAG, e.getMessage());
 					}
-
-					Sender upload = new Sender(AddFriend.this, parser.toString(), email);
+					db.close();
+					Sender upload = new Sender(AddFriend.this, parser.toString(), email, MantleMessage.FRIENDSHIP_REQUEST);
         			upload.execute();
-        			db.close();
         			finish();
 				}
 					else{

@@ -100,7 +100,6 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	    }
 	    
 	    public String getId(String email){
-	    	
 	    	//quale campo mi restituisce la query
 	    	String[] columns = {"idUser"};
 	    	//clausola where

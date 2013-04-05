@@ -16,6 +16,8 @@ import javax.mail.event.MessageCountListener;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.search.FlagTerm;
 import com.project.mantle_v1.MyHandler;
+import com.project.mantle_v1.parser.MantleMessage;
+
 import android.os.Bundle;
 import android.util.Log;
 
@@ -66,7 +68,6 @@ public class Reader extends Authenticator {
 	    			readMail(msg);
 	    			
 	    		}
-	    		/**/
 	    	} catch (Exception e) { 
 	    		Log.e(TAG, e.getMessage(), e); 
 	    	} 
@@ -75,15 +76,17 @@ public class Reader extends Authenticator {
 		private void readMail(Message[] msg) throws IOException,
 				MessagingException {
 			for (int i = 0; i < msg.length ; i++) {
-				String body = "";
-				MimeMultipart multiPart = (MimeMultipart) msg[0].getContent();
-				for(int x = 0; x < multiPart.getCount(); x++) {
-					Object content = multiPart.getBodyPart(x).getContent();
-					body += content.toString();
-				}
-				if(body.contains(Mail.MAGIC_NUMBER)){
-					notifyMessage(body);
-					msg[i].setFlag(Flags.Flag.DELETED, true);
+				if(msg[i].getSubject().compareTo(Mail.SUBJECT) == 0) {
+					String body = "";
+					MimeMultipart multiPart = (MimeMultipart) msg[0].getContent();
+					for(int x = 0; x < multiPart.getCount(); x++) {
+						Object content = multiPart.getBodyPart(x).getContent();
+						body += content.toString();
+					}
+					if(body.contains(MantleMessage.MAGIC_NUMBER)){
+						notifyMessage(body);
+						msg[i].setFlag(Flags.Flag.DELETED, true);
+					}
 				}
 			}
 		} 

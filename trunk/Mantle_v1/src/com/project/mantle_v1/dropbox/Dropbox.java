@@ -31,7 +31,9 @@ import com.dropbox.client2.session.TokenPair;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.fileChooser.FileChooser;
+import com.project.mantle_v1.gmail.Mail;
 import com.project.mantle_v1.gmail.Sender;
+import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.Media;
 import com.project.mantle_v1.parser.ParseJSON;
 
@@ -232,7 +234,7 @@ public class Dropbox extends Activity {
     				}
     				for(int j=0;j<contacts.length;j++){
     					Log.d("Dropbox", "Ho inviato la mail a " + contacts[j]);
-    					Sender sender = new Sender(this, body, (String) contacts[j]);	
+    					Sender sender = new Sender(this, body, (String) contacts[j], MantleMessage.SHARING_PHOTO);	
     					sender.execute();
     				}
     				break;
