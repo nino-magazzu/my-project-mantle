@@ -7,10 +7,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.gmail.Mail;
+import com.project.mantle_v1.notification_home.Note;
 import com.project.mantle_v1.notification_home.Notifica;
 import com.project.mantle_v1.notification_home.NotificaAdapter;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
+import com.project.mantle_v1.parser.MantleMessage;
+import com.project.mantle_v1.parser.Media;
 import com.project.mantle_v1.parser.ParseJSON;
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -40,7 +45,8 @@ public class MyHandler extends Handler {
 		super();
 		this.context = context;
 		if(ITEMS.isEmpty())
-			addItem(new Notifica(new Date(System.currentTimeMillis()).toString(), "Benvenuto in Mantle"));
+			addItem(new Notifica(new Date(System.currentTimeMillis()).toString(), "Benvenuto in Mantle", MantleMessage.SYSTEM));
+		
 	}
 
 	@Override
@@ -52,17 +58,9 @@ public class MyHandler extends Handler {
 	  
       if(bundle.containsKey("body")) {
     	  link = bundle.getString("body");
-    	  String jsonText = link.substring(Mail.MAGIC_NUMBER.length(), link.length());
-    	  ParseJSON parser = new ParseJSON(new StringReader(jsonText));
-    	 	
-    	  User user = null;
-    	  try {
-    		  user = parser.readUserJson();
-    	  } catch (IOException e) {
-    		Log.e(TAG, "Problema lettura: " + e.getMessage());
-
-    	  }
-    	  Notifica not = new Notifica(new Date(System.currentTimeMillis()).toString(), user);
+    	  
+    	  MantleMessage mess = new MantleMessage(link);
+    	  Notifica not = mess.getNotifica();
     	  createNotification(not.getTitle());
     	  addItem(not);
     	  Log.d(TAG, "ITEMS: " + String.valueOf(ITEMS.size()));

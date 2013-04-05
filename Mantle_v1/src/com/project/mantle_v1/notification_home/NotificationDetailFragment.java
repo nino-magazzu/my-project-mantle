@@ -15,6 +15,7 @@ import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.ShowToast;
 import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.parser.MantleMessage;
 
 /**
  * A fragment representing a single Notification detail screen. This fragment is
@@ -62,7 +63,10 @@ public class NotificationDetailFragment extends Fragment {
 		
 		if (mItem != null) {
 			
-			if(mItem.getNotificationType() == Notifica.FRIENDSHIP || mItem.getNotificationType() == Notifica.SYSTEM) {
+			if(mItem.getNotificationType().equals(MantleMessage.FRIENDSHIP_ACCEPTED) || 
+					mItem.getNotificationType().equals(MantleMessage.FRIENDSHIP_DENIED) ||
+					mItem.getNotificationType().equals(MantleMessage.FRIENDSHIP_REQUEST) ||
+					mItem.getNotificationType().equals(MantleMessage.SYSTEM) ) {
 				
 				rootView = inflater.inflate(R.layout.fragment_friendship,
 						container, false);

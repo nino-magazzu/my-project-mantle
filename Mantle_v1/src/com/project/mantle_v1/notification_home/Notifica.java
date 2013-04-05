@@ -3,6 +3,7 @@ package com.project.mantle_v1.notification_home;
 import java.util.List;
 
 import com.project.mantle_v1.User;
+import com.project.mantle_v1.parser.MantleMessage;
 
 public class Notifica {
 
@@ -12,14 +13,9 @@ public class Notifica {
 	 */
 	
 	// NOTIFICATION TYPE ID
-
-	public static int NOTE = 1;
-	public static int FRIENDSHIP = 2;
-	public static int NEW_SHARED_PHOTO = 3;
-	public static int SYSTEM = 4;
 	
 	private String data;
-	private int NotificationType;
+	private String NotificationType;
 	private User user;
 	private List<Note> notes;
 	private String title;
@@ -27,18 +23,24 @@ public class Notifica {
 	private String body;
 	/**
 	 * Costruttore da usare nel caso in cui la notifica sia relativa ad 
-	 * una richiesta d'amicizia 
+	 * una richiesta d'amicizia o all'accettazione della stessa
 	 * @param data: del momento in cui la mail è arrivata
 	 * @param who: Utente che desidera stringere l'amicizia
 	 */
 	
-	public Notifica(String data, User user) {
+	public Notifica(String data, User user, String code) {
 		super();
 		this.data = data;
 		this.user = user;
-		this.NotificationType = FRIENDSHIP;
+		this.NotificationType = code;
 		this.title = user.getName() + " " + user.getSurname() + " (" + user.getUsername() + ")" + ": richiesta d'amicizia";
-		this.body = user.getName() + " " + user.getSurname() + " (" + user.getUsername() + ")" +  " vuole stringere amicizia con te.";
+		
+		if(code.compareTo(MantleMessage.FRIENDSHIP_REQUEST) == 0) 
+			this.body = user.getName() + " " + user.getSurname() + " (" + user.getUsername() + ")" +  " vuole stringere amicizia con te.";	
+		
+		if(code.compareTo(MantleMessage.FRIENDSHIP_ACCEPTED) == 0) 
+			this.body = user.getName() + " " + user.getSurname() + " (" + user.getUsername() + ")" +  " ha accettato la tua richiesta di amicizia.";	
+		
 	}
 
 	/**
@@ -47,10 +49,10 @@ public class Notifica {
 	 * @param body : corpo della notifica
 	 */
 	
-	public Notifica(String data, String body) {
+	public Notifica(String data, String body, String code) {
 		super();
 		this.data = data;
-		this.NotificationType = SYSTEM;
+		this.NotificationType = code;
 		this.title ="Mantle";
 		this.body = body;
 	}
@@ -66,14 +68,14 @@ public class Notifica {
 	 * @param notes: lista dei commenti alla foto
 	 */
 	
-	public Notifica(String data, int notificationType, String who,
+	public Notifica(String data, String notificationType, String who,
 			List<Note> notes) {
 		super();
 		this.data = data;
 		NotificationType = notificationType;
 		this.username = who;
 		this.notes = notes;
-		if(notificationType == NOTE) {
+		if(notificationType.compareTo(MantleMessage.NOTE) == 0) {
 			this.title = who + " ha commentato una tua foto";
 		}
 		else
@@ -84,7 +86,7 @@ public class Notifica {
 		return data;
 	}
 	
-	public int getNotificationType() {
+	public String getNotificationType() {
 		return NotificationType;
 	}
 	

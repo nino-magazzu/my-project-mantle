@@ -1,6 +1,8 @@
 package com.project.mantle_v1.gmail;
 
 
+import com.project.mantle_v1.parser.MantleMessage;
+
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -14,9 +16,12 @@ public class Sender extends AsyncTask<Void, Long, Boolean> {
 	private String psw;
 	private Boolean fl;
 	private String addressee;
+	private String code;
 
 	
-	public Sender(Context c, String url, String contact){
+	private final String TAG = "Sender";
+	
+	public Sender(Context c, String url, String contact, String code){
 		fl=false;
 		link = url;
 		addressee = contact;
@@ -25,9 +30,11 @@ public class Sender extends AsyncTask<Void, Long, Boolean> {
 		this.email = user.getEmail();
 		MioDatabaseHelper db = new MioDatabaseHelper(context);
 		this.psw = db.getPassword(email);
+		db.close();
 		*/
 		this.email = "cann.alberto91@gmail.com";
 		this.psw = "spiderman91";
+		this.code = code;
 	}
 	
 	
@@ -45,8 +52,12 @@ public class Sender extends AsyncTask<Void, Long, Boolean> {
 	    m.setTo(toArr); 
 	      
 	    m.setFrom(email); 
-	    m.setSubject("Applicazione Mantle"); 
-	    m.setBody(Mail.MAGIC_NUMBER + link); 
+	    m.setSubject(Mail.SUBJECT); 
+	    try {
+			m.setBody(new MantleMessage(link, code).getMessage());
+		} catch (Exception e1) {
+			Log.d(TAG, e1.getMessage());
+		} 
 	 
 	    try { 
 	    	//m.addAttachment("/sdcard/filelocation"); 

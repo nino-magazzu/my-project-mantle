@@ -90,13 +90,9 @@ public class NotificationListFragment extends ListFragment {
 		db.close();
 		
 		new ReaderTask(handler, email, password).start();
-
 		
-		//notifyAdapter.
-		// TODO: replace with a real list adapter.
 		setListAdapter(notifyAdapter);
 		
-//		handler = new MyHandler(getActivity().getApplicationContext());
 		sendAdapter(notifyAdapter);
 		
 	}
