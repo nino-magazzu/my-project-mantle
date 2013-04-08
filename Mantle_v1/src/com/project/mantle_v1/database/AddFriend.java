@@ -64,10 +64,6 @@ public class AddFriend extends Activity{
 					ParseJSON parser = new ParseJSON(new StringWriter());
 					try {
 						parser.writeJson(new User(getApplicationContext()));
-						
-					/*String jsonText = null;
-					try {
-						jsonText = parser.writeProvaUser();*/
 					} catch (IOException e) {
 						Log.e(TAG, e.getMessage());
 					}

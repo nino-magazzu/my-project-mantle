@@ -59,7 +59,7 @@ public class MyHandler extends Handler {
       if(bundle.containsKey("body")) {
     	  link = bundle.getString("body");
     	  
-    	  MantleMessage mess = new MantleMessage(link);
+    	  MantleMessage mess = new MantleMessage(link, context);
     	  Notifica not = mess.getNotifica();
     	  createNotification(not.getTitle());
     	  addItem(not);
