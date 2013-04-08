@@ -7,9 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.project.mantle_v1.User;
+import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.notification_home.Note;
 import com.project.mantle_v1.notification_home.Notifica;
 
@@ -36,6 +38,8 @@ public class MantleMessage {
 	private Map<String, Integer> DECODE_MAP;
 
 	private int CODE_DIM;
+	
+	private Context context;
 	
 	private final String TAG = "Message";
 	
@@ -70,8 +74,9 @@ public class MantleMessage {
 
 	}
 	
-	public MantleMessage(String message) {
+	public MantleMessage(String message, Context c) {
 		this.message = message.substring(MantleMessage.MAGIC_NUMBER.length(), message.length());
+		this.context = c;
 		
 		DECODE_MAP = new HashMap<String, Integer>();
 		
@@ -116,7 +121,10 @@ public class MantleMessage {
   	  					user = parser.readUserJson();
   	  				} catch (IOException e) {
   	  					Log.e(TAG, "Problema lettura: " + e.getMessage());
-  	  				 	}	
+  	  				 	}
+  	  				MioDatabaseHelper db = new MioDatabaseHelper(context);
+  	  				db.insertUser(user.getEmail(), user.getUsername(), user.getName(), user.getSurname(), user.getKey());
+  	  				db.close();
   	  				return new Notifica(new Date(System.currentTimeMillis()).toString(), user, FRIENDSHIP_ACCEPTED);
   	  			//	break;
   	  				

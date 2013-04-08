@@ -110,4 +110,8 @@ public class User {
 	public void setKey(String key) {
 		this.key = key;
 	}
+	
+	public String getLongName() {
+		return getName() + " " + getSurname() + " (" + getUsername() + ")";
+	}
 }

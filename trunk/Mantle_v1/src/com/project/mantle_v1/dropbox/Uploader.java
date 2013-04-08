@@ -172,7 +172,6 @@ public class Uploader extends AsyncTask<Void, Long, Media> {
     }
 
     private void showToast(String msg) {
-        Toast error = Toast.makeText(mContext, msg, Toast.LENGTH_LONG);
-        error.show();
+        Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
     }
 }
