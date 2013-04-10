@@ -3,7 +3,6 @@ package com.project.mantle_v1.notification_home;
 
 import java.io.IOException;
 import java.io.StringWriter;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,12 +14,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.ShowToast;
 import com.project.mantle_v1.User;
-import com.project.mantle_v1.database.AddFriend;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
@@ -80,12 +77,12 @@ public class NotificationDetailFragment extends Fragment {
 				rootView = inflater.inflate(R.layout.no_button_fragment, 
 						container, false);
 				
-				((TextView) rootView.findViewById(R.id.FriendshipRequest))
+				((TextView) rootView.findViewById(R.id.SystemInfo))
 				.setText(mItem.getNotificationBody());
 				
 					}
 			
-			if(mItem.getNotificationType().equals(MantleMessage.FRIENDSHIP_REQUEST)) {
+			else if(mItem.getNotificationType().equals(MantleMessage.FRIENDSHIP_REQUEST)) {
 				
 				rootView = inflater.inflate(R.layout.two_button_fragment,
 						container, false);
@@ -111,7 +108,7 @@ public class NotificationDetailFragment extends Fragment {
 						}
 						//db.close();
 
-						new Sender(v.getContext(), parser.toString(), mItem.getUser().getEmail(), MantleMessage.FRIENDSHIP_REQUEST).execute();
+						new Sender(v.getContext(), parser.toString(), mItem.getUser().getEmail(), MantleMessage.FRIENDSHIP_ACCEPTED).execute();
 						Toast.makeText(v.getContext(), mItem.getUser().getLongName() + " è stato aggiunto alla tua lista amici", Toast.LENGTH_LONG).show();
 						bAccept.setEnabled(false);
 						bDenied.setEnabled(false);
@@ -123,7 +120,15 @@ public class NotificationDetailFragment extends Fragment {
 					
 					@Override
 					public void onClick(View v) {
-						new Sender(v.getContext(), new User(v.getContext()).getLongName() , mItem.getUser().getEmail(), MantleMessage.FRIENDSHIP_DENIED).execute();
+						ParseJSON parser = new ParseJSON(new StringWriter());
+						try {
+							User user = new User(v.getContext());
+							parser.writeJson(user.getLongName() + " ha rifiutato la tua richiesta d'amicizia", user.getUsername());
+						} catch (IOException e) {
+							Log.e(TAG, e.getMessage());
+						}
+						
+						new Sender(v.getContext(), parser.toString() , mItem.getUser().getEmail(), MantleMessage.FRIENDSHIP_DENIED).execute();
 						bAccept.setEnabled(false);
 						bDenied.setEnabled(false);
 					}
@@ -137,12 +142,9 @@ public class NotificationDetailFragment extends Fragment {
 				// Show the dummy content as text in a TextView.
 		
 				((ListView) rootView.findViewById(R.id.notification_detail))
-				.setAdapter(new NoteAdapter(container.getContext(), R.layout.note_layout,mItem.getNotes()));
-		
+				.setAdapter(new NoteAdapter(container.getContext(), R.layout.note_layout, mItem.getNotes()));
 			}
-		
 		}	
 		return rootView;
-
 	}
 }

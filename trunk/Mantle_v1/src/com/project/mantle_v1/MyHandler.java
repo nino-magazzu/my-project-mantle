@@ -1,22 +1,14 @@
 package com.project.mantle_v1;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.project.mantle_v1.database.FriendsList;
-import com.project.mantle_v1.gmail.Mail;
-import com.project.mantle_v1.notification_home.Note;
 import com.project.mantle_v1.notification_home.Notifica;
 import com.project.mantle_v1.notification_home.NotificaAdapter;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
 import com.project.mantle_v1.parser.MantleMessage;
-import com.project.mantle_v1.parser.Media;
-import com.project.mantle_v1.parser.ParseJSON;
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;

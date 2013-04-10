@@ -3,6 +3,8 @@ package com.project.mantle_v1.parser;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.Date;
+
 import com.project.mantle_v1.User;
 import android.util.JsonReader;
 import android.util.JsonWriter;
@@ -34,6 +36,23 @@ public class ParseJSON {
 		return sw.toString();
 	}
 	
+	public String writeJson(String content, String producer) throws IOException {
+		this.writer = new JsonWriter(sw);
+		writer.setIndent("  ");
+		writeSystemInfo(content, producer);
+		writer.close();
+		return sw.toString();
+	}
+	
+	private void writeSystemInfo(String content, String producer) throws IOException {
+		writer.beginObject();
+		writer.name("content").value(content);
+		writer.name("username").value(producer);
+		writer.name("published").value(new Date(System.currentTimeMillis()).toString());
+		writer.endObject();
+		
+	}
+
 	private void writeUser(User user) throws IOException {
 		writer.beginObject();
 		writer.name("name").value(user.getName());
@@ -44,6 +63,7 @@ public class ParseJSON {
 		writer.endObject();
 	}
 
+	
 	private void writeMedia(Media media) throws IOException {
 		writer.beginObject();
 		writer.name("url").value(media.getUrl());
@@ -68,6 +88,7 @@ public class ParseJSON {
 		writer.endObject();
 	}
 	
+	
 	private void fullImageDetails(Media media) throws IOException {
 		writer.beginObject();
 		writer.name("url").value(media.getUrl());
@@ -76,6 +97,32 @@ public class ParseJSON {
 		writer.endObject();
 	}
 	
+	public String[] readSystemInfo() throws IOException {
+		this.reader = new JsonReader(sr);
+		reader.setLenient(lenient);
+		String[] content = new String[3];
+		try {
+			readSystemInfo(content);
+		}
+		finally {
+			reader.close();
+		}
+		return content;
+	}
+	
+	private void readSystemInfo(String[] content) throws IOException {
+		reader.beginObject();
+		while(reader.hasNext()) {
+			String name = reader.nextName();
+			if(name.equals("content"))
+				content[0] = reader.nextString();
+			else if(name.equals("username"))
+				content[1] = reader.nextString();
+			else if(name.equals("published"))
+				content[2] = reader.nextString();
+		}
+		reader.endObject();
+	}
 
 	public Media readMediaJson() throws IOException {
 		this.reader = new JsonReader(sr);
@@ -140,6 +187,7 @@ public class ParseJSON {
 		reader.endObject();
 	}
 
+	
 	public String toString() {
 		return sw.toString();
 	}
@@ -149,4 +197,6 @@ public class ParseJSON {
 	private StringReader sr;
 	private JsonWriter writer;
 	private JsonReader reader;
+
+	
 }

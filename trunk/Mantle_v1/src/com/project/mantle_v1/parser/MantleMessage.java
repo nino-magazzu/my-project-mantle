@@ -6,10 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import android.content.Context;
 import android.util.Log;
-
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.notification_home.Note;
@@ -25,11 +23,11 @@ public class MantleMessage {
 	public static String MAGIC_NUMBER = "Mantle";
 	
 	public static String FRIENDSHIP_REQUEST = "001 ";
-	public static String FRIENDSHIP_ACCEPTED = "002";
-	public static String FRIENDSHIP_DENIED = "003";
-	public static String NOTE = "004";
-	public static String SHARING_PHOTO = "005";
-	public static String SYSTEM = "006";
+	public static String FRIENDSHIP_ACCEPTED = "002 ";
+	public static String FRIENDSHIP_DENIED = "003 ";
+	public static String NOTE = "004 ";
+	public static String SHARING_PHOTO = "005 ";
+	public static String SYSTEM = "006 ";
 	
 	private String jsonText;
 	private String type;
@@ -37,7 +35,7 @@ public class MantleMessage {
 	private String message;
 	private Map<String, Integer> DECODE_MAP;
 
-	private int CODE_DIM;
+	private final int CODE_DIM = 4;
 	
 	private Context context;
 	
@@ -88,7 +86,6 @@ public class MantleMessage {
 		DECODE_MAP.put(NOTE, ++i);
 		DECODE_MAP.put(SYSTEM, ++i);
 		
-		CODE_DIM = FRIENDSHIP_REQUEST.length();
 	}
 	
 	
@@ -104,67 +101,82 @@ public class MantleMessage {
   	  
   	  	switch(CODE) {
   	  
-  	  	case 1:	jsonText = message.substring(CODE_DIM, message.length());
-  	  				parser = new ParseJSON(new StringReader(jsonText));
-  	  				try {
-  	  					user = parser.readUserJson();
-  	  				} catch (IOException e) {
-  	  					Log.e(TAG, "Problema lettura: " + e.getMessage());
-
-  	  				}	
-  	  				return new Notifica(new Date(System.currentTimeMillis()).toString(), user, FRIENDSHIP_REQUEST);
-  	  		//		break;
-  	  				
-  	  	case 2:	jsonText = message.substring(CODE_DIM, message.length());
-  	  				parser = new ParseJSON(new StringReader(jsonText));
-  	  				try {
-  	  					user = parser.readUserJson();
-  	  				} catch (IOException e) {
-  	  					Log.e(TAG, "Problema lettura: " + e.getMessage());
-  	  				 	}
-  	  				MioDatabaseHelper db = new MioDatabaseHelper(context);
-  	  				db.insertUser(user.getEmail(), user.getUsername(), user.getName(), user.getSurname(), user.getKey());
-  	  				db.close();
-  	  				return new Notifica(new Date(System.currentTimeMillis()).toString(), user, FRIENDSHIP_ACCEPTED);
-  	  			//	break;
-  	  				
-  	  	case 3:	jsonText = message.substring(CODE_DIM, message.length());
-  	  				return new Notifica(new Date(System.currentTimeMillis()).toString(), "Richiesta d'amicizia rifiutata da parte di " + jsonText, FRIENDSHIP_DENIED);
-  	  			//	break;
-  	  				
-  	  	case 4:	jsonText = message.substring(CODE_DIM, message.length());
-  	  
-  	  				/*		TODO: inserire il metodo per la lettura del file xml contenente i commenti della foto
-  	  				 * 	
-  	  				 */
-  	  				parser = new ParseJSON(new StringReader(jsonText));
-  	  				try {
-  	  					media = parser.readMediaJson();
-  	  				} catch (IOException e) {
+  	  	case 001:	jsonText = message.substring(CODE_DIM, message.length());
+  	  					parser = new ParseJSON(new StringReader(jsonText));
+  	  					try {
+  	  						user = parser.readUserJson();
+  	  					} catch (IOException e) {
   	  						Log.e(TAG, "Problema lettura: " + e.getMessage());
-  	  		 		}	
-  	  				notes = null;
-  	  				return new Notifica(new Date(System.currentTimeMillis()).toString(), SHARING_PHOTO, media.getUsername(), notes);
-  	  			//	break;
+
+  	  					}	
+  	  					return new Notifica(new Date(System.currentTimeMillis()).toString(), user, FRIENDSHIP_REQUEST);
+  	  			//		break;
   	  				
-  	  	case 5:	jsonText = message.substring(CODE_DIM, message.length());
+  	  	case 002:	jsonText = message.substring(CODE_DIM, message.length());
+  	  					parser = new ParseJSON(new StringReader(jsonText));
+  	  					try {
+  	  						user = parser.readUserJson();
+  	  					} catch (IOException e) {
+  	  						Log.e(TAG, "Problema lettura: " + e.getMessage());
+  	  				 		}
+  	  					MioDatabaseHelper db = new MioDatabaseHelper(context);
+  	  					db.insertUser(user.getEmail(), user.getUsername(), user.getName(), user.getSurname(), user.getKey());
+  	  					db.close();
+  	  					return new Notifica(new Date(System.currentTimeMillis()).toString(), user, FRIENDSHIP_ACCEPTED);
+  	  				//	break;
+  	  				
+  	  	case 003:	jsonText = message.substring(CODE_DIM, message.length());
+						parser = new ParseJSON(new StringReader(jsonText));
+						String[] content =new String[3];
+						try {
+							content = parser.readSystemInfo();
+						} catch (IOException e) {
+							Log.e(TAG, "Problema lettura: " + e.getMessage());
+						}
+						return new Notifica(content[2], content[0], MantleMessage.FRIENDSHIP_DENIED);
+  	  				//	break;
+  	  				
+  	  	case 004:	jsonText = message.substring(CODE_DIM, message.length());
+  	  
+  	  					/*		TODO: inserire il metodo per la lettura del file xml contenente i commenti della foto
+  	  					 * 	
+  	  					 */
+  	  					parser = new ParseJSON(new StringReader(jsonText));
+  	  					try {
+  	  						media = parser.readMediaJson();
+  	  					} catch (IOException e) {
+  	  						Log.e(TAG, "Problema lettura: " + e.getMessage());
+  	  					}	
+  	  					notes = null;
+  	  					return new Notifica(new Date(System.currentTimeMillis()).toString(), SHARING_PHOTO, media.getUsername(), notes);
+  	  					//	break;
+  	  				
+  	  	case 005:	jsonText = message.substring(CODE_DIM, message.length());
   	  
 						/*		TODO: inserire il metodo per la lettura del file xml contenente i commenti della foto
 						 *		 	
 						 */
-  	  				parser = new ParseJSON(new StringReader(jsonText));
-  	  				try {
-  	  					media = parser.readMediaJson();
-  	  				} catch (IOException e) {
-  	  					Log.e(TAG, "Problema lettura: " + e.getMessage());
-			 		}	
-					notes = null;
-					return new Notifica(new Date(System.currentTimeMillis()).toString(), NOTE, media.getUsername(), notes);
-					//	break;
+  	  					parser = new ParseJSON(new StringReader(jsonText));
+  	  					try {
+  	  						media = parser.readMediaJson();
+  	  					} catch (IOException e) {
+  	  						Log.e(TAG, "Problema lettura: " + e.getMessage());
+  	  					}	
+  	  					notes = null;
+  	  					return new Notifica(new Date(System.currentTimeMillis()).toString(), NOTE, media.getUsername(), notes);
+  	  					//	break;
 		
-  	  	case 6: // gestione notifiche di sistema
-					
-  	  	default: throw new Error("Codice Errato");
+  	  	case 006: jsonText = message.substring(CODE_DIM, message.length());
+  	  					parser = new ParseJSON(new StringReader(jsonText));
+  	  					content = new String[3];
+  	  					try {
+  	  						 content = parser.readSystemInfo();
+  	  					} catch (IOException e) {
+							Log.e(TAG, "Problema lettura: " + e.getMessage());
+						}
+  	  					return new Notifica(content[2], content[0], MantleMessage.SYSTEM);
+  	  					
+  	  	default: 	throw new Error("Codice Errato");
   	  	}
 
 	}

@@ -2,7 +2,6 @@ package com.project.mantle_v1.database;
 
 import java.io.IOException;
 import java.io.StringWriter;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -11,12 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
-import com.project.mantle_v1.gmail.Mail;
 import com.project.mantle_v1.gmail.Sender;
-
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;
 
@@ -43,7 +39,6 @@ public class AddFriend extends Activity{
         
         //Ottengo un puntatore al database
         db = new MioDatabaseHelper(getApplicationContext());
-        
         
         addFriend.setOnClickListener(new View.OnClickListener() {
 			
