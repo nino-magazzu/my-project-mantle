@@ -65,10 +65,9 @@ public class Sender extends AsyncTask<Void, Long, Boolean> {
 	        if(m.send()) { 
 	        	fl=true;
 	        } 
-	        
-	        else { 
+/*	        else { 
 	        	fl=false;
-	        } 
+	        }*/ 
 	    } 
 	    catch(Exception e) { 
 	    	Log.e("MailApp", "Could not send email", e); 
