@@ -7,13 +7,13 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/SystemInfo"
         android:layout_width="match_parent"
         android:layout_height="149dp"
         android:layout_column="0"
         android:layout_gravity="left|top"
         android:layout_row="0"
-        android:text="@+id/textView1"
+        android:text="@+id/SystemInfo"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </GridLayout>

@@ -21,6 +21,7 @@ public class Notifica {
 	private String title;
 	private String username;
 	private String body;
+
 	/**
 	 * Costruttore da usare nel caso in cui la notifica sia relativa ad 
 	 * una richiesta d'amicizia o all'accettazione della stessa
@@ -45,15 +46,20 @@ public class Notifica {
 
 	/**
 	 * Costruttore da utilizzare in caso di notifiche di sistema
-	 * @param data : relativa alla creazione (invio) della mail
+	 * @param date : relativa alla creazione (invio) della mail
 	 * @param body : corpo della notifica
 	 */
 	
-	public Notifica(String data, String body, String code) {
+	public Notifica(String date, String body, String code) {
 		super();
-		this.data = data;
+		this.data = date;
 		this.NotificationType = code;
-		this.title ="Mantle";
+		
+		if(NotificationType.equals(MantleMessage.FRIENDSHIP_DENIED))
+			this.title ="Richiesta di amicizia rifiutata";
+		else
+			this.title = "Notifica di sistema";
+		
 		this.body = body;
 	}
 	
