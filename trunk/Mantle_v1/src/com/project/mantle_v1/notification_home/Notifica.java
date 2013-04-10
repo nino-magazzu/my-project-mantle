@@ -68,9 +68,12 @@ public class Notifica {
 	 *  commenti alle foto
 	 *  
 	 * @param data: del momento in cui la mail è arrivata
+	 * 
 	 * @param notificationType: per indicare con esattezza di che tipo di notifica si tratta.
 	 * NEW_SHARED_PHOTO per le nuove condivisioni. NOTE per nuovo commento  
+	 * 
 	 * @param who: nome di chi vuole condividere la foto o di chi ha commentato
+	 * 
 	 * @param notes: lista dei commenti alla foto
 	 */
 	
@@ -78,12 +81,12 @@ public class Notifica {
 			List<Note> notes) {
 		super();
 		this.data = data;
-		NotificationType = notificationType;
+		this.NotificationType = notificationType;
 		this.username = who;
 		this.notes = notes;
-		if(notificationType.compareTo(MantleMessage.NOTE) == 0) {
+		
+		if(notificationType.equals(MantleMessage.NOTE)) 
 			this.title = who + " ha commentato una tua foto";
-		}
 		else
 			this.title = who + " ha condiviso una foto";
 	}
