@@ -110,8 +110,8 @@ public class MantleMessage {
 
   	  					}	
   	  					return new Notifica(new Date(System.currentTimeMillis()).toString(), user, FRIENDSHIP_REQUEST);
-  	  			//		break;
-  	  				
+
+  	  					
   	  	case 002:	jsonText = message.substring(CODE_DIM, message.length());
   	  					parser = new ParseJSON(new StringReader(jsonText));
   	  					try {
@@ -123,7 +123,7 @@ public class MantleMessage {
   	  					db.insertUser(user.getEmail(), user.getUsername(), user.getName(), user.getSurname(), user.getKey());
   	  					db.close();
   	  					return new Notifica(new Date(System.currentTimeMillis()).toString(), user, FRIENDSHIP_ACCEPTED);
-  	  				//	break;
+  	  				
   	  				
   	  	case 003:	jsonText = message.substring(CODE_DIM, message.length());
 						parser = new ParseJSON(new StringReader(jsonText));
@@ -134,8 +134,8 @@ public class MantleMessage {
 							Log.e(TAG, "Problema lettura: " + e.getMessage());
 						}
 						return new Notifica(content[2], content[0], MantleMessage.FRIENDSHIP_DENIED);
-  	  				//	break;
-  	  				
+
+						
   	  	case 004:	jsonText = message.substring(CODE_DIM, message.length());
   	  
   	  					/*		TODO: inserire il metodo per la lettura del file xml contenente i commenti della foto
@@ -149,8 +149,8 @@ public class MantleMessage {
   	  					}	
   	  					notes = null;
   	  					return new Notifica(new Date(System.currentTimeMillis()).toString(), SHARING_PHOTO, media.getUsername(), notes);
-  	  					//	break;
-  	  				
+
+  	  					
   	  	case 005:	jsonText = message.substring(CODE_DIM, message.length());
   	  
 						/*		TODO: inserire il metodo per la lettura del file xml contenente i commenti della foto
@@ -164,8 +164,8 @@ public class MantleMessage {
   	  					}	
   	  					notes = null;
   	  					return new Notifica(new Date(System.currentTimeMillis()).toString(), NOTE, media.getUsername(), notes);
-  	  					//	break;
-		
+
+  	  					
   	  	case 006: jsonText = message.substring(CODE_DIM, message.length());
   	  					parser = new ParseJSON(new StringReader(jsonText));
   	  					content = new String[3];
@@ -178,6 +178,5 @@ public class MantleMessage {
   	  					
   	  	default: 	throw new Error("Codice Errato");
   	  	}
-
 	}
 }
