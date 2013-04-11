@@ -62,9 +62,9 @@ public class AddFriend extends Activity{
 					} catch (IOException e) {
 						Log.e(TAG, e.getMessage());
 					}
+					Log.d(TAG, parser.toString());
 					db.close();
-					Sender upload = new Sender(AddFriend.this, parser.toString(), email, MantleMessage.FRIENDSHIP_REQUEST);
-        			upload.execute();
+					new Sender(AddFriend.this, parser.toString(), email, MantleMessage.FRIENDSHIP_REQUEST).execute();
         			finish();
 				}
 					else{

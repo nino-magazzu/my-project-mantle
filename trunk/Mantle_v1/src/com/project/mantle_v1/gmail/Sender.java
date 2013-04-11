@@ -33,11 +33,8 @@ public class Sender extends AsyncTask<Void, Long, Boolean> {
 		MioDatabaseHelper db = new MioDatabaseHelper(context);
 		this.psw = db.getPassword(email);
 		db.close();
-		/*
-		this.email = "cann.alberto91@gmail.com";
-		this.psw = "spiderman91";
 		this.code = code;
-		*/
+		
 	}
 	
 	
@@ -56,6 +53,7 @@ public class Sender extends AsyncTask<Void, Long, Boolean> {
 	      
 	    m.setFrom(email); 
 	    m.setSubject(Mail.SUBJECT); 
+	
 	    try {
 			m.setBody(new MantleMessage(link, code).getMessage());
 		} catch (Exception e1) {
@@ -67,10 +65,10 @@ public class Sender extends AsyncTask<Void, Long, Boolean> {
 	    	
 	        if(m.send()) { 
 	        	fl=true;
-	        } 
-/*	        else { 
+	        } /*
+        else { 
 	        	fl=false;
-	        }*/ 
+	        } */
 	    } 
 	    catch(Exception e) { 
 	    	Log.e("MailApp", "Could not send email", e); 
