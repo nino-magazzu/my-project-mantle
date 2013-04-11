@@ -139,6 +139,9 @@ public class NotificationDetailFragment extends Fragment {
 				rootView = inflater.inflate(R.layout.fragment_photo_sharing,
 						container, false);
 
+				TextView tw = (TextView) rootView.findViewById(R.id.linkText);
+				tw.setText(mItem.getLink());
+				
 				// Show the dummy content as text in a TextView.
 				/*
 				((ListView) rootView.findViewById(R.id.notification_detail))
