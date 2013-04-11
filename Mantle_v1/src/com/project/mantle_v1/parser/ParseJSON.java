@@ -5,6 +5,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Date;
 
+import com.project.mantle_v1.MantleImage;
 import com.project.mantle_v1.User;
 import android.util.JsonReader;
 import android.util.JsonWriter;
@@ -70,12 +71,12 @@ public class ParseJSON {
 		writer.name("objectType").value(media.getObjectType());
 		writer.name("username").value(media.getUsername());
 		writer.name("published").value(media.getData());
-		if(media.isImage()) {
+/*		if(media.isImage()) {
 			writer.name("image");
 			imageDetails(media);
 			writer.name("fullImage");
 			fullImageDetails(media);
-		}
+		}*/
 		writer.endObject();
 	}
 	
@@ -89,11 +90,11 @@ public class ParseJSON {
 	}
 	
 	
-	private void fullImageDetails(Media media) throws IOException {
+	private void fullImageDetails(MantleImage media) throws IOException {
 		writer.beginObject();
-		writer.name("url").value(media.getUrl());
-		writer.name("width").value(media.getBitmap().getWidth());
-		writer.name("height").value(media.getBitmap().getHeight());
+		writer.name("url").value(media.getLink());
+		writer.name("width").value(media.getWidth());
+		writer.name("height").value(media.getHeight());
 		writer.endObject();
 	}
 	
@@ -150,8 +151,8 @@ public class ParseJSON {
 					media.setUsername(reader.nextString());
 				else if(name.equals("published"))
 					media.setData(reader.nextString());
-				else if(name.equals("icon"))
-					media.setIcon(reader.nextString());
+			/*	else if(name.equals("icon"))
+					media.setIcon(reader.nextString());*/
 		}
 		reader.endObject();
 	}

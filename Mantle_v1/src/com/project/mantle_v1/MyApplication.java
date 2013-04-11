@@ -7,5 +7,7 @@ import android.app.Application;
 public class MyApplication extends Application {
 
 	public Media media; 
-	
+	public String username;
+	public String email;
+	public String pswEmail;
 }
