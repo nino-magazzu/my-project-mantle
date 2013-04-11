@@ -140,9 +140,10 @@ public class NotificationDetailFragment extends Fragment {
 						container, false);
 
 				// Show the dummy content as text in a TextView.
-		
+				/*
 				((ListView) rootView.findViewById(R.id.notification_detail))
 				.setAdapter(new NoteAdapter(container.getContext(), R.layout.note_layout, mItem.getNotes()));
+				*/
 			}
 		}	
 		return rootView;

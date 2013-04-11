@@ -23,5 +23,6 @@
     <string name="prompt_pass">Password</string>
     <string name="accetta">Accetta</string>
     <string name="rifiuta">Rifiuta</string>
+    <string name="comment">Lascia un commento</string>
 
 </resources>
