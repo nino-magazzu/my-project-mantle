@@ -1,7 +1,6 @@
 package com.project.mantle_v1;
 
 import android.content.Context;
-
 import com.project.mantle_v1.database.MioDatabaseHelper;
 
 public class MantleFile {

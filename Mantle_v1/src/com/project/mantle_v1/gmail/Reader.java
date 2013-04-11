@@ -62,7 +62,7 @@ public class Reader extends Authenticator {
 	    		Message[] msg = folder.search(
 	    				new FlagTerm(new Flags(Flags.Flag.SEEN), false));
 	    		
-	    		Log.e(TAG, String.valueOf(msg.length));			
+	    		Log.e(TAG, "DetectMail: Messaggi non letti: " + String.valueOf(msg.length));			
 	    		
 	    		if(msg.length > 0) {
 	    			readMail(msg);
@@ -103,9 +103,8 @@ public class Reader extends Authenticator {
 			public void messagesAdded(MessageCountEvent arg0) {
 				try {
 				Message[] msg = arg0.getMessages();
-				
-				Log.d(TAG, "E' arrivata una nuova email");
-				
+
+	    		Log.e(TAG, "DetectNewMail: Messaggi non letti: " + String.valueOf(msg.length));			
 				
 	    		if(msg.length > 0) {
 	    			readMail(msg);
@@ -113,7 +112,6 @@ public class Reader extends Authenticator {
 	    		} catch (MessagingException e) {
 	 						Log.e(TAG, e.getMessage());
 	 					}catch (IOException e) {
-	 						//problemi lettura corpo email
 	 						Log.e(TAG, e.getMessage());
 	 					}
 	 			

@@ -71,12 +71,12 @@ public class FriendsList extends Activity{
         });
 	
  	}
-	
+/*	
 	@Override
 	public void onDestroy() {
-		db.close();
+		
 	}
-	
+	*/
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
 		
