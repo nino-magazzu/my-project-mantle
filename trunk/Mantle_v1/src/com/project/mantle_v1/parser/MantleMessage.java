@@ -148,7 +148,7 @@ public class MantleMessage {
   	  						Log.e(TAG, "Problema lettura: " + e.getMessage());
   	  					}	
   	  					notes = null;
-  	  					return new Notifica(new Date(System.currentTimeMillis()).toString(), SHARING_PHOTO, media.getUsername(), notes);
+  	  					return new Notifica(new Date(System.currentTimeMillis()).toString(), SHARING_PHOTO, media.getUsername(), notes, media.getUrl());
 
   	  					
   	  	case 004:	jsonText = message.substring(CODE_DIM, message.length());
@@ -163,7 +163,7 @@ public class MantleMessage {
   	  						Log.e(TAG, "Problema lettura: " + e.getMessage());
   	  					}	
   	  					notes = null;
-  	  					return new Notifica(new Date(System.currentTimeMillis()).toString(), NOTE, media.getUsername(), notes);
+  	  					return new Notifica(new Date(System.currentTimeMillis()).toString(), NOTE, media.getUsername(), notes, media.getUrl());
 
   	  					
   	  	case 006: jsonText = message.substring(CODE_DIM, message.length());

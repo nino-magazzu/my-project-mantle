@@ -21,6 +21,7 @@ public class Notifica {
 	private String title;
 	private String username;
 	private String body;
+	private String link;
 
 	/**
 	 * Costruttore da usare nel caso in cui la notifica sia relativa ad 
@@ -78,7 +79,7 @@ public class Notifica {
 	 */
 	
 	public Notifica(String data, String notificationType, String who,
-			List<Note> notes) {
+			List<Note> notes, String link) {
 		super();
 		this.data = data;
 		this.NotificationType = notificationType;
@@ -89,6 +90,8 @@ public class Notifica {
 			this.title = who + " ha commentato una tua foto";
 		else
 			this.title = who + " ha condiviso una foto";
+		
+		this.link = link;
 	}
 	
 	public String getData() {
@@ -120,5 +123,13 @@ public class Notifica {
 	
 	public String getNotificationBody() {
 		return body;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 }
