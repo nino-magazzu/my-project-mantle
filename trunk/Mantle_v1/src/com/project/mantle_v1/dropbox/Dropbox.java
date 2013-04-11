@@ -25,7 +25,9 @@ import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.dropbox.client2.session.TokenPair;
+import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.R;
+import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.fileChooser.FileChooser;
 import com.project.mantle_v1.gmail.Sender;
@@ -185,16 +187,12 @@ public class Dropbox extends Activity {
     						finish();
     					else {
     						File file = new File(filePath);
-    				
-    						/* TODO: username rapprensenta l'username dell'utente che viene prelevato
-    						 * 		dall'istanza del database
-    						 */
-    				
-    						Uploader upload = new Uploader(this, mApi, FILE_DIR, file, "pippo");
+    						Uploader upload = new Uploader(this, mApi, FILE_DIR, file, new User(getApplicationContext()).getUsername());
     						upload.execute();
     						try {
     							mt = upload.get();
-    							Log.e(TAG, mt.getObjectType());
+    							((MyApplication) getApplicationContext()).media = mt;
+    							Log.d(TAG, mt.getObjectType());
     						} catch (InterruptedException e) {
     							Log.i(TAG, "Error authenticating", e);
     						} catch (ExecutionException e) {
@@ -220,7 +218,8 @@ public class Dropbox extends Activity {
     			case FRIEND_CHOOSED_CODE:
     				Object[] contacts = (Object[]) data.getSerializableExtra("contacts");
     				Log.e(TAG, (String)contacts[0]);
-    				mt = new Media("Pino", "www", "10/12/12", "image/jpg", "large");
+    				//mt = new Media("Pino", "www", "10/12/12", "image/jpg", "large");
+    				mt = ((MyApplication) getApplicationContext()).media;
     				Log.e(TAG, mt.getObjectType());
     				String body = "";
     				try {
@@ -273,7 +272,6 @@ public class Dropbox extends Activity {
             }
         }
     }
-    
     
     private void logOut() {
         // Remove credentials from the session
