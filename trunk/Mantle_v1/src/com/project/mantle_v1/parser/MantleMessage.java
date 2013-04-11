@@ -136,7 +136,7 @@ public class MantleMessage {
 						return new Notifica(content[2], content[0], MantleMessage.FRIENDSHIP_DENIED);
 
 						
-  	  	case 004:	jsonText = message.substring(CODE_DIM, message.length());
+  	  	case 005:	jsonText = message.substring(CODE_DIM, message.length());
   	  
   	  					/*		TODO: inserire il metodo per la lettura del file xml contenente i commenti della foto
   	  					 * 	
@@ -151,7 +151,7 @@ public class MantleMessage {
   	  					return new Notifica(new Date(System.currentTimeMillis()).toString(), SHARING_PHOTO, media.getUsername(), notes);
 
   	  					
-  	  	case 005:	jsonText = message.substring(CODE_DIM, message.length());
+  	  	case 004:	jsonText = message.substring(CODE_DIM, message.length());
   	  
 						/*		TODO: inserire il metodo per la lettura del file xml contenente i commenti della foto
 						 *		 	
