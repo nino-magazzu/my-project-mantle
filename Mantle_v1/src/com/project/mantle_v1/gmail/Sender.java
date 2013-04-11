@@ -1,6 +1,8 @@
 package com.project.mantle_v1.gmail;
 
 
+import com.project.mantle_v1.User;
+import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.parser.MantleMessage;
 
 import android.content.Context;
@@ -26,15 +28,16 @@ public class Sender extends AsyncTask<Void, Long, Boolean> {
 		link = url;
 		addressee = contact;
 		context = c.getApplicationContext();
-		/*User user = new User(context);
+		User user = new User(context);
 		this.email = user.getEmail();
 		MioDatabaseHelper db = new MioDatabaseHelper(context);
 		this.psw = db.getPassword(email);
 		db.close();
-		*/
+		/*
 		this.email = "cann.alberto91@gmail.com";
 		this.psw = "spiderman91";
 		this.code = code;
+		*/
 	}
 	
 	
