@@ -28,6 +28,8 @@ import com.dropbox.client2.exception.DropboxParseException;
 import com.dropbox.client2.exception.DropboxPartialFileException;
 import com.dropbox.client2.exception.DropboxServerException;
 import com.dropbox.client2.exception.DropboxUnlinkedException;
+import com.project.mantle_v1.MantleFile;
+import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.parser.Media;
 
 /**
@@ -82,7 +84,11 @@ public class Uploader extends AsyncTask<Void, Long, Media> {
         try {
             // By creating a request, we get a handle to the putFile operation,
             // so we can cancel it later if we want to
-            FileInputStream fis = new FileInputStream(mFile);
+
+        	// TODO: inserire la funzione di cifratura del file, prima del 
+        	// caricamento dello stesso su 
+        	
+        	FileInputStream fis = new FileInputStream(mFile);
             String path = mPath + mFile.getName();
             mRequest = mApi.putFileOverwriteRequest(path, fis, mFile.length(),
                     new ProgressListener() {
@@ -103,19 +109,29 @@ public class Uploader extends AsyncTask<Void, Long, Media> {
                 shareLink = mApi.share(ent.path);
                 String shareAddress = getShareURL(shareLink.url).replaceFirst("https://www", "https://dl");
                 Log.d(TAG, "dropbox share link " + shareAddress);
+                
+                // creazione del file 
+                MantleFile file = new MantleFile(ent, shareAddress, username, mFile);
+                
+                // creazione istanza del database
+                MioDatabaseHelper db = new MioDatabaseHelper(mContext);
+                
+                // inserimento del fil ne db
+                db.insertFile(file.getFileName(), file.getLinkFile(), file.getLinkComment(), file.getFileKey());
 
+                
+                
                 /*
                  * 		TODO: 
-                 * 		- caricare file su db
                  *  	- prendere id del file appena caricato
                  *  	- creare xml con quel nome
                  *  	- passare i parametri a putFileOverwriteRequest
                  *  	- cancellare l'xml dalla sdcard
                  */
                 
-                FileInputStream fis = new FileInputStream(mFile);
-                String path = mPath + mFile.getName();
-                mRequest = mApi.putFileOverwriteRequest(path, fis, mFile.length(),
+                FileInputStream fis2 = new FileInputStream(mFile);
+                String pathComment = mPath + mFile.getName();
+                mRequest = mApi.putFileOverwriteRequest(pathComment, fis2, mFile.length(),
                         new ProgressListener() {
                     @Override
                     public long progressInterval() {

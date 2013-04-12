@@ -51,7 +51,9 @@ public class MantleFile implements Serializable {
 		this.date = ent.modified;
 		this.objectType = ent.mimeType;
 		this.isImage = objectType.contains("image");
-		this.bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+		this.fileName = file.getName();
+		if(isImage)
+			this.bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 		
 		if(objectType.contains("image")) 
 			this.icon = "page_white_picture48";
