@@ -14,7 +14,7 @@ public class Sender extends AsyncTask<Void, Long, Boolean> {
 
 	private Context context;
 	private String link;
-	private String email;   	//"cann.alberto91@gmail.com";
+	private String email;   	
 	private String psw;
 	private Boolean fl;
 	private String addressee;

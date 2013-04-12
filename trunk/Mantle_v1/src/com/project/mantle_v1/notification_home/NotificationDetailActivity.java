@@ -39,10 +39,6 @@ public class NotificationDetailActivity extends FragmentActivity {
 			// Create the detail fragment and add it to the activity
 			// using a fragment transaction.
 
-			// ================   MioDatabaseHelper   ==========================
-			
-		//	final MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
-
 			setTitle("Home");
 			
 			Bundle arguments = new Bundle();

@@ -3,6 +3,8 @@ package com.project.mantle_v1.notification_home;
 
 import java.io.IOException;
 import java.io.StringWriter;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,12 +13,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.ShowToast;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.gmail.Sender;
@@ -96,7 +97,7 @@ public class NotificationDetailFragment extends Fragment {
 					
 					@Override
 					public void onClick(View v) {
-						new ShowToast().showToast("Accetta",v.getContext());
+//						new ShowToast().showToast("Accetta",v.getContext());
 						MioDatabaseHelper db = new MioDatabaseHelper(v.getContext());
 						db.insertUser(mItem.getUser().getEmail(), mItem.getUser().getUsername(), mItem.getUser().getName(), mItem.getUser().getSurname(), mItem.getUser().getKey());
 						
@@ -110,6 +111,7 @@ public class NotificationDetailFragment extends Fragment {
 
 						new Sender(v.getContext(), parser.toString(), mItem.getUser().getEmail(), MantleMessage.FRIENDSHIP_ACCEPTED).execute();
 						Toast.makeText(v.getContext(), mItem.getUser().getLongName() + " è stato aggiunto alla tua lista amici", Toast.LENGTH_LONG).show();
+						db.close();
 						bAccept.setEnabled(false);
 						bDenied.setEnabled(false);
 					}
@@ -141,6 +143,18 @@ public class NotificationDetailFragment extends Fragment {
 
 				TextView tw = (TextView) rootView.findViewById(R.id.linkText);
 				tw.setText(mItem.getLink());
+
+				Button bComment = (Button) rootView.findViewById(R.id.comment);
+				bComment.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						Intent myIntent = new Intent(getActivity(), NoteActivity.class);
+		                getActivity().startActivity(myIntent); 						
+					}
+				});
+				
+				ImageView iv = (ImageView) rootView.findViewById(R.id.sharedImage);
 				
 				// Show the dummy content as text in a TextView.
 				/*
