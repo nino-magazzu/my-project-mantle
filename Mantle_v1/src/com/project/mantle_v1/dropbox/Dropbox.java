@@ -218,7 +218,6 @@ public class Dropbox extends Activity {
     			case FRIEND_CHOOSED_CODE:
     				Object[] contacts = (Object[]) data.getSerializableExtra("contacts");
     				Log.e(TAG, (String)contacts[0]);
-    				//mt = new Media("Pino", "www", "10/12/12", "image/jpg", "large");
     				mt = ((MyApplication) getApplicationContext()).media;
     				Log.e(TAG, mt.getObjectType());
     				String body = "";

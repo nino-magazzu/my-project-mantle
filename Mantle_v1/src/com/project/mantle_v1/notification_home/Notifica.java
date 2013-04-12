@@ -2,6 +2,8 @@ package com.project.mantle_v1.notification_home;
 
 import java.util.List;
 
+import android.util.Log;
+
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.parser.MantleMessage;
 
@@ -85,6 +87,8 @@ public class Notifica {
 		this.NotificationType = notificationType;
 		this.username = who;
 		this.notes = notes;
+		
+		Log.d("NOTIFICA", notificationType);
 		
 		if(notificationType.equals(MantleMessage.NOTE)) 
 			this.title = who + " ha commentato una tua foto";
