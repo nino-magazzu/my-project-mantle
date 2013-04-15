@@ -7,74 +7,108 @@ import java.util.Date;
 
 import com.project.mantle_v1.MantleImage;
 import com.project.mantle_v1.User;
+import com.project.mantle_v1.notification_home.Note;
+
 import android.util.JsonReader;
 import android.util.JsonWriter;
 
 public class ParseJSON {
-	  private boolean lenient = false;
+	
+	final private String USERNAME = "username";
+	final private String PUBLISHED = "published";
+	final private String OBJECT_TYPE = "objectType";
+	final private String FILE_LINK = "url";
+	final private String CONTENT = "content";
+	final private String ICON = "icon";
+	final private String WIDTH = "width";
+	final private String HEIGHT = "height";
+	final private String NAME = "name";
+	final private String SURNAME = "surname";
+	final private String PUBLIC_KEY = "publicKey";
+	final private String EMAIL = "email";
+	final private String IMAGE = "image";
+	final private String FULL_IMAGE = "fullImage";
 	  
-	public ParseJSON(StringReader Sr) {
-		this.sr = Sr;
+	public ParseJSON(StringReader In) {
+		this.in = In;
 	}
 	
-	public ParseJSON(StringWriter Sw) {
-		this.sw = Sw;
+	public ParseJSON(StringWriter Out) {
+		this.out = Out;
 	}
 	
 	public String writeJson(Media mt) throws IOException {
-		this.writer = new JsonWriter(sw);
+		this.writer = new JsonWriter(out);
 		writer.setIndent("  ");
 		writeMedia(mt);
 		writer.close();
-		return sw.toString();
+		return out.toString();
 	}
 	
+	public String writeJson(Note note) throws IOException {
+		this.writer = new JsonWriter(out);
+		writer.setIndent("  ");
+		writeNote(note);
+		writer.close();
+		return out.toString();
+	}
+	
+	private void writeNote(Note note) throws IOException {
+		writer.beginObject();
+		writer.name(USERNAME).value(note.getUser());
+		writer.name(PUBLISHED).value(note.getDate());
+		writer.name(CONTENT).value(note.getContent());
+		writer.name(FILE_LINK).value(note.getFileLink());
+		writer.endObject();
+		
+	}
+
 	public String writeJson(User user) throws IOException {
-		this.writer = new JsonWriter(sw);
+		this.writer = new JsonWriter(out);
 		writer.setIndent("  ");
 		writeUser(user);
 		writer.close();
-		return sw.toString();
+		return out.toString();
 	}
 	
 	public String writeJson(String content, String producer) throws IOException {
-		this.writer = new JsonWriter(sw);
+		this.writer = new JsonWriter(out);
 		writer.setIndent("  ");
 		writeSystemInfo(content, producer);
 		writer.close();
-		return sw.toString();
+		return out.toString();
 	}
 	
 	private void writeSystemInfo(String content, String producer) throws IOException {
 		writer.beginObject();
-		writer.name("content").value(content);
-		writer.name("username").value(producer);
-		writer.name("published").value(new Date(System.currentTimeMillis()).toString());
+		writer.name(CONTENT).value(content);
+		writer.name(USERNAME).value(producer);
+		writer.name(PUBLISHED).value(new Date(System.currentTimeMillis()).toString());
 		writer.endObject();
 		
 	}
 
 	private void writeUser(User user) throws IOException {
 		writer.beginObject();
-		writer.name("name").value(user.getName());
-		writer.name("surname").value(user.getSurname());
-		writer.name("username").value(user.getUsername());
-		writer.name("email").value(user.getEmail());
-		writer.name("publicKey").value(user.getKey());
+		writer.name(NAME).value(user.getName());
+		writer.name(SURNAME).value(user.getSurname());
+		writer.name(USERNAME).value(user.getUsername());
+		writer.name(EMAIL).value(user.getEmail());
+		writer.name(PUBLIC_KEY).value(user.getKey());
 		writer.endObject();
 	}
 
 	
 	private void writeMedia(Media media) throws IOException {
 		writer.beginObject();
-		writer.name("url").value(media.getUrl());
-		writer.name("objectType").value(media.getObjectType());
-		writer.name("username").value(media.getUsername());
-		writer.name("published").value(media.getData());
+		writer.name(FILE_LINK).value(media.getUrl());
+		writer.name(OBJECT_TYPE).value(media.getObjectType());
+		writer.name(USERNAME).value(media.getUsername());
+		writer.name(PUBLISHED).value(media.getData());
 /*		if(media.isImage()) {
-			writer.name("image");
+			writer.name(IMAGE);
 			imageDetails(media);
-			writer.name("fullImage");
+			writer.name(FULL_IMAGE);
 			fullImageDetails(media);
 		}*/
 		writer.endObject();
@@ -83,23 +117,23 @@ public class ParseJSON {
 	
 	private void imageDetails(Media media) throws IOException {
 		writer.beginObject();
-		writer.name("icon").value(media.getIcon());
-		writer.name("width").value(48);
-		writer.name("height").value(48);
+		writer.name(ICON).value(media.getIcon());
+		writer.name(WIDTH).value(48);
+		writer.name(HEIGHT).value(48);
 		writer.endObject();
 	}
 	
 	
 	private void fullImageDetails(MantleImage media) throws IOException {
 		writer.beginObject();
-		writer.name("url").value(media.getLink());
-		writer.name("width").value(media.getWidth());
-		writer.name("height").value(media.getHeight());
+		writer.name(FILE_LINK).value(media.getLink());
+		writer.name(WIDTH).value(media.getWidth());
+		writer.name(HEIGHT).value(media.getHeight());
 		writer.endObject();
 	}
 	
 	public String[] readSystemInfo() throws IOException {
-		this.reader = new JsonReader(sr);
+		this.reader = new JsonReader(in);
 		reader.setLenient(lenient);
 		String[] content = new String[3];
 		try {
@@ -111,22 +145,52 @@ public class ParseJSON {
 		return content;
 	}
 	
+	public Note readNote() throws IOException {
+		this.reader = new JsonReader(in);
+		reader.setLenient(lenient);
+		Note note = new Note();
+		try { 
+			readNote(note);
+		}
+		finally {
+			reader.close();
+		}
+		return note;
+	}
+	
+	private void readNote(Note note) throws IOException {
+		reader.beginObject();
+		while(reader.hasNext()) {
+			String name = reader.nextName();
+			if(name.equals(USERNAME))
+				note.setUser(reader.nextString());
+			else if(name.equals(PUBLISHED))
+				note.setDate(reader.nextString());
+			else if(name.equals(CONTENT))
+				note.setContent(reader.nextString());
+			else if(name.equals(FILE_LINK))
+				note.setFileLink(reader.nextString());
+			
+		}
+		reader.endObject();
+	}
+
 	private void readSystemInfo(String[] content) throws IOException {
 		reader.beginObject();
 		while(reader.hasNext()) {
 			String name = reader.nextName();
-			if(name.equals("content"))
+			if(name.equals(CONTENT))
 				content[0] = reader.nextString();
-			else if(name.equals("username"))
+			else if(name.equals(USERNAME))
 				content[1] = reader.nextString();
-			else if(name.equals("published"))
+			else if(name.equals(PUBLISHED))
 				content[2] = reader.nextString();
 		}
 		reader.endObject();
 	}
 
 	public Media readMediaJson() throws IOException {
-		this.reader = new JsonReader(sr);
+		this.reader = new JsonReader(in);
 		reader.setLenient(lenient);
 		Media media = new Media();
 		try {
@@ -143,22 +207,22 @@ public class ParseJSON {
 		reader.beginObject();
 		while(reader.hasNext()) {
 				String name = reader.nextName();
-				if(name.equals("url")) 
+				if(name.equals(FILE_LINK)) 
 					media.setUrl(reader.nextString());
-				else if(name.equals("objectType"))
+				else if(name.equals(OBJECT_TYPE))
 					media.setObjectType(reader.nextString());
-				else if(name.equals("username"))
+				else if(name.equals(USERNAME))
 					media.setUsername(reader.nextString());
-				else if(name.equals("published"))
+				else if(name.equals(PUBLISHED))
 					media.setData(reader.nextString());
-			/*	else if(name.equals("icon"))
+			/*	else if(name.equals(ICON))
 					media.setIcon(reader.nextString());*/
 		}
 		reader.endObject();
 	}
 
 	public User readUserJson() throws IOException {
-		this.reader = new JsonReader(sr);
+		this.reader = new JsonReader(in);
 		reader.setLenient(lenient);
 		User user = new User();
 		try {
@@ -174,15 +238,15 @@ public class ParseJSON {
 		reader.beginObject();
 		while(reader.hasNext()) {
 				String name = reader.nextName();
-				if(name.equals("name")) 
+				if(name.equals(NAME)) 
 					user.setName(reader.nextString());
-				else if(name.equals("surname"))
+				else if(name.equals(SURNAME))
 					user.setSurname(reader.nextString());
-				else if(name.equals("username"))
+				else if(name.equals(USERNAME))
 					user.setUsername(reader.nextString());
-				else if(name.equals("email"))
+				else if(name.equals(EMAIL))
 					user.setEmail(reader.nextString());
-				else if(name.equals("publicKey"))
+				else if(name.equals(PUBLIC_KEY))
 					user.setKey(reader.nextString());
 		}
 		reader.endObject();
@@ -190,12 +254,12 @@ public class ParseJSON {
 
 	
 	public String toString() {
-		return sw.toString();
+		return out.toString();
 	}
 	
-	
-	private StringWriter sw;
-	private StringReader sr;
+	private boolean lenient = false;
+	private StringWriter out;
+	private StringReader in;
 	private JsonWriter writer;
 	private JsonReader reader;
 

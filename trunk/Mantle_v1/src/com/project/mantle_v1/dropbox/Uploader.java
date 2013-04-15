@@ -118,8 +118,6 @@ public class Uploader extends AsyncTask<Void, Long, Media> {
                 
                 // inserimento del fil ne db
                 db.insertFile(file.getFileName(), file.getLinkFile(), file.getLinkComment(), file.getFileKey());
-
-                
                 
                 /*
                  * 		TODO: 

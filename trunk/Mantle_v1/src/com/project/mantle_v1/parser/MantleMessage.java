@@ -138,9 +138,7 @@ public class MantleMessage {
 						
   	  	case 005:	jsonText = message.substring(CODE_DIM, message.length());
   	  
-  	  					/*		TODO: inserire il metodo per la lettura del file xml contenente i commenti della foto
-  	  					 * 	
-  	  					 */
+  	  					//  		TODO: inserire il metodo per la lettura del file xml contenente i commenti della foto
   	  					parser = new ParseJSON(new StringReader(jsonText));
   	  					try {
   	  						media = parser.readMediaJson();
@@ -153,12 +151,11 @@ public class MantleMessage {
   	  					
   	  	case 004:	jsonText = message.substring(CODE_DIM, message.length());
   	  
-						/*		TODO: inserire il metodo per la lettura del file xml contenente i commenti della foto
-						 *		 	
-						 */
+						//			TODO: inserire il metodo per la lettura del file xml contenente i commenti della foto
   	  					parser = new ParseJSON(new StringReader(jsonText));
+  	  					Note note = new Note();
   	  					try {
-  	  						media = parser.readMediaJson();
+  	  						note = parser.readNote();
   	  					} catch (IOException e) {
   	  						Log.e(TAG, "Problema lettura: " + e.getMessage());
   	  					}	
