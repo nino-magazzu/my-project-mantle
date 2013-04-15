@@ -37,8 +37,8 @@ public class NoteAdapter extends ArrayAdapter<Note>{
 	            viewHolder = (ViewHolder) convertView.getTag();
 	        }
 	        Note note = getItem(position);
-	        viewHolder.username.setText(note.user + ":");
-	        viewHolder.note.setText(note.content);
+	        viewHolder.username.setText(note.getUser() + ":");
+	        viewHolder.note.setText(note.getContent());
 	        return convertView;
 	    }
 
