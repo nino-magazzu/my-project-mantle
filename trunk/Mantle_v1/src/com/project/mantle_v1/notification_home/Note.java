@@ -1,6 +1,7 @@
 package com.project.mantle_v1.notification_home;
 
 public class Note {
+	
 	private String user;
 	private String content;
 	private String date;
@@ -14,7 +15,14 @@ public class Note {
 	public Note() {
 		super();
 	}
-	
+
+	public Note(String user, String content) {
+		super();
+		this.user = user;
+		this.content = content;
+	}
+
+
 	/**
 	 *	Costruttore da usare per leggere i commenti provenienti dalle mail
 	 *

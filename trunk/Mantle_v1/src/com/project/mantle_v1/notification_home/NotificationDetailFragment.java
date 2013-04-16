@@ -125,7 +125,8 @@ public class NotificationDetailFragment extends Fragment {
 						ParseJSON parser = new ParseJSON(new StringWriter());
 						try {
 							User user = new User(v.getContext());
-							parser.writeJson(user.getLongName() + " ha rifiutato la tua richiesta d'amicizia", user.getUsername());
+							Note note = new Note(user.getUsername(), user.getLongName() + " ha rifiutato la tua richiesta d'amicizia");
+							parser.writeJson(note);
 						} catch (IOException e) {
 							Log.e(TAG, e.getMessage());
 						}
