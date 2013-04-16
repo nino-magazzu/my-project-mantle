@@ -98,7 +98,8 @@ public class MantleMessage {
   	  	User user = null;
   	  	List <Note> notes = null;
   	  	Media media = null;
-  	  
+  	  	Note note;
+  	  	
   	  	switch(CODE) {
   	  
   	  	case 001:	jsonText = message.substring(CODE_DIM, message.length());
@@ -126,14 +127,15 @@ public class MantleMessage {
   	  				
   	  				
   	  	case 003:	jsonText = message.substring(CODE_DIM, message.length());
-						parser = new ParseJSON(new StringReader(jsonText));
-						String[] content =new String[3];
-						try {
-							content = parser.readSystemInfo();
-						} catch (IOException e) {
-							Log.e(TAG, "Problema lettura: " + e.getMessage());
-						}
-						return new Notifica(content[2], content[0], MantleMessage.FRIENDSHIP_DENIED);
+  	  					parser = new ParseJSON(new StringReader(jsonText));
+  	  					note = new Note();
+  	  					try {
+  	  						note = parser.readNote();
+  	  					} catch (IOException e) {
+  	  						Log.e(TAG, "Problema lettura: " + e.getMessage());
+  	  					}	
+  	  					notes = null;
+  	  					return new Notifica(note.getDate(),note.getContent(), MantleMessage.FRIENDSHIP_DENIED);
 
 						
   	  	case 005:	jsonText = message.substring(CODE_DIM, message.length());
@@ -146,32 +148,33 @@ public class MantleMessage {
   	  						Log.e(TAG, "Problema lettura: " + e.getMessage());
   	  					}	
   	  					notes = null;
-  	  					return new Notifica(new Date(System.currentTimeMillis()).toString(), SHARING_PHOTO, media.getUsername(), notes, media.getUrl());
+  	  					return new Notifica(media.getData(), SHARING_PHOTO, media.getUsername(), notes, media.getUrl());
 
   	  					
   	  	case 004:	jsonText = message.substring(CODE_DIM, message.length());
   	  
 						//			TODO: inserire il metodo per la lettura del file xml contenente i commenti della foto
   	  					parser = new ParseJSON(new StringReader(jsonText));
-  	  					Note note = new Note();
+  	  					note = new Note();
   	  					try {
   	  						note = parser.readNote();
   	  					} catch (IOException e) {
   	  						Log.e(TAG, "Problema lettura: " + e.getMessage());
   	  					}	
   	  					notes = null;
-  	  					return new Notifica(new Date(System.currentTimeMillis()).toString(), NOTE, media.getUsername(), notes, media.getUrl());
+  	  					return new Notifica(note.getDate(), NOTE, media.getUsername(), notes, media.getUrl());
 
   	  					
   	  	case 006: jsonText = message.substring(CODE_DIM, message.length());
   	  					parser = new ParseJSON(new StringReader(jsonText));
-  	  					content = new String[3];
-  	  					try {
-  	  						 content = parser.readSystemInfo();
-  	  					} catch (IOException e) {
+						note = new Note();
+						try {
+							note = parser.readNote();
+						} catch (IOException e) {
 							Log.e(TAG, "Problema lettura: " + e.getMessage());
-						}
-  	  					return new Notifica(content[2], content[0], MantleMessage.SYSTEM);
+						}	
+						notes = null;
+  	  					return new Notifica(note.getDate(), note.getContent(), MantleMessage.SYSTEM);
   	  					
   	  	default: 	throw new Error("Codice Errato");
   	  	}

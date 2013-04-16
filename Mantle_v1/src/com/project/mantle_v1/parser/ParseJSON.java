@@ -70,7 +70,7 @@ public class ParseJSON {
 		writer.close();
 		return out.toString();
 	}
-	
+	/*
 	public String writeJson(String content, String producer) throws IOException {
 		this.writer = new JsonWriter(out);
 		writer.setIndent("  ");
@@ -87,7 +87,7 @@ public class ParseJSON {
 		writer.endObject();
 		
 	}
-
+*/
 	private void writeUser(User user) throws IOException {
 		writer.beginObject();
 		writer.name(NAME).value(user.getName());
@@ -131,20 +131,20 @@ public class ParseJSON {
 		writer.name(HEIGHT).value(media.getHeight());
 		writer.endObject();
 	}
-	
-	public String[] readSystemInfo() throws IOException {
+	/*
+	public Note readSystemInfo() throws IOException {
 		this.reader = new JsonReader(in);
 		reader.setLenient(lenient);
-		String[] content = new String[3];
+		Note note = new Note();
 		try {
-			readSystemInfo(content);
+			readSystemInfo(note);
 		}
 		finally {
 			reader.close();
 		}
-		return content;
+		return note;
 	}
-	
+	*/
 	public Note readNote() throws IOException {
 		this.reader = new JsonReader(in);
 		reader.setLenient(lenient);
@@ -174,21 +174,21 @@ public class ParseJSON {
 		}
 		reader.endObject();
 	}
-
-	private void readSystemInfo(String[] content) throws IOException {
+/*
+	private void readSystemInfo(Note note) throws IOException {
 		reader.beginObject();
 		while(reader.hasNext()) {
 			String name = reader.nextName();
 			if(name.equals(CONTENT))
-				content[0] = reader.nextString();
+				note.setContent(reader.nextString());
 			else if(name.equals(USERNAME))
-				content[1] = reader.nextString();
+				note.content[1] = reader.nextString();
 			else if(name.equals(PUBLISHED))
 				content[2] = reader.nextString();
 		}
 		reader.endObject();
 	}
-
+*/
 	public Media readMediaJson() throws IOException {
 		this.reader = new JsonReader(in);
 		reader.setLenient(lenient);
@@ -262,6 +262,5 @@ public class ParseJSON {
 	private StringReader in;
 	private JsonWriter writer;
 	private JsonReader reader;
-
 	
 }
