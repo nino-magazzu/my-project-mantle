@@ -127,9 +127,9 @@ public class Uploader extends AsyncTask<Void, Long, Media> {
                  *  	- cancellare l'xml dalla sdcard
                  */
                 
-                FileInputStream fis2 = new FileInputStream(mFile);
+                fis = new FileInputStream(mFile);
                 String pathComment = mPath + mFile.getName();
-                mRequest = mApi.putFileOverwriteRequest(pathComment, fis2, mFile.length(),
+                mRequest = mApi.putFileOverwriteRequest(pathComment, fis, mFile.length(),
                         new ProgressListener() {
                     @Override
                     public long progressInterval() {
