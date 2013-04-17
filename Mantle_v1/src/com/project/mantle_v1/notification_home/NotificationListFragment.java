@@ -6,6 +6,7 @@ import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
 
+import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
@@ -85,6 +86,10 @@ public class NotificationListFragment extends ListFragment {
 		
 		User user = new User(getActivity().getApplicationContext());
 		String email = user.getEmail();
+		
+		((MyApplication) getActivity().getApplicationContext()).username = user.getUsername();
+		((MyApplication) getActivity().getApplicationContext()).email = user.getEmail();
+		
 		MioDatabaseHelper db = new MioDatabaseHelper(getActivity().getApplicationContext());
 		String password = db.getPassword(email);
 		db.close();

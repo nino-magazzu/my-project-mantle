@@ -1,5 +1,6 @@
 package com.project.mantle_v1.notification_home;
 
+import java.io.Serializable;
 import java.util.List;
 
 import android.util.Log;
@@ -7,8 +8,13 @@ import android.util.Log;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.parser.MantleMessage;
 
-public class Notifica {
+public class Notifica implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3324254621470042381L;
+	
 	/**  Rappresenta una notifica ottenuta dalle mail. Raccoglie i dati 
 	 *     essenziali per andare a creare le notifiche all'interno della 
 	 *		home	
