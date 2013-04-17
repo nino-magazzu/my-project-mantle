@@ -117,7 +117,7 @@ public class Uploader extends AsyncTask<Void, Long, Media> {
                 MioDatabaseHelper db = new MioDatabaseHelper(mContext);
                 
                 // inserimento del fil ne db
-                db.insertFile(file.getFileName(), file.getLinkFile(), file.getLinkComment(), file.getFileKey());
+                db.insertFile(file.getFileName(), file.getLinkFile(), "", file.getFileKey());
                 
                 /*
                  * 		TODO: 
@@ -143,6 +143,12 @@ public class Uploader extends AsyncTask<Void, Long, Media> {
                     }
                 });
                 
+                if (mRequest != null) {
+                	ent = mRequest.upload();
+                    shareLink = mApi.share(ent.path);
+                    shareAddress = getShareURL(shareLink.url).replaceFirst("https://www", "https://dl");
+                    // TODO: db.insertCommentLink(int ID, String LinkComment);
+                }
                 Media mt = new Media(ent, shareAddress, username, mFile);
                 return mt;
             }
