@@ -151,6 +151,7 @@ public class NotificationDetailFragment extends Fragment {
 					@Override
 					public void onClick(View v) {
 						Intent myIntent = new Intent(getActivity(), NoteActivity.class);
+						myIntent.putExtra("notifica", mItem);
 		                getActivity().startActivity(myIntent); 						
 					}
 				});

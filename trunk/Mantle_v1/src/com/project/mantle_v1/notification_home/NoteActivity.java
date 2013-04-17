@@ -3,11 +3,8 @@ package com.project.mantle_v1.notification_home;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Date;
-import java.util.List;
-
 import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.database.AddFriend;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;
@@ -33,10 +30,13 @@ public class NoteActivity extends Activity {
         setContentView(R.layout.add_comment);
         
         Intent intent = getIntent();
-        List<Note> notes = (List<Note>) intent.getSerializableExtra("notes");
+        Notifica not = (Notifica) intent.getSerializableExtra("notifica");
         
+        if(not.getNotes() != null) {
         ((ListView) findViewById(R.id.listView1))
-		.setAdapter(new NoteAdapter(getApplicationContext(), R.layout.note_layout, notes));
+		.setAdapter(new NoteAdapter(getApplicationContext(), R.layout.note_layout, not.getNotes()));
+
+        }
         
         Button bComment = (Button) findViewById(R.id.button1);
         bComment.setOnClickListener(new OnClickListener() {
@@ -48,18 +48,19 @@ public class NoteActivity extends Activity {
 				// TODO: email del proprietario del file
 				
 				ParseJSON parser = new ParseJSON(new StringWriter());
-				Note note = new Note(((MyApplication) getApplicationContext()).username, comment, new Date(System.currentTimeMillis()).toString());
+				Note note = new Note(username, comment, new Date(System.currentTimeMillis()).toString());
 				try {
 					parser.writeJson(note);
 				} catch(IOException ex) {
 					Log.e(TAG, ex.getMessage());
 					
 				}
-				new Sender(NoteActivity.this, parser.toString(), ((MyApplication) getApplicationContext()).email, MantleMessage.NOTE).execute();
+				new Sender(NoteActivity.this, parser.toString(), email, MantleMessage.NOTE).execute();
 				
 			}
 		});
 	}
 
-	
+	private String username = ((MyApplication) getApplicationContext()).username;
+	private String email = ((MyApplication) getApplicationContext()).email;
 }
