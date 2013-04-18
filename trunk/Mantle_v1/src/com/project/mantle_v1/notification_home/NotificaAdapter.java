@@ -52,5 +52,4 @@ public class NotificaAdapter extends ArrayAdapter<Notifica> implements Serializa
 	        public TextView title;
 	        public TextView data;
 	    }
-
 }

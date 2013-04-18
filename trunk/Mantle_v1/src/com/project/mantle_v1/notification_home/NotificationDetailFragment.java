@@ -145,7 +145,7 @@ public class NotificationDetailFragment extends Fragment {
 						container, false);
 
 				TextView tw = (TextView) rootView.findViewById(R.id.linkText);
-				tw.setText(mItem.getLink());
+				tw.setText(mItem.getTitle());
 
 				Button bComment = (Button) rootView.findViewById(R.id.comment);
 				bComment.setOnClickListener(new OnClickListener() {

@@ -9,11 +9,19 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+
+import org.xml.sax.SAXException;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 import com.dropbox.client2.DropboxAPI;
@@ -31,6 +39,7 @@ import com.dropbox.client2.exception.DropboxUnlinkedException;
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.parser.Media;
+import com.project.mantle_v1.xml.WriterXml;
 
 /**
  * Here we show uploading a file in a background thread, trying to show
@@ -38,7 +47,7 @@ import com.project.mantle_v1.parser.Media;
  * file from Dropbox.
  */
 public class Uploader extends AsyncTask<Void, Long, Media> {
-	private final String TAG = Uploader.class.getName();
+	private final String TAG = getClass().getName();
 	
     private DropboxAPI<?> mApi;
     private String mPath;
@@ -117,7 +126,7 @@ public class Uploader extends AsyncTask<Void, Long, Media> {
                 MioDatabaseHelper db = new MioDatabaseHelper(mContext);
                 
                 // inserimento del fil ne db
-                db.insertFile(file.getFileName(), file.getLinkFile(), "", file.getFileKey());
+               long ID = db.insertFile(file.getFileName(), file.getLinkFile(), "", file.getFileKey());
                 
                 /*
                  * 		TODO: 
@@ -126,9 +135,29 @@ public class Uploader extends AsyncTask<Void, Long, Media> {
                  *  	- passare i parametri a putFileOverwriteRequest
                  *  	- cancellare l'xml dalla sdcard
                  */
-                
+               	WriterXml com = new WriterXml();
+               	String pathComment = Environment.getExternalStorageDirectory().toString() + "/";
+               	try {
+					com.createComment(String.valueOf(ID)+".xml");
+				} catch (ParserConfigurationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (TransformerFactoryConfigurationError e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (TransformerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SAXException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                mFile = new File(pathComment, String.valueOf(ID)+".xml");
                 fis = new FileInputStream(mFile);
-                String pathComment = mPath + mFile.getName();
+                //String pathComment = mPath + mFile.getName();
                 mRequest = mApi.putFileOverwriteRequest(pathComment, fis, mFile.length(),
                         new ProgressListener() {
                     @Override
