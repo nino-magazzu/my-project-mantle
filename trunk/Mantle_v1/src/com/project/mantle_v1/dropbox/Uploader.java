@@ -1,7 +1,5 @@
 package com.project.mantle_v1.dropbox;
 
-
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,13 +7,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
-
 import org.xml.sax.SAXException;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -38,7 +33,6 @@ import com.dropbox.client2.exception.DropboxServerException;
 import com.dropbox.client2.exception.DropboxUnlinkedException;
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.database.MioDatabaseHelper;
-import com.project.mantle_v1.parser.Media;
 import com.project.mantle_v1.xml.WriterXml;
 
 /**
@@ -46,7 +40,7 @@ import com.project.mantle_v1.xml.WriterXml;
  * typical exception handling and flow of control for an app that uploads a
  * file from Dropbox.
  */
-public class Uploader extends AsyncTask<Void, Long, Media> {
+public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 	private final String TAG = getClass().getName();
 	
     private DropboxAPI<?> mApi;
@@ -89,7 +83,7 @@ public class Uploader extends AsyncTask<Void, Long, Media> {
     }
 
     @Override
-    protected Media doInBackground(Void... params) {
+    protected MantleFile doInBackground(Void... params) {
         try {
             // By creating a request, we get a handle to the putFile operation,
             // so we can cancel it later if we want to
@@ -156,9 +150,10 @@ public class Uploader extends AsyncTask<Void, Long, Media> {
 					e.printStackTrace();
 				}
                 mFile = new File(pathComment, String.valueOf(ID)+".xml");
+                Log.d(TAG, String.valueOf(ID));
                 fis = new FileInputStream(mFile);
                 //String pathComment = mPath + mFile.getName();
-                mRequest = mApi.putFileOverwriteRequest(pathComment, fis, mFile.length(),
+                mRequest = mApi.putFileOverwriteRequest(mPath+mFile.getName(), fis, mFile.length(),
                         new ProgressListener() {
                     @Override
                     public long progressInterval() {
@@ -178,8 +173,8 @@ public class Uploader extends AsyncTask<Void, Long, Media> {
                     shareAddress = getShareURL(shareLink.url).replaceFirst("https://www", "https://dl");
                     // TODO: db.insertCommentLink(int ID, String LinkComment);
                 }
-                Media mt = new Media(ent, shareAddress, username, mFile);
-                return mt;
+                file.setLinkComment(shareAddress);
+                return file;
             }
 
         } catch (DropboxUnlinkedException e) {
@@ -239,7 +234,7 @@ public class Uploader extends AsyncTask<Void, Long, Media> {
     }
 
     @Override
-    protected void onPostExecute(Media result) {
+    protected void onPostExecute(MantleFile result) {
         mDialog.dismiss();
         if (result != null) {
         	showToast("File successfully uploaded");

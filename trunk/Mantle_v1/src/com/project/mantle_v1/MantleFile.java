@@ -29,14 +29,12 @@ public class MantleFile implements Serializable {
 		this.objectType = ent.mimeType;
 		this.isImage = objectType.contains("image");
 		this.fileName = file.getName();
-		
-		if(isImage)
-			this.bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-		
+		this.mFile = file;
 		if(objectType.contains("image")) 
 			this.icon = "page_white_picture48";
 		else 
 			this.icon = "page_white_acrobat48";
+		this.username = username;
 	}
 	
 	
@@ -79,8 +77,8 @@ public class MantleFile implements Serializable {
 	 * @param fileName: nome del file sul dispositivo
 	 */
 	
-	public void downloadFromUrl(String imageURL, String fileName) {
-		DownladerTask down = new DownladerTask(imageURL, fileName);
+	public void downloadFileFromUrl(String fileName) {
+		DownladerTask down = new DownladerTask(this.linkFile, fileName);
 		down.execute();
 		
     	try {
@@ -93,6 +91,19 @@ public class MantleFile implements Serializable {
 
 	}
 
+	public File downloadCommentFileFromUrl(String fileName) {
+		DownladerTask down = new DownladerTask(this.linkComment, fileName);
+		down.execute();
+		File file = null;
+    	try {
+			file = down.get();
+		} catch (InterruptedException e) {
+			Log.i(TAG, "Error authenticating", e);
+		} catch (ExecutionException e) {
+			Log.i(TAG, "Error authenticating", e);
+		}
+    	return file;
+	}
 	
 	public String getIdFile() {
 		return idFile;
@@ -194,6 +205,15 @@ public class MantleFile implements Serializable {
 		this.date = date;
 	}
 	
+	public String getUsername() {
+		return username;
+	}
+
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
 	private static final long serialVersionUID = 6107134499898867188L;
 	private final String TAG = MantleFile.class.getName();
 	
@@ -209,5 +229,5 @@ public class MantleFile implements Serializable {
 	private boolean isImage;
 	private Bitmap bitmap;
 	private String date;
-
+	private String username;
 }

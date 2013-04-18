@@ -3,12 +3,9 @@ package com.project.mantle_v1.parser;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.Date;
-
-import com.project.mantle_v1.MantleImage;
+import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.notification_home.Note;
-
 import android.util.JsonReader;
 import android.util.JsonWriter;
 
@@ -18,16 +15,17 @@ public class ParseJSON {
 	final private String PUBLISHED = "published";
 	final private String OBJECT_TYPE = "objectType";
 	final private String FILE_LINK = "url";
+	final private String NOTES_LINK = "url_notes";
 	final private String CONTENT = "content";
-	final private String ICON = "icon";
-	final private String WIDTH = "width";
-	final private String HEIGHT = "height";
+//	final private String ICON = "icon";
+//	final private String WIDTH = "width";
+//	final private String HEIGHT = "height";
 	final private String NAME = "name";
 	final private String SURNAME = "surname";
 	final private String PUBLIC_KEY = "publicKey";
 	final private String EMAIL = "email";
-	final private String IMAGE = "image";
-	final private String FULL_IMAGE = "fullImage";
+	//final private String IMAGE = "image";
+	//final private String FULL_IMAGE = "fullImage";
 	  
 	public ParseJSON(StringReader In) {
 		this.in = In;
@@ -37,7 +35,7 @@ public class ParseJSON {
 		this.out = Out;
 	}
 	
-	public String writeJson(Media mt) throws IOException {
+	public String writeJson(MantleFile mt) throws IOException {
 		this.writer = new JsonWriter(out);
 		writer.setIndent("  ");
 		writeMedia(mt);
@@ -99,12 +97,13 @@ public class ParseJSON {
 	}
 
 	
-	private void writeMedia(Media media) throws IOException {
+	private void writeMedia(MantleFile media) throws IOException {
 		writer.beginObject();
-		writer.name(FILE_LINK).value(media.getUrl());
+		writer.name(FILE_LINK).value(media.getLinkFile());
+		writer.name(NOTES_LINK).value(media.getLinkComment());
 		writer.name(OBJECT_TYPE).value(media.getObjectType());
 		writer.name(USERNAME).value(media.getUsername());
-		writer.name(PUBLISHED).value(media.getData());
+		writer.name(PUBLISHED).value(media.getDate());
 /*		if(media.isImage()) {
 			writer.name(IMAGE);
 			imageDetails(media);
@@ -114,8 +113,8 @@ public class ParseJSON {
 		writer.endObject();
 	}
 	
-	
-	private void imageDetails(Media media) throws IOException {
+	/*
+	private void imageDetails(MantleFile media) throws IOException {
 		writer.beginObject();
 		writer.name(ICON).value(media.getIcon());
 		writer.name(WIDTH).value(48);
@@ -131,7 +130,7 @@ public class ParseJSON {
 		writer.name(HEIGHT).value(media.getHeight());
 		writer.endObject();
 	}
-	/*
+	
 	public Note readSystemInfo() throws IOException {
 		this.reader = new JsonReader(in);
 		reader.setLenient(lenient);
@@ -189,10 +188,10 @@ public class ParseJSON {
 		reader.endObject();
 	}
 */
-	public Media readMediaJson() throws IOException {
+	public MantleFile readMediaJson() throws IOException {
 		this.reader = new JsonReader(in);
 		reader.setLenient(lenient);
-		Media media = new Media();
+		MantleFile media = new MantleFile();
 		try {
 			readMedia(media);
 		}
@@ -203,18 +202,20 @@ public class ParseJSON {
 		
 	}
 		
-	private void readMedia(Media media) throws IOException {
+	private void readMedia(MantleFile media) throws IOException {
 		reader.beginObject();
 		while(reader.hasNext()) {
 				String name = reader.nextName();
 				if(name.equals(FILE_LINK)) 
-					media.setUrl(reader.nextString());
+					media.setLinkFile(reader.nextString());
+				else if(name.equals(NOTES_LINK))
+					media.setLinkComment(reader.nextString());
 				else if(name.equals(OBJECT_TYPE))
 					media.setObjectType(reader.nextString());
 				else if(name.equals(USERNAME))
 					media.setUsername(reader.nextString());
 				else if(name.equals(PUBLISHED))
-					media.setData(reader.nextString());
+					media.setDate(reader.nextString());
 			/*	else if(name.equals(ICON))
 					media.setIcon(reader.nextString());*/
 		}

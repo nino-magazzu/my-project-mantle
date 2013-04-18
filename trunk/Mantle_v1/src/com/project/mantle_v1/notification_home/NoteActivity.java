@@ -1,8 +1,11 @@
 package com.project.mantle_v1.notification_home;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Date;
+
+import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.gmail.Sender;
@@ -32,11 +35,16 @@ public class NoteActivity extends Activity {
         Intent intent = getIntent();
         Notifica not = (Notifica) intent.getSerializableExtra("notifica");
         
-        if(not.getNotes() != null) {
+        MantleFile mFile = not.getmFile();
+        File file = mFile.downloadCommentFileFromUrl("ProvaCommento");
+        
+        //TODO: lettura dal file degli eventuali commenti
+        
+        
         ((ListView) findViewById(R.id.listView1))
 		.setAdapter(new NoteAdapter(getApplicationContext(), R.layout.note_layout, not.getNotes()));
 
-        }
+        
         
         Button bComment = (Button) findViewById(R.id.button1);
         bComment.setOnClickListener(new OnClickListener() {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.util.Log;
 
+import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.parser.MantleMessage;
 
@@ -30,7 +31,7 @@ public class Notifica implements Serializable{
 	private String username;
 	private String body;
 	private String link;
-
+	private MantleFile mFile;
 	/**
 	 * Costruttore da usare nel caso in cui la notifica sia relativa ad 
 	 * una richiesta d'amicizia o all'accettazione della stessa
@@ -86,20 +87,19 @@ public class Notifica implements Serializable{
 	 * @param notes: lista dei commenti alla foto
 	 */
 	
-	public Notifica(String data, String notificationType, String who,
-			List<Note> notes, String link) {
+	public Notifica(String notificationType, MantleFile mFile) {
 		super();
-		this.data = data;
+		this.mFile = mFile;
+		this.data = mFile.getDate();
 		this.NotificationType = notificationType;
-		this.username = who;
-		this.notes = notes;
+		this.username = mFile.getUsername();
 		
 		Log.d("NOTIFICA", notificationType);
 		
 		if(notificationType.equals(MantleMessage.NOTE)) 
-			this.title = who + " ha commentato una tua foto";
+			this.title = username + " ha commentato una tua foto";
 		else
-			this.title = who + " ha condiviso una foto";
+			this.title = username + " ha condiviso una foto";
 		
 		this.link = link;
 	}
@@ -119,10 +119,6 @@ public class Notifica implements Serializable{
 			return username;
 	}
 	
-	public List<Note> getNotes() {
-		return notes;
-	}
-
 	public String getTitle() {
 		return title;
 	}
@@ -135,11 +131,12 @@ public class Notifica implements Serializable{
 		return body;
 	}
 
-	public String getLink() {
-		return link;
+	public MantleFile getmFile() {
+		return mFile;
 	}
 
-	public void setLink(String link) {
-		this.link = link;
+	public void setmFile(MantleFile mFile) {
+		this.mFile = mFile;
 	}
+
 }
