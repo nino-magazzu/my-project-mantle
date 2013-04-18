@@ -38,7 +38,6 @@
         <activity android:name="com.project.mantle_v1.database.AddFriend" />
         <activity android:name="com.project.mantle_v1.database.MioDatabaseHelper" />
         <activity android:name="com.project.mantle_v1.database.FriendsList" />
-        <activity android:name="com.project.mantle_v1.notification_home.NoteActivity" />
         <activity
             android:name="com.dropbox.client2.android.AuthActivity"
             android:configChanges="orientation|keyboard"

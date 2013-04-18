@@ -57,7 +57,7 @@ public class AddService extends Activity{
         			Log.w("ADD_SERVICE","insert all the value");
         			Toast error = Toast.makeText(AddService.this,"Invalid value", Toast.LENGTH_LONG);
 					error.show();
-        			        		}
+					}
 			}
         	
     	});	

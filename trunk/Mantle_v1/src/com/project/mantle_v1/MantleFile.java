@@ -11,18 +11,14 @@ import android.util.Log;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 
-
 public class MantleFile implements Serializable {
-	
-	
-	
-	/* TODO: da gestire in seguito alla modifica delal struttura del db
+
+	/*
+	 * TODO: da gestire in seguito alla modifica delal struttura del db
 	 * 
-	 * private MantleImage thumbnail;
-	 * private MantleImage fullImage;
-	 * 
-	*/
-	
+	 * private MantleImage thumbnail; private MantleImage fullImage;
+	 */
+
 	public MantleFile(Entry ent, String link, String username, File file) {
 		this.linkFile = link;
 		this.date = ent.modified;
@@ -30,26 +26,26 @@ public class MantleFile implements Serializable {
 		this.isImage = objectType.contains("image");
 		this.fileName = file.getName();
 		this.mFile = file;
-		if(objectType.contains("image")) 
+		if (objectType.contains("image"))
 			this.icon = "page_white_picture48";
-		else 
+		else
 			this.icon = "page_white_acrobat48";
 		this.username = username;
 	}
-	
-	
-	public MantleFile(){
+
+	public MantleFile() {
 		super();
 		this.idFile = null;
 		this.fileName = null;
 		this.linkFile = null;
 		this.linkComment = null;
 		this.fileKey = null;
-	//	this.fullImage = null;
-	//	this.thumbnail = null;
+		// this.fullImage = null;
+		// this.thumbnail = null;
 	}
-	
-	public MantleFile(String idFile, String filename, String linkFile, String linkComment, String fileKey){
+
+	public MantleFile(String idFile, String filename, String linkFile,
+			String linkComment, String fileKey) {
 		this.idFile = idFile;
 		this.fileName = filename;
 		this.linkFile = linkFile;
@@ -68,20 +64,22 @@ public class MantleFile implements Serializable {
 		this.fileKey = file[4];
 		db.close();
 	}
-	
+
 	/**
-	 *  Permette di scaricare  un file passando l'url e il nome del file 
-	 *  di destinazione.
-	 *  Il file verrà salvato sulla sdcard. 
-	 * @param imageURL: url del file da scaricare
-	 * @param fileName: nome del file sul dispositivo
+	 * Permette di scaricare un file passando l'url e il nome del file di
+	 * destinazione. Il file verrà salvato sulla sdcard.
+	 * 
+	 * @param imageURL
+	 *            : url del file da scaricare
+	 * @param fileName
+	 *            : nome del file sul dispositivo
 	 */
-	
+
 	public void downloadFileFromUrl(String fileName) {
 		DownladerTask down = new DownladerTask(this.linkFile, fileName);
 		down.execute();
-		
-    	try {
+
+		try {
 			this.mFile = down.get();
 		} catch (InterruptedException e) {
 			Log.i(TAG, "Error authenticating", e);
@@ -95,16 +93,16 @@ public class MantleFile implements Serializable {
 		DownladerTask down = new DownladerTask(this.linkComment, fileName);
 		down.execute();
 		File file = null;
-    	try {
+		try {
 			file = down.get();
 		} catch (InterruptedException e) {
 			Log.i(TAG, "Error authenticating", e);
 		} catch (ExecutionException e) {
 			Log.i(TAG, "Error authenticating", e);
 		}
-    	return file;
+		return file;
 	}
-	
+
 	public String getIdFile() {
 		return idFile;
 	}
@@ -146,22 +144,16 @@ public class MantleFile implements Serializable {
 	}
 
 	/*
-	public MantleImage getThumbnail() {
-		return thumbnail;
-	}
-
-	public void setThumbnail(MantleImage thumbnail) {
-		this.thumbnail = thumbnail;
-	}
-
-	public MantleImage getFullImage() {
-		return fullImage;
-	}
-
-	public void setFullImage(MantleImage fullImage) {
-		this.fullImage = fullImage;
-	}
-*/
+	 * public MantleImage getThumbnail() { return thumbnail; }
+	 * 
+	 * public void setThumbnail(MantleImage thumbnail) { this.thumbnail =
+	 * thumbnail; }
+	 * 
+	 * public MantleImage getFullImage() { return fullImage; }
+	 * 
+	 * public void setFullImage(MantleImage fullImage) { this.fullImage =
+	 * fullImage; }
+	 */
 	public String getObjectType() {
 		return objectType;
 	}
@@ -195,28 +187,25 @@ public class MantleFile implements Serializable {
 		this.bitmap = bitmap;
 	}
 
-
 	public String getDate() {
 		return date;
 	}
 
-
 	public void setDate(String date) {
 		this.date = date;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
 
-
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
+
 	private static final long serialVersionUID = 6107134499898867188L;
-	private final String TAG = MantleFile.class.getName();
-	
+	private final String TAG = getClass().getName();
+
 	private String idFile;
 	private String fileName;
 	private String linkFile;
