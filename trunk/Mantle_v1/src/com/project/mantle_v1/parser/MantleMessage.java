@@ -103,6 +103,7 @@ public class MantleMessage {
   	  	switch(CODE) {
   	  
   	  	case 001:	jsonText = message.substring(CODE_DIM, message.length());
+  	  					Log.d(TAG, jsonText);
   	  					parser = new ParseJSON(new StringReader(jsonText));
   	  					try {
   	  						user = parser.readUserJson();
@@ -114,6 +115,7 @@ public class MantleMessage {
 
   	  					
   	  	case 002:	jsonText = message.substring(CODE_DIM, message.length());
+  	  					Log.d(TAG, jsonText);
   	  					parser = new ParseJSON(new StringReader(jsonText));
   	  					try {
   	  						user = parser.readUserJson();
@@ -127,6 +129,7 @@ public class MantleMessage {
   	  				
   	  				
   	  	case 003:	jsonText = message.substring(CODE_DIM, message.length());
+  	  					Log.d(TAG, jsonText);
   	  					parser = new ParseJSON(new StringReader(jsonText));
   	  					note = new Note();
   	  					try {
@@ -139,7 +142,7 @@ public class MantleMessage {
 
 						
   	  	case 005:	jsonText = message.substring(CODE_DIM, message.length());
-  	  
+  	  					Log.d(TAG, jsonText);
   	  					parser = new ParseJSON(new StringReader(jsonText));
   	  					try {
   	  						media = parser.readMediaJson();
@@ -151,7 +154,7 @@ public class MantleMessage {
 
   	  					
   	  	case 004:	jsonText = message.substring(CODE_DIM, message.length());
-  	  
+  	  					Log.d(TAG, jsonText);
   	  					parser = new ParseJSON(new StringReader(jsonText));
   	  					note = new Note();
   	  					try {
@@ -164,6 +167,7 @@ public class MantleMessage {
 
   	  					
   	  	case 006: jsonText = message.substring(CODE_DIM, message.length());
+  	  					Log.d(TAG, jsonText);
   	  					parser = new ParseJSON(new StringReader(jsonText));
 						note = new Note();
 						try {
