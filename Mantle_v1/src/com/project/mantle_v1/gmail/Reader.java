@@ -84,7 +84,7 @@ public class Reader extends Authenticator {
 					body += content.toString();
 				}
 				if (body.contains(MantleMessage.MAGIC_NUMBER)) {
-					notifyMessage(body);
+					notifyMessage(body, msg[i].getFrom()[0].toString());
 					msg[i].setFlag(Flags.Flag.DELETED, true);
 				}
 			}
@@ -133,10 +133,11 @@ public class Reader extends Authenticator {
 		}
 	}
 
-	private void notifyMessage(String body) {
+	private void notifyMessage(String body, String email) {
 		android.os.Message msg = handler.obtainMessage();
 		Bundle b = new Bundle();
 		b.putString("body", body);
+		b.putString("email", email);
 		msg.setData(b);
 		handler.sendMessage(msg);
 	}
