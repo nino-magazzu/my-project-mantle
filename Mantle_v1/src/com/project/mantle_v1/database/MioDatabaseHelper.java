@@ -223,7 +223,18 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	    	Log.d("MIO_DATABASE_HELPER","Ho elimnato l'utente richiesto : " + email);
 	    	
 	    }
-
+///////////////
+	    public void insertLinkComment(int idFile,String link){
+		    
+	    	ContentValues values = new ContentValues();
+		    values.put("linkComment", link);
+		    String whereClause = "idFile = ?";
+		    String[] whereArgs = {String.valueOf(idFile)};
+		    int r = db.update("File", values, whereClause, whereArgs);
+	    	
+	    }
+	    
+	    
 /*
 	    
 	    public long insertFile(SQLiteDatabase db, String name, String service, String link){
