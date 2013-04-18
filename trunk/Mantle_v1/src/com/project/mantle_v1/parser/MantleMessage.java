@@ -29,8 +29,8 @@ public class MantleMessage {
 	public static String FRIENDSHIP_REQUEST = "001 ";
 	public static String FRIENDSHIP_ACCEPTED = "002 ";
 	public static String FRIENDSHIP_DENIED = "003 ";
-	public static String NOTE = "004 ";
-	public static String SHARING_PHOTO = "005 ";
+	public static String SHARING_PHOTO = "004 ";
+	public static String NOTE = "005 ";
 	public static String SYSTEM = "006 ";
 
 	private String jsonText;
