@@ -39,10 +39,8 @@ public class NoteActivity extends Activity {
         File file = mFile.downloadCommentFileFromUrl("ProvaCommento");
         
         //TODO: lettura dal file degli eventuali commenti
-        
-        
-        ((ListView) findViewById(R.id.listView1))
-		.setAdapter(new NoteAdapter(getApplicationContext(), R.layout.note_layout, not.getNotes()));
+        // ((ListView) findViewById(R.id.listView1))
+      	//.setAdapter(new NoteAdapter(getApplicationContext(), R.layout.note_layout, not.getNotes()));
 
         
         
