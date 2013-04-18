@@ -223,28 +223,61 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 	}
 
-	// elimina l'utente sia dalla tabella friend, sia da contact
-	public void deleteFriend(String email) {
+	    //elimina l'utente sia dalla tabella friend, sia da contact
+	    public void deleteFriend(String email){
+	    	
+	    	String whereClause = "email = ?";
+	    	String[] whereArgs = { email };
+	    	
+	    	db.delete("User", whereClause, whereArgs);
+	    	Log.d("MIO_DATABASE_HELPER","Ho elimnato l'utente richiesto : " + email);
+	    	
+	    }
 
-		String whereClause = "email = ?";
-		String[] whereArgs = { email };
+	    public void insertLinkComment(int idFile,String link){
+		    
+	    	ContentValues values = new ContentValues();
+		    values.put("linkComment", link);
+		    String whereClause = "idFile = ?";
+		    String[] whereArgs = {String.valueOf(idFile)};
+		    int r = db.update("File", values, whereClause, whereArgs);
+	    	
+	    }
+	    
+	    public String getEmailFromUrl(String url){
+	    	//Dalla tabella file ricavo l'id del file
+	    	String[] columns = {"idFile"};
+	    	String selection = "service = ?";
+	    	String[] selectionArgs = {url};
+	    	Cursor c = db.query("Service", columns, selection, selectionArgs, null, null, null);
+	    	c.moveToNext();
+	    	String idFile = c.getString(0);
+	    	
+	    	Log.d("QUERY PER RICAVARE LA MAIL", idFile);
+	    	
+	    	//Da share con l'idFile ricavo utente proprietario
+	    	String[] columns2 = {"idUser"};
+	    	selection = "idFile = ?";
+	    	String[] selectionArgs2 = {idFile};
+	    	c = db.query("Share", columns2, selection, selectionArgs2, null, null, null);
+	    	c.moveToNext();
+	    	String idUser = c.getString(0);
 
-		db.delete("User", whereClause, whereArgs);
-		Log.d("MIO_DATABASE_HELPER", "Ho elimnato l'utente richiesto : "
-				+ email);
+	    	Log.d("QUERY PER RICAVARE LA MAIL", idUser);
+	    	
+	    	//Dall'id dell'utente ricavo la mail
+	    	String[] columns3 = {"email"};
+	    	selection = "idUser = ?";
+	    	String[] selectionArgs3 = {idFile};
+	    	c = db.query("User", columns3, selection, selectionArgs3, null, null, null);
+	    	c.moveToNext();
+	    	String email = c.getString(0);
 
-	}
+	    	Log.d("QUERY PER RICAVARE LA MAIL", idUser);
 
-	// /////////////
-	public void insertLinkComment(int idFile, String link) {
-
-		ContentValues values = new ContentValues();
-		values.put("linkComment", link);
-		String whereClause = "idFile = ?";
-		String[] whereArgs = { String.valueOf(idFile) };
-		int r = db.update("File", values, whereClause, whereArgs);
-
-	}
+	    	return email;
+	    }
+		    
 
 	// ============== METODI PER LA VISUALIZZAZIONE DEL DATABASE ===============
 

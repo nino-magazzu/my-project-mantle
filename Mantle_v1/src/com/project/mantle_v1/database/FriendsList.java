@@ -35,57 +35,31 @@ public class FriendsList extends Activity {
 
 		db = new MioDatabaseHelper(getApplicationContext());
 
-		String[] friends = db.getFriends();
-		listView = (ListView) findViewById(R.id.list);
-
-		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
-
-		for (i = 0; i < friends.length; i = i + 2) {
-			Map<String, String> datum = new HashMap<String, String>(2);
-			datum.put("user", friends[i]);
-			datum.put("email", friends[i + 1]);
-			data.add(datum);
-		}
-
-		SimpleAdapter adapter = new SimpleAdapter(this, data,
-				android.R.layout.simple_list_item_2, new String[] { "user",
-						"email" }, new int[] { android.R.id.text1,
-						android.R.id.text2 });
-		listView.setAdapter(adapter);
-
-		listView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> listView, View itemView,
-					int position, long itemId) {
-				Log.d("ListViewActivity",
-						"Hai selezionato "
-								+ listView.getItemAtPosition(position));
-				Log.d("ListViewActivity", "con id = " + itemId
-						+ " e position = " + position);
-
-				String selectedFromList = (String) (listView
-						.getItemAtPosition(position).toString());
-				String[] contatto = selectedFromList.split(", user=");
-				// in contatto[0] viene salvato la prima parte della stringa
-				// fino a ",user=" in contatto[1] la restante parte della
-				// stringa
-				// substring mi serve per eliminare "{email=" e mi restituisce
-				// solo l'indirizzo email
-				arr.add(contatto[0].substring(7));
-
-				Log.d("LIST_View_Activity", contatto[0].substring(7));
-			}
-
-		});
-
+        String[] friends = db.getFriends();
+        listView = (ListView) findViewById(R.id.list);
+		showFriends(friends);
+       
+		listView.setOnItemClickListener(new OnItemClickListener(){
+	        
+        	@Override
+        	 public void onItemClick ( AdapterView<?> listView, View itemView, int position,long itemId ){
+        		Log.d("ListViewActivity", "Hai selezionato " + listView.getItemAtPosition(position));
+        		Log.d("ListViewActivity", "con id = " + itemId + " e position = " + position);
+        		
+        		
+        		String selectedFromList =(String) (listView.getItemAtPosition(position).toString());
+        		String[] contatto = selectedFromList.split(", user=");
+        		//in contatto[0] viene salvato la prima parte della stringa fino a ",user=" in contatto[1] la restante parte della stringa
+        		//substring mi serve per eliminare "{email=" e mi restituisce solo l'indirizzo email
+        		arr.add(contatto[0].substring(7));
+        		
+        		Log.d("LIST_View_Activity",contatto[0].substring(7));
+        	}
+        	
+        });
 	}
 
-	/*
-	 * @Override public void onDestroy() {
-	 * 
-	 * }
-	 */
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
