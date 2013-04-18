@@ -71,6 +71,7 @@ public class FriendsList extends Activity {
         			int index = status.indexOf(String.valueOf(position)); 
         			status.remove(index);
         			arr.remove(contatto[0].substring(7));
+        			Toast.makeText(getApplicationContext(),contatto[0].substring(7)+" delete from receiver", Toast.LENGTH_SHORT).show();
         		}
         		else{
         			status.add(String.valueOf(position));
@@ -80,15 +81,13 @@ public class FriendsList extends Activity {
             		//substring mi serve per eliminare "{email=" e mi restituisce solo l'indirizzo email
             		arr.add(contatto[0].substring(7));
             		
-            		Log.d("LIST_View_Activity",contatto[0].substring(7));
-        			
-        			
-        			//stampo la lista
-            		for(int i=0;i<status.size();i++){
-            			Log.d("ListViewActivity", String.valueOf(status.get(i)));
-            			
+            		
+            		String receiver="Receiver = ";
+            		for(int j=0;j<arr.size();j++){
+            			receiver = receiver + arr.get(j) + ", ";
             		}
             		
+            		Toast.makeText(getApplicationContext(),receiver, Toast.LENGTH_SHORT).show();
         		}
         		 			
         		return true;
