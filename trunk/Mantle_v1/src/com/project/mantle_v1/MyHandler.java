@@ -24,6 +24,7 @@ import android.util.Log;
 public class MyHandler extends Handler {
 	private Context context;
 	private String link;
+	private String email;
 
 	public static List<Notifica> ITEMS = new ArrayList<Notifica>();
 	public static Map<String, Notifica> ITEM_MAP = new HashMap<String, Notifica>();
@@ -51,7 +52,9 @@ public class MyHandler extends Handler {
 
 		if (bundle.containsKey("body")) {
 			link = bundle.getString("body");
-
+			email = bundle.getString("email");
+			Log.d(TAG, "Email amico: " + email);
+			
 			MantleMessage mess = new MantleMessage(link, context);
 			Notifica not = mess.getNotifica();
 			createNotification(not.getTitle());
