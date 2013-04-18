@@ -234,21 +234,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	    	
 	    }
 	    
-	    
-/*
-	    
-	    public long insertFile(SQLiteDatabase db, String name, String service, String link){
-	    	ContentValues values = new ContentValues();
-	        values.put("fileName" , name);
-	        values.put("service" , service);
-	    	values.put("link" , link);
-	        long r = db.insert("file", null, values);
-	        return r;
-	    	
-	    }
-	    
-*/
-	    
+		    
 // ============== METODI PER LA VISUALIZZAZIONE DEL DATABASE ===============
 
 
