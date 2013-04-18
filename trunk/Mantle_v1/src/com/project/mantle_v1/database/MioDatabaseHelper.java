@@ -286,6 +286,15 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	    	return email;
 	    }
 		    
+	    public String getLinkfromLinkComment(String linkComment){
+	    	String[] columns = {"linkFile"};
+	    	String selection = "fileComment = ?";
+	    	String[] selectionArgs = {linkComment};
+	    	Cursor c = db.query("File", columns, selection, selectionArgs, null, null, null);
+	    	c.moveToNext();
+	    	String linkFile = c.getString(0);
+	    	return linkFile;
+	    }
 
 	// ============== METODI PER LA VISUALIZZAZIONE DEL DATABASE ===============
 
