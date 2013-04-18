@@ -1,25 +1,31 @@
 package com.project.mantle_v1.xml;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import org.xmlpull.v1.XmlSerializer;
+
 import android.os.Environment;
 import android.util.Log;
+import android.util.Xml;
 
 public class WriterXml {
 
@@ -83,17 +89,17 @@ public class WriterXml {
 	    Element root = doc.createElement("ROOT");
 	    doc.appendChild(root);
 	 
-	    // create: <study>
-	    Element tagStudy = doc.createElement("COMMENT");
-	    root.appendChild(tagStudy);
-	    // add attr: date e author
-	    tagStudy.setAttribute("Date", Date);
-	    tagStudy.setAttribute("Author", Author);
+	    	// create: <study>
+	    	Element tag = doc.createElement("COMMENT");
+	    	root.appendChild(tag);
+	    	// add attr: date e author
+	    	tag.setAttribute("Date", Date);
+	    	tag.setAttribute("Author", Author);
 	 
-	    // create: <content>
-	    Element tagContent = doc.createElement("CONTENT");
-	    tagStudy.appendChild(tagContent);
-	    tagContent.setTextContent(Content);
+	    		// create: <content>
+	    		Element tagContent = doc.createElement("CONTENT");
+	    		tag.appendChild(tagContent);
+	    		tagContent.setTextContent(Content);
 	 
 	    // create Transformer object
 	    Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -105,24 +111,27 @@ public class WriterXml {
 	    createXml(writer.toString(),filename);
 	}
 	
-	//crea la struttura di un file xml per aggiungere un commento ad un file gia esistente
-	public void addComment(File f) throws ParserConfigurationException, SAXException, IOException, TransformerFactoryConfigurationError, TransformerException  {
+	//crea la struttura di un file xml per aggiungere un commento ad un file già esistente
+	public void addComment(String Author,String Date, String Content,File f) throws ParserConfigurationException, SAXException, IOException, TransformerFactoryConfigurationError, TransformerException  {
 		//String filepath =path+filename+".xml"; 
 		//Log.d("XML_MAKER",filepath);
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 		Document doc = docBuilder.parse(f);
 		
+		//mi restituisce l'elemento root del file
 		Node root = doc.getFirstChild();
 		
-		Element tagStudy = doc.createElement("COMMENT");
-	    root.appendChild(tagStudy);
-	    // add attr: author =
-	    tagStudy.setAttribute("Author", "io");
+			//crea il nuovo tag
+			Element tag = doc.createElement("COMMENT");
+			root.appendChild(tag);
+			// add attr: author =
+			tag.setAttribute("Author", Author);
+			tag.setAttribute("Date", Date);
 	    
-	    Element tagContent = doc.createElement("CONTENT");
-	    tagStudy.appendChild(tagContent);
-	    tagContent.setTextContent("Content");
+				Element tagContent = doc.createElement("CONTENT");
+				tag.appendChild(tagContent);
+				tagContent.setTextContent(Content);
 	 
 	    
 	    Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -139,4 +148,5 @@ public class WriterXml {
         f.delete();
         
 	}
+	
 }
