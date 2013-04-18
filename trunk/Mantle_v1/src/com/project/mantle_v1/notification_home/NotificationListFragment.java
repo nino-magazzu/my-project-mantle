@@ -93,6 +93,8 @@ public class NotificationListFragment extends ListFragment {
 		MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
 				.getApplicationContext());
 		String password = db.getPassword(email);
+		((MyApplication) getActivity().getApplicationContext()).setID(db.getId(email));
+		
 		db.close();
 
 		new ReaderTask(handler, email, password).start();

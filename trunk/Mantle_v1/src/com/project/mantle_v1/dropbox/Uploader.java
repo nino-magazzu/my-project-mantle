@@ -32,6 +32,7 @@ import com.dropbox.client2.exception.DropboxPartialFileException;
 import com.dropbox.client2.exception.DropboxServerException;
 import com.dropbox.client2.exception.DropboxUnlinkedException;
 import com.project.mantle_v1.MantleFile;
+import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.xml.WriterXml;
 
@@ -126,12 +127,9 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 				// inserimento del fil ne db
 				long ID = db.insertFile(file.getFileName(), file.getLinkFile(),
 						"", file.getFileKey());
-
-				/*
-				 * TODO: - prendere id del file appena caricato - creare xml con
-				 * quel nome - passare i parametri a putFileOverwriteRequest -
-				 * cancellare l'xml dalla sdcard
-				 */
+				
+				db.insertShare((int) ID, ((MyApplication)mContext.getApplicationContext()).getID());
+				
 				WriterXml com = new WriterXml();
 				String pathComment = Environment.getExternalStorageDirectory()
 						.toString() + "/";

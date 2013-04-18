@@ -35,7 +35,7 @@ public class MantleMessage {
 
 	private String jsonText;
 	private String type;
-
+	private String sender_email;
 	private String message;
 	private Map<String, Integer> DECODE_MAP;
 
@@ -78,11 +78,11 @@ public class MantleMessage {
 
 	}
 
-	public MantleMessage(String message, Context c) {
+	public MantleMessage(String message, Context c, String email) {
 		this.message = message.substring(MantleMessage.MAGIC_NUMBER.length(),
 				message.length());
 		this.context = c;
-
+		this.sender_email = email;
 		DECODE_MAP = new HashMap<String, Integer>();
 
 		int i = 0;
@@ -161,6 +161,7 @@ public class MantleMessage {
 			} catch (IOException e) {
 				Log.e(TAG, "Problema lettura: " + e.getMessage());
 			}
+			media.setSender_email(sender_email);
 			return new Notifica(SHARING_PHOTO, media);
 
 		case 005:

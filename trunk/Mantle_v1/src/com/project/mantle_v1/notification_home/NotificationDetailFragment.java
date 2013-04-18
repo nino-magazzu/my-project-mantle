@@ -189,6 +189,13 @@ public class NotificationDetailFragment extends Fragment {
 				ImageView iv = (ImageView) rootView
 						.findViewById(R.id.sharedImage);
 				iv.setImageBitmap(mFile.getBitmap());
+				MioDatabaseHelper db = new MioDatabaseHelper(rootView.getContext());
+				
+				/* ===== TODO: Sostituire la stringa vuota con la chiave di cifratura ============ */
+				
+				long ID = db.insertFile(mFile.getFileName(), mFile.getLinkFile(), mFile.getLinkComment(), "");
+				int ID_User = db.getId(mFile.getSender_email());
+				db.insertShare((int)ID, ID_User);
 			}
 		}
 		return rootView;

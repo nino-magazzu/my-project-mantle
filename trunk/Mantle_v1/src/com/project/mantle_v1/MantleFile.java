@@ -203,6 +203,14 @@ public class MantleFile implements Serializable {
 		this.username = username;
 	}
 
+	public String getSender_email() {
+		return sender_email;
+	}
+
+	public void setSender_email(String sender_email) {
+		this.sender_email = sender_email;
+	}
+
 	private static final long serialVersionUID = 6107134499898867188L;
 	private final String TAG = getClass().getName();
 
@@ -219,4 +227,5 @@ public class MantleFile implements Serializable {
 	private Bitmap bitmap;
 	private String date;
 	private String username;
+	private String sender_email;
 }
