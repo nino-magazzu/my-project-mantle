@@ -1,5 +1,8 @@
 package com.project.mantle_v1;
 
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
+
 import android.app.Application;
 
 public class MyApplication extends Application {
@@ -44,9 +47,18 @@ public class MyApplication extends Application {
 		this.pswEmail = pswEmail;
 	}
 
+	public DropboxAPI<AndroidAuthSession> getmApi() {
+		return mApi;
+	}
+
+	public void setmApi(DropboxAPI<AndroidAuthSession> mApi) {
+		this.mApi = mApi;
+	}
+
 	private MantleFile media;
 	private String username;
 	private String email;
 	private String pswEmail;
 	private int ID;
+	private DropboxAPI<AndroidAuthSession> mApi;
 }

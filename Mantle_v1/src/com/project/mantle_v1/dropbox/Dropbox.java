@@ -106,6 +106,7 @@ public class Dropbox extends Activity {
 				} else {
 					// Start the remote authentication
 					mApi.getSession().startAuthentication(Dropbox.this);
+					((MyApplication)getApplicationContext()).setmApi(mApi);
 				}
 			}
 		});
