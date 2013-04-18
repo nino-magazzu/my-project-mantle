@@ -93,7 +93,8 @@ public class MantleMessage {
 		String code = message.substring(0, CODE_DIM);
   	  	Log.d(TAG, code);
   	  
-  	  	int CODE = DECODE_MAP.get(code);
+  	 	int CODE = DECODE_MAP.get(code);
+  	  	
   	  	ParseJSON parser = null;
   	  	User user = null;
   	  	List <Note> notes = null;
@@ -141,7 +142,7 @@ public class MantleMessage {
   	  					return new Notifica(note.getDate(),note.getContent(), MantleMessage.FRIENDSHIP_DENIED);
 
 						
-  	  	case 005:	jsonText = message.substring(CODE_DIM, message.length());
+  	  	case 004:	jsonText = message.substring(CODE_DIM, message.length());
   	  					Log.d(TAG, jsonText);
   	  					parser = new ParseJSON(new StringReader(jsonText));
   	  					try {
@@ -153,7 +154,7 @@ public class MantleMessage {
   	  					return new Notifica(media.getData(), SHARING_PHOTO, media.getUsername(), notes, media.getUrl());
 
   	  					
-  	  	case 004:	jsonText = message.substring(CODE_DIM, message.length());
+  	  	case 005:	jsonText = message.substring(CODE_DIM, message.length());
   	  					Log.d(TAG, jsonText);
   	  					parser = new ParseJSON(new StringReader(jsonText));
   	  					note = new Note();
