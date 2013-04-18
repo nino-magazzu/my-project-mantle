@@ -149,6 +149,14 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 	}
 
+	public long insertShare(String idFile, String idUser) {
+		ContentValues values = new ContentValues();
+		values.put("idFile", idFile);
+		values.put("idUser", idUser);
+		long r = db.insert("Share", null, values);
+		return r;
+	}
+	
 	public void deleteAll() {
 		db.delete("User", null, null);
 		db.delete("Service", null, null);
