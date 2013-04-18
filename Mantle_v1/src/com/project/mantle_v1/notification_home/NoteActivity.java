@@ -37,7 +37,7 @@ public class NoteActivity extends Activity {
 		Bundle bundle = intent.getBundleExtra("bundle");
 		this.email = bundle.getString("email");
 		this.username = bundle.getString("username");
-		String url = bundle.getString("url");
+		this.url = bundle.getString("url");
 
 		File file = MantleFile.downloadCommentFileFromUrl(url, "ProvaCommento");
 		ReaderXml reader = new ReaderXml();
@@ -65,11 +65,11 @@ public class NoteActivity extends Activity {
 			public void onClick(View v) {
 				EditText commentEditText = (EditText) findViewById(R.id.editText1);
 				String comment = commentEditText.getText().toString();
-				// TODO: email del proprietario del file
+			
 
 				ParseJSON parser = new ParseJSON(new StringWriter());
 				Note note = new Note(username, comment, new Date(System
-						.currentTimeMillis()).toString());
+						.currentTimeMillis()).toString(), url);
 				try {
 					parser.writeJson(note);
 				} catch (IOException ex) {
@@ -85,4 +85,5 @@ public class NoteActivity extends Activity {
 
 	private String username;
 	private String email;
+	private String url;
 }

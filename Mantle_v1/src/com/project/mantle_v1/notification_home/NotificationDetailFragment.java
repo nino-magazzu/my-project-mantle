@@ -173,12 +173,10 @@ public class NotificationDetailFragment extends Fragment {
 						Intent myIntent = new Intent(getActivity(),
 								NoteActivity.class);
 						Bundle bundle = new Bundle();
-						bundle.putString("username", mItem.getUsername());
+						bundle.putString("username", ((MyApplication)getActivity().getApplication()).getUsername());
 						bundle.putString("url", mItem.getmFile()
 								.getLinkComment());
-						bundle.putString("email",
-								((MyApplication) getActivity()
-										.getApplicationContext()).getEmail());
+						bundle.putString("email",mItem.getmFile().getSender_email());
 						myIntent.putExtra("bundle", bundle);
 						getActivity().startActivity(myIntent);
 					}
