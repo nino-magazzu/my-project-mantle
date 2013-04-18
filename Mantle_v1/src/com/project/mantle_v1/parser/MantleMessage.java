@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import android.content.Context;
 import android.util.Log;
+
+import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.notification_home.Note;
@@ -97,8 +99,7 @@ public class MantleMessage {
   	  	
   	  	ParseJSON parser = null;
   	  	User user = null;
-  	  	List <Note> notes = null;
-  	  	Media media = null;
+  	  	MantleFile media = null;
   	  	Note note;
   	  	
   	  	switch(CODE) {
@@ -138,7 +139,6 @@ public class MantleMessage {
   	  					} catch (IOException e) {
   	  						Log.e(TAG, "Problema lettura: " + e.getMessage());
   	  					}	
-  	  					notes = null;
   	  					return new Notifica(note.getDate(),note.getContent(), MantleMessage.FRIENDSHIP_DENIED);
 
 						
@@ -150,8 +150,7 @@ public class MantleMessage {
   	  					} catch (IOException e) {
   	  						Log.e(TAG, "Problema lettura: " + e.getMessage());
   	  					}	
-  	  					notes = null;
-  	  					return new Notifica(media.getData(), SHARING_PHOTO, media.getUsername(), notes, media.getUrl());
+  	  					return new Notifica(SHARING_PHOTO, media);
 
   	  					
   	  	case 005:	jsonText = message.substring(CODE_DIM, message.length());
@@ -163,8 +162,7 @@ public class MantleMessage {
   	  					} catch (IOException e) {
   	  						Log.e(TAG, "Problema lettura: " + e.getMessage());
   	  					}	
-  	  					notes = null;
-  	  					return new Notifica(note.getDate(), NOTE, note.getUser(), notes, note.getFileLink());
+  	  					return new Notifica(NOTE, media);
 
   	  					
   	  	case 006: jsonText = message.substring(CODE_DIM, message.length());
@@ -176,7 +174,6 @@ public class MantleMessage {
 						} catch (IOException e) {
 							Log.e(TAG, "Problema lettura: " + e.getMessage());
 						}	
-						notes = null;
   	  					return new Notifica(note.getDate(), note.getContent(), MantleMessage.SYSTEM);
   	  					
   	  	default: 	throw new Error("Codice Errato");

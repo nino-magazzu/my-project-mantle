@@ -159,7 +159,7 @@ public class NotificationDetailFragment extends Fragment {
 				});
 				
 				MantleFile mFile = new MantleFile();
-				mFile.downloadFromUrl(mItem.getLink(), "prova");
+				mFile.downloadFileFromUrl("prova");
 				ImageView iv = (ImageView) rootView.findViewById(R.id.sharedImage);
 				iv.setImageBitmap(mFile.getBitmap());
 				// Show the dummy content as text in a TextView.

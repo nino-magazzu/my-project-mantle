@@ -25,6 +25,7 @@ import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.dropbox.client2.session.TokenPair;
+import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
@@ -32,7 +33,6 @@ import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.fileChooser.FileChooser;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
-import com.project.mantle_v1.parser.Media;
 import com.project.mantle_v1.parser.ParseJSON;
 
 public class Dropbox extends Activity {
@@ -79,7 +79,7 @@ public class Dropbox extends Activity {
     private TextView welcome;
     //private boolean isDownload;
     private ListOfFileDownloader dbFile;
-    private Media mt;
+    private MantleFile mt;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
