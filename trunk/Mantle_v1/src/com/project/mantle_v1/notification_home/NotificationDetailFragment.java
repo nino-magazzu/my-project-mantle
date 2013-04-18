@@ -197,7 +197,7 @@ public class NotificationDetailFragment extends Fragment {
 				MioDatabaseHelper db = new MioDatabaseHelper(rootView.getContext());
 				String fileUrl = db.getLinkfromLinkComment(mItem.getNote().getCommentLink());
 
-				File comment = MantleFile.downloadFileFromUrl(mItem.getNote().getCommentLink(), "CommentTmp");
+				File comment = MantleFile.downloadFileFromUrl(mItem.getNote().getCommentLink(), "CommentTmp.xml");
 				WriterXml xml = new WriterXml();
 				try {
 					xml.addComment(mItem.getNote().getUser(), mItem.getData(), mItem.getNote().getContent(), comment);
