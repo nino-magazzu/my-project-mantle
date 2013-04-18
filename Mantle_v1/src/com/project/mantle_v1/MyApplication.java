@@ -32,6 +32,14 @@ public class MyApplication extends Application {
 		return pswEmail;
 	}
 
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+
 	public void setPswEmail(String pswEmail) {
 		this.pswEmail = pswEmail;
 	}
@@ -40,4 +48,5 @@ public class MyApplication extends Application {
 	private String username;
 	private String email;
 	private String pswEmail;
+	private int ID;
 }

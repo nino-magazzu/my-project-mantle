@@ -83,7 +83,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	// ============== METODI PER LA GESTIONE DEL DATABASE ===============
 
 	// Prelevo l'id di un determinato utente dal nome e dal cognome
-	public String getId(String name, String surname) {
+	public int getId(String name, String surname) {
 
 		// quale campo mi restituisce la query
 		String[] columns = { "idUser" };
@@ -97,10 +97,10 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 		c.moveToNext();
 
-		return c.getString(0);
+		return c.getInt(0);
 	}
 
-	public String getId(String email) {
+	public int getId(String email) {
 		// quale campo mi restituisce la query
 		String[] columns = { "idUser" };
 		// clausola where
@@ -113,7 +113,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 		c.moveToNext();
 
-		return c.getString(0);
+		return c.getInt(0);
 	}
 
 	public long insertUser(String email, String username, String name,
@@ -149,7 +149,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 	}
 
-	public long insertShare(String idFile, String idUser) {
+	public long insertShare(int idFile, int idUser) {
 		ContentValues values = new ContentValues();
 		values.put("idFile", idFile);
 		values.put("idUser", idUser);

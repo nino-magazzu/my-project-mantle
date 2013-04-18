@@ -24,6 +24,7 @@ public class ParseJSON {
 	final private String SURNAME = "surname";
 	final private String PUBLIC_KEY = "publicKey";
 	final private String EMAIL = "email";
+	final private String FILE_NAME = "fileName";
 
 	// final private String IMAGE = "image";
 	// final private String FULL_IMAGE = "fullImage";
@@ -95,6 +96,7 @@ public class ParseJSON {
 
 	private void writeMedia(MantleFile media) throws IOException {
 		writer.beginObject();
+		writer.name(FILE_NAME).value(media.getFileName());
 		writer.name(FILE_LINK).value(media.getLinkFile());
 		writer.name(NOTES_LINK).value(media.getLinkComment());
 		writer.name(OBJECT_TYPE).value(media.getObjectType());
@@ -177,7 +179,9 @@ public class ParseJSON {
 		reader.beginObject();
 		while (reader.hasNext()) {
 			String name = reader.nextName();
-			if (name.equals(FILE_LINK))
+			if(name.equals(FILE_NAME))
+				media.setFileName(reader.nextString());
+			else if (name.equals(FILE_LINK))
 				media.setLinkFile(reader.nextString());
 			else if (name.equals(NOTES_LINK))
 				media.setLinkComment(reader.nextString());
