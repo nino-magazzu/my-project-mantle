@@ -138,7 +138,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	    	ContentValues values = new ContentValues();
 	    	values.put("fileName", fileName);
 	    	values.put("linkFile", linkFile);
-	    	values.put("fileComment", linkComment);
+	    	values.put("linkComment", linkComment);
 	    	values.put("fileKey", fileKey);
 	    	long r = db.insert("File", null, values);
 	    	return r;
