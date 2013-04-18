@@ -87,8 +87,8 @@ public class NotificationListFragment extends ListFragment {
 		User user = new User(getActivity().getApplicationContext());
 		String email = user.getEmail();
 		
-		((MyApplication) getActivity().getApplicationContext()).username = user.getUsername();
-		((MyApplication) getActivity().getApplicationContext()).email = user.getEmail();
+		((MyApplication) getActivity().getApplicationContext()).setUsername(user.getUsername());
+		((MyApplication) getActivity().getApplicationContext()).setEmail(user.getEmail());
 		
 		MioDatabaseHelper db = new MioDatabaseHelper(getActivity().getApplicationContext());
 		String password = db.getPassword(email);

@@ -191,7 +191,7 @@ public class Dropbox extends Activity {
     						upload.execute();
     						try {
     							mt = upload.get();
-    							((MyApplication) getApplicationContext()).media = mt;
+    							((MyApplication) getApplicationContext()).setMedia(mt);
     							Log.d(TAG, mt.getObjectType());
     						} catch (InterruptedException e) {
     							Log.i(TAG, "Error authenticating", e);
@@ -218,7 +218,7 @@ public class Dropbox extends Activity {
     			case FRIEND_CHOOSED_CODE:
     				Object[] contacts = (Object[]) data.getSerializableExtra("contacts");
     				Log.e(TAG, (String)contacts[0]);
-    				mt = ((MyApplication) getApplicationContext()).media;
+    				mt = ((MyApplication) getApplicationContext()).getMedia();
     				Log.e(TAG, mt.getObjectType());
     				String body = "";
     				try {

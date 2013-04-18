@@ -22,120 +22,122 @@ import android.os.Bundle;
 import android.util.Log;
 
 public class Reader extends Authenticator {
-	
+
 	private static final String TAG = "GMAILreader";
-	private String mailhost = "imap.gmail.com";  
+	private String mailhost = "imap.gmail.com";
 	private Session session;
 	private Store store;
 	private Folder folder;
 	private final MyHandler handler;
-	
-	
-	    public Reader(String user, String password, MyHandler handler) {
 
-	    	this.handler = handler;
-	    	
-	        Properties props = System.getProperties();
-	        if (props == null){
-	         Log.e(TAG, "Properties are null !!");
-	        }
+	public Reader(String user, String password, MyHandler handler) {
 
-	        try {
-	        session = Session.getDefaultInstance(props, null);
-	        store = session.getStore("imaps");
-	        store.connect(mailhost, user, password);
+		this.handler = handler;
 
-	        Log.i(TAG, "Store: "+store.toString());
-	        
-	        } catch (NoSuchProviderException e) {
-	        	Log.e(TAG, e.getMessage());
-	        } catch (MessagingException e) {
-	        	Log.e(TAG, e.getMessage());
-	        }
+		Properties props = System.getProperties();
+		if (props == null) {
+			Log.e(TAG, "Properties are null !!");
+		}
+
+		try {
+			session = Session.getDefaultInstance(props, null);
+			store = session.getStore("imaps");
+			store.connect(mailhost, user, password);
+
+			Log.i(TAG, "Store: " + store.toString());
+
+		} catch (NoSuchProviderException e) {
+			Log.e(TAG, e.getMessage());
+		} catch (MessagingException e) {
+			Log.e(TAG, e.getMessage());
+		}
 	}
 
-	    public synchronized void detectMail() throws Exception { 
-	    	try { 
-	    		folder = store.getFolder("INBOX"); 
-	    		folder.open(Folder.READ_WRITE);
-	        
-	    		Message[] msg = folder.search(
-	    				new FlagTerm(new Flags(Flags.Flag.SEEN), false));
-	    		
-	    		Log.e(TAG, "DetectMail: Messaggi non letti: " + String.valueOf(msg.length));			
-	    		
-	    		if(msg.length > 0) {
-	    			readMail(msg);
-	    			
-	    		}
-	    	} catch (Exception e) { 
-	    		Log.e(TAG, e.getMessage(), e); 
-	    	} 
-	    }
+	public synchronized void detectMail() throws Exception {
+		try {
+			folder = store.getFolder("INBOX");
+			folder.open(Folder.READ_WRITE);
 
-		private void readMail(Message[] msg) throws IOException,
-				MessagingException {
-			for (int i = 0; i < msg.length ; i++) {
-				if(msg[i].getSubject().compareTo(Mail.SUBJECT) == 0) {
-					String body = "";
-					MimeMultipart multiPart = (MimeMultipart) msg[0].getContent();
-					for(int x = 0; x < multiPart.getCount(); x++) {
-						Object content = multiPart.getBodyPart(x).getContent();
-						body += content.toString();
-					}
-					if(body.contains(MantleMessage.MAGIC_NUMBER)){
-						notifyMessage(body);
-						msg[i].setFlag(Flags.Flag.DELETED, true);
-					}
+			Message[] msg = folder.search(new FlagTerm(new Flags(
+					Flags.Flag.SEEN), false));
+
+			Log.e(TAG,
+					"DetectMail: Messaggi non letti: "
+							+ String.valueOf(msg.length));
+
+			if (msg.length > 0) {
+				readMail(msg);
+
+			}
+		} catch (Exception e) {
+			Log.e(TAG, e.getMessage(), e);
+		}
+	}
+
+	private void readMail(Message[] msg) throws IOException, MessagingException {
+		for (int i = 0; i < msg.length; i++) {
+			if (msg[i].getSubject().compareTo(Mail.SUBJECT) == 0) {
+				String body = "";
+				MimeMultipart multiPart = (MimeMultipart) msg[0].getContent();
+				for (int x = 0; x < multiPart.getCount(); x++) {
+					Object content = multiPart.getBodyPart(x).getContent();
+					body += content.toString();
+				}
+				if (body.contains(MantleMessage.MAGIC_NUMBER)) {
+					notifyMessage(body);
+					msg[i].setFlag(Flags.Flag.DELETED, true);
 				}
 			}
-		} 
+		}
+	}
 
-	public void detectNewMail() throws Exception{
-		folder = store.getFolder("INBOX"); 
-	    folder.open(Folder.READ_WRITE); 
+	public void detectNewMail() throws Exception {
+		folder = store.getFolder("INBOX");
+		folder.open(Folder.READ_WRITE);
 		folder.addMessageCountListener(new MessageCountListener() {
-			
+
 			public void messagesRemoved(MessageCountEvent arg0) {
 				// TODO Auto-generated method stub
 			}
-			
+
 			public void messagesAdded(MessageCountEvent arg0) {
 				try {
-				Message[] msg = arg0.getMessages();
+					Message[] msg = arg0.getMessages();
 
-	    		Log.e(TAG, "DetectNewMail: Messaggi non letti: " + String.valueOf(msg.length));			
-				
-	    		if(msg.length > 0) {
-	    			readMail(msg);
-	    		}
-	    		} catch (MessagingException e) {
-	 						Log.e(TAG, e.getMessage());
-	 					}catch (IOException e) {
-	 						Log.e(TAG, e.getMessage());
-	 					}
-	 			
-	 			try {
+					Log.e(TAG,
+							"DetectNewMail: Messaggi non letti: "
+									+ String.valueOf(msg.length));
+
+					if (msg.length > 0) {
+						readMail(msg);
+					}
+				} catch (MessagingException e) {
+					Log.e(TAG, e.getMessage());
+				} catch (IOException e) {
+					Log.e(TAG, e.getMessage());
+				}
+
+				try {
 					folder.close(true);
-					folder = store.getFolder("INBOX"); 
-		 		    folder.open(Folder.READ_WRITE);
+					folder = store.getFolder("INBOX");
+					folder.open(Folder.READ_WRITE);
 				} catch (MessagingException e) {
 					Log.e(TAG, e.getMessage());
 				}
 			}
-		});     
-	     
-	     for (;;){
-	     	Thread.sleep(10000);
-	     	folder.getMessageCount();
-	     }
+		});
+
+		for (;;) {
+			Thread.sleep(10000);
+			folder.getMessageCount();
+		}
 	}
 
 	private void notifyMessage(String body) {
-	    android.os.Message msg = handler.obtainMessage();
-	    Bundle b = new Bundle();
-	    b.putString("body", body);
-	    msg.setData(b);
-	    handler.sendMessage(msg);
-	  }
+		android.os.Message msg = handler.obtainMessage();
+		Bundle b = new Bundle();
+		b.putString("body", body);
+		msg.setData(b);
+		handler.sendMessage(msg);
+	}
 }
