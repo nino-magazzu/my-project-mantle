@@ -26,7 +26,7 @@ import android.widget.TextView;
  * well.
  */
 public class LoginActivity extends Activity {
-	
+
 	/**
 	 * The default Username to populate the Username field with.
 	 */
@@ -43,15 +43,14 @@ public class LoginActivity extends Activity {
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
 	private MioDatabaseHelper db;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_login);
 		db = new MioDatabaseHelper(this);
-        
-		
-		
+
 		// Set up the login form.
 		mUsername = getIntent().getStringExtra(EXTRA_NAME);
 		mUsernameView = (EditText) findViewById(R.id.username);
@@ -136,69 +135,73 @@ public class LoginActivity extends Activity {
 			// perform the user login attempt.
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
-			//Ho commentato la riga di sopra perche noi non dobbiamo perdere tempo ad effettuare il
-			//login ma possiamo lanciare direttamente l'activity seguente(home,registrazione)
-			
-			//////////////
+			// Ho commentato la riga di sopra perche noi non dobbiamo perdere
+			// tempo ad effettuare il
+			// login ma possiamo lanciare direttamente l'activity
+			// seguente(home,registrazione)
 
-			//db.deleteAll();
+			// ////////////
+
+			// db.deleteAll();
 			db.showAll();
-			///////////////
-			
+			// /////////////
+
 			String[] res = db.login();
-			
-			///////////////
-			Log.d("LOGIN","res[0]= " + res[0] + "res[1]= " + res[1]);
-			Log.d("LOGIN","username = " + mUsername+"password = "+mPassword);
-			///////////////
-			
-			if(res[0].equals(" ")){
-				///////////////
-				Log.d("LOGIN","l'utente non è registrato");
-				///////////////
-				
-				// Inserisco i dati username e password come nuovo db e 
+
+			// /////////////
+			Log.d("LOGIN", "res[0]= " + res[0] + "res[1]= " + res[1]);
+			Log.d("LOGIN", "username = " + mUsername + "password = "
+					+ mPassword);
+			// /////////////
+
+			if (res[0].equals(" ")) {
+				// /////////////
+				Log.d("LOGIN", "l'utente non è registrato");
+				// /////////////
+
+				// Inserisco i dati username e password come nuovo db e
 				// avvio il form per la registrazione
 				db.insertService("mantle", mUsername, mPassword);
 				Intent intent = new Intent(LoginActivity.this, Register.class);
-    	    	intent.putExtra("username",mUsername );
-    	    	intent.putExtra("password",mPassword);
-    	    	startActivityForResult(intent, 1);
+				intent.putExtra("username", mUsername);
+				intent.putExtra("password", mPassword);
+				startActivityForResult(intent, 1);
 			}
-			
-			if(res[0].equals(mUsername)&&res[1].equals(mPassword)){
-				///////////////						
+
+			if (res[0].equals(mUsername) && res[1].equals(mPassword)) {
+				// /////////////
 				Log.d("LOGIN :)", "Le stringe sono uguli");
-				///////////////
-				Intent intent = new Intent(LoginActivity.this, NotificationListActivity.class);// Home.class);
-	    	    startActivity(intent);
-				}
-			
-			if((!res[0].equals(mUsername))&&(!res[0].equals(" "))){
-				///////////////
+				// /////////////
+				Intent intent = new Intent(LoginActivity.this,
+						NotificationListActivity.class);// Home.class);
+				startActivity(intent);
+			}
+
+			if ((!res[0].equals(mUsername)) && (!res[0].equals(" "))) {
+				// /////////////
 				Log.d("LOGIN :(", "le stringe sono diverse");
-				///////////////					
+				// /////////////
 				showProgress(false);
 				mUsernameView.setError("username errato");
 				mUsernameView.setText("");
-				
+
 			}
-			
-			if(!res[1].equals(mPassword)&&(!res[1].equals(" "))){
-				///////////////
+
+			if (!res[1].equals(mPassword) && (!res[1].equals(" "))) {
+				// /////////////
 				Log.d("LOGIN :(", "le stringe sono diverse");
-				///////////////
+				// /////////////
 				showProgress(false);
 				mPasswordView.setError("password errata");
 				mPasswordView.setText("");
 			}
-			///////////////
-			Log.d("LOGIN","log che non deve essere mai raggiunto");
-			//android.os.SystemClock.sleep(3000);
-			//showProgress(false);
+			// /////////////
+			Log.d("LOGIN", "log che non deve essere mai raggiunto");
+			// android.os.SystemClock.sleep(3000);
+			// showProgress(false);
 
-			///////////////
-						
+			// /////////////
+
 		}
 	}
 

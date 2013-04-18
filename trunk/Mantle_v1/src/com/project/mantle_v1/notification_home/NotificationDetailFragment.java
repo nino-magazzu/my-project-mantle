@@ -1,6 +1,5 @@
 package com.project.mantle_v1.notification_home;
 
-
 import java.io.IOException;
 import java.io.StringWriter;
 
@@ -18,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.mantle_v1.MantleFile;
+import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
@@ -44,12 +44,12 @@ public class NotificationDetailFragment extends Fragment {
 	private Notifica mItem;
 
 	private String TAG = NotificationDetailFragment.class.getName();
-	
+
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
 	 */
-	
+
 	public NotificationDetailFragment() {
 	}
 
@@ -61,8 +61,8 @@ public class NotificationDetailFragment extends Fragment {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			mItem = MyHandler.ITEM_MAP.get(getArguments().getString(
-					ARG_ITEM_ID));
+			mItem = MyHandler.ITEM_MAP.get(getArguments()
+					.getString(ARG_ITEM_ID));
 		}
 	}
 
@@ -70,77 +70,95 @@ public class NotificationDetailFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = null;
-		
+
 		if (mItem != null) {
-			
-			if(mItem.getNotificationType().equals(MantleMessage.FRIENDSHIP_ACCEPTED) || 
-					mItem.getNotificationType().equals(MantleMessage.FRIENDSHIP_DENIED) ||
-					mItem.getNotificationType().equals(MantleMessage.SYSTEM)){
-						
-				rootView = inflater.inflate(R.layout.no_button_fragment, 
+
+			if (mItem.getNotificationType().equals(
+					MantleMessage.FRIENDSHIP_ACCEPTED)
+					|| mItem.getNotificationType().equals(
+							MantleMessage.FRIENDSHIP_DENIED)
+					|| mItem.getNotificationType().equals(MantleMessage.SYSTEM)) {
+
+				rootView = inflater.inflate(R.layout.no_button_fragment,
 						container, false);
-				
+
 				((TextView) rootView.findViewById(R.id.SystemInfo))
-				.setText(mItem.getNotificationBody());
-				
-					}
-			
-			else if(mItem.getNotificationType().equals(MantleMessage.FRIENDSHIP_REQUEST)) {
-				
+						.setText(mItem.getNotificationBody());
+
+			}
+
+			else if (mItem.getNotificationType().equals(
+					MantleMessage.FRIENDSHIP_REQUEST)) {
+
 				rootView = inflater.inflate(R.layout.two_button_fragment,
 						container, false);
 
 				((TextView) rootView.findViewById(R.id.FriendshipRequest))
-				.setText(mItem.getNotificationBody());
-				
-				final Button bDenied = (Button) rootView.findViewById(R.id.RifiutaFriend);
-				final Button bAccept = (Button) rootView.findViewById(R.id.accetta);
+						.setText(mItem.getNotificationBody());
+
+				final Button bDenied = (Button) rootView
+						.findViewById(R.id.RifiutaFriend);
+				final Button bAccept = (Button) rootView
+						.findViewById(R.id.accetta);
 				bAccept.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
-//						new ShowToast().showToast("Accetta",v.getContext());
-						MioDatabaseHelper db = new MioDatabaseHelper(v.getContext());
-						db.insertUser(mItem.getUser().getEmail(), mItem.getUser().getUsername(), mItem.getUser().getName(), mItem.getUser().getSurname(), mItem.getUser().getKey());
-						
+						// new ShowToast().showToast("Accetta",v.getContext());
+						MioDatabaseHelper db = new MioDatabaseHelper(v
+								.getContext());
+						db.insertUser(mItem.getUser().getEmail(), mItem
+								.getUser().getUsername(), mItem.getUser()
+								.getName(), mItem.getUser().getSurname(), mItem
+								.getUser().getKey());
+
 						ParseJSON parser = new ParseJSON(new StringWriter());
 						try {
 							parser.writeJson(new User(v.getContext()));
 						} catch (IOException e) {
 							Log.e(TAG, e.getMessage());
 						}
-						//db.close();
+						// db.close();
 
-						new Sender(v.getContext(), parser.toString(), mItem.getUser().getEmail(), MantleMessage.FRIENDSHIP_ACCEPTED).execute();
-						Toast.makeText(v.getContext(), mItem.getUser().getLongName() + " è stato aggiunto alla tua lista amici", Toast.LENGTH_LONG).show();
+						new Sender(v.getContext(), parser.toString(), mItem
+								.getUser().getEmail(),
+								MantleMessage.FRIENDSHIP_ACCEPTED).execute();
+						Toast.makeText(
+								v.getContext(),
+								mItem.getUser().getLongName()
+										+ " è stato aggiunto alla tua lista amici",
+								Toast.LENGTH_LONG).show();
 						db.close();
 						bAccept.setEnabled(false);
 						bDenied.setEnabled(false);
 					}
 				});
-		
-				
+
 				bDenied.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
 						ParseJSON parser = new ParseJSON(new StringWriter());
 						try {
 							User user = new User(v.getContext());
-							Note note = new Note(user.getUsername(), user.getLongName() + " ha rifiutato la tua richiesta d'amicizia");
+							Note note = new Note(
+									user.getUsername(),
+									user.getLongName()
+											+ " ha rifiutato la tua richiesta d'amicizia");
 							parser.writeJson(note);
 						} catch (IOException e) {
 							Log.e(TAG, e.getMessage());
 						}
-						
-						new Sender(v.getContext(), parser.toString() , mItem.getUser().getEmail(), MantleMessage.FRIENDSHIP_DENIED).execute();
+
+						new Sender(v.getContext(), parser.toString(), mItem
+								.getUser().getEmail(),
+								MantleMessage.FRIENDSHIP_DENIED).execute();
 						bAccept.setEnabled(false);
 						bDenied.setEnabled(false);
 					}
 				});
-				
-			}
-			else {
+
+			} else {
 				rootView = inflater.inflate(R.layout.fragment_photo_sharing,
 						container, false);
 
@@ -149,26 +167,30 @@ public class NotificationDetailFragment extends Fragment {
 
 				Button bComment = (Button) rootView.findViewById(R.id.comment);
 				bComment.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
-						Intent myIntent = new Intent(getActivity(), NoteActivity.class);
-						myIntent.putExtra("notifica", mItem);
-		                getActivity().startActivity(myIntent); 						
+						Intent myIntent = new Intent(getActivity(),
+								NoteActivity.class);
+						Bundle bundle = new Bundle();
+						bundle.putString("username", mItem.getUsername());
+						bundle.putString("url", mItem.getmFile()
+								.getLinkComment());
+						bundle.putString("email",
+								((MyApplication) getActivity()
+										.getApplicationContext()).getEmail());
+						myIntent.putExtra("bundle", bundle);
+						getActivity().startActivity(myIntent);
 					}
 				});
-				
-				MantleFile mFile = new MantleFile();
+
+				MantleFile mFile = mItem.getmFile();
 				mFile.downloadFileFromUrl("prova");
-				ImageView iv = (ImageView) rootView.findViewById(R.id.sharedImage);
+				ImageView iv = (ImageView) rootView
+						.findViewById(R.id.sharedImage);
 				iv.setImageBitmap(mFile.getBitmap());
-				// Show the dummy content as text in a TextView.
-				/*
-				((ListView) rootView.findViewById(R.id.notification_detail))
-				.setAdapter(new NoteAdapter(container.getContext(), R.layout.note_layout, mItem.getNotes()));
-				*/
 			}
-		}	
+		}
 		return rootView;
 	}
 }
