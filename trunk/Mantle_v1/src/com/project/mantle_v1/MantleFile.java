@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 
@@ -88,7 +89,12 @@ public class MantleFile implements Serializable {
 		}
 
 	}
-
+	
+	public static void uploadFile(File f, DropboxAPI<?> mApi) {
+		UploaderTask upl = new UploaderTask(mApi, f);
+		upl.execute();
+	}
+	
 	public static File downloadFileFromUrl(String url, String fileName) {
 		DownladerTask down = new DownladerTask(url, fileName);
 		down.execute();
