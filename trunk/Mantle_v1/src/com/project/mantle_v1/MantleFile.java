@@ -1,16 +1,8 @@
 package com.project.mantle_v1;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.net.URL;
-import java.net.URLConnection;
-
-import org.apache.http.util.ByteArrayBuffer;
-
+import java.util.concurrent.ExecutionException;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,21 +14,6 @@ import com.project.mantle_v1.database.MioDatabaseHelper;
 
 public class MantleFile implements Serializable {
 	
-	private static final long serialVersionUID = 6107134499898867188L;
-	private final String TAG = MantleFile.class.getName();
-	
-	private String idFile;
-	private String fileName;
-	private String linkFile;
-	private String linkComment;
-	private String fileKey;
-	private MioDatabaseHelper db;
-
-	private String objectType;
-	private String icon;
-	private boolean isImage;
-	private Bitmap bitmap;
-	private String date;
 	
 	
 	/* TODO: da gestire in seguito alla modifica delal struttura del db
@@ -52,6 +29,7 @@ public class MantleFile implements Serializable {
 		this.objectType = ent.mimeType;
 		this.isImage = objectType.contains("image");
 		this.fileName = file.getName();
+		
 		if(isImage)
 			this.bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 		
@@ -92,47 +70,27 @@ public class MantleFile implements Serializable {
 		this.fileKey = file[4];
 		db.close();
 	}
-
+	
+	/**
+	 *  Permette di scaricare  un file passando l'url e il nome del file 
+	 *  di destinazione.
+	 *  Il file verrà salvato sulla sdcard. 
+	 * @param imageURL: url del file da scaricare
+	 * @param fileName: nome del file sul dispositivo
+	 */
+	
 	public void downloadFromUrl(String imageURL, String fileName) {
-		try {
-			File root = android.os.Environment.getExternalStorageDirectory(); 
-			URL url = new URL(imageURL);
-			File file = new File(root, fileName);
-			long StartingTime = System.currentTimeMillis();
-			
-            Log.d(TAG, "download begining");
-            Log.d(TAG, "download url:" + url);
-            Log.d(TAG, "downloaded file name:" + fileName);
-            
-            /* Open a connection to that URL. */
-            URLConnection ucon = url.openConnection();
+		DownladerTask down = new DownladerTask(imageURL, fileName);
+		down.execute();
+		
+    	try {
+			this.mFile = down.get();
+		} catch (InterruptedException e) {
+			Log.i(TAG, "Error authenticating", e);
+		} catch (ExecutionException e) {
+			Log.i(TAG, "Error authenticating", e);
+		}
 
-            /*
-             * Define InputStreams to read from the URLConnection.
-             */
-            InputStream is = ucon.getInputStream();
-            BufferedInputStream bis = new BufferedInputStream(is);
-
-            /*
-             * Read bytes to the Buffer until there is nothing more to read(-1).
-             */
-            ByteArrayBuffer baf = new ByteArrayBuffer(50);
-            int current = 0;
-            while ((current = bis.read()) != -1) {
-                    baf.append((byte) current);
-            }
-
-            /* Convert the Bytes read to a String. */
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(baf.toByteArray());
-            fos.close();
-            Log.d(TAG, "download ready in"
-                            + ((System.currentTimeMillis() - StartingTime) / 1000)
-                            + " sec");
-
-			} catch (IOException e) {
-            Log.d(TAG, "Error: " + e);
-			}
 	}
 
 	
@@ -218,6 +176,7 @@ public class MantleFile implements Serializable {
 	}
 
 	public Bitmap getBitmap() {
+		this.bitmap = BitmapFactory.decodeFile(mFile.getAbsolutePath());
 		return bitmap;
 	}
 
@@ -234,4 +193,21 @@ public class MantleFile implements Serializable {
 	public void setDate(String date) {
 		this.date = date;
 	}
+	
+	private static final long serialVersionUID = 6107134499898867188L;
+	private final String TAG = MantleFile.class.getName();
+	
+	private String idFile;
+	private String fileName;
+	private String linkFile;
+	private String linkComment;
+	private String fileKey;
+	private MioDatabaseHelper db;
+	private File mFile;
+	private String objectType;
+	private String icon;
+	private boolean isImage;
+	private Bitmap bitmap;
+	private String date;
+
 }
