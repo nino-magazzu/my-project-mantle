@@ -11,7 +11,8 @@ public class Note {
 	// l'inserimento del commento nel corretto
 	// file xml.
 	private String commentLink;
-
+	private String sender_mail;
+	
 	public Note() {
 		super();
 	}
@@ -104,5 +105,13 @@ public class Note {
 
 	public void setCommentLink(String commentLink) {
 		this.commentLink = commentLink;
+	}
+
+	public String getSender_mail() {
+		return sender_mail;
+	}
+
+	public void setSender_mail(String sender_mail) {
+		this.sender_mail = sender_mail;
 	}
 }

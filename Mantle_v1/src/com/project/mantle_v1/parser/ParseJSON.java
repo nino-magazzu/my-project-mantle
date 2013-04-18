@@ -148,7 +148,7 @@ public class ParseJSON {
 			else if (name.equals(CONTENT))
 				note.setContent(reader.nextString());
 			else if (name.equals(FILE_LINK))
-				note.setFileLink(reader.nextString());
+				note.setCommentLink(reader.nextString());
 
 		}
 		reader.endObject();

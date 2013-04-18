@@ -27,10 +27,9 @@ public class Notifica implements Serializable {
 	private String NotificationType;
 	private User user;
 	private String title;
-	private String username;
 	private String body;
-	private String link;
 	private MantleFile mFile;
+	private Note note;
 
 	/**
 	 * Costruttore da usare nel caso in cui la notifica sia relativa ad una
@@ -108,16 +107,26 @@ public class Notifica implements Serializable {
 		this.mFile = mFile;
 		this.data = mFile.getDate();
 		this.NotificationType = notificationType;
-		this.username = mFile.getUsername();
 
 		Log.d("NOTIFICA", notificationType);
 
 		if (notificationType.equals(MantleMessage.NOTE))
-			this.title = username + " ha commentato una tua foto";
+			this.title = mFile.getUsername() + " ha commentato una tua foto";
 		else
-			this.title = username + " ha condiviso una foto";
+			this.title = mFile.getUsername() + " ha condiviso una foto";
+	}
+	
+	public Notifica(String notificationType, Note note) {
+		super();
+		this.data = note.getDate();
+		this.NotificationType = notificationType;
 
-		this.link = link;
+		Log.d("NOTIFICA", notificationType);
+
+		if (notificationType.equals(MantleMessage.NOTE))
+			this.title = note.getUser() + " ha commentato una tua foto";
+		else
+			this.title = note.getUser() + " ha condiviso una foto";
 	}
 
 	public String getData() {
@@ -132,8 +141,12 @@ public class Notifica implements Serializable {
 		if (user != null)
 			return user.getName() + " " + user.getSurname() + " ("
 					+ user.getUsername() + ")";
+		else if (note != null)
+			return note.getUser();
+		else if(mFile != null)
+			return mFile.getUsername();
 		else
-			return username;
+			return null;
 	}
 
 	public String getTitle() {
@@ -156,12 +169,14 @@ public class Notifica implements Serializable {
 		this.mFile = mFile;
 	}
 
-	public String getUsername() {
-		return username;
+	public Note getNote() {
+		return note;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setNote(Note note) {
+		this.note = note;
 	}
+
+	
 
 }

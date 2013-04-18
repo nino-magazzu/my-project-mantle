@@ -1,9 +1,17 @@
 package com.project.mantle_v1.notification_home;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+
+import org.xml.sax.SAXException;
+
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -25,6 +33,7 @@ import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;
+import com.project.mantle_v1.xml.WriterXml;
 
 /**
  * A fragment representing a single Notification detail screen. This fragment is
@@ -72,7 +81,7 @@ public class NotificationDetailFragment extends Fragment {
 		View rootView = null;
 
 		if (mItem != null) {
-
+			/* ==========  AMICIZIA ACCETTATA O RIFIUTATA ================ */
 			if (mItem.getNotificationType().equals(
 					MantleMessage.FRIENDSHIP_ACCEPTED)
 					|| mItem.getNotificationType().equals(
@@ -86,7 +95,8 @@ public class NotificationDetailFragment extends Fragment {
 						.setText(mItem.getNotificationBody());
 
 			}
-
+			
+			/* ==========  RICHIESTA D'AMICIZIA ================ */
 			else if (mItem.getNotificationType().equals(
 					MantleMessage.FRIENDSHIP_REQUEST)) {
 
@@ -158,7 +168,62 @@ public class NotificationDetailFragment extends Fragment {
 					}
 				});
 
-			} else {
+			}
+			/* ========== COMMENTO ALLA FOTO ================ */
+			else if(mItem.getNotificationType().equals(
+					MantleMessage.NOTE)) {
+				rootView = inflater.inflate(R.layout.fragment_photo_sharing,
+						container, false);
+
+				TextView tw = (TextView) rootView.findViewById(R.id.linkText);
+				tw.setText(mItem.getTitle());
+
+				Button bComment = (Button) rootView.findViewById(R.id.comment);
+				bComment.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						Intent myIntent = new Intent(getActivity(),
+								NoteActivity.class);
+						Bundle bundle = new Bundle();
+						bundle.putString("username", ((MyApplication)getActivity().getApplication()).getUsername());
+						bundle.putString("url", mItem.getNote().getCommentLink());
+						bundle.putString("email",mItem.getNote().getSender_mail());
+						myIntent.putExtra("bundle", bundle);
+						getActivity().startActivity(myIntent);
+					}
+				});
+				MioDatabaseHelper db = new MioDatabaseHelper(rootView.getContext());
+				String fileUrl = db.getLinkfromLinkComment(mItem.getNote().getCommentLink());
+
+				File comment = MantleFile.downloadFileFromUrl(mItem.getNote().getCommentLink(), "CommentTmp");
+				WriterXml xml = new WriterXml();
+				try {
+					xml.addComment(mItem.getNote().getUser(), mItem.getData(), mItem.getNote().getContent(), comment);
+				} catch (ParserConfigurationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SAXException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (TransformerFactoryConfigurationError e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (TransformerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				File img = MantleFile.downloadFileFromUrl(fileUrl, "provaImg");
+				ImageView iv = (ImageView) rootView
+						.findViewById(R.id.sharedImage);
+				iv.setImageBitmap(BitmapFactory.decodeFile(img.getAbsolutePath()));
+			}
+			/* ============== CONDIVISIONE DI UNA FOTO =======================*/
+			else {
 				rootView = inflater.inflate(R.layout.fragment_photo_sharing,
 						container, false);
 

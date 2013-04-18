@@ -39,7 +39,7 @@ public class NoteActivity extends Activity {
 		this.username = bundle.getString("username");
 		this.url = bundle.getString("url");
 
-		File file = MantleFile.downloadCommentFileFromUrl(url, "ProvaCommento");
+		File file = MantleFile.downloadFileFromUrl(url, "ProvaCommento");
 		ReaderXml reader = new ReaderXml();
 		try {
 			reader.parseComment(file);
