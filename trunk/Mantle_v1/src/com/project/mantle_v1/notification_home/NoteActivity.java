@@ -4,12 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Date;
+import java.util.List;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;
+import com.project.mantle_v1.xml.ReaderXml;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 public class NoteActivity extends Activity {
 
@@ -34,10 +39,23 @@ public class NoteActivity extends Activity {
         
         MantleFile mFile = not.getmFile();
         File file = mFile.downloadCommentFileFromUrl("ProvaCommento");
-        
+        ReaderXml reader = new ReaderXml();
+        try {
+			reader.parseComment(file);
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        List<Note> notes = reader.getParsedData();
         //TODO: lettura dal file degli eventuali commenti
-        // ((ListView) findViewById(R.id.listView1))
-      	//.setAdapter(new NoteAdapter(getApplicationContext(), R.layout.note_layout, not.getNotes()));
+        ((ListView) findViewById(R.id.listView1))
+        .setAdapter(new NoteAdapter(getApplicationContext(), R.layout.note_layout, notes));
 
         
         
