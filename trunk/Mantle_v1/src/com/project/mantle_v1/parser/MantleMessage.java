@@ -174,7 +174,7 @@ public class MantleMessage {
 			} catch (IOException e) {
 				Log.e(TAG, "Problema lettura: " + e.getMessage());
 			}
-			return new Notifica(NOTE, media);
+			return new Notifica(NOTE, note);
 
 		case 006:
 			jsonText = message.substring(CODE_DIM, message.length());

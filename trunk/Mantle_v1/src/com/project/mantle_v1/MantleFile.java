@@ -89,7 +89,7 @@ public class MantleFile implements Serializable {
 
 	}
 
-	public static File downloadCommentFileFromUrl(String url, String fileName) {
+	public static File downloadFileFromUrl(String url, String fileName) {
 		DownladerTask down = new DownladerTask(url, fileName);
 		down.execute();
 		File file = null;
