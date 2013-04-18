@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
@@ -156,8 +158,10 @@ public class NotificationDetailFragment extends Fragment {
 					}
 				});
 				
+				MantleFile mFile = new MantleFile();
+				mFile.downloadFromUrl(mItem.getLink(), "prova");
 				ImageView iv = (ImageView) rootView.findViewById(R.id.sharedImage);
-				
+				iv.setImageBitmap(mFile.getBitmap());
 				// Show the dummy content as text in a TextView.
 				/*
 				((ListView) rootView.findViewById(R.id.notification_detail))
