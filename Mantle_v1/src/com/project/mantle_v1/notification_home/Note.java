@@ -1,16 +1,16 @@
 package com.project.mantle_v1.notification_home;
 
 public class Note {
-	
+
 	private String user;
 	private String content;
 	private String date;
 	private String fileLink;
-	
-	// l'ho inserito per rendere più immediato 
+
+	// l'ho inserito per rendere più immediato
 	// l'inserimento del commento nel corretto
-	// file xml. 
-	private String commentLink; 
+	// file xml.
+	private String commentLink;
 
 	public Note() {
 		super();
@@ -22,39 +22,45 @@ public class Note {
 		this.content = content;
 	}
 
-
 	/**
-	 *	Costruttore da usare per leggere i commenti provenienti dalle mail
-	 *
-	 * @param username autore del commento
-	 * @param content corpo del commento 
-	 * @param date data di inserimento
-	 * @param fileLink file commentato
+	 * Costruttore da usare per leggere i commenti provenienti dalle mail
+	 * 
+	 * @param username
+	 *            autore del commento
+	 * @param content
+	 *            corpo del commento
+	 * @param date
+	 *            data di inserimento
+	 * @param fileLink
+	 *            file commentato
 	 */
-	
+
 	public Note(String username, String content, String date, String fileLink) {
 		this.user = username;
 		this.content = content;
 		this.date = date;
 		this.fileLink = fileLink;
-		
+
 	}
-	
+
 	/**
-	 *  Costruttore da usare per leggere i commenti dal file xml
-	 *  
-	 * @param username autore del commento
-	 * @param content corpo del commento
-	 * @param date data di inserimento
+	 * Costruttore da usare per leggere i commenti dal file xml
+	 * 
+	 * @param username
+	 *            autore del commento
+	 * @param content
+	 *            corpo del commento
+	 * @param date
+	 *            data di inserimento
 	 */
-	
+
 	public Note(String username, String content, String date) {
 		this.user = username;
 		this.content = content;
 		this.date = date;
-		
+
 	}
-	
+
 	@Override
 	public String toString() {
 		return content;

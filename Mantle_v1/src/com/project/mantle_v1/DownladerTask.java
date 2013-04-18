@@ -11,21 +11,23 @@ import org.apache.http.util.ByteArrayBuffer;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class DownladerTask extends AsyncTask<Void, Long, File>{
-	
+public class DownladerTask extends AsyncTask<Void, Long, File> {
+
 	public DownladerTask(String fileUrl, String Filename) {
 		try {
-			File root = android.os.Environment.getExternalStorageDirectory(); 
+			File root = android.os.Environment.getExternalStorageDirectory();
 			this.mUrl = new URL(fileUrl);
+			Log.d(TAG, fileUrl);
 			this.mFile = new File(root, Filename);
-		} catch(IOException ex) {
+			Log.d(TAG, Filename);
+		} catch (IOException ex) {
 			Log.e(TAG, ex.getMessage());
 		}
 	}
-	
+
 	@Override
 	protected File doInBackground(Void... params) {
-		
+
 		try {
 			long StartingTime = System.currentTimeMillis();
 			/* Open a connection to that URL. */
@@ -55,7 +57,7 @@ public class DownladerTask extends AsyncTask<Void, Long, File>{
 		}
 		return mFile;
 	}
-	
+
 	private final String TAG = getClass().getName();
 	private File mFile;
 	private URL mUrl;

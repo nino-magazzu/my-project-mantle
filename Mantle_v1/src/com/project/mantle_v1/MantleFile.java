@@ -89,16 +89,16 @@ public class MantleFile implements Serializable {
 
 	}
 
-	public File downloadCommentFileFromUrl(String fileName) {
-		DownladerTask down = new DownladerTask(this.linkComment, fileName);
+	public static File downloadCommentFileFromUrl(String url, String fileName) {
+		DownladerTask down = new DownladerTask(url, fileName);
 		down.execute();
 		File file = null;
 		try {
 			file = down.get();
 		} catch (InterruptedException e) {
-			Log.i(TAG, "Error authenticating", e);
+			Log.i("MantleFile", "Error authenticating", e);
 		} catch (ExecutionException e) {
-			Log.i(TAG, "Error authenticating", e);
+			Log.i("MantleFile", "Error authenticating", e);
 		}
 		return file;
 	}

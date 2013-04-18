@@ -24,73 +24,75 @@ import android.util.Log;
 public class MyHandler extends Handler {
 	private Context context;
 	private String link;
-	
+
 	public static List<Notifica> ITEMS = new ArrayList<Notifica>();
-	public static Map<String,Notifica> ITEM_MAP = new HashMap<String, Notifica>();
-	
+	public static Map<String, Notifica> ITEM_MAP = new HashMap<String, Notifica>();
+
 	private final String TAG = "MyHandler";
-	
+
 	private NotificaAdapter adapter;
-	
-	
+
 	public MyHandler(Context context) {
 		super();
 		this.context = context;
-		if(ITEMS.isEmpty())
-			addItem(new Notifica(new Date(System.currentTimeMillis()).toString(), "Benvenuto in Mantle", MantleMessage.SYSTEM));
-		
+		if (ITEMS.isEmpty())
+			addItem(new Notifica(
+					new Date(System.currentTimeMillis()).toString(),
+					"Benvenuto in Mantle", MantleMessage.SYSTEM));
+
 	}
 
 	@Override
-    public void handleMessage(Message msg) {
-      
-	 Log.d(TAG,"Nuovo messaggio");	
-		
-	  Bundle bundle = msg.getData();
-	  
-      if(bundle.containsKey("body")) {
-    	  link = bundle.getString("body");
-    	  
-    	  MantleMessage mess = new MantleMessage(link, context);
-    	  Notifica not = mess.getNotifica();
-    	  createNotification(not.getTitle());
-    	  addItem(not);
-    	  Log.d(TAG, "ITEMS: " + String.valueOf(ITEMS.size()));
-    	  Log.d(TAG, "AdapterB: " + adapter.toString());
-    	  adapter.notifyDataSetChanged();
-    	  
-      }
-     
-      if(bundle.containsKey("adapter")) {
-    	  this.adapter = (NotificaAdapter) bundle.get("adapter");
-    	  Log.d(TAG, "Adapter: " + adapter.toString());
-    	  
-      }
+	public void handleMessage(Message msg) {
+
+		Log.d(TAG, "Nuovo messaggio");
+
+		Bundle bundle = msg.getData();
+
+		if (bundle.containsKey("body")) {
+			link = bundle.getString("body");
+
+			MantleMessage mess = new MantleMessage(link, context);
+			Notifica not = mess.getNotifica();
+			createNotification(not.getTitle());
+			addItem(not);
+			Log.d(TAG, "ITEMS: " + String.valueOf(ITEMS.size()));
+			Log.d(TAG, "AdapterB: " + adapter.toString());
+			adapter.notifyDataSetChanged();
+
+		}
+
+		if (bundle.containsKey("adapter")) {
+			this.adapter = (NotificaAdapter) bundle.get("adapter");
+			Log.d(TAG, "Adapter: " + adapter.toString());
+
+		}
 	}
-	
+
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public void createNotification(String title) {
-	    // Prepare intent which is triggered if the
-	    // notification is selected
-	    Intent intent = new Intent(context, NotificationListActivity.class);
-	    PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, 0);
+		// Prepare intent which is triggered if the
+		// notification is selected
+		Intent intent = new Intent(context, NotificationListActivity.class);
+		PendingIntent pIntent = PendingIntent
+				.getActivity(context, 0, intent, 0);
 
-	    // Build notification
-	    // Actions are just fake
-	    Notification noti = new Notification.Builder(context)
-	        .setContentTitle("Mantle")
-	        .setContentText(title).setSmallIcon(R.drawable.ic_launcher)
-	        .setContentIntent(pIntent)
-	        //.addAction(R.drawable.icon, "More", pIntent)
-	        //.addAction(R.drawable.icon, "Call", pIntent)
-	        //.addAction(R.drawable.icon, "And more", pIntent)
-	        .build();
-	    NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-	    // Hide the notification after its selected
-	    noti.flags |= Notification.FLAG_AUTO_CANCEL;
-	    notificationManager.notify(0, noti);
-	  }
-		
+		// Build notification
+		// Actions are just fake
+		Notification noti = new Notification.Builder(context)
+				.setContentTitle("Mantle").setContentText(title)
+				.setSmallIcon(R.drawable.ic_launcher).setContentIntent(pIntent)
+				// .addAction(R.drawable.icon, "More", pIntent)
+				// .addAction(R.drawable.icon, "Call", pIntent)
+				// .addAction(R.drawable.icon, "And more", pIntent)
+				.build();
+		NotificationManager notificationManager = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		// Hide the notification after its selected
+		noti.flags |= Notification.FLAG_AUTO_CANCEL;
+		notificationManager.notify(0, noti);
+	}
+
 	private static void addItem(Notifica item) {
 		ITEM_MAP.put(String.valueOf(ITEM_MAP.size() + 1), item);
 		ITEMS.add(item);
