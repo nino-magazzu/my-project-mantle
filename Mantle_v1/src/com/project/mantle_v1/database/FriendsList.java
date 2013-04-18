@@ -16,12 +16,14 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 public class FriendsList extends Activity {
 
+	ArrayList<String> status;
 	ArrayList<String> arr;
 	private MioDatabaseHelper db;
 	ListView listView;
@@ -31,6 +33,7 @@ public class FriendsList extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.friend_list);
 		arr = new ArrayList<String>();
+		status = new ArrayList<String>();
 		int i;
 
 		db = new MioDatabaseHelper(getApplicationContext());
@@ -46,17 +49,54 @@ public class FriendsList extends Activity {
         		Log.d("ListViewActivity", "Hai selezionato " + listView.getItemAtPosition(position));
         		Log.d("ListViewActivity", "con id = " + itemId + " e position = " + position);
         		
+        		//apro le info dell'utente selezionato.
         		
-        		String selectedFromList =(String) (listView.getItemAtPosition(position).toString());
-        		String[] contatto = selectedFromList.split(", user=");
-        		//in contatto[0] viene salvato la prima parte della stringa fino a ",user=" in contatto[1] la restante parte della stringa
-        		//substring mi serve per eliminare "{email=" e mi restituisce solo l'indirizzo email
-        		arr.add(contatto[0].substring(7));
-        		
-        		Log.d("LIST_View_Activity",contatto[0].substring(7));
         	}
         	
         });
+		
+
+		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> listView, View itemView,int position, long itemId) {
+				Log.d("ListViewActivity", "Hai tenuto premuto  " + listView.getItemAtPosition(position));
+        		Log.d("ListViewActivity", "con id = " + itemId + " e position = " + position);
+        		String selectedFromList =(String) (listView.getItemAtPosition(position).toString());
+        		String[] contatto = selectedFromList.split(", user=");
+        		
+
+        		if(status.contains(String.valueOf(position))){
+        			Log.d("ListViewActivity","L'elemento è gia inserito lo tolgo");
+        			int index = status.indexOf(String.valueOf(position)); 
+        			status.remove(index);
+        			arr.remove(contatto[0].substring(7));
+        		}
+        		else{
+        			status.add(String.valueOf(position));
+        			Log.d("ListViewActivity","Sto inserendo il valore " + position);
+        			
+        			//in contatto[0] viene salvato la prima parte della stringa fino a ",user=" in contatto[1] la restante parte della stringa
+            		//substring mi serve per eliminare "{email=" e mi restituisce solo l'indirizzo email
+            		arr.add(contatto[0].substring(7));
+            		
+            		Log.d("LIST_View_Activity",contatto[0].substring(7));
+        			
+        			
+        			//stampo la lista
+            		for(int i=0;i<status.size();i++){
+            			Log.d("ListViewActivity", String.valueOf(status.get(i)));
+            			
+            		}
+            		
+        		}
+        		 			
+        		return true;
+			}
+		
+		});
+		
+
 	}
 
 	
