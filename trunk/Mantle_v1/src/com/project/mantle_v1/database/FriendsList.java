@@ -38,67 +38,78 @@ public class FriendsList extends Activity {
 
 		db = new MioDatabaseHelper(getApplicationContext());
 
-        String[] friends = db.getFriends();
-        listView = (ListView) findViewById(R.id.list);
+		String[] friends = db.getFriends();
+		listView = (ListView) findViewById(R.id.list);
 		showFriends(friends);
-       
-		listView.setOnItemClickListener(new OnItemClickListener(){
-	        
-        	@Override
-        	 public void onItemClick ( AdapterView<?> listView, View itemView, int position,long itemId ){
-        		Log.d("ListViewActivity", "Hai selezionato " + listView.getItemAtPosition(position));
-        		Log.d("ListViewActivity", "con id = " + itemId + " e position = " + position);
-        		
-        		//apro le info dell'utente selezionato.
-        		
-        	}
-        	
-        });
-		
+
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> listView, View itemView,
+					int position, long itemId) {
+				Log.d("ListViewActivity",
+						"Hai selezionato "
+								+ listView.getItemAtPosition(position));
+				Log.d("ListViewActivity", "con id = " + itemId
+						+ " e position = " + position);
+
+				// apro le info dell'utente selezionato.
+
+			}
+
+		});
 
 		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 			@Override
-			public boolean onItemLongClick(AdapterView<?> listView, View itemView,int position, long itemId) {
-				Log.d("ListViewActivity", "Hai tenuto premuto  " + listView.getItemAtPosition(position));
-        		Log.d("ListViewActivity", "con id = " + itemId + " e position = " + position);
-        		String selectedFromList =(String) (listView.getItemAtPosition(position).toString());
-        		String[] contatto = selectedFromList.split(", user=");
-        		
+			public boolean onItemLongClick(AdapterView<?> listView,
+					View itemView, int position, long itemId) {
+				Log.d("ListViewActivity",
+						"Hai tenuto premuto  "
+								+ listView.getItemAtPosition(position));
+				Log.d("ListViewActivity", "con id = " + itemId
+						+ " e position = " + position);
+				String selectedFromList = (String) (listView
+						.getItemAtPosition(position).toString());
+				String[] contatto = selectedFromList.split(", user=");
 
-        		if(status.contains(String.valueOf(position))){
-        			Log.d("ListViewActivity","L'elemento è gia inserito lo tolgo");
-        			int index = status.indexOf(String.valueOf(position)); 
-        			status.remove(index);
-        			arr.remove(contatto[0].substring(7));
-        			Toast.makeText(getApplicationContext(),contatto[0].substring(7)+" delete from receiver", Toast.LENGTH_SHORT).show();
-        		}
-        		else{
-        			status.add(String.valueOf(position));
-        			Log.d("ListViewActivity","Sto inserendo il valore " + position);
-        			
-        			//in contatto[0] viene salvato la prima parte della stringa fino a ",user=" in contatto[1] la restante parte della stringa
-            		//substring mi serve per eliminare "{email=" e mi restituisce solo l'indirizzo email
-            		arr.add(contatto[0].substring(7));
-            		
-            		
-            		String receiver="Receiver = ";
-            		for(int j=0;j<arr.size();j++){
-            			receiver = receiver + arr.get(j) + ", ";
-            		}
-            		
-            		Toast.makeText(getApplicationContext(),receiver, Toast.LENGTH_SHORT).show();
-        		}
-        		 			
-        		return true;
+				if (status.contains(String.valueOf(position))) {
+					Log.d("ListViewActivity",
+							"L'elemento è gia inserito lo tolgo");
+					int index = status.indexOf(String.valueOf(position));
+					status.remove(index);
+					arr.remove(contatto[0].substring(7));
+					Toast.makeText(getApplicationContext(),
+							contatto[0].substring(7) + " delete from receiver",
+							Toast.LENGTH_SHORT).show();
+				} else {
+					status.add(String.valueOf(position));
+					Log.d("ListViewActivity", "Sto inserendo il valore "
+							+ position);
+
+					// in contatto[0] viene salvato la prima parte della stringa
+					// fino a ",user=" in contatto[1] la restante parte della
+					// stringa
+					// substring mi serve per eliminare "{email=" e mi
+					// restituisce solo l'indirizzo email
+					arr.add(contatto[0].substring(7));
+
+					String receiver = "Receiver = ";
+					for (int j = 0; j < arr.size(); j++) {
+						receiver = receiver + arr.get(j) + ", ";
+					}
+
+					Toast.makeText(getApplicationContext(), receiver,
+							Toast.LENGTH_SHORT).show();
+				}
+
+				return true;
 			}
-		
+
 		});
-		
 
 	}
 
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 

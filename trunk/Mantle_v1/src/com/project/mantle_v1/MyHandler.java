@@ -54,7 +54,7 @@ public class MyHandler extends Handler {
 			link = bundle.getString("body");
 			email = bundle.getString("email");
 			Log.d(TAG, "Email amico: " + email);
-			
+
 			MantleMessage mess = new MantleMessage(link, context, email);
 			Notifica not = mess.getNotifica();
 			createNotification(not.getTitle());

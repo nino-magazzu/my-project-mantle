@@ -1,10 +1,7 @@
 package com.project.mantle_v1.notification_home;
 
 import java.io.Serializable;
-import java.util.List;
-
 import android.util.Log;
-
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.parser.MantleMessage;
@@ -12,16 +9,11 @@ import com.project.mantle_v1.parser.MantleMessage;
 public class Notifica implements Serializable {
 
 	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3324254621470042381L;
-
-	/**
 	 * Rappresenta una notifica ottenuta dalle mail. Raccoglie i dati essenziali
 	 * per andare a creare le notifiche all'interno della home
 	 */
 
-	// NOTIFICATION TYPE ID
+	private static final long serialVersionUID = 3324254621470042381L;
 
 	private String data;
 	private String NotificationType;
@@ -115,13 +107,12 @@ public class Notifica implements Serializable {
 		else
 			this.title = mFile.getUsername() + " ha condiviso una foto";
 	}
-	
+
 	public Notifica(String notificationType, Note note) {
 		super();
 		this.data = note.getDate();
 		this.NotificationType = notificationType;
-
-		Log.d("NOTIFICA", notificationType);
+		this.note = note;
 
 		if (notificationType.equals(MantleMessage.NOTE))
 			this.title = note.getUser() + " ha commentato una tua foto";
@@ -143,7 +134,7 @@ public class Notifica implements Serializable {
 					+ user.getUsername() + ")";
 		else if (note != null)
 			return note.getUser();
-		else if(mFile != null)
+		else if (mFile != null)
 			return mFile.getUsername();
 		else
 			return null;
@@ -176,7 +167,5 @@ public class Notifica implements Serializable {
 	public void setNote(Note note) {
 		this.note = note;
 	}
-
-	
 
 }

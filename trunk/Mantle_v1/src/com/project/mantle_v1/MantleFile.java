@@ -15,7 +15,7 @@ import com.project.mantle_v1.database.MioDatabaseHelper;
 public class MantleFile implements Serializable {
 
 	/*
-	 * TODO: da gestire in seguito alla modifica delal struttura del db
+	 * TODO: da gestire in seguito alla modifica della struttura del db
 	 * 
 	 * private MantleImage thumbnail; private MantleImage fullImage;
 	 */
@@ -89,12 +89,12 @@ public class MantleFile implements Serializable {
 		}
 
 	}
-	
+
 	public static void uploadFile(File f, DropboxAPI<?> mApi) {
 		UploaderTask upl = new UploaderTask(mApi, f);
 		upl.execute();
 	}
-	
+
 	public static File downloadFileFromUrl(String url, String fileName) {
 		DownladerTask down = new DownladerTask(url, fileName);
 		down.execute();
