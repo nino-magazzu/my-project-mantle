@@ -14,12 +14,11 @@ public class UploaderTask extends AsyncTask<Void, Long, Boolean> {
 	private DropboxAPI<?> mApi;
 	private File mFile;
 	private UploadRequest mRequest;
-	
+
 	public UploaderTask(DropboxAPI<?> api, File f) {
 		this.mApi = api;
 		this.mFile = f;
 	}
-
 
 	@Override
 	protected Boolean doInBackground(Void... params) {
@@ -46,15 +45,14 @@ public class UploaderTask extends AsyncTask<Void, Long, Boolean> {
 						}
 					});
 
-			if (mRequest != null) 
+			if (mRequest != null)
 				mRequest.upload();
-			
+
 		} catch (Exception e) {
 			// This session wasn't authenticated properly or user unlinked
 			Log.e("UploaderTask", e.getMessage());
 		}
-		return null; 
+		return null;
 	}
-	
 
 }

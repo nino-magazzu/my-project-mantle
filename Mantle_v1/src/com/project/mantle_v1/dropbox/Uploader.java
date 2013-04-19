@@ -127,9 +127,10 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 				// inserimento del fil ne db
 				long ID = db.insertFile(file.getFileName(), file.getLinkFile(),
 						"", file.getFileKey());
-				
-				db.insertShare((int) ID, ((MyApplication)mContext.getApplicationContext()).getID());
-				
+
+				db.insertShare((int) ID, ((MyApplication) mContext
+						.getApplicationContext()).getID());
+
 				WriterXml com = new WriterXml();
 				String pathComment = Environment.getExternalStorageDirectory()
 						.toString() + "/";

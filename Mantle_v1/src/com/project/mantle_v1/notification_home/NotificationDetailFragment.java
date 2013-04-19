@@ -81,7 +81,7 @@ public class NotificationDetailFragment extends Fragment {
 		View rootView = null;
 
 		if (mItem != null) {
-			/* ==========  AMICIZIA ACCETTATA O RIFIUTATA ================ */
+			/* ========== AMICIZIA ACCETTATA O RIFIUTATA ================ */
 			if (mItem.getNotificationType().equals(
 					MantleMessage.FRIENDSHIP_ACCEPTED)
 					|| mItem.getNotificationType().equals(
@@ -95,8 +95,8 @@ public class NotificationDetailFragment extends Fragment {
 						.setText(mItem.getNotificationBody());
 
 			}
-			
-			/* ==========  RICHIESTA D'AMICIZIA ================ */
+
+			/* ========== RICHIESTA D'AMICIZIA ================ */
 			else if (mItem.getNotificationType().equals(
 					MantleMessage.FRIENDSHIP_REQUEST)) {
 
@@ -170,8 +170,7 @@ public class NotificationDetailFragment extends Fragment {
 
 			}
 			/* ========== COMMENTO ALLA FOTO ================ */
-			else if(mItem.getNotificationType().equals(
-					MantleMessage.NOTE)) {
+			else if (mItem.getNotificationType().equals(MantleMessage.NOTE)) {
 				rootView = inflater.inflate(R.layout.fragment_photo_sharing,
 						container, false);
 
@@ -186,21 +185,30 @@ public class NotificationDetailFragment extends Fragment {
 						Intent myIntent = new Intent(getActivity(),
 								NoteActivity.class);
 						Bundle bundle = new Bundle();
-						bundle.putString("username", ((MyApplication)getActivity().getApplication()).getUsername());
-						bundle.putString("url", mItem.getNote().getCommentLink());
-						bundle.putString("email",mItem.getNote().getSender_mail());
+						bundle.putString(
+								"username",
+								((MyApplication) getActivity().getApplication())
+										.getUsername());
+						bundle.putString("url", mItem.getNote()
+								.getCommentLink());
+						bundle.putString("email", mItem.getNote()
+								.getSender_mail());
 						myIntent.putExtra("bundle", bundle);
 						getActivity().startActivity(myIntent);
 					}
 				});
 				Log.e(TAG, mItem.getNote().getCommentLink());
-				MioDatabaseHelper db = new MioDatabaseHelper(rootView.getContext());
-				String fileUrl = db.getLinkfromLinkComment(mItem.getNote().getCommentLink());
+				MioDatabaseHelper db = new MioDatabaseHelper(
+						rootView.getContext());
+				String fileUrl = db.getLinkfromLinkComment(mItem.getNote()
+						.getCommentLink());
 
-				File comment = MantleFile.downloadFileFromUrl(mItem.getNote().getCommentLink(), "CommentTmp.xml");
+				File comment = MantleFile.downloadFileFromUrl(mItem.getNote()
+						.getCommentLink(), "CommentTmp.xml");
 				WriterXml xml = new WriterXml();
 				try {
-					xml.addComment(mItem.getNote().getUser(), mItem.getData(), mItem.getNote().getContent(), comment);
+					xml.addComment(mItem.getNote().getUser(), mItem.getData(),
+							mItem.getNote().getContent(), comment);
 				} catch (ParserConfigurationException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -217,15 +225,17 @@ public class NotificationDetailFragment extends Fragment {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				MantleFile.uploadFile(comment, ((MyApplication)getActivity().getApplication()).getmApi());
-				
+
+				MantleFile.uploadFile(comment, ((MyApplication) getActivity()
+						.getApplication()).getmApi());
+
 				File img = MantleFile.downloadFileFromUrl(fileUrl, "provaImg");
 				ImageView iv = (ImageView) rootView
 						.findViewById(R.id.sharedImage);
-				iv.setImageBitmap(BitmapFactory.decodeFile(img.getAbsolutePath()));
+				iv.setImageBitmap(BitmapFactory.decodeFile(img
+						.getAbsolutePath()));
 			}
-			/* ============== CONDIVISIONE DI UNA FOTO =======================*/
+			/* ============== CONDIVISIONE DI UNA FOTO ======================= */
 			else {
 				rootView = inflater.inflate(R.layout.fragment_photo_sharing,
 						container, false);
@@ -241,10 +251,14 @@ public class NotificationDetailFragment extends Fragment {
 						Intent myIntent = new Intent(getActivity(),
 								NoteActivity.class);
 						Bundle bundle = new Bundle();
-						bundle.putString("username", ((MyApplication)getActivity().getApplication()).getUsername());
+						bundle.putString(
+								"username",
+								((MyApplication) getActivity().getApplication())
+										.getUsername());
 						bundle.putString("url", mItem.getmFile()
 								.getLinkComment());
-						bundle.putString("email",mItem.getmFile().getSender_email());
+						bundle.putString("email", mItem.getmFile()
+								.getSender_email());
 						myIntent.putExtra("bundle", bundle);
 						getActivity().startActivity(myIntent);
 					}
@@ -255,13 +269,18 @@ public class NotificationDetailFragment extends Fragment {
 				ImageView iv = (ImageView) rootView
 						.findViewById(R.id.sharedImage);
 				iv.setImageBitmap(mFile.getBitmap());
-				MioDatabaseHelper db = new MioDatabaseHelper(rootView.getContext());
-				
-				/* ===== TODO: Sostituire la stringa vuota con la chiave di cifratura ============ */
-				
-				long ID = db.insertFile(mFile.getFileName(), mFile.getLinkFile(), mFile.getLinkComment(), "");
+				MioDatabaseHelper db = new MioDatabaseHelper(
+						rootView.getContext());
+
+				/*
+				 * ===== TODO: Sostituire la stringa vuota con la chiave di
+				 * cifratura ============
+				 */
+
+				long ID = db.insertFile(mFile.getFileName(),
+						mFile.getLinkFile(), mFile.getLinkComment(), "");
 				int ID_User = db.getId(mFile.getSender_email());
-				db.insertShare((int)ID, ID_User);
+				db.insertShare((int) ID, ID_User);
 			}
 		}
 		return rootView;

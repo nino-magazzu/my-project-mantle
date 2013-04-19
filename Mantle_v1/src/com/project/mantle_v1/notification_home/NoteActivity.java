@@ -65,7 +65,6 @@ public class NoteActivity extends Activity {
 			public void onClick(View v) {
 				EditText commentEditText = (EditText) findViewById(R.id.editText1);
 				String comment = commentEditText.getText().toString();
-			
 
 				ParseJSON parser = new ParseJSON(new StringWriter());
 				Note note = new Note(username, comment, new Date(System

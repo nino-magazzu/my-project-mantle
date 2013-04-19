@@ -12,7 +12,7 @@ public class Note {
 	// file xml.
 	private String commentLink;
 	private String sender_mail;
-	
+
 	public Note() {
 		super();
 	}
@@ -40,7 +40,7 @@ public class Note {
 		this.user = username;
 		this.content = content;
 		this.date = date;
-		this.fileLink = fileLink;
+		this.commentLink = fileLink;
 
 	}
 
@@ -60,11 +60,6 @@ public class Note {
 		this.content = content;
 		this.date = date;
 
-	}
-
-	@Override
-	public String toString() {
-		return content;
 	}
 
 	public String getUser() {

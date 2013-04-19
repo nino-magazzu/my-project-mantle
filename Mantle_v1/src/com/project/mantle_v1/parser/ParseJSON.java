@@ -58,7 +58,7 @@ public class ParseJSON {
 		writer.name(USERNAME).value(note.getUser());
 		writer.name(PUBLISHED).value(note.getDate());
 		writer.name(CONTENT).value(note.getContent());
-		writer.name(FILE_LINK).value(note.getFileLink());
+		writer.name(FILE_LINK).value(note.getCommentLink());
 		writer.endObject();
 
 	}
@@ -71,19 +71,6 @@ public class ParseJSON {
 		return out.toString();
 	}
 
-	/*
-	 * public String writeJson(String content, String producer) throws
-	 * IOException { this.writer = new JsonWriter(out); writer.setIndent("  ");
-	 * writeSystemInfo(content, producer); writer.close(); return
-	 * out.toString(); }
-	 * 
-	 * private void writeSystemInfo(String content, String producer) throws
-	 * IOException { writer.beginObject(); writer.name(CONTENT).value(content);
-	 * writer.name(USERNAME).value(producer); writer.name(PUBLISHED).value(new
-	 * Date(System.currentTimeMillis()).toString()); writer.endObject();
-	 * 
-	 * }
-	 */
 	private void writeUser(User user) throws IOException {
 		writer.beginObject();
 		writer.name(NAME).value(user.getName());
@@ -125,6 +112,7 @@ public class ParseJSON {
 	 * JsonReader(in); reader.setLenient(lenient); Note note = new Note(); try {
 	 * readSystemInfo(note); } finally { reader.close(); } return note; }
 	 */
+
 	public Note readNote() throws IOException {
 		this.reader = new JsonReader(in);
 		reader.setLenient(lenient);
@@ -154,14 +142,6 @@ public class ParseJSON {
 		reader.endObject();
 	}
 
-	/*
-	 * private void readSystemInfo(Note note) throws IOException {
-	 * reader.beginObject(); while(reader.hasNext()) { String name =
-	 * reader.nextName(); if(name.equals(CONTENT))
-	 * note.setContent(reader.nextString()); else if(name.equals(USERNAME))
-	 * note.content[1] = reader.nextString(); else if(name.equals(PUBLISHED))
-	 * content[2] = reader.nextString(); } reader.endObject(); }
-	 */
 	public MantleFile readMediaJson() throws IOException {
 		this.reader = new JsonReader(in);
 		reader.setLenient(lenient);
@@ -179,7 +159,7 @@ public class ParseJSON {
 		reader.beginObject();
 		while (reader.hasNext()) {
 			String name = reader.nextName();
-			if(name.equals(FILE_NAME))
+			if (name.equals(FILE_NAME))
 				media.setFileName(reader.nextString());
 			else if (name.equals(FILE_LINK))
 				media.setLinkFile(reader.nextString());
