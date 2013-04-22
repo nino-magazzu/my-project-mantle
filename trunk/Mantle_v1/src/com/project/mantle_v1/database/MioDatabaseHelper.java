@@ -1,7 +1,9 @@
 package com.project.mantle_v1.database;
 
-import com.project.mantle_v1.User;
+import java.util.ArrayList;
 
+import com.project.mantle_v1.MantleFile;
+import com.project.mantle_v1.User;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -497,5 +499,24 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		}
 		return result;
 	}
+	
+	public ArrayList <MantleFile> getAllFile(){
+		Cursor c = db.query("File", null, null, null, null, null, null);
+		ArrayList<MantleFile> arr = new ArrayList<MantleFile>();
+		MantleFile mf = new MantleFile();
+		
+		while(c.moveToNext()){
+			mf.setIdFile(c.getString(0));
+			mf.setFileName(c.getString(1));
+			mf.setLinkFile(c.getString(2));
+			mf.setLinkComment(c.getString(3));
+			mf.setFileKey(c.getString(4));
+			
+			arr.add(mf);
+		}
+		return null;
+	}
+	
+
 	
 }
