@@ -1,5 +1,7 @@
 package com.project.mantle_v1.database;
 
+import com.project.mantle_v1.User;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -458,9 +460,9 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		return result;
 	}
 
-	public String[] getUser(String id) {
+	public String[] getUser(Integer id) {
 		String selection = "idUser=?";
-		String[] selectionArgs = { id };
+		String[] selectionArgs = { id.toString() };
 		Cursor c = db.query("User", null, selection, selectionArgs, null, null,
 				null);
 		String[] result = new String[6];
@@ -471,6 +473,18 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		return result;
 	}
 
+	public User getUser(String email) {
+		String selection = "email = ?";
+		String[] selectionArgs = { email };
+		Cursor c = db.query("User", null, selection, selectionArgs, null, null,
+				null);
+		c.moveToNext();
+		User user = new User(c.getString(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5));
+		return user;
+	}
+	
+	
+	
 	public String[] getFile(String idFile) {
 		String selection = "idFile=?";
 		String[] selectionArgs = { idFile };
@@ -483,4 +497,5 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		}
 		return result;
 	}
+	
 }

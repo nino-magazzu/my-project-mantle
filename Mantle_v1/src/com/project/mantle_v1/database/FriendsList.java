@@ -42,22 +42,25 @@ public class FriendsList extends Activity {
 		listView = (ListView) findViewById(R.id.list);
 		showFriends(friends);
 
-		listView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> listView, View itemView,
-					int position, long itemId) {
-				Log.d("ListViewActivity",
-						"Hai selezionato "
-								+ listView.getItemAtPosition(position));
-				Log.d("ListViewActivity", "con id = " + itemId
-						+ " e position = " + position);
-
-				// apro le info dell'utente selezionato.
-
-			}
-
-		});
+		
+		listView.setOnItemClickListener(new OnItemClickListener(){
+	        
+        	@Override
+        	 public void onItemClick ( AdapterView<?> listView, View itemView, int position,long itemId ){
+        		Log.d("ListViewActivity", "Hai selezionato " + listView.getItemAtPosition(position));
+        		Log.d("ListViewActivity", "con id = " + itemId + " e position = " + position);
+        		
+        		String selectedFromList =(String) (listView.getItemAtPosition(position).toString());
+        		String[] contatto = selectedFromList.split(", user=");
+        		String email =contatto[0].substring(7);
+        		//apro le info dell'utente selezionato in base alla sua email.
+        		Intent intent = new Intent(FriendsList.this, ShowFriend.class);
+        		intent.putExtra("email", email);
+        		startActivity(intent);
+        	}
+        	
+        });
+		
 
 		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
