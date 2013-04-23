@@ -3,7 +3,6 @@ package com.project.mantle_v1.notification_home;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
