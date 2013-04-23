@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import android.content.Context;
 import android.util.Log;
@@ -39,7 +38,7 @@ public class MantleMessage {
 	private String message;
 	private Map<String, Integer> DECODE_MAP;
 
-	private final int CODE_DIM = 4;
+	private final int CODE_DIM = FRIENDSHIP_REQUEST.length();
 
 	private Context context;
 

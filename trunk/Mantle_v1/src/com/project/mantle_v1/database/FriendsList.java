@@ -34,7 +34,6 @@ public class FriendsList extends Activity {
 		setContentView(R.layout.friend_list);
 		arr = new ArrayList<String>();
 		status = new ArrayList<String>();
-		int i;
 
 		db = new MioDatabaseHelper(getApplicationContext());
 
