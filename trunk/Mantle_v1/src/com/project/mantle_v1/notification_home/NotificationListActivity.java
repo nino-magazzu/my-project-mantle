@@ -127,7 +127,7 @@ public class NotificationListActivity extends FragmentActivity implements
 						return true;
 					}
 				});
-		;
+		
 
 		menu.add("Add a friend").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
@@ -140,7 +140,7 @@ public class NotificationListActivity extends FragmentActivity implements
 						return true;
 					}
 				});
-		;
+		
 
 		menu.add("File").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
@@ -153,7 +153,21 @@ public class NotificationListActivity extends FragmentActivity implements
 						return true;
 					}
 				});
-		;
+		
+		
+		
+		menu.add("Gruppi").setOnMenuItemClickListener(
+				new OnMenuItemClickListener() {
+					public boolean onMenuItemClick(MenuItem item) {
+						Toast.makeText(getApplicationContext(),
+								item.getTitle(), Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent(
+								NotificationListActivity.this, Dropbox.class);
+						startActivity(intent);
+						return true;
+					}
+				});
+		
 
 		// MODIFICA LA CLASSE CHE MOSTRA LA FRIENDLIST NON DEVE VOLERE IL
 		// VETTORE IN INGRESSO MA SE LO DEVE CALCOLARE LUI
