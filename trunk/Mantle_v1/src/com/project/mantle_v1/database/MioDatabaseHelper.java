@@ -296,7 +296,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 	public String getLinkfromLinkComment(String linkComment) {
 		String[] columns = { "linkFile" };
-		String selection = "fileComment = ?";
+		String selection = "linkComment = ?";
 		String[] selectionArgs = { linkComment };
 		Cursor c = db.query("File", columns, selection, selectionArgs, null,
 				null, null);
