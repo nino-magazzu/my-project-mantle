@@ -52,7 +52,7 @@ public class NoteActivity extends Activity {
 		else
 			cFile = new File(filePath);
 		
-		ReaderXml reader = new ReaderXml();
+		final ReaderXml reader = new ReaderXml();
 		try {
 			reader.parseComment(cFile);
 		} catch (ParserConfigurationException e) {
@@ -66,9 +66,10 @@ public class NoteActivity extends Activity {
 			e.printStackTrace();
 		}
 		List<Note> notes = reader.getParsedData();
+		final NoteAdapter adapter = new NoteAdapter(
+				getApplicationContext(), R.layout.note_layout, notes);
 		// TODO: lettura dal file degli eventuali commenti
-		((ListView) findViewById(R.id.listView1)).setAdapter(new NoteAdapter(
-				getApplicationContext(), R.layout.note_layout, notes));
+		((ListView) findViewById(R.id.listView1)).setAdapter(adapter);
 
 		Button bComment = (Button) findViewById(R.id.button1);
 		bComment.setOnClickListener(new OnClickListener() {
@@ -77,7 +78,7 @@ public class NoteActivity extends Activity {
 			public void onClick(View v) {
 				EditText commentEditText = (EditText) findViewById(R.id.editText1);
 				String comment = commentEditText.getText().toString();
-				commentEditText.setText("");
+				
 				
 				if(email.equals(((MyApplication) getApplicationContext()).getEmail())) {
 					WriterXml xml = new WriterXml();
@@ -101,6 +102,24 @@ public class NoteActivity extends Activity {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					
+					MantleFile.uploadFile(cFile, ((MyApplication) getApplicationContext()).getmApi());
+					commentEditText.setText("");
+					
+					try {
+						reader.parseComment(cFile);
+					} catch (ParserConfigurationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SAXException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					List<Note> notes = reader.getParsedData();
+					adapter.notifyDataSetChanged();
 				}
 				else {
 					ParseJSON parser = new ParseJSON(new StringWriter());

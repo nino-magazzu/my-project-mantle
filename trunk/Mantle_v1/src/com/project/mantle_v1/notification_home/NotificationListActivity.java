@@ -1,12 +1,15 @@
 package com.project.mantle_v1.notification_home;
 
 import com.project.mantle_v1.AddService;
+import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.Team;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.AddFriend;
 import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.dropbox.Dropbox;
+import com.project.mantle_v1.fileNavigator.FileListActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -57,16 +60,9 @@ public class NotificationListActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_notification_list);
 
-		User user = new User(getApplicationContext());
-		setTitle("Salve " + user.getUsername());
-		// String email = user.getEmail();
-		// MioDatabaseHelper db = new
-		// MioDatabaseHelper(getApplicationContext());
-		// String password = db.getPassword(email);
-
-		// MyHandler handler = new MyHandler(NotificationListActivity.this);
-		// new ReaderTask(handler, email, password).start();
-
+		setTitle("Salve " + ((MyApplication) getApplicationContext()).getUsername());
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
 		if (findViewById(R.id.notification_detail_container) != null) {
 			// The detail container view will be present only in the
 			// large-screen layouts (res/values-large and
@@ -142,6 +138,17 @@ public class NotificationListActivity extends FragmentActivity implements
 					}
 				});
 		
+		menu.add("Navigator").setOnMenuItemClickListener(
+				new OnMenuItemClickListener() {
+					public boolean onMenuItemClick(MenuItem item) {
+						Toast.makeText(getApplicationContext(),
+								item.getTitle(), Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent(
+								NotificationListActivity.this, FileListActivity.class);
+						startActivity(intent);
+						return true;
+					}
+				});
 
 		menu.add("File").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {

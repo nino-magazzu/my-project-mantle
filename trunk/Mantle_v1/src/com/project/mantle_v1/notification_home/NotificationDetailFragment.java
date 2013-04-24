@@ -51,7 +51,7 @@ public class NotificationDetailFragment extends Fragment {
 	 * The dummy content this fragment is presenting.
 	 */
 	private Notifica mItem;
-
+	private boolean canceled = true;
 	private String TAG = NotificationDetailFragment.class.getName();
 
 	/**
@@ -114,7 +114,6 @@ public class NotificationDetailFragment extends Fragment {
 
 					@Override
 					public void onClick(View v) {
-						// new ShowToast().showToast("Accetta",v.getContext());
 						MioDatabaseHelper db = new MioDatabaseHelper(v
 								.getContext());
 						db.insertUser(mItem.getUser().getEmail(), mItem
@@ -128,7 +127,6 @@ public class NotificationDetailFragment extends Fragment {
 						} catch (IOException e) {
 							Log.e(TAG, e.getMessage());
 						}
-						// db.close();
 
 						new Sender(v.getContext(), parser.toString(), mItem
 								.getUser().getEmail(),
@@ -178,23 +176,33 @@ public class NotificationDetailFragment extends Fragment {
 				tw.setText(mItem.getTitle());
 
 				Button bComment = (Button) rootView.findViewById(R.id.comment);
-				
+
 				Log.e(TAG, mItem.getNote().getCommentLink());
-				
+
 				MioDatabaseHelper db = new MioDatabaseHelper(
 						rootView.getContext());
 				String fileUrl = db.getLinkfromLinkComment(mItem.getNote()
 						.getCommentLink());
 				String idFile = String.valueOf(db.getIdFile(fileUrl));
-				final File comment = MantleFile.downloadFileFromUrl(mItem.getNote()
-						.getCommentLink(), idFile+".xml");
+				final File comment = MantleFile.downloadFileFromUrl(mItem
+						.getNote().getCommentLink(), idFile + ".xml");
 				final String ownerEMail = db.getEmailFromUrl(mItem.getNote()
 						.getCommentLink());
-				
+
 				Log.d(TAG, comment.getName());
 				
-				bComment.setOnClickListener(new OnClickListener() {
+				Button bDownload = (Button) rootView.findViewById(R.id.download);
+				bDownload.setOnClickListener(new OnClickListener() {
 					
+					@Override
+					public void onClick(View v) {
+						canceled = false;
+						
+					}
+				});
+				
+				bComment.setOnClickListener(new OnClickListener() {
+
 					@Override
 					public void onClick(View v) {
 						Intent myIntent = new Intent(getActivity(),
@@ -212,9 +220,7 @@ public class NotificationDetailFragment extends Fragment {
 						getActivity().startActivity(myIntent);
 					}
 				});
-				
-				
-				
+
 				WriterXml xml = new WriterXml();
 				try {
 					xml.addComment(mItem.getNote().getUser(), mItem.getData(),
@@ -238,8 +244,9 @@ public class NotificationDetailFragment extends Fragment {
 
 				MantleFile.uploadFile(comment, ((MyApplication) getActivity()
 						.getApplication()).getmApi());
-				//xml.deleteComment(comment);
-				File img = MantleFile.downloadFileFromUrl(fileUrl, "provaImg.jpg");
+				// xml.deleteComment(comment);
+				File img = MantleFile.downloadFileFromUrl(fileUrl,
+						"provaImg.jpg");
 				ImageView iv = (ImageView) rootView
 						.findViewById(R.id.sharedImage);
 				iv.setImageBitmap(BitmapFactory.decodeFile(img
@@ -252,7 +259,17 @@ public class NotificationDetailFragment extends Fragment {
 
 				TextView tw = (TextView) rootView.findViewById(R.id.linkText);
 				tw.setText(mItem.getTitle());
-
+				
+				Button bDownload = (Button) rootView.findViewById(R.id.download);
+				bDownload.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						canceled = false;
+						
+					}
+				});
+				
 				Button bComment = (Button) rootView.findViewById(R.id.comment);
 				bComment.setOnClickListener(new OnClickListener() {
 
@@ -276,7 +293,7 @@ public class NotificationDetailFragment extends Fragment {
 				});
 
 				MantleFile mFile = mItem.getmFile();
-				mFile.downloadFileFromUrl("prova");
+				mFile.downloadFileFromUrl(mFile.getFileName());
 				ImageView iv = (ImageView) rootView
 						.findViewById(R.id.sharedImage);
 				iv.setImageBitmap(mFile.getBitmap());
@@ -284,8 +301,7 @@ public class NotificationDetailFragment extends Fragment {
 						rootView.getContext());
 
 				/*
-				 * ===== TODO: Sostituire la stringa vuota con la chiave di
-				 * cifratura ============
+				 * TODO: Sostituire la stringa vuota con la chiave di cifratura
 				 */
 
 				long ID = db.insertFile(mFile.getFileName(),
