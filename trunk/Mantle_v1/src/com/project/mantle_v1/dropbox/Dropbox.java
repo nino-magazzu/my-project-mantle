@@ -106,7 +106,7 @@ public class Dropbox extends Activity {
 				} else {
 					// Start the remote authentication
 					mApi.getSession().startAuthentication(Dropbox.this);
-					((MyApplication) getApplicationContext()).setmApi(mApi);
+				//	((MyApplication) getApplicationContext()).setmApi(mApi);
 				}
 			}
 		});
@@ -251,7 +251,7 @@ public class Dropbox extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		((MyApplication) getApplicationContext()).setmApi(mApi);
 		AndroidAuthSession session = mApi.getSession();
 
 		// The next part must be inserted in the onResume() method of the

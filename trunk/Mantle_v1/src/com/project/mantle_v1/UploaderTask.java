@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.ProgressListener;
 import com.dropbox.client2.DropboxAPI.UploadRequest;
-
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -31,6 +30,7 @@ public class UploaderTask extends AsyncTask<Void, Long, Boolean> {
 
 			FileInputStream fis = new FileInputStream(mFile);
 			String path = FILE_DIR + mFile.getName();
+			Log.d("UploaderTask", mApi.toString());
 			mRequest = mApi.putFileOverwriteRequest(path, fis, mFile.length(),
 					new ProgressListener() {
 						@Override
@@ -54,5 +54,4 @@ public class UploaderTask extends AsyncTask<Void, Long, Boolean> {
 		}
 		return null;
 	}
-
 }
