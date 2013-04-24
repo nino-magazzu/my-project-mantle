@@ -485,7 +485,25 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		return user;
 	}
 	
+	public int getIdFile(String linkFile){
+		String[] columns = { "idFile" };
+		String selection = "linkFile=?";
+		String[] selectionArgs = { linkFile };
+		Cursor c = db.query("File", columns, selection, selectionArgs, null, null,null);
+		c.moveToNext();
+		int idFile = c.getInt(0);
+		return idFile;
+	}
 	
+/*
+ * sql += "CREATE TABLE File (";
+		sql += " idFile INTEGER PRIMARY KEY,";
+		sql += " fileName TEXT,";
+		sql += " linkFile TEXT,";
+		sql += " linkComment TEXT,";
+		sql += " fileKey TEXT";
+ * 	
+ */
 	
 	public String[] getFile(String idFile) {
 		String selection = "idFile=?";
