@@ -178,8 +178,23 @@ public class NotificationDetailFragment extends Fragment {
 				tw.setText(mItem.getTitle());
 
 				Button bComment = (Button) rootView.findViewById(R.id.comment);
+				
+				Log.e(TAG, mItem.getNote().getCommentLink());
+				
+				MioDatabaseHelper db = new MioDatabaseHelper(
+						rootView.getContext());
+				String fileUrl = db.getLinkfromLinkComment(mItem.getNote()
+						.getCommentLink());
+				String idFile = String.valueOf(db.getIdFile(fileUrl));
+				final File comment = MantleFile.downloadFileFromUrl(mItem.getNote()
+						.getCommentLink(), idFile+".xml");
+				final String ownerEMail = db.getEmailFromUrl(mItem.getNote()
+						.getCommentLink());
+				
+				Log.d(TAG, comment.getName());
+				
 				bComment.setOnClickListener(new OnClickListener() {
-
+					
 					@Override
 					public void onClick(View v) {
 						Intent myIntent = new Intent(getActivity(),
@@ -191,22 +206,15 @@ public class NotificationDetailFragment extends Fragment {
 										.getUsername());
 						bundle.putString("url", mItem.getNote()
 								.getCommentLink());
-						bundle.putString("email", mItem.getNote()
-								.getSender_mail());
+						bundle.putString("email", ownerEMail);
+						bundle.putString("filePath", comment.getAbsolutePath());
 						myIntent.putExtra("bundle", bundle);
 						getActivity().startActivity(myIntent);
 					}
 				});
 				
-				Log.e(TAG, mItem.getNote().getCommentLink());
 				
-				MioDatabaseHelper db = new MioDatabaseHelper(
-						rootView.getContext());
-				String fileUrl = db.getLinkfromLinkComment(mItem.getNote()
-						.getCommentLink());
-				int idFile = db.getIdFile(fileUrl);
-				File comment = MantleFile.downloadFileFromUrl(mItem.getNote()
-						.getCommentLink(), idFile+".xml");
+				
 				WriterXml xml = new WriterXml();
 				try {
 					xml.addComment(mItem.getNote().getUser(), mItem.getData(),
@@ -230,8 +238,8 @@ public class NotificationDetailFragment extends Fragment {
 
 				MantleFile.uploadFile(comment, ((MyApplication) getActivity()
 						.getApplication()).getmApi());
-				xml.deleteComment(comment);
-				File img = MantleFile.downloadFileFromUrl(fileUrl, "provaImg");
+				//xml.deleteComment(comment);
+				File img = MantleFile.downloadFileFromUrl(fileUrl, "provaImg.jpg");
 				ImageView iv = (ImageView) rootView
 						.findViewById(R.id.sharedImage);
 				iv.setImageBitmap(BitmapFactory.decodeFile(img
@@ -261,6 +269,7 @@ public class NotificationDetailFragment extends Fragment {
 								.getLinkComment());
 						bundle.putString("email", mItem.getmFile()
 								.getSender_email());
+						bundle.putString("filePath", null);
 						myIntent.putExtra("bundle", bundle);
 						getActivity().startActivity(myIntent);
 					}
