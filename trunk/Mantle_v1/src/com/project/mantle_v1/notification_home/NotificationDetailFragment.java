@@ -204,9 +204,9 @@ public class NotificationDetailFragment extends Fragment {
 						rootView.getContext());
 				String fileUrl = db.getLinkfromLinkComment(mItem.getNote()
 						.getCommentLink());
-
+				int idFile = db.getIdFile(fileUrl);
 				File comment = MantleFile.downloadFileFromUrl(mItem.getNote()
-						.getCommentLink(), "CommentTmp.xml");
+						.getCommentLink(), idFile+".xml");
 				WriterXml xml = new WriterXml();
 				try {
 					xml.addComment(mItem.getNote().getUser(), mItem.getData(),
@@ -230,7 +230,7 @@ public class NotificationDetailFragment extends Fragment {
 
 				MantleFile.uploadFile(comment, ((MyApplication) getActivity()
 						.getApplication()).getmApi());
-
+				xml.deleteComment(comment);
 				File img = MantleFile.downloadFileFromUrl(fileUrl, "provaImg");
 				ImageView iv = (ImageView) rootView
 						.findViewById(R.id.sharedImage);
