@@ -197,7 +197,9 @@ public class NotificationDetailFragment extends Fragment {
 						getActivity().startActivity(myIntent);
 					}
 				});
+				
 				Log.e(TAG, mItem.getNote().getCommentLink());
+				
 				MioDatabaseHelper db = new MioDatabaseHelper(
 						rootView.getContext());
 				String fileUrl = db.getLinkfromLinkComment(mItem.getNote()
