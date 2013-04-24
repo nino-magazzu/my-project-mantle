@@ -282,9 +282,24 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	}
 	
 	public String getEmailFromUrl(String url) {
+		/*
+		 	public String getPassword(String email) {
+
+		String[] columns = { "passacces" };
+		String selection = "useracces=? AND service=?";
+		String[] selectionArgs = { email, "Email" };
+		Cursor c = db.query("Service", columns, selection, selectionArgs, null,
+				null, null);
+		c.moveToNext();
+		return c.getString(0);
+	}
+
+		 */
+		
+		
 		// Dalla tabella file ricavo l'id del file
 		String[] columns = { "idFile" };
-		String selection = "linkFile = ? OR linkComment?";
+		String selection = "linkFile = ? OR linkComment= ? ";
 		String[] selectionArgs = { url, url };
 		Cursor c = db.query("File", columns, selection, selectionArgs, null,
 				null, null);
