@@ -86,40 +86,6 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 	// ============== METODI PER LA GESTIONE DEL DATABASE ===============
 
-	// Prelevo l'id di un determinato utente dal nome e dal cognome
-	public int getId(String name, String surname) {
-
-		// quale campo mi restituisce la query
-		String[] columns = { "idUser" };
-		// clausola where
-		String selection = "name = ? AND surname = ?";
-		// cosa devo sostituire al posto dei ?
-		String[] selectionArgs = { name, surname };
-		// esecuzione della query
-		Cursor c = db.query("User", columns, selection, selectionArgs, null,
-				null, null);
-
-		c.moveToNext();
-
-		return c.getInt(0);
-	}
-
-	public int getId(String email) {
-		// quale campo mi restituisce la query
-		String[] columns = { "idUser" };
-		// clausola where
-		String selection = "email = ?";
-		// cosa devo sostituire al posto dei ?
-		String[] selectionArgs = { email };
-		// esecuzione della query
-		Cursor c = db.query("User", columns, selection, selectionArgs, null,
-				null, null);
-
-		c.moveToNext();
-
-		return c.getInt(0);
-	}
-
 	public long insertUser(String email, String username, String name,
 			String surname, String key) {
 		ContentValues values = new ContentValues();
@@ -257,17 +223,64 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 	}
 
+	// Prelevo l'id di un determinato utente dal nome e dal cognome
+	public int getId(String name, String surname) {
+
+		// quale campo mi restituisce la query
+		String[] columns = { "idUser" };
+		// clausola where
+		String selection = "name = ? AND surname = ?";
+		// cosa devo sostituire al posto dei ?
+		String[] selectionArgs = { name, surname };
+		// esecuzione della query
+		Cursor c = db.query("User", columns, selection, selectionArgs, null,
+				null, null);
+
+		c.moveToNext();
+
+		return c.getInt(0);
+	}
+
+	public int getId(String email) {
+		// quale campo mi restituisce la query
+		String[] columns = { "idUser" };
+		// clausola where
+		String selection = "email = ?";
+		// cosa devo sostituire al posto dei ?
+		String[] selectionArgs = { email };
+		// esecuzione della query
+		Cursor c = db.query("User", columns, selection, selectionArgs, null,
+				null, null);
+
+		c.moveToNext();
+
+		return c.getInt(0);
+	}
+////////////////////7
+	/*
+	 	sql = "";
+		sql += "CREATE TABLE File (";
+		sql += " idFile INTEGER PRIMARY KEY,";
+		sql += " fileName TEXT,";
+		sql += " linkFile TEXT,";
+		sql += " linkComment TEXT,";
+		sql += " fileKey TEXT";
+		sql += ")";
+		db.execSQL(sql);
+	 
+	 */
+	
 	public String getEmailFromUrl(String url) {
 		// Dalla tabella file ricavo l'id del file
 		String[] columns = { "idFile" };
-		String selection = "service = ?";
-		String[] selectionArgs = { url };
-		Cursor c = db.query("Service", columns, selection, selectionArgs, null,
+		String selection = "linkFile = ? OR linkComment?";
+		String[] selectionArgs = { url, url };
+		Cursor c = db.query("File", columns, selection, selectionArgs, null,
 				null, null);
 		c.moveToNext();
 		String idFile = c.getString(0);
 
-		Log.d("QUERY PER RICAVARE LA MAIL", idFile);
+		Log.d("QUERY PER RICAVARE LA MAIL", "1/3) id del File = " + idFile);
 
 		// Da share con l'idFile ricavo utente proprietario
 		String[] columns2 = { "idUser" };
@@ -278,7 +291,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		c.moveToNext();
 		String idUser = c.getString(0);
 
-		Log.d("QUERY PER RICAVARE LA MAIL", idUser);
+		Log.d("QUERY PER RICAVARE LA MAIL", "2/3) id dell'user = "+ idUser);
 
 		// Dall'id dell'utente ricavo la mail
 		String[] columns3 = { "email" };
@@ -289,7 +302,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		c.moveToNext();
 		String email = c.getString(0);
 
-		Log.d("QUERY PER RICAVARE LA MAIL", idUser);
+		Log.d("QUERY PER RICAVARE LA MAIL","3/3) la mail dell'utente = " + email);
 
 		return email;
 	}
