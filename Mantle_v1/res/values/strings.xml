@@ -24,5 +24,9 @@
     <string name="accetta">Accetta</string>
     <string name="rifiuta">Rifiuta</string>
     <string name="comment">Lascia un commento</string>
+    <string name="title_filf_list">Items</string>
+    <string name="title_filf_detail">FilF Detail</string>
+    <string name="title_file_list">Files</string>
+    <string name="title_file_detail">File Detail</string>
 
 </resources>
