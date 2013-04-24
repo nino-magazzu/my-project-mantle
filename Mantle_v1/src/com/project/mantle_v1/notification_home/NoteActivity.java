@@ -6,13 +6,19 @@ import java.io.StringWriter;
 import java.util.Date;
 import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+
 import org.xml.sax.SAXException;
 import com.project.mantle_v1.MantleFile;
+import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;
 import com.project.mantle_v1.xml.ReaderXml;
+import com.project.mantle_v1.xml.WriterXml;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,11 +44,17 @@ public class NoteActivity extends Activity {
 		this.email = bundle.getString("email");
 		this.username = bundle.getString("username");
 		this.url = bundle.getString("url");
-
-		File file = MantleFile.downloadFileFromUrl(url, "ProvaCommento");
+		this.filePath = bundle.getString("filePath");
+		this.cFile = null;	
+		
+		if(filePath == null)
+			cFile = MantleFile.downloadFileFromUrl(url, "ProvaCommento.xml");
+		else
+			cFile = new File(filePath);
+		
 		ReaderXml reader = new ReaderXml();
 		try {
-			reader.parseComment(file);
+			reader.parseComment(cFile);
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -66,19 +78,45 @@ public class NoteActivity extends Activity {
 				EditText commentEditText = (EditText) findViewById(R.id.editText1);
 				String comment = commentEditText.getText().toString();
 				commentEditText.setText("");
+				
+				if(email.equals(((MyApplication) getApplicationContext()).getEmail())) {
+					WriterXml xml = new WriterXml();
+					
+					try {
+						xml.addComment(username, new Date(System.currentTimeMillis()).toString(),
+								comment, cFile);
+					} catch (ParserConfigurationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SAXException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (TransformerFactoryConfigurationError e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (TransformerException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else {
+					ParseJSON parser = new ParseJSON(new StringWriter());
+					Note note = new Note(username, comment, new Date(System
+							.currentTimeMillis()).toString(), url);
+					try {
+						parser.writeJson(note);
+					} catch (IOException ex) {
+						Log.e(TAG, ex.getMessage());
 
-				ParseJSON parser = new ParseJSON(new StringWriter());
-				Note note = new Note(username, comment, new Date(System
-						.currentTimeMillis()).toString(), url);
-				try {
-					parser.writeJson(note);
-				} catch (IOException ex) {
-					Log.e(TAG, ex.getMessage());
+					}
+					new Sender(NoteActivity.this, parser.toString(), email,
+							MantleMessage.NOTE).execute();
 
 				}
-				new Sender(NoteActivity.this, parser.toString(), email,
-						MantleMessage.NOTE).execute();
-
+				
 			}
 		});
 	}
@@ -86,4 +124,6 @@ public class NoteActivity extends Activity {
 	private String username;
 	private String email;
 	private String url;
+	private String filePath;
+	private File cFile;
 }

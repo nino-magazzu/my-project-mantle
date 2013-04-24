@@ -49,7 +49,7 @@ public class DownladerTask extends AsyncTask<Void, Long, File> {
 			FileOutputStream fos = new FileOutputStream(mFile);
 			fos.write(baf.toByteArray());
 			fos.close();
-			Log.d(TAG, "download ready in"
+			Log.d(TAG, "download ready in "
 					+ ((System.currentTimeMillis() - StartingTime) / 1000)
 					+ " sec");
 		} catch (Exception e) {
