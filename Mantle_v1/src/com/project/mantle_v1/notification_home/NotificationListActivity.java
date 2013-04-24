@@ -2,6 +2,7 @@ package com.project.mantle_v1.notification_home;
 
 import com.project.mantle_v1.AddService;
 import com.project.mantle_v1.R;
+import com.project.mantle_v1.Team;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.AddFriend;
 import com.project.mantle_v1.database.FriendsList;
@@ -162,7 +163,7 @@ public class NotificationListActivity extends FragmentActivity implements
 						Toast.makeText(getApplicationContext(),
 								item.getTitle(), Toast.LENGTH_SHORT).show();
 						Intent intent = new Intent(
-								NotificationListActivity.this, Dropbox.class);
+								NotificationListActivity.this, Team.class);
 						startActivity(intent);
 						return true;
 					}
