@@ -307,7 +307,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		// Dall'id dell'utente ricavo la mail
 		String[] columns3 = { "email" };
 		selection = "idUser = ?";
-		String[] selectionArgs3 = { idFile };
+		String[] selectionArgs3 = { idUser };
 		c = db.query("User", columns3, selection, selectionArgs3, null, null,
 				null);
 		c.moveToNext();
