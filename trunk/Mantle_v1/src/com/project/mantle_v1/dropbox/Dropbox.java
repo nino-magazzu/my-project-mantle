@@ -200,6 +200,7 @@ public class Dropbox extends Activity {
 						Log.i(TAG, "Error authenticating", e);
 					}
 					Intent intent = new Intent(this, FriendsList.class);
+					intent.putExtra("flag", 3);
 					startActivityForResult(intent, FRIEND_CHOOSED_CODE);
 				}
 			}

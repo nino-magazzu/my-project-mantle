@@ -177,8 +177,6 @@ public class NotificationListActivity extends FragmentActivity implements
 				});
 		
 
-		// MODIFICA LA CLASSE CHE MOSTRA LA FRIENDLIST NON DEVE VOLERE IL
-		// VETTORE IN INGRESSO MA SE LO DEVE CALCOLARE LUI
 		menu.add("Friend List").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
@@ -187,6 +185,7 @@ public class NotificationListActivity extends FragmentActivity implements
 						Intent intent = new Intent(
 								NotificationListActivity.this,
 								FriendsList.class);
+						intent.putExtra("flag", 1);
 						startActivity(intent);
 						return true;
 					}

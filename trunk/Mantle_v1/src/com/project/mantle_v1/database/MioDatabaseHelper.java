@@ -77,6 +77,20 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		sql += ")";
 		db.execSQL(sql);
 
+		sql = "";
+		sql += "CREATE TABLE Team (";
+		sql += " idTeam INTEGER PRIMARY KEY,";
+		sql += " description TEXT";
+		sql += ")";
+		db.execSQL(sql);
+		
+		sql = "";
+		sql += "CREATE TABLE Members (";
+		sql += " idTeam INTEGER,";
+		sql += " email TEXT";
+		sql += ")";
+		db.execSQL(sql);
+		
 	}
 
 	@Override
@@ -103,10 +117,8 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 	}
 	
-
 	// verifica che il servizio mantle esiste
 		public boolean serviceMantle() {
-			// boolean res = false;
 			String[] columns = { "service" };
 			String selection = "service = 'mantle'";
 			Cursor cursor = db.query("Service", columns, selection, null, null,
@@ -124,6 +136,22 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 		}
 
+		public boolean teamExist(String team){
+			String[] columns = { "idTeam" };
+			String selection = "description = ?";
+			String[] selectionArg = { team };
+			Cursor cursor = db.query("Team", columns, selection, selectionArg,
+					null, null, null);
+			Integer i = cursor.getCount();
+
+			if (i < 1) {
+				return false;
+			} else {
+				return true;
+			}
+
+		}
+		
 	// verifica se l'utente è registrato e restituisce username e password
 	public String[] login() {
 		String selection = "service = 'mantle'";
@@ -218,8 +246,26 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		values.put("linkComment", link);
 		String whereClause = "idFile = ?";
 		String[] whereArgs = { String.valueOf(idFile) };
-		int r = db.update("File", values, whereClause, whereArgs);
+		db.update("File", values, whereClause, whereArgs);
 
+	}
+	
+	public long insertTeam(String teamName) {
+
+		ContentValues values = new ContentValues();
+		values.put("description", teamName);
+		long r = db.insert("Team",null,values);
+		return r;
+	}
+	
+	public void insertMembers(Object[] email,int idTeam) {
+		
+		ContentValues values = new ContentValues();
+		values.put("idTeam", idTeam);
+		for(int i=0;i<email.length;i++){
+			values.put("email", email[i].toString());
+			db.insert("Members", null, values);
+		}
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////
@@ -346,7 +392,28 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 		return result;
 	}
+	
+	public String[] getTeams() {
+		String[]columns={"description"};
+		Cursor c = db.query("Team", columns, null, null, null, null, null);
+		int i = c.getCount();
+		String[] result = new String[i];
+		i = 0;
 
+		while (c.moveToNext()) {
+			result[i] = c.getString(0);
+			Log.d("MIO_DATABASE_HELPER", result[i]);
+			i++;
+		}
+
+		return result;
+		
+	}
+	
+	public String[] getMembers(String teamName){
+		return null;
+	}
+	
 	public String getPassword(String email) {
 
 		String[] columns = { "passacces" };
@@ -500,6 +567,28 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 			Log.d("MIO_DATABASE_HELPER", result[i]);
 			i++;
 		}
+		
+		cursor = db.query("Team", null, null, null, null, null, null);
+		i = cursor.getCount();
+		result = new String[i];
+		i = 0;
+		Log.d("MIO_DATABASE_HELPER", "------TEAM-----");
+		while (cursor.moveToNext()) {
+			result[i] = cursor.getString(0) + " " + cursor.getString(1);
+			Log.d("MIO_DATABASE_HELPER", result[i]);
+			i++;
+		}
+		
+		cursor = db.query("Members", null, null, null, null, null, null);
+		i = cursor.getCount();
+		result = new String[i];
+		i = 0;
+		Log.d("MIO_DATABASE_HELPER", "------MEMBERS-----");
+		while (cursor.moveToNext()) {
+			result[i] = cursor.getString(0) + " " + cursor.getString(1);
+			Log.d("MIO_DATABASE_HELPER", result[i]);
+			i++;
+		}
 	}
 
 	public void showUser() {
@@ -532,7 +621,6 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		}
 
 	}
-
 
 	
 }
