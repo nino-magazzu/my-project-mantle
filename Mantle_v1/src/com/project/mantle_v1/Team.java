@@ -59,3 +59,5 @@ public class Team extends Activity{
 
 	}
 }
+
+//l'eliminazione in cascata, visualizzazione degli utenti inscritti al gruppo,modifica gruppo 
