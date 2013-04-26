@@ -262,6 +262,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		
 		ContentValues values = new ContentValues();
 		values.put("idTeam", idTeam);
+		
 		for(int i=0;i<email.length;i++){
 			values.put("email", email[i].toString());
 			db.insert("Members", null, values);
@@ -410,8 +411,34 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		
 	}
 	
+	
 	public String[] getMembers(String teamName){
-		return null;
+		Log.d("MIO_DATABASE_HELPER","il nome del team = " + teamName);
+		String[] columns = { "idTeam" };
+		String selection = "description = ?";
+		String[] selectionArgs = { teamName };
+		Cursor c = db.query("Team", columns, selection, selectionArgs, null, null, null);
+		
+		int i = c.getCount();
+		
+		c.moveToNext();
+		
+		String idTeam = c.getString(0);
+		
+		String[] columns2 = { "email" }; 
+		selection = "idTeam = ?";
+		String[] selectionArgs2 = { idTeam };
+		c = db.query("Members", columns2, selection, selectionArgs2, null, null, null);
+		
+		i = c.getCount();
+		String[] result = new String[i];
+		i = 0;
+
+		while (c.moveToNext()) {
+			result[i] = c.getString(0);
+			i++;
+		}
+		return result;
 	}
 	
 	public String getPassword(String email) {

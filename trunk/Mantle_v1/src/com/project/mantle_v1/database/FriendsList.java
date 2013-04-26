@@ -69,6 +69,7 @@ public class FriendsList extends Activity {
             		startActivity(intent);	
         		}
         		else{
+        			//apro le informazioni relative al gruppo selezionato
         			String nameTeam = contatto[1];
         			Log.d("ListViewActivity", "Hai cliccato su un gruppo : " + nameTeam);
         		}
@@ -88,35 +89,74 @@ public class FriendsList extends Activity {
 				Log.d("ListViewActivity", "con id = " + itemId
 						+ " e position = " + position);
 				
+				//Ottengo la stringa relativa al subitem "email" per verificare successivamente se è effettivamente un contatto o è la stringa TEAM
 				String selectedFromList = (String) (listView
 						.getItemAtPosition(position).toString());
 				String[] contatto = selectedFromList.split(", user=");
+				String email =contatto[0].substring(7);
 				
-				
+				//controllo se l'item è stato già selezionato
 				if (status.contains(String.valueOf(position))) {
 					Log.d("ListViewActivity",
 							"L'elemento è gia inserito lo tolgo");
 					
+					//E' stato selezionato un utente che già era presente lo elimino dall'array degli utenti selezionati 
+					if(email.contains("@")){
 					status.remove(status.indexOf(String.valueOf(position)));
-					
 					arr.remove(contatto[0].substring(7));
-
 					Toast.makeText(getApplicationContext(),
 							contatto[0].substring(7) + " delete from receiver",
 							Toast.LENGTH_SHORT).show();
-				} else {
+					}
+					//E' stato selezionato un team già presente
+					else{
+						//elimino la parte finale della striga relativa all'item principale per ottenere il nome del gruppo 
+						int lastChar = contatto[1].indexOf("}");
+						//ricavo le email degli utenti appartenenti al gruppo
+						String[] emails = db.getMembers(contatto[1].substring(0,lastChar));
+						//elimino le email 
+						for(int k = 0; k < emails.length; k++){
+							arr.remove(emails[k]);
+							Toast.makeText(getApplicationContext(),
+									emails[k] + " delete from receiver",
+									Toast.LENGTH_SHORT).show();
+						}
+					}
+					
+					
+				}else {
+					//l'item non era stato selezionato lo aggiungo all'array degli elementi selezionati
 					status.add(String.valueOf(position));
 					
 					Log.d("ListViewActivity", "Sto inserendo il valore "
 							+ position);
 
-					// in contatto[0] viene salvato la prima parte della stringa
-					// fino a ",user=" in contatto[1] la restante parte della
-					// stringa
-					// substring mi serve per eliminare "{email=" e mi
-					// restituisce solo l'indirizzo email
-					arr.add(contatto[0].substring(7));
-
+					Log.d("LIST_FRIENDS",email);
+					
+					//Verifico se l'item selezionato è un Team o un utente
+					if(email.contains("@")){
+						// in contatto[0] viene salvato la prima parte della stringa
+						// fino a ",user=" in contatto[1] la restante parte della
+						// stringa
+						// substring mi serve per eliminare "{email=" e mi
+						// restituisce solo l'indirizzo email
+						arr.add(email);
+						
+					}
+					
+					else if(email.equals("TEAM")){
+						int lastChar = contatto[1].indexOf("}");
+						String[] emails = db.getMembers(contatto[1].substring(0,lastChar));
+						
+						for(int k = 0; k < emails.length; k++){
+							if(!arr.contains(emails[k])){
+								arr.add(emails[k]);
+							}
+							
+						}
+					}
+					
+					//Stampo un toast con tutti gliutenti che sono stati selezionati
 					String receiver = "Receiver = ";
 					for (int j = 0; j < arr.size(); j++) {
 						receiver = receiver + arr.get(j) + ", ";

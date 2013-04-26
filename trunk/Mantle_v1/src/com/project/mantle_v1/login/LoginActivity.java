@@ -170,7 +170,7 @@ public class LoginActivity extends Activity {
 
 			else if (res[0].equals(mUsername) && res[1].equals(mPassword)) {
 				// /////////////
-				Log.d("LOGIN :)", "Le stringe sono uguli");
+				Log.d("LOGIN ", "Le stringe sono uguli");
 				// /////////////
 				Intent intent = new Intent(LoginActivity.this,
 						NotificationListActivity.class);// Home.class);
@@ -179,7 +179,7 @@ public class LoginActivity extends Activity {
 
 			else if ((!res[0].equals(mUsername)) && (!res[0].equals(" "))) {
 				// /////////////
-				Log.d("LOGIN :(", "le stringe sono diverse");
+				Log.d("LOGIN ", "le stringe sono diverse");
 				// /////////////
 				showProgress(false);
 				mUsernameView.setError("username errato");
@@ -189,14 +189,13 @@ public class LoginActivity extends Activity {
 
 			else if (!res[1].equals(mPassword) && (!res[1].equals(" "))) {
 				// /////////////
-				Log.d("LOGIN :(", "le stringe sono diverse");
+				Log.d("LOGIN ", "le stringe sono diverse");
 				// /////////////
 				showProgress(false);
 				mPasswordView.setError("password errata");
 				mPasswordView.setText("");
 			}
 			// /////////////
-			Log.d("LOGIN", "log che non deve essere mai raggiunto");
 			// android.os.SystemClock.sleep(3000);
 			// showProgress(false);
 
