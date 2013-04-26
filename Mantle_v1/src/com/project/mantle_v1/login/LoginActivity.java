@@ -168,7 +168,7 @@ public class LoginActivity extends Activity {
 				startActivityForResult(intent, 1);
 			}
 
-			if (res[0].equals(mUsername) && res[1].equals(mPassword)) {
+			else if (res[0].equals(mUsername) && res[1].equals(mPassword)) {
 				// /////////////
 				Log.d("LOGIN :)", "Le stringe sono uguli");
 				// /////////////
@@ -177,7 +177,7 @@ public class LoginActivity extends Activity {
 				startActivity(intent);
 			}
 
-			if ((!res[0].equals(mUsername)) && (!res[0].equals(" "))) {
+			else if ((!res[0].equals(mUsername)) && (!res[0].equals(" "))) {
 				// /////////////
 				Log.d("LOGIN :(", "le stringe sono diverse");
 				// /////////////
@@ -187,7 +187,7 @@ public class LoginActivity extends Activity {
 
 			}
 
-			if (!res[1].equals(mPassword) && (!res[1].equals(" "))) {
+			else if (!res[1].equals(mPassword) && (!res[1].equals(" "))) {
 				// /////////////
 				Log.d("LOGIN :(", "le stringe sono diverse");
 				// /////////////

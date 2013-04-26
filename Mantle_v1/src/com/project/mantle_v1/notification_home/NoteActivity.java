@@ -71,7 +71,7 @@ public class NoteActivity extends Activity {
 		// TODO: lettura dal file degli eventuali commenti
 		((ListView) findViewById(R.id.listView1)).setAdapter(adapter);
 
-		Button bComment = (Button) findViewById(R.id.button1);
+		Button bComment = (Button) findViewById(R.id.commentButton);
 		bComment.setOnClickListener(new OnClickListener() {
 
 			@Override
