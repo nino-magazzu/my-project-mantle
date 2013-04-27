@@ -58,7 +58,7 @@ public class DownladerTask extends AsyncTask<Void, Long, File> {
 		return mFile;
 	}
 
-	private final String TAG = getClass().getName();
+	private final String TAG = this.getClass().getSimpleName();
 	private File mFile;
 	private URL mUrl;
 }

@@ -37,7 +37,7 @@ import com.project.mantle_v1.parser.ParseJSON;
 
 public class Dropbox extends Activity {
 
-	final static private String TAG = "Dropbox";
+	static private String TAG;
 
 	final static private String APP_KEY = "6k7t4o9zc6jbz9n";
 	final static private String APP_SECRET = "ln2raywl1xmqrd7";
@@ -84,7 +84,9 @@ public class Dropbox extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		TAG = this.getClass().getSimpleName();
+		
 		// We create a new AuthSession so that we can use the Dropbox API.
 		AndroidAuthSession session = buildSession();
 
@@ -221,21 +223,22 @@ public class Dropbox extends Activity {
 		case FRIEND_CHOOSED_CODE:
 			Object[] contacts = (Object[]) data
 					.getSerializableExtra("contacts");
-			Log.e(TAG, (String) contacts[0]);
-			mt = ((MyApplication) getApplicationContext()).getMedia();
-			Log.e(TAG, mt.getObjectType());
-			String body = "";
-			try {
-				body = new ParseJSON(new StringWriter()).writeJson(mt);
-			} catch (IOException e) {
-				Log.e(TAG, e.getMessage());
+			if(contacts != null) {
+				mt = ((MyApplication) getApplicationContext()).getMedia();
+				String body = "";
+				try {
+					body = new ParseJSON(new StringWriter()).writeJson(mt);
+				} catch (IOException e) {
+					Log.e(TAG, e.getMessage());
+				}
+				for (int j = 0; j < contacts.length; j++) {
+					Log.d("Dropbox", "Ho inviato la mail a " + contacts[j]);
+					Sender sender = new Sender(this, body, (String) contacts[j],
+							MantleMessage.SHARING_PHOTO);
+					sender.execute();
+				}
 			}
-			for (int j = 0; j < contacts.length; j++) {
-				Log.d("Dropbox", "Ho inviato la mail a " + contacts[j]);
-				Sender sender = new Sender(this, body, (String) contacts[j],
-						MantleMessage.SHARING_PHOTO);
-				sender.execute();
-			}
+			
 			break;
 
 		default:
@@ -354,7 +357,7 @@ public class Dropbox extends Activity {
 	 * 
 	 * @return Array of [access_key, access_secret], or null if none stored
 	 */
-	private String[] getKeys() {
+	private  String[] getKeys() {
 		SharedPreferences prefs = getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
 		String key = prefs.getString(ACCESS_KEY_NAME, null);
 		String secret = prefs.getString(ACCESS_SECRET_NAME, null);

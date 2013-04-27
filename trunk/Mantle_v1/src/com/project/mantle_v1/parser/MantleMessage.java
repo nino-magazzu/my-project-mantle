@@ -42,7 +42,7 @@ public class MantleMessage {
 
 	private Context context;
 
-	private final String TAG = "Message";
+	private final String TAG = this.getClass().getSimpleName();
 
 	/**
 	 * 

@@ -5,7 +5,7 @@ import com.project.mantle_v1.MyHandler;
 import android.util.Log;
 
 public class ReaderTask extends Thread {
-	private final String TAG = "READER TASK";
+	private final String TAG = this.getClass().getSimpleName();
 	private MyHandler handler;
 	private String account;
 	private String pass;

@@ -42,7 +42,7 @@ import com.project.mantle_v1.xml.WriterXml;
  * Dropbox.
  */
 public class Uploader extends AsyncTask<Void, Long, MantleFile> {
-	private final String TAG = getClass().getName();
+	private final String TAG = this.getClass().getSimpleName();
 
 	private DropboxAPI<?> mApi;
 	private String mPath;

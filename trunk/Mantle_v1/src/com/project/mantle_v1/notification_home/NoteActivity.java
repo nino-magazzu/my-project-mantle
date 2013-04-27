@@ -31,12 +31,12 @@ import android.widget.ListView;
 
 public class NoteActivity extends Activity {
 
-	final static private String TAG = NoteActivity.class.getName();
+	static private String TAG;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		TAG = this.getClass().getSimpleName();
 		setContentView(R.layout.add_comment);
 
 		Intent intent = getIntent();
@@ -45,10 +45,11 @@ public class NoteActivity extends Activity {
 		this.username = bundle.getString("username");
 		this.url = bundle.getString("url");
 		this.filePath = bundle.getString("filePath");
+		this.idFile = bundle.getString("idFile");
 		this.cFile = null;	
 		
-		if(filePath == null)
-			cFile = MantleFile.downloadFileFromUrl(url, "ProvaCommento.xml");
+		if(filePath == null) 
+			cFile = MantleFile.downloadFileFromUrl(url, idFile+".xml");
 		else
 			cFile = new File(filePath);
 		
@@ -65,7 +66,9 @@ public class NoteActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		List<Note> notes = reader.getParsedData();
+		notes = reader.getParsedData();
+		for(int i = 0;  i < notes.size(); i++)
+			Log.d(TAG, notes.get(i).getDate());
 		final NoteAdapter adapter = new NoteAdapter(
 				getApplicationContext(), R.layout.note_layout, notes);
 		// TODO: lettura dal file degli eventuali commenti
@@ -106,20 +109,6 @@ public class NoteActivity extends Activity {
 					MantleFile.uploadFile(cFile, ((MyApplication) getApplicationContext()).getmApi());
 					commentEditText.setText("");
 					
-					try {
-						reader.parseComment(cFile);
-					} catch (ParserConfigurationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (SAXException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					List<Note> notes = reader.getParsedData();
-					adapter.notifyDataSetChanged();
 				}
 				else {
 					ParseJSON parser = new ParseJSON(new StringWriter());
@@ -136,6 +125,10 @@ public class NoteActivity extends Activity {
 
 				}
 				
+				Note note = new Note(username, comment, new Date(System.currentTimeMillis()).toString());
+				notes.add(note);
+				adapter.notifyDataSetChanged();
+				
 			}
 		});
 	}
@@ -145,4 +138,6 @@ public class NoteActivity extends Activity {
 	private String url;
 	private String filePath;
 	private File cFile;
+	private List<Note> notes;
+	private String idFile;
 }

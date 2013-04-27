@@ -19,7 +19,7 @@ import android.widget.ListView;
 
 public class FileChooser extends ListActivity {
 
-	final private static String TAG = "File Chooser";
+	private static String TAG;
 
 	private File currentDir;
 	private FileArrayAdapter adapter;
@@ -30,7 +30,7 @@ public class FileChooser extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		TAG = this.getClass().getSimpleName();
 		Intent intent = getIntent();
 
 		if (intent.getBooleanExtra("upload", false)) {

@@ -4,15 +4,15 @@ import com.project.mantle_v1.AddService;
 import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.Team;
-import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.AddFriend;
 import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.dropbox.Dropbox;
+import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.fileNavigator.FileListActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
@@ -77,7 +77,13 @@ public class NotificationListActivity extends FragmentActivity implements
 					.setActivateOnItemClick(true);
 
 		}
-
+		
+		if(((MyApplication) getApplicationContext()).getmApi() == null) {
+			DropboxAuth auth = new DropboxAuth(this.getApplicationContext());
+			((MyApplication) getApplicationContext()).setmApi(auth.getAPI());
+			Log.d("Home", auth.getAPI().toString());
+		}
+		
 		// TODO: If exposing deep links into your app, handle intents here.
 
 	}
