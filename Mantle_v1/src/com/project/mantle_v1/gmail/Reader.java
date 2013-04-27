@@ -23,7 +23,7 @@ import android.util.Log;
 
 public class Reader extends Authenticator {
 
-	private static final String TAG = "GMAILreader";
+	private static String TAG;
 	private String mailhost = "imap.gmail.com";
 	private Session session;
 	private Store store;
@@ -31,7 +31,7 @@ public class Reader extends Authenticator {
 	private final MyHandler handler;
 
 	public Reader(String user, String password, MyHandler handler) {
-
+		TAG = this.getClass().getSimpleName();
 		this.handler = handler;
 
 		Properties props = System.getProperties();

@@ -19,7 +19,7 @@ public class Sender extends AsyncTask<Void, Long, Boolean> {
 	private String addressee;
 	private String code;
 
-	private final String TAG = "Sender";
+	private final String TAG = this.getClass().getSimpleName();
 
 	public Sender(Context c, String url, String contact, String code) {
 		fl = false;

@@ -52,7 +52,7 @@ public class NotificationDetailFragment extends Fragment {
 	 */
 	private Notifica mItem;
 	private boolean canceled = true;
-	private String TAG = NotificationDetailFragment.class.getName();
+	private String TAG = this.getClass().getSimpleName();
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -183,7 +183,7 @@ public class NotificationDetailFragment extends Fragment {
 						rootView.getContext());
 				String fileUrl = db.getLinkfromLinkComment(mItem.getNote()
 						.getCommentLink());
-				String idFile = String.valueOf(db.getIdFile(fileUrl));
+				final String idFile = String.valueOf(db.getIdFile(fileUrl));
 				final File comment = MantleFile.downloadFileFromUrl(mItem
 						.getNote().getCommentLink(), idFile + ".xml");
 				final String ownerEMail = db.getEmailFromUrl(mItem.getNote()
@@ -216,6 +216,7 @@ public class NotificationDetailFragment extends Fragment {
 								.getCommentLink());
 						bundle.putString("email", ownerEMail);
 						bundle.putString("filePath", comment.getAbsolutePath());
+						bundle.putString("idFile", null);
 						myIntent.putExtra("bundle", bundle);
 						getActivity().startActivity(myIntent);
 					}
@@ -245,8 +246,7 @@ public class NotificationDetailFragment extends Fragment {
 				MantleFile.uploadFile(comment, ((MyApplication) getActivity()
 						.getApplication()).getmApi());
 				// xml.deleteComment(comment);
-				File img = MantleFile.downloadFileFromUrl(fileUrl,
-						"provaImg.jpg");
+				File img = MantleFile.downloadFileFromUrl(fileUrl,mItem.getTitle());
 				ImageView iv = (ImageView) rootView
 						.findViewById(R.id.sharedImage);
 				iv.setImageBitmap(BitmapFactory.decodeFile(img
@@ -271,6 +271,26 @@ public class NotificationDetailFragment extends Fragment {
 				});
 				
 				Button bComment = (Button) rootView.findViewById(R.id.comment);
+				
+
+				MantleFile mFile = mItem.getmFile();
+				
+				mFile.downloadFileFromUrl(mFile.getFileName());
+				ImageView iv = (ImageView) rootView
+						.findViewById(R.id.sharedImage);
+				iv.setImageBitmap(mFile.getBitmap());
+				MioDatabaseHelper db = new MioDatabaseHelper(
+						rootView.getContext());
+
+				/*
+				 * TODO: Sostituire la stringa vuota con la chiave di cifratura
+				 */
+
+				final long ID = db.insertFile(mFile.getFileName(),
+						mFile.getLinkFile(), mFile.getLinkComment(), "");
+				int ID_User = db.getId(mFile.getSender_email());
+				db.insertShare((int) ID, ID_User);
+				
 				bComment.setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -286,28 +306,12 @@ public class NotificationDetailFragment extends Fragment {
 								.getLinkComment());
 						bundle.putString("email", mItem.getmFile()
 								.getSender_email());
+						bundle.putString("idFile", String.valueOf(ID));
 						bundle.putString("filePath", null);
 						myIntent.putExtra("bundle", bundle);
 						getActivity().startActivity(myIntent);
 					}
 				});
-
-				MantleFile mFile = mItem.getmFile();
-				mFile.downloadFileFromUrl(mFile.getFileName());
-				ImageView iv = (ImageView) rootView
-						.findViewById(R.id.sharedImage);
-				iv.setImageBitmap(mFile.getBitmap());
-				MioDatabaseHelper db = new MioDatabaseHelper(
-						rootView.getContext());
-
-				/*
-				 * TODO: Sostituire la stringa vuota con la chiave di cifratura
-				 */
-
-				long ID = db.insertFile(mFile.getFileName(),
-						mFile.getLinkFile(), mFile.getLinkComment(), "");
-				int ID_User = db.getId(mFile.getSender_email());
-				db.insertShare((int) ID, ID_User);
 			}
 		}
 		return rootView;

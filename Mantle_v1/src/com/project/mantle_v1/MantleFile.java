@@ -223,7 +223,7 @@ public class MantleFile implements Serializable {
     }
 	
 	private static final long serialVersionUID = 6107134499898867188L;
-	private final String TAG = getClass().getName();
+	private final String TAG = this.getClass().getSimpleName();
 
 	private String idFile;
 	private String fileName;

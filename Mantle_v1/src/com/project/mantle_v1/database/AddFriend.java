@@ -18,7 +18,7 @@ import com.project.mantle_v1.parser.ParseJSON;
 
 public class AddFriend extends Activity {
 
-	private String TAG = "AddFriend";
+	private String TAG = this.getClass().getSimpleName();
 	private MioDatabaseHelper db;
 	private Button addFriend;
 	private Button showFriends;

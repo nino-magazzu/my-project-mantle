@@ -17,7 +17,7 @@ import android.util.Log;
 public class ListOfFileDownloader extends AsyncTask<Void, Entry, Descriptor[]> {
 
 	final static private String FILE_DIR = "/storedFile";
-	final static private String TAG = "DropboxFile";
+	static private String TAG;
 	private DropboxAPI<AndroidAuthSession> mApi;
 	private ProgressDialog mDialog;
 	private Context context;
@@ -26,6 +26,7 @@ public class ListOfFileDownloader extends AsyncTask<Void, Entry, Descriptor[]> {
 			Context cont) {
 		this.mApi = mApi;
 		this.context = cont;
+		TAG = this.getClass().getSimpleName();
 	}
 
 	@Override

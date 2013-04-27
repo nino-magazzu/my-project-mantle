@@ -29,7 +29,7 @@ public class MyHandler extends Handler {
 	public static List<Notifica> ITEMS = new ArrayList<Notifica>();
 	public static Map<String, Notifica> ITEM_MAP = new HashMap<String, Notifica>();
 
-	private final String TAG = "MyHandler";
+	private final String TAG = this.getClass().getSimpleName();
 
 	private NotificaAdapter adapter;
 
