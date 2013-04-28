@@ -53,7 +53,7 @@ public class NoteActivity extends Activity {
 		else
 			cFile = new File(filePath);
 		
-		final ReaderXml reader = new ReaderXml();
+		ReaderXml reader = new ReaderXml();
 		try {
 			reader.parseComment(cFile);
 		} catch (ParserConfigurationException e) {

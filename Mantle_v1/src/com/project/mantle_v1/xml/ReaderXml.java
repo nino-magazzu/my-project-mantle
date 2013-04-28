@@ -35,8 +35,10 @@ public class ReaderXml {
 		Document doc = docBuilder.parse(f);
 		Node root = doc.getFirstChild();
 		NodeList notes = root.getChildNodes();
-		Note n = new Note();
+		//Note n = new Note();
 		if (notes.getLength() == 0) {
+			Note n = new Note();
+			n.setUser("nobody");
 			n.setContent("Nessun commento");
 			parsedComment.add(n);
 		} else {
@@ -44,7 +46,7 @@ public class ReaderXml {
 				Node c = notes.item(i);
 
 				if (c.getNodeType() == Node.ELEMENT_NODE) {
-
+					Note n = new Note();
 					Element note = (Element) c;
 
 					String author = note.getAttribute("Author");
@@ -63,8 +65,9 @@ public class ReaderXml {
 							n.setContent(nodeValue);
 						}
 					}
+					parsedComment.add(n);
 				}
-				parsedComment.add(n);
+				//parsedComment.add(n);
 			}
 		}
 	}
