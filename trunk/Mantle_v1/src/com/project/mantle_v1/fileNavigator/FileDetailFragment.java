@@ -93,7 +93,7 @@ public class FileDetailFragment extends Fragment {
 		});
 
 		File img = MantleFile.downloadFileFromUrl(file.getLinkFile(),
-				"provaImg.jpg");
+				file.getFileName());
 		ImageView iv = (ImageView) rootView
 				.findViewById(R.id.sharedImage);
 		iv.setImageBitmap(BitmapFactory.decodeFile(img
