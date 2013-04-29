@@ -42,6 +42,7 @@
         <activity android:name="com.project.mantle_v1.database.ShowFriend" />
         <activity android:name="com.project.mantle_v1.notification_home.NoteActivity" />
         <activity android:name="com.project.mantle_v1.Team" />
+        <activity android:name="com.project.mantle_v1.ShowMembers" />
         <activity
             android:name="com.dropbox.client2.android.AuthActivity"
             android:configChanges="orientation|keyboard"

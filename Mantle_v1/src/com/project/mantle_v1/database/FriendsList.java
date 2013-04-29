@@ -220,6 +220,7 @@ public class FriendsList extends Activity {
 								Object[] array = arr.toArray();
 								db.insertMembers(array, idTeam);
 								db.showAll();
+								finish();
 							}
 							return true;
 						}
