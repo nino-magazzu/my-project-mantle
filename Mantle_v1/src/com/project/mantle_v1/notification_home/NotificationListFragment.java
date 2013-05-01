@@ -5,13 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
-
-import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.User;
-import com.project.mantle_v1.database.MioDatabaseHelper;
-import com.project.mantle_v1.gmail.ReaderTask;
 
 /**
  * A list fragment representing a list of Notifications. This fragment also
@@ -25,6 +20,7 @@ import com.project.mantle_v1.gmail.ReaderTask;
 public class NotificationListFragment extends ListFragment {
 
 	private MyHandler handler;
+	// private final String USER_DETAILS_PREF = "user";
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -81,23 +77,24 @@ public class NotificationListFragment extends ListFragment {
 
 		handler = new MyHandler(getActivity().getApplicationContext());
 
-		User user = new User(getActivity().getApplicationContext());
-		String email = user.getEmail();
-
-		((MyApplication) getActivity().getApplicationContext())
-				.setUsername(user.getUsername());
-		((MyApplication) getActivity().getApplicationContext()).setEmail(user
-				.getEmail());
-
-		MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
-				.getApplicationContext());
-		String password = db.getPassword(email);
-		((MyApplication) getActivity().getApplicationContext()).setID(db
-				.getId(email));
-
-		db.close();
-
-		new ReaderTask(handler, email, password).start();
+		// SharedPreferences userDetails =
+		// getActivity().getApplicationContext().getSharedPreferences(USER_DETAILS_PREF,
+		// 0);
+		/*
+		 * if(!userDetails.contains("username") &&
+		 * !userDetails.contains("email") && !userDetails.contains("emailpswd"))
+		 * { User user = new User(getActivity().getApplicationContext()); Editor
+		 * edit = userDetails.edit(); edit.clear(); edit.putString("username",
+		 * user.getUsername()); String email = user.getEmail();
+		 * edit.putString("email", email); MioDatabaseHelper db = new
+		 * MioDatabaseHelper(getActivity() .getApplicationContext());
+		 * edit.putString("emailpswd", db.getPassword(email)); edit.commit();
+		 * db.close();
+		 * 
+		 * }
+		 */
+		// new ReaderTask(handler, userDetails.getString("email", " "),
+		// userDetails.getString("emailpswd", " ")).start();
 
 		setListAdapter(notifyAdapter);
 

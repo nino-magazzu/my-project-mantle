@@ -14,25 +14,25 @@ public class DropboxAuth {
 	final static private String APP_KEY = "6k7t4o9zc6jbz9n";
 	final static private String APP_SECRET = "ln2raywl1xmqrd7";
 	private DropboxAPI<AndroidAuthSession> mApi;
-	
+
 	final static private AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
-	
+
 	final static private String ACCOUNT_PREFS_NAME = "prefs";
 	final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
 	final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
 	private Context mCont;
-	
-	public DropboxAuth (Context cont) {
+
+	public DropboxAuth(Context cont) {
 		this.mCont = cont;
 		AndroidAuthSession session = buildSession();
 		mApi = new DropboxAPI<AndroidAuthSession>(session);
 
 	}
-	
+
 	public DropboxAPI<AndroidAuthSession> getAPI() {
 		return mApi;
 	}
-	
+
 	private AndroidAuthSession buildSession() {
 		AppKeyPair appKeyPair = new AppKeyPair(APP_KEY, APP_SECRET);
 		AndroidAuthSession session;
@@ -48,7 +48,7 @@ public class DropboxAuth {
 		}
 		return session;
 	}
-	
+
 	/**
 	 * Shows keeping the access keys returned from Trusted Authenticator in a
 	 * local store, rather than storing user name & password, and
@@ -56,9 +56,10 @@ public class DropboxAuth {
 	 * 
 	 * @return Array of [access_key, access_secret], or null if none stored
 	 */
-	
-	private  String[] getKeys() {
-		SharedPreferences prefs = mCont.getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
+
+	private String[] getKeys() {
+		SharedPreferences prefs = mCont.getSharedPreferences(
+				ACCOUNT_PREFS_NAME, 0);
 		String key = prefs.getString(ACCESS_KEY_NAME, null);
 		String secret = prefs.getString(ACCESS_SECRET_NAME, null);
 		if (key != null && secret != null) {

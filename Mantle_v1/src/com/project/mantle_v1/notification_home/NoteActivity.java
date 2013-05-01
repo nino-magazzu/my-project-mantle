@@ -8,19 +8,18 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
-
 import org.xml.sax.SAXException;
 import com.project.mantle_v1.MantleFile;
-import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.R;
+import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;
 import com.project.mantle_v1.xml.ReaderXml;
 import com.project.mantle_v1.xml.WriterXml;
-
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,11 +31,13 @@ import android.widget.ListView;
 public class NoteActivity extends Activity {
 
 	static private String TAG;
+	private final String USER_DETAILS_PREF = "user";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		TAG = this.getClass().getSimpleName();
+
 		setContentView(R.layout.add_comment);
 
 		Intent intent = getIntent();
@@ -46,13 +47,13 @@ public class NoteActivity extends Activity {
 		this.url = bundle.getString("url");
 		this.filePath = bundle.getString("filePath");
 		this.idFile = bundle.getString("idFile");
-		this.cFile = null;	
-		
-		if(filePath == null) 
-			cFile = MantleFile.downloadFileFromUrl(url, idFile+".xml");
+		this.cFile = null;
+
+		if (filePath == null)
+			cFile = MantleFile.downloadFileFromUrl(url, idFile + ".xml");
 		else
 			cFile = new File(filePath);
-		
+
 		ReaderXml reader = new ReaderXml();
 		try {
 			reader.parseComment(cFile);
@@ -67,10 +68,10 @@ public class NoteActivity extends Activity {
 			e.printStackTrace();
 		}
 		notes = reader.getParsedData();
-		for(int i = 0;  i < notes.size(); i++)
+		for (int i = 0; i < notes.size(); i++)
 			Log.d(TAG, notes.get(i).getDate());
-		final NoteAdapter adapter = new NoteAdapter(
-				getApplicationContext(), R.layout.note_layout, notes);
+		final NoteAdapter adapter = new NoteAdapter(getApplicationContext(),
+				R.layout.note_layout, notes);
 		// TODO: lettura dal file degli eventuali commenti
 		((ListView) findViewById(R.id.listView1)).setAdapter(adapter);
 
@@ -81,13 +82,17 @@ public class NoteActivity extends Activity {
 			public void onClick(View v) {
 				EditText commentEditText = (EditText) findViewById(R.id.editText1);
 				String comment = commentEditText.getText().toString();
-				
-				
-				if(email.equals(((MyApplication) getApplicationContext()).getEmail())) {
+
+				SharedPreferences userDetails = getSharedPreferences(
+						USER_DETAILS_PREF, 0);
+
+				if (email.equals(userDetails.getString("email", " "))) {
 					WriterXml xml = new WriterXml();
-					
+
 					try {
-						xml.addComment(username, new Date(System.currentTimeMillis()).toString(),
+						xml.addComment(
+								username,
+								new Date(System.currentTimeMillis()).toString(),
 								comment, cFile);
 					} catch (ParserConfigurationException e) {
 						// TODO Auto-generated catch block
@@ -105,12 +110,12 @@ public class NoteActivity extends Activity {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
-					MantleFile.uploadFile(cFile, ((MyApplication) getApplicationContext()).getmApi());
+
+					DropboxAuth auth = new DropboxAuth(getApplicationContext());
+					MantleFile.uploadFile(cFile, auth.getAPI());
 					commentEditText.setText("");
-					
-				}
-				else {
+
+				} else {
 					ParseJSON parser = new ParseJSON(new StringWriter());
 					Note note = new Note(username, comment, new Date(System
 							.currentTimeMillis()).toString(), url);
@@ -124,11 +129,12 @@ public class NoteActivity extends Activity {
 							MantleMessage.NOTE).execute();
 
 				}
-				
-				Note note = new Note(username, comment, new Date(System.currentTimeMillis()).toString());
+
+				Note note = new Note(username, comment, new Date(System
+						.currentTimeMillis()).toString());
 				notes.add(note);
 				adapter.notifyDataSetChanged();
-				
+
 			}
 		});
 	}

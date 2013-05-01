@@ -27,7 +27,8 @@ public class MyHandler extends Handler {
 	private String email;
 
 	public static List<Notifica> ITEMS = new ArrayList<Notifica>();
-	public static Map<String, Notifica> ITEM_MAP = new HashMap<String, Notifica>();
+	public static Map<String, Notifica> NOTIFICA_MAP = new HashMap<String, Notifica>();
+	public static Map<String, MantleFile> FILE_MAP = new HashMap<String, MantleFile>();
 
 	private final String TAG = this.getClass().getSimpleName();
 
@@ -97,7 +98,11 @@ public class MyHandler extends Handler {
 	}
 
 	private static void addItem(Notifica item) {
-		ITEM_MAP.put(String.valueOf(ITEM_MAP.size() + 1), item);
+		NOTIFICA_MAP.put(String.valueOf(NOTIFICA_MAP.size() + 1), item);
 		ITEMS.add(item);
+	}
+
+	public static void addFile(MantleFile item) {
+		FILE_MAP.put(item.getIdFile(), item);
 	}
 }

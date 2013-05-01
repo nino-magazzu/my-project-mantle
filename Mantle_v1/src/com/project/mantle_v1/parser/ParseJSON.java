@@ -14,7 +14,7 @@ public class ParseJSON {
 	final private String USERNAME = "username";
 	final private String PUBLISHED = "published";
 	final private String OBJECT_TYPE = "objectType";
-	final private String FILE_LINK = "url";
+	final private String FILE_LINK = "url_file";
 	final private String NOTES_LINK = "url_notes";
 	final private String CONTENT = "content";
 	// final private String ICON = "icon";

@@ -1,8 +1,11 @@
 package com.project.mantle_v1.login;
 
+import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.Register;
+import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.gmail.ReaderTask;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
 
 import android.animation.Animator;
@@ -10,6 +13,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -31,6 +36,7 @@ public class LoginActivity extends Activity {
 	 * The default Username to populate the Username field with.
 	 */
 	public static final String EXTRA_NAME = "Insert username";
+	private final String USER_DETAILS_PREF = "user";
 
 	// Values for Username and password at the time of the login attempt.
 	private String mUsername;
@@ -172,6 +178,12 @@ public class LoginActivity extends Activity {
 				// /////////////
 				Log.d("LOGIN ", "Le stringe sono uguli");
 				// /////////////
+
+				setPreferences();
+
+				MyHandler handler = new MyHandler(getApplicationContext());
+				new ReaderTask(handler, getEmail(), getPswdEmail()).start();
+
 				Intent intent = new Intent(LoginActivity.this,
 						NotificationListActivity.class);// Home.class);
 				startActivity(intent);
@@ -202,6 +214,34 @@ public class LoginActivity extends Activity {
 			// /////////////
 
 		}
+	}
+
+	private void setPreferences() {
+		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
+				0);
+		User user = new User(getApplicationContext());
+		Editor edit = userDetails.edit();
+		edit.clear();
+		edit.putString("username", user.getUsername());
+		String email = user.getEmail();
+		edit.putString("email", email);
+		MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+		edit.putString("emailpswd", db.getPassword(email));
+		edit.putInt("idUser", db.getId(email));
+		edit.commit();
+		db.close();
+	}
+
+	private String getEmail() {
+		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
+				0);
+		return userDetails.getString("email", " ");
+	}
+
+	private String getPswdEmail() {
+		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
+				0);
+		return userDetails.getString("emailpswd", " ");
 	}
 
 	/**

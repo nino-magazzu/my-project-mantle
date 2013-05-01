@@ -1,18 +1,15 @@
 package com.project.mantle_v1.fileNavigator;
 
 import java.util.ArrayList;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-
 import com.project.mantle_v1.MantleFile;
+import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.database.MioDatabaseHelper;
-import com.project.mantle_v1.dummy.DummyContent;
 
 /**
  * A list fragment representing a list of Files. This fragment also supports
@@ -74,16 +71,17 @@ public class FileListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		MioDatabaseHelper db = new MioDatabaseHelper(getActivity().getApplicationContext());
+
+		MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
+				.getApplicationContext());
 		list = db.getAllFile();
 		populateMap();
-		
+
 		// TODO: replace with a real list adapter.
 		setListAdapter(new ArrayAdapter<MantleFile>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, list));
-			
+
 	}
 
 	@Override
@@ -159,9 +157,9 @@ public class FileListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
-	
+
 	private void populateMap() {
-		for(int i = 0; i < list.size(); i++) 
-			DummyContent.addItem(list.get(i));
+		for (int i = 0; i < list.size(); i++)
+			MyHandler.addFile(list.get(i));
 	}
 }

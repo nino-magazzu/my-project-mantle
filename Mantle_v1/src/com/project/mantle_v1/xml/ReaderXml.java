@@ -35,7 +35,7 @@ public class ReaderXml {
 		Document doc = docBuilder.parse(f);
 		Node root = doc.getFirstChild();
 		NodeList notes = root.getChildNodes();
-		//Note n = new Note();
+		// Note n = new Note();
 		if (notes.getLength() == 0) {
 			Note n = new Note();
 			n.setUser("nobody");
@@ -67,7 +67,7 @@ public class ReaderXml {
 					}
 					parsedComment.add(n);
 				}
-				//parsedComment.add(n);
+				// parsedComment.add(n);
 			}
 		}
 	}

@@ -28,55 +28,59 @@ public class FriendsList extends Activity {
 	private MioDatabaseHelper db;
 	ListView listView;
 	int flag;
-		
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.friend_list);
-		
+
 		arr = new ArrayList<String>();
 		status = new ArrayList<String>();
 
 		db = new MioDatabaseHelper(getApplicationContext());
-		
+
 		Intent intent = getIntent();
 		flag = intent.getIntExtra("flag", 0);
-		
+
 		Log.d("FRIEND_LIST", String.valueOf(flag));
-		
+
 		String[] friends = db.getFriends();
 		String[] teams = db.getTeams();
 		listView = (ListView) findViewById(R.id.list);
-		showFriends(friends,teams);
+		showFriends(friends, teams);
 
-		
-		listView.setOnItemClickListener(new OnItemClickListener(){
-	        
-        	@Override
-        	 public void onItemClick ( AdapterView<?> listView, View itemView, int position,long itemId ){
-        		Log.d("ListViewActivity", "Hai selezionato " + listView.getItemAtPosition(position));
-        		Log.d("ListViewActivity", "con id = " + itemId + " e position = " + position);
+		listView.setOnItemClickListener(new OnItemClickListener() {
 
-        		
-        		String selectedFromList =(String) (listView.getItemAtPosition(position).toString());
-        		String[] contatto = selectedFromList.split(", user=");
-        		String email =contatto[0].substring(7);
-        		
-        		if(email.contains("@")){
-        			//apro le info dell'utente selezionato in base alla sua email.
-            		Intent intent = new Intent(FriendsList.this, ShowFriend.class);
-            		intent.putExtra("email", email);
-            		startActivity(intent);	
-        		}
-        		else{
-        			//apro le informazioni relative al gruppo selezionato
-        			String nameTeam = contatto[1];
-        			Log.d("ListViewActivity", "Hai cliccato su un gruppo : " + nameTeam);
-        		}
-        	}
-        	
-        });
-		
+			@Override
+			public void onItemClick(AdapterView<?> listView, View itemView,
+					int position, long itemId) {
+				Log.d("ListViewActivity",
+						"Hai selezionato "
+								+ listView.getItemAtPosition(position));
+				Log.d("ListViewActivity", "con id = " + itemId
+						+ " e position = " + position);
+
+				String selectedFromList = (String) (listView
+						.getItemAtPosition(position).toString());
+				String[] contatto = selectedFromList.split(", user=");
+				String email = contatto[0].substring(7);
+
+				if (email.contains("@")) {
+					// apro le info dell'utente selezionato in base alla sua
+					// email.
+					Intent intent = new Intent(FriendsList.this,
+							ShowFriend.class);
+					intent.putExtra("email", email);
+					startActivity(intent);
+				} else {
+					// apro le informazioni relative al gruppo selezionato
+					String nameTeam = contatto[1];
+					Log.d("ListViewActivity", "Hai cliccato su un gruppo : "
+							+ nameTeam);
+				}
+			}
+
+		});
 
 		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
@@ -88,75 +92,86 @@ public class FriendsList extends Activity {
 								+ listView.getItemAtPosition(position));
 				Log.d("ListViewActivity", "con id = " + itemId
 						+ " e position = " + position);
-				
-				//Ottengo la stringa relativa al subitem "email" per verificare successivamente se è effettivamente un contatto o è la stringa TEAM
+
+				// Ottengo la stringa relativa al subitem "email" per verificare
+				// successivamente se è effettivamente un contatto o è la
+				// stringa TEAM
 				String selectedFromList = (String) (listView
 						.getItemAtPosition(position).toString());
 				String[] contatto = selectedFromList.split(", user=");
-				String email =contatto[0].substring(7);
-				
-				//controllo se l'item è stato già selezionato
+				String email = contatto[0].substring(7);
+
+				// controllo se l'item è stato già selezionato
 				if (status.contains(String.valueOf(position))) {
 					Log.d("ListViewActivity",
 							"L'elemento è gia inserito lo tolgo");
-					
-					//E' stato selezionato un utente che già era presente lo elimino dall'array degli utenti selezionati 
-					if(email.contains("@")){
-					status.remove(status.indexOf(String.valueOf(position)));
-					arr.remove(contatto[0].substring(7));
-					Toast.makeText(getApplicationContext(),
-							contatto[0].substring(7) + " delete from receiver",
-							Toast.LENGTH_SHORT).show();
+
+					// E' stato selezionato un utente che già era presente lo
+					// elimino dall'array degli utenti selezionati
+					if (email.contains("@")) {
+						status.remove(status.indexOf(String.valueOf(position)));
+						arr.remove(contatto[0].substring(7));
+						Toast.makeText(
+								getApplicationContext(),
+								contatto[0].substring(7)
+										+ " delete from receiver",
+								Toast.LENGTH_SHORT).show();
 					}
-					//E' stato selezionato un team già presente
-					else{
-						//elimino la parte finale della striga relativa all'item principale per ottenere il nome del gruppo 
+					// E' stato selezionato un team già presente
+					else {
+						// elimino la parte finale della striga relativa
+						// all'item principale per ottenere il nome del gruppo
 						int lastChar = contatto[1].indexOf("}");
-						//ricavo le email degli utenti appartenenti al gruppo
-						String[] emails = db.getMembers(contatto[1].substring(0,lastChar));
-						//elimino le email 
-						for(int k = 0; k < emails.length; k++){
+						// ricavo le email degli utenti appartenenti al gruppo
+						String[] emails = db.getMembers(contatto[1].substring(
+								0, lastChar));
+						// elimino le email
+						for (int k = 0; k < emails.length; k++) {
 							arr.remove(emails[k]);
 							Toast.makeText(getApplicationContext(),
 									emails[k] + " delete from receiver",
 									Toast.LENGTH_SHORT).show();
 						}
 					}
-					
-					
-				}else {
-					//l'item non era stato selezionato lo aggiungo all'array degli elementi selezionati
+
+				} else {
+					// l'item non era stato selezionato lo aggiungo all'array
+					// degli elementi selezionati
 					status.add(String.valueOf(position));
-					
+
 					Log.d("ListViewActivity", "Sto inserendo il valore "
 							+ position);
 
-					Log.d("LIST_FRIENDS",email);
-					
-					//Verifico se l'item selezionato è un Team o un utente
-					if(email.contains("@")){
-						// in contatto[0] viene salvato la prima parte della stringa
-						// fino a ",user=" in contatto[1] la restante parte della
+					Log.d("LIST_FRIENDS", email);
+
+					// Verifico se l'item selezionato è un Team o un utente
+					if (email.contains("@")) {
+						// in contatto[0] viene salvato la prima parte della
+						// stringa
+						// fino a ",user=" in contatto[1] la restante parte
+						// della
 						// stringa
 						// substring mi serve per eliminare "{email=" e mi
 						// restituisce solo l'indirizzo email
 						arr.add(email);
-						
+
 					}
-					
-					else if(email.equals("TEAM")){
+
+					else if (email.equals("TEAM")) {
 						int lastChar = contatto[1].indexOf("}");
-						String[] emails = db.getMembers(contatto[1].substring(0,lastChar));
-						
-						for(int k = 0; k < emails.length; k++){
-							if(!arr.contains(emails[k])){
+						String[] emails = db.getMembers(contatto[1].substring(
+								0, lastChar));
+
+						for (int k = 0; k < emails.length; k++) {
+							if (!arr.contains(emails[k])) {
 								arr.add(emails[k]);
 							}
-							
+
 						}
 					}
-					
-					//Stampo un toast con tutti gliutenti che sono stati selezionati
+
+					// Stampo un toast con tutti gliutenti che sono stati
+					// selezionati
 					String receiver = "Receiver = ";
 					for (int j = 0; j < arr.size(); j++) {
 						receiver = receiver + arr.get(j) + ", ";
@@ -172,15 +187,14 @@ public class FriendsList extends Activity {
 		});
 
 	}
-	
+
 	/*
-	 * FLAG:
-	 * | Classe chimante | operazioni disponibili |
-	 * 1)NotificationListAcivity(cancellare amici)
-	 * 2)Team(cancellare amici,aggiungere utenti al gruppo)
-	 * 3)Dropbox(cancellare amici,aggiungere utenti all'array della condivisione)
+	 * FLAG: | Classe chimante | operazioni disponibili |
+	 * 1)NotificationListAcivity(cancellare amici) 2)Team(cancellare
+	 * amici,aggiungere utenti al gruppo) 3)Dropbox(cancellare amici,aggiungere
+	 * utenti all'array della condivisione)
 	 */
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -199,24 +213,24 @@ public class FriendsList extends Activity {
 					}
 				});
 		;
-		
-		
-		switch(flag){
 
-			case 2 : menu.add("Aggiungi al gruppo").setOnMenuItemClickListener(
+		switch (flag) {
+
+		case 2:
+			menu.add("Aggiungi al gruppo").setOnMenuItemClickListener(
 					new OnMenuItemClickListener() {
 						public boolean onMenuItemClick(MenuItem item) {
 							Toast.makeText(getApplicationContext(),
 									item.getTitle(), Toast.LENGTH_SHORT).show();
-							
+
 							Intent intent = getIntent();
 							int idTeam = intent.getIntExtra("idTeam", 0);
-						
+
 							if (arr.isEmpty()) {
 								Toast.makeText(getApplicationContext(),
-									"Select friends", Toast.LENGTH_SHORT).show();
-							}
-							else{
+										"Select friends", Toast.LENGTH_SHORT)
+										.show();
+							} else {
 								Object[] array = arr.toArray();
 								db.insertMembers(array, idTeam);
 								db.showAll();
@@ -226,9 +240,10 @@ public class FriendsList extends Activity {
 						}
 					});
 			;
-		break;
+			break;
 
-			case 3 : menu.add("Condividi").setOnMenuItemClickListener(
+		case 3:
+			menu.add("Condividi").setOnMenuItemClickListener(
 					new OnMenuItemClickListener() {
 						public boolean onMenuItemClick(MenuItem item) {
 							Toast.makeText(getApplicationContext(),
@@ -273,11 +288,11 @@ public class FriendsList extends Activity {
 		listView.setAdapter(adapter);
 
 	}
+
 	public void showFriends(String[] Friends, String[] Team) {
 
 		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
-		
-		
+
 		for (int j = 0; j < Friends.length; j = j + 2) {
 			Map<String, String> datum = new HashMap<String, String>(2);
 			datum.put("user", Friends[j]);
@@ -285,13 +300,13 @@ public class FriendsList extends Activity {
 			data.add(datum);
 		}
 
-		for(int k = 0;k < Team.length;k++){
+		for (int k = 0; k < Team.length; k++) {
 			Map<String, String> datum = new HashMap<String, String>(2);
 			datum.put("user", Team[k]);
 			datum.put("email", "TEAM");
 			data.add(datum);
 		}
-		
+
 		SimpleAdapter adapter = new SimpleAdapter(this, data,
 				android.R.layout.simple_list_item_2, new String[] { "user",
 						"email" }, new int[] { android.R.id.text1,

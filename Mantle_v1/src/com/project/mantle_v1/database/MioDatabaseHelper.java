@@ -83,14 +83,14 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		sql += " description TEXT";
 		sql += ")";
 		db.execSQL(sql);
-		
+
 		sql = "";
 		sql += "CREATE TABLE Members (";
 		sql += " idTeam INTEGER,";
 		sql += " email TEXT";
 		sql += ")";
 		db.execSQL(sql);
-		
+
 	}
 
 	@Override
@@ -116,42 +116,42 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		}
 
 	}
-	
+
 	// verifica che il servizio mantle esiste
-		public boolean serviceMantle() {
-			String[] columns = { "service" };
-			String selection = "service = 'mantle'";
-			Cursor cursor = db.query("Service", columns, selection, null, null,
-					null, null);
+	public boolean serviceMantle() {
+		String[] columns = { "service" };
+		String selection = "service = 'mantle'";
+		Cursor cursor = db.query("Service", columns, selection, null, null,
+				null, null);
 
-			int i = cursor.getCount();
+		int i = cursor.getCount();
 
-			if (i < 1) {
-				return false;
-			}
-
-			else {
-				return true;
-			}
-
+		if (i < 1) {
+			return false;
 		}
 
-		public boolean teamExist(String team){
-			String[] columns = { "idTeam" };
-			String selection = "description = ?";
-			String[] selectionArg = { team };
-			Cursor cursor = db.query("Team", columns, selection, selectionArg,
-					null, null, null);
-			Integer i = cursor.getCount();
-
-			if (i < 1) {
-				return false;
-			} else {
-				return true;
-			}
-
+		else {
+			return true;
 		}
-		
+
+	}
+
+	public boolean teamExist(String team) {
+		String[] columns = { "idTeam" };
+		String selection = "description = ?";
+		String[] selectionArg = { team };
+		Cursor cursor = db.query("Team", columns, selection, selectionArg,
+				null, null, null);
+		Integer i = cursor.getCount();
+
+		if (i < 1) {
+			return false;
+		} else {
+			return true;
+		}
+
+	}
+
 	// verifica se l'utente è registrato e restituisce username e password
 	public String[] login() {
 		String selection = "service = 'mantle'";
@@ -197,8 +197,8 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 	}
 
-	////////////////////////////////////////////////////////////////////////////////
-	
+	// //////////////////////////////////////////////////////////////////////////////
+
 	public long insertUser(String email, String username, String name,
 			String surname, String key) {
 		ContentValues values = new ContentValues();
@@ -239,7 +239,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		long r = db.insert("Share", null, values);
 		return r;
 	}
-	
+
 	public void insertLinkComment(int idFile, String link) {
 
 		ContentValues values = new ContentValues();
@@ -249,28 +249,28 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		db.update("File", values, whereClause, whereArgs);
 
 	}
-	
+
 	public long insertTeam(String teamName) {
 
 		ContentValues values = new ContentValues();
 		values.put("description", teamName);
-		long r = db.insert("Team",null,values);
+		long r = db.insert("Team", null, values);
 		return r;
 	}
-	
-	public void insertMembers(Object[] email,int idTeam) {
-		
+
+	public void insertMembers(Object[] email, int idTeam) {
+
 		ContentValues values = new ContentValues();
 		values.put("idTeam", idTeam);
-		
-		for(int i=0;i<email.length;i++){
+
+		for (int i = 0; i < email.length; i++) {
 			values.put("email", email[i].toString());
 			db.insert("Members", null, values);
 		}
 	}
-	
-	////////////////////////////////////////////////////////////////////////////////
-	
+
+	// //////////////////////////////////////////////////////////////////////////////
+
 	public void deleteAll() {
 		db.delete("User", null, null);
 		db.delete("Service", null, null);
@@ -288,7 +288,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 		db.delete("User", whereClause, whereArgs);
 		db.delete("Members", whereClause, whereArgs);
-		
+
 		Log.d("MIO_DATABASE_HELPER", "Ho elimnato l'utente richiesto : "
 				+ email);
 
@@ -297,24 +297,24 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	public void deleteMembers(String idTeam, String email) {
 
 		String whereClause = "idTeam = ? AND email = ?";
-		String[] whereArgs = { idTeam,email };
-		
+		String[] whereArgs = { idTeam, email };
+
 		db.delete("Members", whereClause, whereArgs);
-		
+
 	}
-	
-	public  void deleteTeam(String teamName){
+
+	public void deleteTeam(String teamName) {
 		int idTeam = getIdTeam(teamName);
 		String whereClause = "idTeam = ? AND description = ?";
 		String[] whereArgs = { String.valueOf(idTeam), teamName };
 		db.delete("Team", whereClause, whereArgs);
 		whereClause = "idTeam = ?";
-		String[] whereArgs2 = {String.valueOf(idTeam)};
+		String[] whereArgs2 = { String.valueOf(idTeam) };
 		db.delete("Members", whereClause, whereArgs2);
 	}
-	
-	////////////////////////////////////////////////////////////////////////////////
-	
+
+	// //////////////////////////////////////////////////////////////////////////////
+
 	// Prelevo l'id di un determinato utente dal nome e dal cognome
 	public int getId(String name, String surname) {
 
@@ -348,7 +348,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 		return c.getInt(0);
 	}
-	
+
 	public String getEmailFromUrl(String url) {
 		// Dalla tabella file ricavo l'id del file
 		String[] columns = { "idFile" };
@@ -370,7 +370,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		c.moveToNext();
 		String idUser = c.getString(0);
 
-		Log.d("QUERY PER RICAVARE LA MAIL", "2/3) id dell'user = "+ idUser);
+		Log.d("QUERY PER RICAVARE LA MAIL", "2/3) id dell'user = " + idUser);
 
 		// Dall'id dell'utente ricavo la mail
 		String[] columns3 = { "email" };
@@ -381,7 +381,8 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		c.moveToNext();
 		String email = c.getString(0);
 
-		Log.d("QUERY PER RICAVARE LA MAIL","3/3) la mail dell'utente = " + email);
+		Log.d("QUERY PER RICAVARE LA MAIL", "3/3) la mail dell'utente = "
+				+ email);
 
 		return email;
 	}
@@ -414,15 +415,15 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 		return result;
 	}
-	
-	public String[] getMembersInfo(String[] email){
-		String[] result = new String[(email.length)*2];
-		String[] columns = { "name", "surname"};
-		for(int i = 0, j = 0;i<email.length;i++){
+
+	public String[] getMembersInfo(String[] email) {
+		String[] result = new String[(email.length) * 2];
+		String[] columns = { "name", "surname" };
+		for (int i = 0, j = 0; i < email.length; i++) {
 			String selection = "email=?";
-			String[] selectionArgs = {email[i]};
-			Cursor c = db.query("User", columns, selection, selectionArgs, null,
-					null, null);
+			String[] selectionArgs = { email[i] };
+			Cursor c = db.query("User", columns, selection, selectionArgs,
+					null, null, null);
 			c.moveToNext();
 			result[j] = c.getString(0) + " " + c.getString(1);
 			result[j + 1] = email[i];
@@ -431,9 +432,9 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 		return result;
 	}
-	
+
 	public String[] getTeams() {
-		String[]columns={"description"};
+		String[] columns = { "description" };
 		Cursor c = db.query("Team", columns, null, null, null, null, null);
 		int i = c.getCount();
 		String[] result = new String[i];
@@ -446,28 +447,29 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		}
 
 		return result;
-		
+
 	}
 
-	
-	public String[] getMembers(String teamName){
-		Log.d("MIO_DATABASE_HELPER","il nome del team = " + teamName);
+	public String[] getMembers(String teamName) {
+		Log.d("MIO_DATABASE_HELPER", "il nome del team = " + teamName);
 		String[] columns = { "idTeam" };
 		String selection = "description = ?";
 		String[] selectionArgs = { teamName };
-		Cursor c = db.query("Team", columns, selection, selectionArgs, null, null, null);
-		
+		Cursor c = db.query("Team", columns, selection, selectionArgs, null,
+				null, null);
+
 		int i = c.getCount();
-		
+
 		c.moveToNext();
-		
+
 		String idTeam = c.getString(0);
-		
-		String[] columns2 = { "email" }; 
+
+		String[] columns2 = { "email" };
 		selection = "idTeam = ?";
 		String[] selectionArgs2 = { idTeam };
-		c = db.query("Members", columns2, selection, selectionArgs2, null, null, null);
-		
+		c = db.query("Members", columns2, selection, selectionArgs2, null,
+				null, null);
+
 		i = c.getCount();
 		String[] result = new String[i];
 		i = 0;
@@ -478,7 +480,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		}
 		return result;
 	}
-	
+
 	public String getPassword(String email) {
 
 		String[] columns = { "passacces" };
@@ -520,21 +522,22 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		Cursor c = db.query("User", null, selection, selectionArgs, null, null,
 				null);
 		c.moveToNext();
-		User user = new User(c.getString(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5));
+		User user = new User(c.getString(0), c.getString(1), c.getString(2),
+				c.getString(3), c.getString(4), c.getString(5));
 		return user;
 	}
-	
-	public int getIdFile(String linkFile){
+
+	public int getIdFile(String linkFile) {
 		String[] columns = { "idFile" };
 		String selection = "linkFile=?";
 		String[] selectionArgs = { linkFile };
-		Cursor c = db.query("File", columns, selection, selectionArgs, null, null,null);
+		Cursor c = db.query("File", columns, selection, selectionArgs, null,
+				null, null);
 		c.moveToNext();
 		int idFile = c.getInt(0);
 		return idFile;
 	}
-	
-	
+
 	public String[] getFile(String idFile) {
 		String selection = "idFile=?";
 		String[] selectionArgs = { idFile };
@@ -551,30 +554,31 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	public int getIdTeam(String teamName) {
 		String[] columns = { "idTeam" };
 		String selection = "description = ?";
-		String[] selectionArgs={ teamName };
-		Cursor c = db.query("Team", columns, selection, selectionArgs, null, null, null);
+		String[] selectionArgs = { teamName };
+		Cursor c = db.query("Team", columns, selection, selectionArgs, null,
+				null, null);
 		c.moveToNext();
 		int idTeam = c.getInt(0);
 		return idTeam;
 	}
-	
-	public ArrayList <MantleFile> getAllFile(){
+
+	public ArrayList<MantleFile> getAllFile() {
 		Cursor c = db.query("File", null, null, null, null, null, null);
 		ArrayList<MantleFile> arr = new ArrayList<MantleFile>();
 		MantleFile mf = new MantleFile();
-		
-		while(c.moveToNext()){
+
+		while (c.moveToNext()) {
 			mf.setIdFile(c.getString(0));
 			mf.setFileName(c.getString(1));
 			mf.setLinkFile(c.getString(2));
 			mf.setLinkComment(c.getString(3));
 			mf.setFileKey(c.getString(4));
-			
+
 			arr.add(mf);
 		}
 		return arr;
 	}
-	
+
 	// ============== METODI PER LA VISUALIZZAZIONE DEL DATABASE ===============
 
 	public void showAll() {
@@ -642,7 +646,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 			Log.d("MIO_DATABASE_HELPER", result[i]);
 			i++;
 		}
-		
+
 		cursor = db.query("Team", null, null, null, null, null, null);
 		i = cursor.getCount();
 		result = new String[i];
@@ -653,7 +657,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 			Log.d("MIO_DATABASE_HELPER", result[i]);
 			i++;
 		}
-		
+
 		cursor = db.query("Members", null, null, null, null, null, null);
 		i = cursor.getCount();
 		result = new String[i];
@@ -696,5 +700,5 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		}
 
 	}
-	
+
 }
