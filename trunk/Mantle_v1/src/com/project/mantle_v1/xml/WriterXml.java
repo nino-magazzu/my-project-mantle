@@ -156,8 +156,9 @@ public class WriterXml {
 		f.delete();
 
 	}
-	
-	public void addNoteJson(String Url, String ObjectType, String Id, String Published, String Content, File f)
+
+	public void addNoteJson(String Url, String ObjectType, String Id,
+			String Published, String Content, File f)
 			throws ParserConfigurationException, SAXException, IOException,
 			TransformerFactoryConfigurationError, TransformerException {
 		// String filepath =path+filename+".xml";
@@ -204,8 +205,9 @@ public class WriterXml {
 		createXml(writer.toString(), f.getName());
 
 	}
-	
-	public void addPhotoJson(String ObjectType, String Id, String Published, String[] Image, String[] FullImage, File f)
+
+	public void addPhotoJson(String ObjectType, String Id, String Published,
+			String[] Image, String[] FullImage, File f)
 			throws ParserConfigurationException, SAXException, IOException,
 			TransformerFactoryConfigurationError, TransformerException {
 		// String filepath =path+filename+".xml";
@@ -240,36 +242,34 @@ public class WriterXml {
 
 		Element tagImage = doc.createElement("IMAGE");
 		tag.appendChild(tagImage);
-			
-			Element tagImageUrl = doc.createElement("URL");
-			tagImage.appendChild(tagImageUrl);
-			tagImageUrl.setTextContent(Image[0]);
-			
-			Element tagImageWidth = doc.createElement("WIDTH");
-			tagImage.appendChild(tagImageWidth);
-			tagImageWidth.setTextContent(Image[1]);
-			
-			Element tagImageHeight = doc.createElement("HEIGHT");
-			tagImage.appendChild(tagImageHeight);
-			tagImageHeight.setTextContent(Image[2]);
-			
+
+		Element tagImageUrl = doc.createElement("URL");
+		tagImage.appendChild(tagImageUrl);
+		tagImageUrl.setTextContent(Image[0]);
+
+		Element tagImageWidth = doc.createElement("WIDTH");
+		tagImage.appendChild(tagImageWidth);
+		tagImageWidth.setTextContent(Image[1]);
+
+		Element tagImageHeight = doc.createElement("HEIGHT");
+		tagImage.appendChild(tagImageHeight);
+		tagImageHeight.setTextContent(Image[2]);
+
 		Element tagFullImage = doc.createElement("FULL_IMAGE");
 		tag.appendChild(tagFullImage);
-		
-			Element tagFullImageUrl = doc.createElement("URL");
-			tagFullImage.appendChild(tagFullImageUrl);
-			tagFullImageUrl.setTextContent(FullImage[0]);
-		
-			Element tagFullImageWidth = doc.createElement("WIDTH");
-			tagFullImage.appendChild(tagFullImageWidth);
-			tagFullImageWidth.setTextContent(FullImage[1]);
-		
-			Element tagFullImageHeight = doc.createElement("HEIGHT");
-			tagFullImage.appendChild(tagFullImageHeight);
-			tagFullImageHeight.setTextContent(FullImage[2]);
-			
 
-			
+		Element tagFullImageUrl = doc.createElement("URL");
+		tagFullImage.appendChild(tagFullImageUrl);
+		tagFullImageUrl.setTextContent(FullImage[0]);
+
+		Element tagFullImageWidth = doc.createElement("WIDTH");
+		tagFullImage.appendChild(tagFullImageWidth);
+		tagFullImageWidth.setTextContent(FullImage[1]);
+
+		Element tagFullImageHeight = doc.createElement("HEIGHT");
+		tagFullImage.appendChild(tagFullImageHeight);
+		tagFullImageHeight.setTextContent(FullImage[2]);
+
 		Transformer transformer = TransformerFactory.newInstance()
 				.newTransformer();
 		StringWriter writer = new StringWriter();
@@ -280,8 +280,9 @@ public class WriterXml {
 		createXml(writer.toString(), f.getName());
 
 	}
-	
-	public void addFileJson(String DisplayName, String FileUrl, String Url, String ObjectType, String Id, String Published, File f)
+
+	public void addFileJson(String DisplayName, String FileUrl, String Url,
+			String ObjectType, String Id, String Published, File f)
 			throws ParserConfigurationException, SAXException, IOException,
 			TransformerFactoryConfigurationError, TransformerException {
 		// String filepath =path+filename+".xml";
@@ -305,7 +306,7 @@ public class WriterXml {
 		Element tagFileUrl = doc.createElement("FILE_URL");
 		tag.appendChild(tagFileUrl);
 		tagFileUrl.setTextContent(FileUrl);
-		
+
 		Element tagUrl = doc.createElement("URL");
 		tag.appendChild(tagUrl);
 		tagUrl.setTextContent(Url);
@@ -332,8 +333,9 @@ public class WriterXml {
 		createXml(writer.toString(), f.getName());
 
 	}
-	
-	public void addUserJson(String Name, String Surname, String Username, String Email, String PublicKey, File f)
+
+	public void addUserJson(String Name, String Surname, String Username,
+			String Email, String PublicKey, File f)
 			throws ParserConfigurationException, SAXException, IOException,
 			TransformerFactoryConfigurationError, TransformerException {
 		// String filepath =path+filename+".xml";
@@ -357,7 +359,7 @@ public class WriterXml {
 		Element tagSurname = doc.createElement("SURNAME");
 		tag.appendChild(tagSurname);
 		tagSurname.setTextContent(Surname);
-		
+
 		Element tagUsername = doc.createElement("USERNAME");
 		tag.appendChild(tagUsername);
 		tagUsername.setTextContent(Username);
@@ -380,10 +382,11 @@ public class WriterXml {
 		createXml(writer.toString(), f.getName());
 
 	}
-	
-	public void addSystemInfo(String Content, String Username, String Published, File f)
-			throws ParserConfigurationException, SAXException, IOException,
-			TransformerFactoryConfigurationError, TransformerException {
+
+	public void addSystemInfo(String Content, String Username,
+			String Published, File f) throws ParserConfigurationException,
+			SAXException, IOException, TransformerFactoryConfigurationError,
+			TransformerException {
 		// String filepath =path+filename+".xml";
 		// Log.d("XML_MAKER",filepath);
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory
@@ -397,20 +400,18 @@ public class WriterXml {
 		// crea il nuovo tag
 		Element tag = doc.createElement("SYSTEM_INFO");
 		root.appendChild(tag);
-		
+
 		Element tagContent = doc.createElement("CONTENT");
 		tag.appendChild(tagContent);
 		tagContent.setTextContent(Content);
-		
+
 		Element tagUsername = doc.createElement("USERNAME");
 		tag.appendChild(tagUsername);
 		tagUsername.setTextContent(Username);
-		
+
 		Element tagPublished = doc.createElement("PUBLISHED");
 		tag.appendChild(tagPublished);
 		tagPublished.setTextContent(Published);
-
-		
 
 		Transformer transformer = TransformerFactory.newInstance()
 				.newTransformer();

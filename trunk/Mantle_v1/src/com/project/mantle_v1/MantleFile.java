@@ -11,6 +11,8 @@ import android.util.Log;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.dropbox.DownladerTask;
+import com.project.mantle_v1.dropbox.UploaderTask;
 
 public class MantleFile implements Serializable {
 
@@ -55,9 +57,9 @@ public class MantleFile implements Serializable {
 	}
 
 	// Costrutore per prendere uno specifico file
-	public MantleFile(Context cont, int idUser) {
+	public MantleFile(Context cont, String idFile) {
 		db = new MioDatabaseHelper(cont);
-		String[] file = db.getFile(String.valueOf(idUser));
+		String[] file = db.getFile(idFile);
 		this.idFile = file[0];
 		this.fileName = file[1];
 		this.linkFile = file[2];
@@ -216,12 +218,12 @@ public class MantleFile implements Serializable {
 	public void setSender_email(String ownerMail) {
 		this.ownerMail = ownerMail;
 	}
-	
+
 	@Override
-    public String toString() {
-        return this.fileName;
-    }
-	
+	public String toString() {
+		return this.fileName;
+	}
+
 	private static final long serialVersionUID = 6107134499898867188L;
 	private final String TAG = this.getClass().getSimpleName();
 

@@ -15,6 +15,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
@@ -32,7 +33,6 @@ import com.dropbox.client2.exception.DropboxPartialFileException;
 import com.dropbox.client2.exception.DropboxServerException;
 import com.dropbox.client2.exception.DropboxUnlinkedException;
 import com.project.mantle_v1.MantleFile;
-import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.xml.WriterXml;
 
@@ -43,6 +43,7 @@ import com.project.mantle_v1.xml.WriterXml;
  */
 public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 	private final String TAG = this.getClass().getSimpleName();
+	private final String USER_DETAILS_PREF = "user";
 
 	private DropboxAPI<?> mApi;
 	private String mPath;
@@ -128,8 +129,10 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 				long ID = db.insertFile(file.getFileName(), file.getLinkFile(),
 						"", file.getFileKey());
 
-				db.insertShare((int) ID, ((MyApplication) mContext
-						.getApplicationContext()).getID());
+				SharedPreferences userDetails = mContext.getSharedPreferences(
+						USER_DETAILS_PREF, 0);
+
+				db.insertShare((int) ID, userDetails.getInt("idUser", 1));
 
 				WriterXml com = new WriterXml();
 				String pathComment = Environment.getExternalStorageDirectory()

@@ -1,10 +1,13 @@
 package com.project.mantle_v1;
 
 import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.gmail.ReaderTask;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +26,8 @@ public class Register extends Activity {
 	private EditText dropboxPassEditText;
 	private String username;
 	private String password;
+
+	private final String USER_DETAILS_PREF = "user";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,11 +64,18 @@ public class Register extends Activity {
 				if (!name.equals("") && !surname.equals("")
 						&& !email.equals("") && !dropboxPass.equals("")
 						&& !dropboxUser.equals("")) {
-					db.insertUser(email, username, name, surname, password);
+					int id = (int) db.insertUser(email, username, name,
+							surname, password);
 					db.insertService("Dropbox", dropboxUser, dropboxPass);
 					db.insertService("Email", email, emailPass);
 					db.showAll();
 					db.close();
+
+					setPreferences(email, emailPass, id);
+
+					MyHandler handler = new MyHandler(getApplicationContext());
+					new ReaderTask(handler, email, emailPass).start();
+
 					Intent intent = new Intent(Register.this,
 							NotificationListActivity.class);// Home.class);
 					startActivity(intent);
@@ -77,5 +89,20 @@ public class Register extends Activity {
 			}
 
 		});
+	}
+
+	private void setPreferences(String email, String emailpswd, int id) {
+		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
+				0);
+		Editor edit = userDetails.edit();
+		edit.clear();
+		edit.putString("username", username);
+		edit.putString("email", email);
+		// MioDatabaseHelper db = new
+		// MioDatabaseHelper(getApplicationContext());
+		edit.putString("emailpswd", emailpswd);
+		edit.putInt("idUser", id);
+		edit.commit();
+		// db.close();
 	}
 }

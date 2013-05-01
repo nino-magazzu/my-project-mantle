@@ -26,7 +26,6 @@ import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.dropbox.client2.session.TokenPair;
 import com.project.mantle_v1.MantleFile;
-import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.FriendsList;
@@ -84,9 +83,9 @@ public class Dropbox extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		TAG = this.getClass().getSimpleName();
-		
+
 		// We create a new AuthSession so that we can use the Dropbox API.
 		AndroidAuthSession session = buildSession();
 
@@ -108,7 +107,7 @@ public class Dropbox extends Activity {
 				} else {
 					// Start the remote authentication
 					mApi.getSession().startAuthentication(Dropbox.this);
-				//	((MyApplication) getApplicationContext()).setmApi(mApi);
+					// ((MyApplication) getApplicationContext()).setmApi(mApi);
 				}
 			}
 		});
@@ -194,7 +193,7 @@ public class Dropbox extends Activity {
 					upload.execute();
 					try {
 						mt = upload.get();
-						((MyApplication) getApplicationContext()).setMedia(mt);
+						setID();
 						Log.d(TAG, mt.getObjectType());
 					} catch (InterruptedException e) {
 						Log.i(TAG, "Error authenticating", e);
@@ -223,8 +222,10 @@ public class Dropbox extends Activity {
 		case FRIEND_CHOOSED_CODE:
 			Object[] contacts = (Object[]) data
 					.getSerializableExtra("contacts");
-			if(contacts != null) {
-				mt = ((MyApplication) getApplicationContext()).getMedia();
+			if (contacts != null) {
+				SharedPreferences fileDetails = getSharedPreferences("file", 0);
+				String idFile = fileDetails.getString("idFile", null);
+				mt = new MantleFile(getApplicationContext(), idFile);
 				String body = "";
 				try {
 					body = new ParseJSON(new StringWriter()).writeJson(mt);
@@ -233,18 +234,26 @@ public class Dropbox extends Activity {
 				}
 				for (int j = 0; j < contacts.length; j++) {
 					Log.d("Dropbox", "Ho inviato la mail a " + contacts[j]);
-					Sender sender = new Sender(this, body, (String) contacts[j],
-							MantleMessage.SHARING_PHOTO);
+					Sender sender = new Sender(this, body,
+							(String) contacts[j], MantleMessage.SHARING_PHOTO);
 					sender.execute();
 				}
 			}
-			
+
 			break;
 
 		default:
 			Log.e(TAG, "Out Of Options. " + requestCode);
 			break;
 		}
+	}
+
+	private void setID() {
+		SharedPreferences fileDetails = getSharedPreferences("file", 0);
+		Editor editor = fileDetails.edit();
+		editor.clear();
+		editor.putString("idFile", mt.getIdFile());
+		editor.commit();
 	}
 
 	@Override
@@ -255,7 +264,6 @@ public class Dropbox extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		((MyApplication) getApplicationContext()).setmApi(mApi);
 		AndroidAuthSession session = mApi.getSession();
 
 		// The next part must be inserted in the onResume() method of the
@@ -357,7 +365,7 @@ public class Dropbox extends Activity {
 	 * 
 	 * @return Array of [access_key, access_secret], or null if none stored
 	 */
-	private  String[] getKeys() {
+	private String[] getKeys() {
 		SharedPreferences prefs = getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
 		String key = prefs.getString(ACCESS_KEY_NAME, null);
 		String secret = prefs.getString(ACCESS_SECRET_NAME, null);

@@ -1,18 +1,17 @@
 package com.project.mantle_v1.notification_home;
 
 import com.project.mantle_v1.AddService;
-import com.project.mantle_v1.MyApplication;
+//import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.Team;
 import com.project.mantle_v1.database.AddFriend;
 import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.dropbox.Dropbox;
-import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.fileNavigator.FileListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
@@ -54,15 +53,19 @@ public class NotificationListActivity extends FragmentActivity implements
 	 * device.
 	 */
 	private boolean mTwoPane;
+	private final String USER_DETAILS_PREF = "user";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_notification_list);
 
-		setTitle("Salve " + ((MyApplication) getApplicationContext()).getUsername());
+		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
+				0);
+
+		setTitle("Salve " + userDetails.getString("username", " "));
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		
+
 		if (findViewById(R.id.notification_detail_container) != null) {
 			// The detail container view will be present only in the
 			// large-screen layouts (res/values-large and
@@ -77,13 +80,12 @@ public class NotificationListActivity extends FragmentActivity implements
 					.setActivateOnItemClick(true);
 
 		}
-		
-		if(((MyApplication) getApplicationContext()).getmApi() == null) {
-			DropboxAuth auth = new DropboxAuth(this.getApplicationContext());
-			((MyApplication) getApplicationContext()).setmApi(auth.getAPI());
-			Log.d("Home", auth.getAPI().toString());
-		}
-		
+		/*
+		 * if(((MyApplication) getApplicationContext()).getmApi() == null) {
+		 * DropboxAuth auth = new DropboxAuth(this.getApplicationContext());
+		 * ((MyApplication) getApplicationContext()).setmApi(auth.getAPI());
+		 * Log.d("Home", auth.getAPI().toString()); }
+		 */
 		// TODO: If exposing deep links into your app, handle intents here.
 
 	}
@@ -119,7 +121,7 @@ public class NotificationListActivity extends FragmentActivity implements
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
-		menu.add("Add a service").setOnMenuItemClickListener(
+		menu.add("Nuovo Servizio").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
@@ -130,9 +132,8 @@ public class NotificationListActivity extends FragmentActivity implements
 						return true;
 					}
 				});
-		
 
-		menu.add("Add a friend").setOnMenuItemClickListener(
+		menu.add("Aggiungi un amico").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
@@ -143,20 +144,21 @@ public class NotificationListActivity extends FragmentActivity implements
 						return true;
 					}
 				});
-		
-		menu.add("Navigator").setOnMenuItemClickListener(
+
+		menu.add("I tuoi file").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
 								item.getTitle(), Toast.LENGTH_SHORT).show();
 						Intent intent = new Intent(
-								NotificationListActivity.this, FileListActivity.class);
+								NotificationListActivity.this,
+								FileListActivity.class);
 						startActivity(intent);
 						return true;
 					}
 				});
 
-		menu.add("File").setOnMenuItemClickListener(
+		menu.add("Dropbox").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
@@ -167,9 +169,7 @@ public class NotificationListActivity extends FragmentActivity implements
 						return true;
 					}
 				});
-		
-		
-		
+
 		menu.add("Gruppi").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
@@ -181,9 +181,8 @@ public class NotificationListActivity extends FragmentActivity implements
 						return true;
 					}
 				});
-		
 
-		menu.add("Friend List").setOnMenuItemClickListener(
+		menu.add("I tuoi amici").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),

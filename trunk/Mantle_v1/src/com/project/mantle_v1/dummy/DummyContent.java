@@ -1,8 +1,6 @@
 package com.project.mantle_v1.dummy;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.project.mantle_v1.MantleFile;
@@ -15,14 +13,6 @@ import com.project.mantle_v1.MantleFile;
  */
 public class DummyContent {
 
-	/**
-	 * An array of sample (dummy) items.
-	 */
-	///public static List<DummyItem> ITEMS = new ArrayList<DummyItem>();
-
-	/**
-	 * A map of sample (dummy) items, by ID.
-	 */
 	public static Map<String, MantleFile> ITEM_MAP = new HashMap<String, MantleFile>();
 
 	

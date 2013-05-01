@@ -3,14 +3,12 @@ package com.project.mantle_v1.notification_home;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
-
 import org.xml.sax.SAXException;
-
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,13 +21,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.project.mantle_v1.MantleFile;
-import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;
@@ -46,7 +43,7 @@ public class NotificationDetailFragment extends Fragment {
 	 * represents.
 	 */
 	public static final String ARG_ITEM_ID = "item_id";
-
+	private final String USER_DETAILS_PREF = "user";
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
@@ -70,8 +67,8 @@ public class NotificationDetailFragment extends Fragment {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			mItem = MyHandler.ITEM_MAP.get(getArguments()
-					.getString(ARG_ITEM_ID));
+			mItem = MyHandler.NOTIFICA_MAP.get(getArguments().getString(
+					ARG_ITEM_ID));
 		}
 	}
 
@@ -79,6 +76,9 @@ public class NotificationDetailFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = null;
+		SharedPreferences userDetails = getActivity().getSharedPreferences(
+				USER_DETAILS_PREF, 0);
+		final String username = userDetails.getString("username", " ");
 
 		if (mItem != null) {
 			/* ========== AMICIZIA ACCETTATA O RIFIUTATA ================ */
@@ -190,17 +190,18 @@ public class NotificationDetailFragment extends Fragment {
 						.getCommentLink());
 
 				Log.d(TAG, comment.getName());
-				
-				Button bDownload = (Button) rootView.findViewById(R.id.download);
+
+				Button bDownload = (Button) rootView
+						.findViewById(R.id.download);
 				bDownload.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
 						canceled = false;
-						
+
 					}
 				});
-				
+
 				bComment.setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -208,10 +209,7 @@ public class NotificationDetailFragment extends Fragment {
 						Intent myIntent = new Intent(getActivity(),
 								NoteActivity.class);
 						Bundle bundle = new Bundle();
-						bundle.putString(
-								"username",
-								((MyApplication) getActivity().getApplication())
-										.getUsername());
+						bundle.putString("username", username);
 						bundle.putString("url", mItem.getNote()
 								.getCommentLink());
 						bundle.putString("email", ownerEMail);
@@ -242,11 +240,12 @@ public class NotificationDetailFragment extends Fragment {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
-				MantleFile.uploadFile(comment, ((MyApplication) getActivity()
-						.getApplication()).getmApi());
+				DropboxAuth auth = new DropboxAuth(getActivity()
+						.getApplicationContext());
+				MantleFile.uploadFile(comment, auth.getAPI());
 				// xml.deleteComment(comment);
-				File img = MantleFile.downloadFileFromUrl(fileUrl,mItem.getTitle());
+				File img = MantleFile.downloadFileFromUrl(fileUrl,
+						mItem.getTitle());
 				ImageView iv = (ImageView) rootView
 						.findViewById(R.id.sharedImage);
 				iv.setImageBitmap(BitmapFactory.decodeFile(img
@@ -259,22 +258,22 @@ public class NotificationDetailFragment extends Fragment {
 
 				TextView tw = (TextView) rootView.findViewById(R.id.linkText);
 				tw.setText(mItem.getTitle());
-				
-				Button bDownload = (Button) rootView.findViewById(R.id.download);
+
+				Button bDownload = (Button) rootView
+						.findViewById(R.id.download);
 				bDownload.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
 						canceled = false;
-						
+
 					}
 				});
-				
+
 				Button bComment = (Button) rootView.findViewById(R.id.comment);
-				
 
 				MantleFile mFile = mItem.getmFile();
-				
+
 				mFile.downloadFileFromUrl(mFile.getFileName());
 				ImageView iv = (ImageView) rootView
 						.findViewById(R.id.sharedImage);
@@ -290,7 +289,7 @@ public class NotificationDetailFragment extends Fragment {
 						mFile.getLinkFile(), mFile.getLinkComment(), "");
 				int ID_User = db.getId(mFile.getSender_email());
 				db.insertShare((int) ID, ID_User);
-				
+
 				bComment.setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -298,10 +297,7 @@ public class NotificationDetailFragment extends Fragment {
 						Intent myIntent = new Intent(getActivity(),
 								NoteActivity.class);
 						Bundle bundle = new Bundle();
-						bundle.putString(
-								"username",
-								((MyApplication) getActivity().getApplication())
-										.getUsername());
+						bundle.putString("username", username);
 						bundle.putString("url", mItem.getmFile()
 								.getLinkComment());
 						bundle.putString("email", mItem.getmFile()

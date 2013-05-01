@@ -3,6 +3,7 @@ package com.project.mantle_v1.fileNavigator;
 import java.io.File;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,14 +14,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.project.mantle_v1.MantleFile;
-import com.project.mantle_v1.MyApplication;
+import com.project.mantle_v1.MyHandler;
+//import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.R.id;
-import com.project.mantle_v1.R.layout;
 import com.project.mantle_v1.database.MioDatabaseHelper;
-import com.project.mantle_v1.dummy.DummyContent;
 import com.project.mantle_v1.notification_home.NoteActivity;
 
 /**
@@ -34,6 +32,7 @@ public class FileDetailFragment extends Fragment {
 	 * represents.
 	 */
 	public static final String ARG_ITEM_ID = "item_id";
+	private final String USER_DETAILS_PREF = "user";
 
 	/**
 	 * The dummy content this fragment is presenting.
@@ -55,36 +54,42 @@ public class FileDetailFragment extends Fragment {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			file = DummyContent.ITEM_MAP.get(getArguments().getString(
-					ARG_ITEM_ID));
+			file = MyHandler.FILE_MAP
+					.get(getArguments().getString(ARG_ITEM_ID));
 		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		/*View rootView = inflater.inflate(R.layout.fragment_file_detail,
-				container, false);
-*/
+		/*
+		 * View rootView = inflater.inflate(R.layout.fragment_file_detail,
+		 * container, false);
+		 */
 		View rootView = inflater.inflate(R.layout.fragment_photo_sharing,
 				container, false);
-		
+
 		TextView tw = (TextView) rootView.findViewById(R.id.linkText);
 		tw.setText(file.getFileName());
 
 		Button bComment = (Button) rootView.findViewById(R.id.comment);
-		final File comment = MantleFile.downloadFileFromUrl(file.getLinkComment(), (String)file.getIdFile() + ".xml");
+		final File comment = MantleFile.downloadFileFromUrl(
+				file.getLinkComment(), (String) file.getIdFile() + ".xml");
 		bComment.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Intent myIntent = new Intent(getActivity(),
-						NoteActivity.class);
+				Intent myIntent = new Intent(getActivity(), NoteActivity.class);
 				Bundle bundle = new Bundle();
-				MioDatabaseHelper db = new MioDatabaseHelper(getActivity().getApplicationContext());
-				bundle.putString("username", ((MyApplication) getActivity().getApplication()).getUsername());
+				MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
+						.getApplicationContext());
+				SharedPreferences userDetails = getActivity()
+						.getSharedPreferences(USER_DETAILS_PREF, 0);
+				String username = userDetails.getString("username", " ");
+				bundle.putString("username", username);
 				bundle.putString("url", file.getLinkComment());
-				bundle.putString("email", db.getEmailFromUrl(file.getLinkComment()));
+				bundle.putString("email",
+						db.getEmailFromUrl(file.getLinkComment()));
 				bundle.putString("filePath", comment.getAbsolutePath());
 				myIntent.putExtra("bundle", bundle);
 				db.close();
@@ -94,11 +99,9 @@ public class FileDetailFragment extends Fragment {
 
 		File img = MantleFile.downloadFileFromUrl(file.getLinkFile(),
 				file.getFileName());
-		ImageView iv = (ImageView) rootView
-				.findViewById(R.id.sharedImage);
-		iv.setImageBitmap(BitmapFactory.decodeFile(img
-				.getAbsolutePath()));
-		
+		ImageView iv = (ImageView) rootView.findViewById(R.id.sharedImage);
+		iv.setImageBitmap(BitmapFactory.decodeFile(img.getAbsolutePath()));
+
 		return rootView;
 	}
 }
