@@ -114,7 +114,6 @@ public class NoteActivity extends Activity {
 
 					DropboxAuth auth = new DropboxAuth(getApplicationContext());
 					MantleFile.uploadFile(cFile, auth.getAPI());
-					commentEditText.setText("");
 
 				} else {
 					ParseJSON parser = new ParseJSON(new StringWriter());
@@ -130,7 +129,7 @@ public class NoteActivity extends Activity {
 							MantleMessage.NOTE).execute();
 
 				}
-
+				commentEditText.setText("");
 				Note note = new Note(username, comment, new Date(System
 						.currentTimeMillis()).toString());
 				notes.add(note);
