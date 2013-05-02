@@ -15,6 +15,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -33,6 +34,7 @@ import com.dropbox.client2.exception.DropboxPartialFileException;
 import com.dropbox.client2.exception.DropboxServerException;
 import com.dropbox.client2.exception.DropboxUnlinkedException;
 import com.project.mantle_v1.MantleFile;
+import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.xml.WriterXml;
 
@@ -52,6 +54,7 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 	private long mFileLen;
 	private UploadRequest mRequest;
 	private Context mContext;
+	private Context mContext2;
 	private final ProgressDialog mDialog;
 
 	private String mErrorMsg;
@@ -62,7 +65,8 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 			File file, String username) {
 		// We set the context this way so we don't accidentally leak activities
 		mContext = context.getApplicationContext();
-
+		mContext2 = context; 
+		
 		this.username = username;
 
 		mFileLen = file.length();
@@ -121,14 +125,22 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 				// creazione del file
 				MantleFile file = new MantleFile(ent, shareAddress, username,
 						mFile);
-
+				
+				((MyApplication) mContext.getApplicationContext()).media = file;
+				
 				// creazione istanza del database
 				MioDatabaseHelper db = new MioDatabaseHelper(mContext);
 
 				// inserimento del fil ne db
 				long ID = db.insertFile(file.getFileName(), file.getLinkFile(),
 						"", file.getFileKey());
-
+				
+		//		setID(String.valueOf(ID));
+				
+		//		SharedPreferences details = mContext2.getSharedPreferences("file", 0);
+				
+		//		Log.d(TAG, details.getString("idFile", "papdaspsdp"));
+				
 				SharedPreferences userDetails = mContext.getSharedPreferences(
 						USER_DETAILS_PREF, 0);
 
@@ -138,7 +150,7 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 				String pathComment = Environment.getExternalStorageDirectory()
 						.toString() + "/";
 				try {
-					com.createComment(String.valueOf(ID) + ".xml");
+					com.createComment(String.valueOf(ID) + ".xml", pathComment);
 				} catch (ParserConfigurationException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -257,6 +269,16 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 		Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
 	}
 
+	private void setID(String id) {
+		SharedPreferences fileDetails = mContext2.getSharedPreferences("file", 0);
+		Editor editor = fileDetails.edit();
+		editor.clear();
+		editor.putString("idFile", id);
+		editor.apply();
+		Log.d(TAG, id);
+	}
+
+	
 	String getShareURL(String strURL) {
 		URLConnection conn = null;
 		try {

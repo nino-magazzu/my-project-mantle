@@ -33,11 +33,11 @@ public class WriterXml {
 	}
 
 	// Il metodo
-	private void createXml(String Date, String filename)
+	private void createXml(String Date, String filename, String path)
 			throws ParserConfigurationException, SAXException, IOException,
 			TransformerFactoryConfigurationError, TransformerException {
 
-		path = Environment.getExternalStorageDirectory().toString() + "/";
+		//path = Environment.getExternalStorageDirectory().toString() + "/";
 		f = new File(path, filename);
 		fw = null;
 		bw = null;
@@ -57,11 +57,10 @@ public class WriterXml {
 			Log.w("XML_maker", "NON HA FUNZIONATO : " + e.getMessage());
 			e.printStackTrace();
 		}
-
 	}
 
 	// crea la struttura di un file Xml con il solo elemento root
-	public void createComment(String filename)
+	public void createComment(String filename, String path)
 			throws ParserConfigurationException,
 			TransformerFactoryConfigurationError, TransformerException,
 			SAXException, IOException {
@@ -78,7 +77,7 @@ public class WriterXml {
 		transformer.transform(new DOMSource(doc), result);
 
 		// create XML file
-		createXml(writer.toString(), filename);
+		createXml(writer.toString(), filename, path);
 
 	}
 
@@ -112,7 +111,8 @@ public class WriterXml {
 		transformer.transform(new DOMSource(doc), result);
 
 		// create XML file
-		createXml(writer.toString(), filename);
+		String path = Environment.getExternalStorageDirectory().toString() + "/";
+		createXml(writer.toString(), filename, path);
 	}
 
 	// crea la struttura di un file xml per aggiungere un commento ad un file
@@ -148,7 +148,8 @@ public class WriterXml {
 		transformer.transform(new DOMSource(doc), result);
 
 		// create XML file
-		createXml(writer.toString(), f.getName());
+		String path = Environment.getExternalStorageDirectory().toString() + "/";
+		createXml(writer.toString(), f.getName(), path);
 
 	}
 
@@ -202,7 +203,8 @@ public class WriterXml {
 		transformer.transform(new DOMSource(doc), result);
 
 		// create XML file
-		createXml(writer.toString(), f.getName());
+		String path = Environment.getExternalStorageDirectory().toString() + "/Mantle/history";
+		createXml(writer.toString(), f.getName(), path);
 
 	}
 
@@ -277,7 +279,8 @@ public class WriterXml {
 		transformer.transform(new DOMSource(doc), result);
 
 		// create XML file
-		createXml(writer.toString(), f.getName());
+		String path = Environment.getExternalStorageDirectory().toString() + "/Mantle/history";
+		createXml(writer.toString(), f.getName(), path);
 
 	}
 
@@ -330,7 +333,8 @@ public class WriterXml {
 		transformer.transform(new DOMSource(doc), result);
 
 		// create XML file
-		createXml(writer.toString(), f.getName());
+		String path = Environment.getExternalStorageDirectory().toString() + "/Mantle/history";
+		createXml(writer.toString(), f.getName(), path);
 
 	}
 
@@ -379,7 +383,8 @@ public class WriterXml {
 		transformer.transform(new DOMSource(doc), result);
 
 		// create XML file
-		createXml(writer.toString(), f.getName());
+		String path = Environment.getExternalStorageDirectory().toString() + "/Mantle/history";
+		createXml(writer.toString(), f.getName(), path);
 
 	}
 
@@ -420,7 +425,8 @@ public class WriterXml {
 		transformer.transform(new DOMSource(doc), result);
 
 		// create XML file
-		createXml(writer.toString(), f.getName());
+		String path = Environment.getExternalStorageDirectory().toString() + "/Mantle/history";
+		createXml(writer.toString(), f.getName(), path);
 
 	}
 
