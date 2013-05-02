@@ -68,8 +68,9 @@ public class NoteActivity extends Activity {
 			e.printStackTrace();
 		}
 		notes = reader.getParsedData();
-		for (int i = 0; i < notes.size(); i++)
-			Log.d(TAG, notes.get(i).getDate());
+	
+	//	for (int i = 0; i < notes.size(); i++)
+	//		Log.d(TAG, notes.get(i).getDate());
 		final NoteAdapter adapter = new NoteAdapter(getApplicationContext(),
 				R.layout.note_layout, notes);
 		// TODO: lettura dal file degli eventuali commenti
