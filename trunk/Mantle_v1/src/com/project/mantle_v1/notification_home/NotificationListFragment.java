@@ -3,6 +3,7 @@ package com.project.mantle_v1.notification_home;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import com.project.mantle_v1.MyHandler;
@@ -182,6 +183,7 @@ public class NotificationListFragment extends ListFragment {
 		b.putSerializable("adapter", adapter);
 		msg.setData(b);
 		handler.sendMessage(msg);
+		Log.d("HOME", "adapter inviato");
 	}
 
 }
