@@ -33,7 +33,7 @@ public class WriterXml {
 	}
 
 	// Il metodo
-	public void createXml(String Date, String filename)
+	private void createXml(String Date, String filename)
 			throws ParserConfigurationException, SAXException, IOException,
 			TransformerFactoryConfigurationError, TransformerException {
 
