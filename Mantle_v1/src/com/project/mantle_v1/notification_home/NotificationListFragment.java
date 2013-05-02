@@ -1,6 +1,7 @@
 package com.project.mantle_v1.notification_home;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.ListView;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
+import com.project.mantle_v1.gmail.ReaderTask;
 
 /**
  * A list fragment representing a list of Notifications. This fragment also
@@ -21,7 +23,7 @@ import com.project.mantle_v1.R;
 public class NotificationListFragment extends ListFragment {
 
 	private MyHandler handler;
-	// private final String USER_DETAILS_PREF = "user";
+	private final String USER_DETAILS_PREF = "user";
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -78,9 +80,8 @@ public class NotificationListFragment extends ListFragment {
 
 		handler = new MyHandler(getActivity().getApplicationContext());
 
-		// SharedPreferences userDetails =
-		// getActivity().getApplicationContext().getSharedPreferences(USER_DETAILS_PREF,
-		// 0);
+		 SharedPreferences userDetails =
+		 getActivity().getApplicationContext().getSharedPreferences(USER_DETAILS_PREF, 0);
 		/*
 		 * if(!userDetails.contains("username") &&
 		 * !userDetails.contains("email") && !userDetails.contains("emailpswd"))
@@ -94,8 +95,8 @@ public class NotificationListFragment extends ListFragment {
 		 * 
 		 * }
 		 */
-		// new ReaderTask(handler, userDetails.getString("email", " "),
-		// userDetails.getString("emailpswd", " ")).start();
+		 new ReaderTask(handler, userDetails.getString("email", " "),
+		userDetails.getString("emailpswd", " ")).start();
 
 		setListAdapter(notifyAdapter);
 
