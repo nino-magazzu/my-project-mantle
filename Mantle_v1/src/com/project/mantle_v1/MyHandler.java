@@ -32,7 +32,7 @@ public class MyHandler extends Handler {
 
 	private final String TAG = this.getClass().getSimpleName();
 
-	private NotificaAdapter adapter;
+	public static NotificaAdapter adapter;
 
 	public MyHandler(Context context) {
 		super();
