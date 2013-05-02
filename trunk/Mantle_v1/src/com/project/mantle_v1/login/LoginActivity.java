@@ -181,8 +181,8 @@ public class LoginActivity extends Activity {
 
 				setPreferences();
 
-				MyHandler handler = new MyHandler(getApplicationContext());
-				new ReaderTask(handler, getEmail(), getPswdEmail()).start();
+	//			MyHandler handler = new MyHandler(getApplicationContext());
+//				new ReaderTask(handler, getEmail(), getPswdEmail()).start();
 
 				Intent intent = new Intent(LoginActivity.this,
 						NotificationListActivity.class);// Home.class);
