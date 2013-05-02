@@ -38,7 +38,7 @@ public class ReaderXml {
 		// Note n = new Note();
 		if (notes.getLength() == 0) {
 			Note n = new Note();
-			n.setUser("nobody");
+			n.setUser("");
 			n.setContent("Nessun commento");
 			parsedComment.add(n);
 		} else {
