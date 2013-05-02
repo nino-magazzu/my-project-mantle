@@ -6,6 +6,7 @@ import com.project.mantle_v1.Register;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.gmail.ReaderTask;
+import com.project.mantle_v1.notification_home.NotificaAdapter;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
 
 import android.animation.Animator;
@@ -181,9 +182,14 @@ public class LoginActivity extends Activity {
 
 				setPreferences();
 
-	//			MyHandler handler = new MyHandler(getApplicationContext());
-//				new ReaderTask(handler, getEmail(), getPswdEmail()).start();
+				MyHandler handler = new MyHandler(getApplicationContext());
+				new ReaderTask(handler, getEmail(), getPswdEmail()).start();
 
+				NotificaAdapter adapter = new NotificaAdapter(getApplicationContext(),
+						R.layout.note_layout, MyHandler.ITEMS);
+
+				sendAdapter(adapter, handler);
+				
 				Intent intent = new Intent(LoginActivity.this,
 						NotificationListActivity.class);// Home.class);
 				startActivity(intent);
@@ -284,4 +290,14 @@ public class LoginActivity extends Activity {
 			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
 	}
+	
+	private void sendAdapter(NotificaAdapter adapter, MyHandler handler) {
+		android.os.Message msg = handler.obtainMessage();
+		Bundle b = new Bundle();
+		b.putSerializable("adapter", adapter);
+		msg.setData(b);
+		handler.sendMessage(msg);
+		Log.d("HOME", "adapter inviato");
+	}
+
 }

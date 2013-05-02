@@ -22,8 +22,8 @@ import com.project.mantle_v1.gmail.ReaderTask;
  */
 public class NotificationListFragment extends ListFragment {
 
-	private MyHandler handler;
-	private final String USER_DETAILS_PREF = "user";
+	//private MyHandler handler;
+	//private final String USER_DETAILS_PREF = "user";
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -75,32 +75,18 @@ public class NotificationListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		NotificaAdapter notifyAdapter = new NotificaAdapter(getActivity(),
+/*		NotificaAdapter notifyAdapter = new NotificaAdapter(getActivity(),
 				R.layout.note_layout, MyHandler.ITEMS);
+*/
+	//	handler = new MyHandler(getActivity().getApplicationContext());
 
-		handler = new MyHandler(getActivity().getApplicationContext());
+		 //SharedPreferences userDetails = getActivity().getApplicationContext().getSharedPreferences(USER_DETAILS_PREF, 0);
 
-		 SharedPreferences userDetails =
-		 getActivity().getApplicationContext().getSharedPreferences(USER_DETAILS_PREF, 0);
-		/*
-		 * if(!userDetails.contains("username") &&
-		 * !userDetails.contains("email") && !userDetails.contains("emailpswd"))
-		 * { User user = new User(getActivity().getApplicationContext()); Editor
-		 * edit = userDetails.edit(); edit.clear(); edit.putString("username",
-		 * user.getUsername()); String email = user.getEmail();
-		 * edit.putString("email", email); MioDatabaseHelper db = new
-		 * MioDatabaseHelper(getActivity() .getApplicationContext());
-		 * edit.putString("emailpswd", db.getPassword(email)); edit.commit();
-		 * db.close();
-		 * 
-		 * }
-		 */
-		 new ReaderTask(handler, userDetails.getString("email", " "),
-		userDetails.getString("emailpswd", " ")).start();
+		 //new ReaderTask(handler, userDetails.getString("email", " "),userDetails.getString("emailpswd", " ")).start();
 
-		setListAdapter(notifyAdapter);
+		setListAdapter(MyHandler.adapter);
 
-		sendAdapter(notifyAdapter);
+	//	sendAdapter(notifyAdapter);
 
 	}
 
@@ -177,7 +163,7 @@ public class NotificationListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
-
+/*
 	private void sendAdapter(NotificaAdapter adapter) {
 		android.os.Message msg = handler.obtainMessage();
 		Bundle b = new Bundle();
@@ -186,5 +172,5 @@ public class NotificationListFragment extends ListFragment {
 		handler.sendMessage(msg);
 		Log.d("HOME", "adapter inviato");
 	}
-
+*/
 }
