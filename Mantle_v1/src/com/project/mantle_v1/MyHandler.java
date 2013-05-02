@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.project.mantle_v1.history.History;
 import com.project.mantle_v1.notification_home.Notifica;
 import com.project.mantle_v1.notification_home.NotificaAdapter;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
@@ -25,7 +27,8 @@ public class MyHandler extends Handler {
 	private Context context;
 	private String link;
 	private String email;
-
+	private String FILE_HISTORY_NAME;
+	
 	public static List<Notifica> ITEMS = new ArrayList<Notifica>();
 	public static Map<String, Notifica> NOTIFICA_MAP = new HashMap<String, Notifica>();
 	public static Map<String, MantleFile> FILE_MAP = new HashMap<String, MantleFile>();
@@ -36,7 +39,13 @@ public class MyHandler extends Handler {
 
 	public MyHandler(Context context) {
 		super();
+		// === scelta del file storia === //
+		//History his = new History();
+		
+		//FILE_HISTORY_NAME = his.getLastFile();
+		
 		this.context = context;
+		
 		if (ITEMS.isEmpty())
 			addItem(new Notifica(
 					new Date(System.currentTimeMillis()).toString(),
@@ -56,7 +65,7 @@ public class MyHandler extends Handler {
 			email = bundle.getString("email");
 			Log.d(TAG, "Email amico: " + email);
 
-			MantleMessage mess = new MantleMessage(link, context, email);
+			MantleMessage mess = new MantleMessage(link, context, email, FILE_HISTORY_NAME);
 			Notifica not = mess.getNotifica();
 			createNotification(not.getTitle());
 			addItem(not);
@@ -67,7 +76,7 @@ public class MyHandler extends Handler {
 		}
 
 		if (bundle.containsKey("adapter")) {
-			this.adapter = (NotificaAdapter) bundle.get("adapter");
+			adapter = (NotificaAdapter) bundle.get("adapter");
 			Log.d(TAG, "Adapter: " + adapter.toString());
 
 		}

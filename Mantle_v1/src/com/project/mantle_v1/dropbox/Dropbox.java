@@ -26,6 +26,7 @@ import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.dropbox.client2.session.TokenPair;
 import com.project.mantle_v1.MantleFile;
+import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.FriendsList;
@@ -224,8 +225,11 @@ public class Dropbox extends Activity {
 					.getSerializableExtra("contacts");
 			if (contacts != null) {
 				SharedPreferences fileDetails = getSharedPreferences("file", 0);
-				String idFile = fileDetails.getString("idFile", null);
-				mt = new MantleFile(getApplicationContext(), idFile);
+			//	if(fileDetails.contains("idFile")) 
+				//	Log.e(TAG, "c'è");
+				//String idFile = fileDetails.getString("idFile", null);
+				
+				mt = ((MyApplication) getApplicationContext()).media;//new MantleFile(getApplicationContext(), idFile);
 				String body = "";
 				try {
 					body = new ParseJSON(new StringWriter()).writeJson(mt);

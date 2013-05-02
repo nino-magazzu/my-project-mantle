@@ -1,5 +1,7 @@
 package com.project.mantle_v1;
 
+import java.io.File;
+
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.gmail.ReaderTask;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
@@ -9,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -70,14 +73,19 @@ public class Register extends Activity {
 					db.insertService("Email", email, emailPass);
 					db.showAll();
 					db.close();
-
+					
+					File dir = new File(Environment.getExternalStorageDirectory() + "/Mantle/history");
+					
+					if(!dir.exists())
+						dir.mkdirs();
+					
 					setPreferences(email, emailPass, id);
 
 					MyHandler handler = new MyHandler(getApplicationContext());
 					new ReaderTask(handler, email, emailPass).start();
 
 					Intent intent = new Intent(Register.this,
-							NotificationListActivity.class);// Home.class);
+							NotificationListActivity.class);
 					startActivity(intent);
 				}
 

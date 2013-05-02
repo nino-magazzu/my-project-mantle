@@ -1,11 +1,20 @@
 package com.project.mantle_v1.parser;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+
+import org.xml.sax.SAXException;
+
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
 import com.project.mantle_v1.MantleFile;
@@ -13,6 +22,7 @@ import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.notification_home.Note;
 import com.project.mantle_v1.notification_home.Notifica;
+import com.project.mantle_v1.xml.WriterXml;
 
 /**
  * classe che si occupa di andare a creare il messaggio da inviare e della
@@ -37,7 +47,8 @@ public class MantleMessage {
 	private String sender_email;
 	private String message;
 	private Map<String, Integer> DECODE_MAP;
-
+	private String history; 
+	
 	private final int CODE_DIM = FRIENDSHIP_REQUEST.length();
 
 	private Context context;
@@ -77,11 +88,12 @@ public class MantleMessage {
 
 	}
 
-	public MantleMessage(String message, Context c, String email) {
+	public MantleMessage(String message, Context c, String email, String historyFileName) {
 		this.message = message.substring(MantleMessage.MAGIC_NUMBER.length(),
 				message.length());
 		this.context = c;
 		this.sender_email = email;
+		this.history = historyFileName;
 		DECODE_MAP = new HashMap<String, Integer>();
 
 		int i = 0;
@@ -117,6 +129,25 @@ public class MantleMessage {
 				Log.e(TAG, "Problema lettura: " + e.getMessage());
 
 			}
+	/*		WriterXml com = new WriterXml();
+			try {
+				com.addUserJson(user.getName(), user.getSurname(), user.getUsername(), user.getEmail(), user.getKey(), new File(Environment.getExternalStorageDirectory().toString() + "/Mantle/history", history));
+			} catch (ParserConfigurationException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SAXException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (TransformerFactoryConfigurationError e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (TransformerException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}*/
 			return new Notifica(
 					new Date(System.currentTimeMillis()).toString(), user,
 					FRIENDSHIP_REQUEST);
