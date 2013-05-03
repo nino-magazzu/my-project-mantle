@@ -114,7 +114,24 @@ public class NoteActivity extends Activity {
 					DropboxAuth auth = new DropboxAuth(getApplicationContext());
 					MantleFile.uploadFile(cFile, auth.getAPI());
 					MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
-					db.
+
+					ParseJSON parser = new ParseJSON(new StringWriter());
+					Note note = new Note(username, comment, new Date(System
+							.currentTimeMillis()).toString(), url);
+					try {
+						parser.writeJson(note);
+					} catch (IOException ex) {
+						Log.e(TAG, ex.getMessage());
+
+					}
+					
+					
+					String[] emails = db.getEmailsFilesShared(Integer.parseInt(idFile));
+					for(int i = 0; i < emails.length; i++) {
+						new Sender(NoteActivity.this, parser.toString(), emails[i],
+								MantleMessage.NOTE).execute();
+
+					}
 
 				} else {
 					ParseJSON parser = new ParseJSON(new StringWriter());

@@ -135,7 +135,7 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 
 				// inserimento del fil ne db
 				long ID = db.insertFile(file.getFileName(), file.getLinkFile(),
-						"", file.getFileKey(), file.getObjectType(), 2);
+						"", file.getFileKey(), file.getObjectType(), MantleFile.NORMAL_FILE);
 				
 		//		setID(String.valueOf(ID));
 				
