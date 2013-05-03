@@ -383,7 +383,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		String[] columns2 = { "idUser" };
 		selection = "idFile = ?";
 		String[] selectionArgs2 = { idFile };
-		c = db.query("Share", columns2, selection, selectionArgs2, null, null,
+		c = db.query("History", columns2, selection, selectionArgs2, null, null,
 				null);
 		c.moveToNext();
 		String idUser = c.getString(0);
