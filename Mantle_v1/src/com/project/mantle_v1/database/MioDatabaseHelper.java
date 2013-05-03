@@ -565,9 +565,10 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	public ArrayList<MantleFile> getAllFile() {
 		Cursor c = db.query("File", null, null, null, null, null, null);
 		ArrayList<MantleFile> arr = new ArrayList<MantleFile>();
-		MantleFile mf = new MantleFile();
+	//		MantleFile mf = new MantleFile();
 
 		while (c.moveToNext()) {
+			MantleFile mf = new MantleFile();
 			mf.setIdFile(c.getString(0));
 			mf.setFileName(c.getString(1));
 			mf.setLinkFile(c.getString(2));

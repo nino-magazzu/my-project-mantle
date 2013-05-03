@@ -22,8 +22,8 @@ import com.project.mantle_v1.gmail.ReaderTask;
  */
 public class NotificationListFragment extends ListFragment {
 
-	//private MyHandler handler;
-	//private final String USER_DETAILS_PREF = "user";
+	private MyHandler handler;
+	private final String USER_DETAILS_PREF = "user";
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -78,11 +78,11 @@ public class NotificationListFragment extends ListFragment {
 /*		NotificaAdapter notifyAdapter = new NotificaAdapter(getActivity(),
 				R.layout.note_layout, MyHandler.ITEMS);
 */
-	//	handler = new MyHandler(getActivity().getApplicationContext());
+		handler = new MyHandler(getActivity().getApplicationContext());
 
-		 //SharedPreferences userDetails = getActivity().getApplicationContext().getSharedPreferences(USER_DETAILS_PREF, 0);
+		 SharedPreferences userDetails = getActivity().getApplicationContext().getSharedPreferences(USER_DETAILS_PREF, 0);
 
-		 //new ReaderTask(handler, userDetails.getString("email", " "),userDetails.getString("emailpswd", " ")).start();
+		 new ReaderTask(handler, userDetails.getString("email", " "),userDetails.getString("emailpswd", " ")).start();
 
 		setListAdapter(MyHandler.adapter);
 

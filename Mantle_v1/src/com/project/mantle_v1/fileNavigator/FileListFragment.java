@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -75,6 +76,7 @@ public class FileListFragment extends ListFragment {
 		MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
 				.getApplicationContext());
 		list = db.getAllFile();
+		Log.d("FILE", "Uno a caso: " + list.get(2).getIdFile());
 		populateMap();
 
 		// TODO: replace with a real list adapter.
@@ -159,7 +161,9 @@ public class FileListFragment extends ListFragment {
 	}
 
 	private void populateMap() {
-		for (int i = 0; i < list.size(); i++)
+		for (int i = 0; i < list.size(); i++) {
+			Log.d("File", list.get(i).getIdFile());
 			MyHandler.addFile(list.get(i));
+		}
 	}
 }
