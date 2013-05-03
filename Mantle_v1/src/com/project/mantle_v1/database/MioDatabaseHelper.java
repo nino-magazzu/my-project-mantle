@@ -249,7 +249,15 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		return r;
 	}
 	
-
+	public long insertHistory(int idFile, int idUser, String date) {
+		ContentValues values = new ContentValues();
+		values.put("idFile", idFile);
+		values.put("idUser", idUser);
+		values.put("date", date);
+		long r = db.insert("History", null, values);
+		return r;
+	}
+	
 	public void insertLinkComment(int idFile, String link) {
 
 		ContentValues values = new ContentValues();
