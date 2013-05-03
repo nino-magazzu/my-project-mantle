@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Date;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
@@ -133,7 +135,7 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 
 				// inserimento del fil ne db
 				long ID = db.insertFile(file.getFileName(), file.getLinkFile(),
-						"", file.getFileKey());
+						"", file.getFileKey(), file.getObjectType(), 2);
 				
 		//		setID(String.valueOf(ID));
 				
@@ -144,7 +146,7 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 				SharedPreferences userDetails = mContext.getSharedPreferences(
 						USER_DETAILS_PREF, 0);
 
-				db.insertShare((int) ID, userDetails.getInt("idUser", 1));
+				db.insertHistory((int) ID, userDetails.getInt("idUser", 1), new Date(System.currentTimeMillis()).toString()); //insertShare((int) ID, userDetails.getInt("idUser", 1));
 
 				WriterXml com = new WriterXml();
 				String pathComment = Environment.getExternalStorageDirectory()

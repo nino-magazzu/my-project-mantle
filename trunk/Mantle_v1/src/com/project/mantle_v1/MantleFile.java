@@ -219,6 +219,14 @@ public class MantleFile implements Serializable {
 		this.ownerMail = ownerMail;
 	}
 
+	public int getPriority() {
+		return priority;
+	}
+
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
+
 	@Override
 	public String toString() {
 		return this.fileName;
@@ -241,4 +249,5 @@ public class MantleFile implements Serializable {
 	private String date;
 	private String username;
 	private String ownerMail;
+	private int priority;
 }

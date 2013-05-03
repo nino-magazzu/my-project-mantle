@@ -11,6 +11,7 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import org.xml.sax.SAXException;
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.R;
+import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
@@ -69,11 +70,9 @@ public class NoteActivity extends Activity {
 		}
 		notes = reader.getParsedData();
 	
-	//	for (int i = 0; i < notes.size(); i++)
-	//		Log.d(TAG, notes.get(i).getDate());
 		final NoteAdapter adapter = new NoteAdapter(getApplicationContext(),
 				R.layout.note_layout, notes);
-		// TODO: lettura dal file degli eventuali commenti
+
 		((ListView) findViewById(R.id.listView1)).setAdapter(adapter);
 
 		Button bComment = (Button) findViewById(R.id.commentButton);
@@ -114,6 +113,8 @@ public class NoteActivity extends Activity {
 
 					DropboxAuth auth = new DropboxAuth(getApplicationContext());
 					MantleFile.uploadFile(cFile, auth.getAPI());
+					MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+					db.
 
 				} else {
 					ParseJSON parser = new ParseJSON(new StringWriter());

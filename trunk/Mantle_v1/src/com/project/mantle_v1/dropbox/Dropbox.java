@@ -30,6 +30,7 @@ import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.FriendsList;
+import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.fileChooser.FileChooser;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
@@ -236,14 +237,15 @@ public class Dropbox extends Activity {
 				} catch (IOException e) {
 					Log.e(TAG, e.getMessage());
 				}
+				MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+				int idFile = Integer.getInteger(mt.getIdFile());
 				for (int j = 0; j < contacts.length; j++) {
 					Log.d("Dropbox", "Ho inviato la mail a " + contacts[j]);
-					Sender sender = new Sender(this, body,
-							(String) contacts[j], MantleMessage.SHARING_PHOTO);
-					sender.execute();
+					db.insertShare(idFile, (String) contacts[j]);
+					new Sender(this, body, (String) contacts[j], MantleMessage.SHARING_PHOTO).execute();
 				}
+				db.close();
 			}
-
 			break;
 
 		default:
