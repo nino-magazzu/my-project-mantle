@@ -73,7 +73,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		sql += "CREATE TABLE History (";
 		sql += " idFile INTEGER,";
 		sql += " idUser INTEGER,";
-		sql += " date INTEGER";
+		sql += " date TEXT";
 		sql += ")";
 		db.execSQL(sql);
 
@@ -580,7 +580,36 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		return idTeam;
 	}
 
-	
+	//Da l'idFile ricavo le email delle persone con cui ho condiviso il file
+	public String[] getEmailsFilesShared(int idFile){
+		
+		String[] columns = {"idUser"};
+		String selection = "idFile = ?";
+		String[] selectionArgs = { String.valueOf(idFile) };
+		Cursor c = db.query("Share", columns, selection, selectionArgs, null,
+				null, null);
+		int i = c.getCount();
+		String[] result = new String[i];
+		String[] emails= new String[i];
+		i = 0;
+		
+		while (c.moveToNext()) {
+			result[i] = c.getString(0);
+			i++;
+		}
+		
+		String[] columns2 = {"email"}; 
+		selection = "idUser=?";
+		
+		for(int j = 0; j < result.length ; j++){
+			String[] selectionArgs2 = {result[j]};
+			c = db.query("User", columns2, selection, selectionArgs2, null, null, null);
+			c.moveToNext();
+			emails[j]=c.getString(0);
+		}
+			
+		return emails;
+	}
 	
 	public ArrayList<MantleFile> getAllFile() {
 		Cursor c = db.query("File", null, null, null, null, null, null);
