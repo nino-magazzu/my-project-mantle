@@ -66,6 +66,8 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		sql += " linkFile TEXT,";
 		sql += " linkComment TEXT,";
 		sql += " fileKey TEXT";
+		sql += " mimeType TEXT";
+		sql += " priority INTEGER";
 		sql += ")";
 		db.execSQL(sql);
 
@@ -221,12 +223,14 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	public long insertFile(String fileName, String linkFile,
-			String linkComment, String fileKey) {
+			String linkComment, String fileKey, String mimeType, int priority) {
 		ContentValues values = new ContentValues();
 		values.put("fileName", fileName);
 		values.put("linkFile", linkFile);
 		values.put("linkComment", linkComment);
 		values.put("fileKey", fileKey);
+		values.put("mimeType", mimeType);
+		values.put("priority", priority);
 		long r = db.insert("File", null, values);
 		return r;
 
@@ -561,9 +565,9 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		String[] selectionArgs = { idFile };
 		Cursor c = db.query("File", null, selection, selectionArgs, null, null,
 				null);
-		String[] result = new String[5];
+		String[] result = new String[7];
 		c.moveToNext();
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 7; i++) {
 			result[i] = c.getString(i);
 		}
 		return result;
@@ -614,7 +618,6 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	public ArrayList<MantleFile> getAllFile() {
 		Cursor c = db.query("File", null, null, null, null, null, null);
 		ArrayList<MantleFile> arr = new ArrayList<MantleFile>();
-	//		MantleFile mf = new MantleFile();
 
 		while (c.moveToNext()) {
 			MantleFile mf = new MantleFile();
@@ -623,7 +626,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 			mf.setLinkFile(c.getString(2));
 			mf.setLinkComment(c.getString(3));
 			mf.setFileKey(c.getString(4));
-
+			
 			arr.add(mf);
 		}
 		return arr;
