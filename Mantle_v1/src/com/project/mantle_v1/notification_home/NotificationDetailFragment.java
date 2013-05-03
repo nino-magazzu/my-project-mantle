@@ -3,6 +3,8 @@ package com.project.mantle_v1.notification_home;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Date;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
@@ -286,10 +288,10 @@ public class NotificationDetailFragment extends Fragment {
 				 */
 
 				final long ID = db.insertFile(mFile.getFileName(),
-						mFile.getLinkFile(), mFile.getLinkComment(), "");
+						mFile.getLinkFile(), mFile.getLinkComment(), "", mFile.getObjectType(), MantleFile.NOT_OWN_FILE);
 				int ID_User = db.getId(mFile.getSender_email());
-				db.insertShare((int) ID, ID_User);
-
+				//db.insertShare((int) ID, ID_User);
+				db.insertHistory((int) ID, ID_User, new Date(System.currentTimeMillis()).toString());
 				bComment.setOnClickListener(new OnClickListener() {
 
 					@Override

@@ -2,6 +2,7 @@ package com.project.mantle_v1.dropbox;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
@@ -26,7 +27,7 @@ public class DropboxAuth {
 		this.mCont = cont;
 		AndroidAuthSession session = buildSession();
 		mApi = new DropboxAPI<AndroidAuthSession>(session);
-
+		
 	}
 
 	public DropboxAPI<AndroidAuthSession> getAPI() {
@@ -70,5 +71,14 @@ public class DropboxAuth {
 		} else {
 			return null;
 		}
+	}
+	
+	private void storeKeys(String key, String secret) {
+		// Save the access key for later
+		SharedPreferences prefs = mCont.getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
+		Editor edit = prefs.edit();
+		edit.putString(ACCESS_KEY_NAME, key);
+		edit.putString(ACCESS_SECRET_NAME, secret);
+		edit.commit();
 	}
 }

@@ -21,7 +21,16 @@ public class MantleFile implements Serializable {
 	 * 
 	 * private MantleImage thumbnail; private MantleImage fullImage;
 	 */
-
+	
+	
+	// **** PRIORITY TYPE ****
+	
+	public static final int NEEDFUL_FILE = 3;
+	public static final int NORMAL_FILE = 2;
+	public static final int USELESS_FILE = 1;
+	public static final int NOT_OWN_FILE = 0;
+	
+	
 	public MantleFile(Entry ent, String link, String username, File file) {
 		this.linkFile = link;
 		this.date = ent.modified;
@@ -65,6 +74,8 @@ public class MantleFile implements Serializable {
 		this.linkFile = file[2];
 		this.linkComment = file[3];
 		this.fileKey = file[4];
+		this.objectType = file[5];
+		this.priority = Integer.parseInt(file[6]);
 		db.close();
 	}
 
