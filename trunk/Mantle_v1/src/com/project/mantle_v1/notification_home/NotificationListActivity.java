@@ -158,7 +158,7 @@ public class NotificationListActivity extends FragmentActivity implements
 					}
 				});
 
-		menu.add("Dropbox").setOnMenuItemClickListener(
+		menu.add("Condividi").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
@@ -170,7 +170,7 @@ public class NotificationListActivity extends FragmentActivity implements
 					}
 				});
 
-		menu.add("Gruppi").setOnMenuItemClickListener(
+		menu.add("Cerchie").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
