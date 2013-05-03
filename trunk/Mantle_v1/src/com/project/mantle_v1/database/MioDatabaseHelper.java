@@ -239,6 +239,16 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		long r = db.insert("Share", null, values);
 		return r;
 	}
+	
+	public long insertShare(int idFile, String email) {
+		int idUser = getId(email);
+		ContentValues values = new ContentValues();
+		values.put("idFile", idFile);
+		values.put("idUser", idUser);
+		long r = db.insert("Share", null, values);
+		return r;
+	}
+	
 
 	public void insertLinkComment(int idFile, String link) {
 
@@ -562,6 +572,8 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		return idTeam;
 	}
 
+	
+	
 	public ArrayList<MantleFile> getAllFile() {
 		Cursor c = db.query("File", null, null, null, null, null, null);
 		ArrayList<MantleFile> arr = new ArrayList<MantleFile>();
@@ -579,6 +591,8 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		}
 		return arr;
 	}
+	
+	
 
 	// ============== METODI PER LA VISUALIZZAZIONE DEL DATABASE ===============
 
