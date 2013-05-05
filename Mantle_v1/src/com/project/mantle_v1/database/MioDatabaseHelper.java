@@ -65,8 +65,8 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		sql += " fileName TEXT,";
 		sql += " linkFile TEXT,";
 		sql += " linkComment TEXT,";
-		sql += " fileKey TEXT";
-		sql += " mimeType TEXT";
+		sql += " fileKey TEXT,";
+		sql += " mimeType TEXT,";
 		sql += " priority INTEGER";
 		sql += ")";
 		db.execSQL(sql);
@@ -229,8 +229,8 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		values.put("linkFile", linkFile);
 		values.put("linkComment", linkComment);
 		values.put("fileKey", fileKey);
-		values.put("mimeType", mimeType);
 		values.put("priority", priority);
+		values.put("mimeType", mimeType);
 		long r = db.insert("File", null, values);
 		return r;
 
@@ -270,6 +270,14 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		String[] whereArgs = { String.valueOf(idFile) };
 		db.update("File", values, whereClause, whereArgs);
 
+	}
+	
+	public void insertPriority(int idFile, int priority){
+		ContentValues values = new ContentValues();
+		values.put("priority", priority);
+		String whereClause = "idFile = ?";
+		String[] whereArgs = { String.valueOf(idFile) };
+		db.update("File", values, whereClause, whereArgs);
 	}
 
 	public long insertTeam(String teamName) {
@@ -629,6 +637,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 			mf.setObjectType(c.getString(5));
 			mf.setPriority(c.getInt(6));
 			arr.add(mf);
+			Log.d("MIO_DATABASE_HELPER","ho aggiunto questo filename:"+c.getString(1));
 		}
 		return arr;
 	}

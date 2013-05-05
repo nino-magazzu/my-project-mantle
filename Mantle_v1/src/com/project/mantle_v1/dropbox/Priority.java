@@ -1,8 +1,10 @@
 package com.project.mantle_v1.dropbox;
 
 import com.project.mantle_v1.R;
+import com.project.mantle_v1.database.MioDatabaseHelper;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +18,8 @@ public class Priority extends Activity{
 	private RadioGroup radioPriorityGroup;
 	private RadioButton radioButton;
 	private Button okButton;
+	private MioDatabaseHelper db;
+	private int idFile;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,10 @@ public class Priority extends Activity{
 		setContentView(R.layout.choose_priority);
 		radioPriorityGroup = (RadioGroup) findViewById(R.id.radioGroup1);
 		okButton = (Button)findViewById(R.id.button1);
+		db = new MioDatabaseHelper(getApplicationContext());
+		Intent intent = getIntent();
+		idFile = intent.getIntExtra("idFile", 0);
+		
 		
 		okButton.setOnClickListener(new OnClickListener() {
 			 
@@ -36,13 +44,19 @@ public class Priority extends Activity{
 				
 				Log.d("PRIORITY","Priorità selezionata = " + priority);
 				
-				if(priority.equals("Bassa"))
+				if(priority.equals("Bassa")){
 					Log.d("PRIORITY", "Bassa");
-				else if(priority.equals("Normale"))
+					db.insertPriority(idFile, 0);
+				}
+					
+				else if(priority.equals("Normale")){
 					Log.d("PRIORITY", "Normale");
-				else if(priority.equals("Alta"))
+					db.insertPriority(idFile, 1);
+				}
+				else if(priority.equals("Alta")){
 					Log.d("PRIORITY", "Alta");
-				
+					db.insertPriority(idFile, 2);
+				}
 				
 				Toast.makeText(Priority.this,
 					priority, Toast.LENGTH_SHORT).show();
