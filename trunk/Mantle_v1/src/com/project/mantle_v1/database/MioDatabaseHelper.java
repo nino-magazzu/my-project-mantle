@@ -626,7 +626,8 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 			mf.setLinkFile(c.getString(2));
 			mf.setLinkComment(c.getString(3));
 			mf.setFileKey(c.getString(4));
-			
+			mf.setObjectType(c.getString(5));
+			mf.setPriority(c.getInt(6));
 			arr.add(mf);
 		}
 		return arr;

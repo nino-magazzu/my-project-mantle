@@ -28,5 +28,7 @@
     <string name="title_filf_detail">FilF Detail</string>
     <string name="title_file_list">Files</string>
     <string name="title_file_detail">File Detail</string>
+    <string name="title_activity_set_priority">SetPriority</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
