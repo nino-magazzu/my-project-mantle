@@ -47,20 +47,20 @@ public class Priority extends Activity{
 				if(priority.equals("Bassa")){
 					Log.d("PRIORITY", "Bassa");
 					db.insertPriority(idFile, 0);
+					finish();
 				}
 					
 				else if(priority.equals("Normale")){
 					Log.d("PRIORITY", "Normale");
 					db.insertPriority(idFile, 1);
+					finish();
 				}
 				else if(priority.equals("Alta")){
 					Log.d("PRIORITY", "Alta");
 					db.insertPriority(idFile, 2);
+					finish();
 				}
-				
-				Toast.makeText(Priority.this,
-					priority, Toast.LENGTH_SHORT).show();
-	 
+
 			}
 
 		});
