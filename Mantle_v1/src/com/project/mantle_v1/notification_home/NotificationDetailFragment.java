@@ -248,10 +248,14 @@ public class NotificationDetailFragment extends Fragment {
 				// xml.deleteComment(comment);
 				File img = MantleFile.downloadFileFromUrl(fileUrl,
 						mItem.getTitle());
+				
+				MantleFile file = new MantleFile(getActivity(), idFile);
+				if(file.isImage()) {
 				ImageView iv = (ImageView) rootView
 						.findViewById(R.id.sharedImage);
 				iv.setImageBitmap(BitmapFactory.decodeFile(img
 						.getAbsolutePath()));
+				}
 			}
 			/* ============== CONDIVISIONE DI UNA FOTO ======================= */
 			else {
@@ -275,11 +279,13 @@ public class NotificationDetailFragment extends Fragment {
 				Button bComment = (Button) rootView.findViewById(R.id.comment);
 
 				MantleFile mFile = mItem.getmFile();
-
+				
 				mFile.downloadFileFromUrl(mFile.getFileName());
-				ImageView iv = (ImageView) rootView
-						.findViewById(R.id.sharedImage);
-				iv.setImageBitmap(mFile.getBitmap());
+				if(mFile.isImage()) {
+					ImageView iv = (ImageView) rootView
+							.findViewById(R.id.sharedImage);
+					iv.setImageBitmap(mFile.getBitmap());
+				}
 				MioDatabaseHelper db = new MioDatabaseHelper(
 						rootView.getContext());
 

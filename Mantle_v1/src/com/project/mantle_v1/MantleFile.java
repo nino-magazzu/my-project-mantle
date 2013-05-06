@@ -85,6 +85,8 @@ public class MantleFile implements Serializable {
 		
 		this.date = new Date(System.currentTimeMillis()).toString();
 		
+		this.isImage = objectType.contains("image");
+		
 		db.close();
 	}
 
@@ -188,6 +190,7 @@ public class MantleFile implements Serializable {
 
 	public void setObjectType(String objectType) {
 		this.objectType = objectType;
+		this.isImage = objectType.contains("image");
 	}
 
 	public String getIcon() {
