@@ -71,13 +71,12 @@ public class Sharing extends Activity {
 					upload.execute();
 					try {
 						mt = upload.get();
-						setID();
-						Log.d(TAG, mt.getObjectType());
 					} catch (InterruptedException e) {
 						Log.i(TAG, "Error authenticating", e);
 					} catch (ExecutionException e) {
 						Log.i(TAG, "Error authenticating", e);
 					}
+					setID();
 					Intent intent = new Intent(this, Priority.class);
 					intent.putExtra("idFile", Integer.valueOf(mt.getIdFile()));
 					startActivityForResult(intent, PRIORITY_CHOOSED_CODE);

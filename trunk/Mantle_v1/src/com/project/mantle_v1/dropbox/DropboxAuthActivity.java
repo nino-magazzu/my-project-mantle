@@ -6,7 +6,10 @@ import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.TokenPair;
 import com.dropbox.client2.session.Session.AccessType;
+import com.project.mantle_v1.notification_home.NotificationListActivity;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -62,6 +65,8 @@ public class DropboxAuthActivity extends Activity{
 				// Store it locally in our app for later use
 				TokenPair tokens = session.getAccessTokenPair();
 				storeKeys(tokens.key, tokens.secret);
+				Intent intent = new Intent(DropboxAuthActivity.this, NotificationListActivity.class);
+				startActivity(intent);
 
 			} catch (IllegalStateException e) {
 				showToast("Couldn't authenticate with Dropbox:"

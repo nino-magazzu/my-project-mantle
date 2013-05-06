@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import com.project.mantle_v1.MyHandler;
+import com.project.mantle_v1.R;
 import com.project.mantle_v1.gmail.ReaderTask;
 
 /**
@@ -73,9 +75,9 @@ public class NotificationListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-/*		NotificaAdapter notifyAdapter = new NotificaAdapter(getActivity(),
+	NotificaAdapter notifyAdapter = new NotificaAdapter(getActivity(),
 				R.layout.note_layout, MyHandler.ITEMS);
-*/
+
 		handler = new MyHandler(getActivity().getApplicationContext());
 
 		 SharedPreferences userDetails = getActivity().getApplicationContext().getSharedPreferences(USER_DETAILS_PREF, 0);
@@ -84,7 +86,7 @@ public class NotificationListFragment extends ListFragment {
 
 		setListAdapter(MyHandler.adapter);
 
-	//	sendAdapter(notifyAdapter);
+		sendAdapter(notifyAdapter);
 
 	}
 
@@ -162,7 +164,7 @@ public class NotificationListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
-/*
+
 	private void sendAdapter(NotificaAdapter adapter) {
 		android.os.Message msg = handler.obtainMessage();
 		Bundle b = new Bundle();
@@ -171,5 +173,5 @@ public class NotificationListFragment extends ListFragment {
 		handler.sendMessage(msg);
 		Log.d("HOME", "adapter inviato");
 	}
-*/
+
 }

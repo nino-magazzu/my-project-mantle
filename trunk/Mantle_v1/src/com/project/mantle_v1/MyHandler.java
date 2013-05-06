@@ -45,8 +45,7 @@ public class MyHandler extends Handler {
 		this.context = context;
 		
 		if (ITEMS.isEmpty())
-			addItem(new Notifica(
-					new Date(System.currentTimeMillis()).toString(),
+			addItem(new Notifica(	new Date(System.currentTimeMillis()).toString(),
 					"Benvenuto in Mantle", MantleMessage.SYSTEM));
 
 	}

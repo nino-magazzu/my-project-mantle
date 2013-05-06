@@ -76,8 +76,14 @@ public class FileListFragment extends ListFragment {
 		MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
 				.getApplicationContext());
 		list = db.getAllFile();
-		Log.d("FILE", "Uno a caso: " + list.get(2).getIdFile());
-		populateMap();
+		if(list.isEmpty()) {
+			MantleFile file = new MantleFile();
+			file.setFileName("Nessun file ancora caricato");
+			list.add(file);
+			populateMap();
+		}
+		else
+			populateMap();
 
 		// TODO: replace with a real list adapter.
 		setListAdapter(new ArrayAdapter<MantleFile>(getActivity(),
