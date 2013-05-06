@@ -96,12 +96,12 @@ public class FileDetailFragment extends Fragment {
 				getActivity().startActivity(myIntent);
 			}
 		});
-
-		File img = MantleFile.downloadFileFromUrl(file.getLinkFile(),
-				file.getFileName());
-		ImageView iv = (ImageView) rootView.findViewById(R.id.sharedImage);
-		iv.setImageBitmap(BitmapFactory.decodeFile(img.getAbsolutePath()));
-
+		if(file.isImage()) {
+			File img = MantleFile.downloadFileFromUrl(file.getLinkFile(),
+					file.getFileName());
+			ImageView iv = (ImageView) rootView.findViewById(R.id.sharedImage);
+			iv.setImageBitmap(BitmapFactory.decodeFile(img.getAbsolutePath()));
+		}
 		return rootView;
 	}
 }
