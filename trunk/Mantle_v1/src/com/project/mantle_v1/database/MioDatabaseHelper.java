@@ -821,7 +821,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
                Log.d("MIO_DATABASE_HELPER","Mantle db imported");
            //}
        } catch (Exception e) {
-       	Log.w("MIO_DATABASE_HELPER","Mantle db exported" + e);
+       	Log.w("MIO_DATABASE_HELPER","Mantle db not imported " + e);
        }
    }
 
