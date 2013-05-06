@@ -34,7 +34,6 @@ public class Sharing extends Activity {
 	
 	private DropboxAPI<AndroidAuthSession> mApi;
 	private int FILE_ID;
-	
 	private final String TAG = this.getClass().getSimpleName();
 	
 	
@@ -47,6 +46,11 @@ public class Sharing extends Activity {
 		
 		startFileUploadChooser();
 		
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
 	}
 	
 	@Override
@@ -72,7 +76,7 @@ public class Sharing extends Activity {
 					} catch (ExecutionException e) {
 						Log.i(TAG, "Error authenticating", e);
 					}
-				//	setID();
+					Log.v(TAG, String.valueOf(FILE_ID));
 					Intent intent = new Intent(this, Priority.class);
 					intent.putExtra("idFile", FILE_ID);
 					startActivityForResult(intent, PRIORITY_CHOOSED_CODE);
@@ -93,12 +97,6 @@ public class Sharing extends Activity {
 			Object[] contacts = (Object[]) data
 			.getSerializableExtra("contacts");
 			if (contacts != null) {
-		//		SharedPreferences fileDetails = getSharedPreferences("file", 0);
-				//	if(fileDetails.contains("idFile")) 
-				//	Log.e(TAG, "c'è");
-				//String idFile = fileDetails.getString("idFile", null);
-
-				//mt = ((MyApplication) getApplicationContext()).media;//new MantleFile(getApplicationContext(), idFile);
 				MantleFile mt = new MantleFile(getApplicationContext(), String.valueOf(FILE_ID));
 				String body = "";
 				try {
@@ -123,7 +121,7 @@ public class Sharing extends Activity {
 	
 	private void startFileUploadChooser() {
 		Intent intent = new Intent(this, FileChooser.class);
-		intent.putExtra("upload", true);
+	//	intent.putExtra("upload", true);
 		startActivityForResult(intent, UPLOAD_REQUEST_CODE);
 
 	}

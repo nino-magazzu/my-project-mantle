@@ -82,8 +82,8 @@ public class Register extends Activity {
 					
 					setPreferences(email, emailPass, id);
 
-					MyHandler handler = new MyHandler(getApplicationContext());
-					new ReaderTask(handler, email, emailPass).start();
+			//		MyHandler handler = new MyHandler(getApplicationContext());
+				//	new ReaderTask(handler, email, emailPass).start();
 					
 					Intent intent = new Intent(Register.this,
 							DropboxAuthActivity.class);
