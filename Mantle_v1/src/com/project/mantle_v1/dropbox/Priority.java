@@ -52,7 +52,7 @@ public class Priority extends Activity{
 					
 				else if(priority.equals("Normale")){
 					Log.d("PRIORITY", "Normale");
-					//non inserisco questo valore di priorità, perche di default è già questo valore
+					//non inserisco questo valore di priorità, perche di default ha già questo valore
 					finish();
 				}
 				else if(priority.equals("Alta")){
