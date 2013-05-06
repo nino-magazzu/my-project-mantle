@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import com.project.mantle_v1.MyHandler;
-import com.project.mantle_v1.R;
 import com.project.mantle_v1.gmail.ReaderTask;
 
 /**
@@ -102,6 +100,7 @@ public class NotificationListFragment extends ListFragment {
 		}
 	}
 
+	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);

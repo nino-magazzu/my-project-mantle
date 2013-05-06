@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.project.mantle_v1.history.History;
 import com.project.mantle_v1.notification_home.Notifica;
 import com.project.mantle_v1.notification_home.NotificaAdapter;
 import com.project.mantle_v1.notification_home.NotificationListActivity;

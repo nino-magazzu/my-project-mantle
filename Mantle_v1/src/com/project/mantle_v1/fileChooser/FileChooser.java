@@ -4,10 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.dropbox.Descriptor;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,14 +33,15 @@ public class FileChooser extends ListActivity {
 		if (intent.getBooleanExtra("upload", false)) {
 			currentDir = new File(STARTING_DIR);
 			fill(currentDir);
-		} else {
+		} 
+		/*else {
 			Object[] dropboxFiles = (Object[]) intent
 					.getSerializableExtra("File");
 			Descriptor[] files = getList(dropboxFiles);
 			fill(files);
-		}
+		}*/
 	}
-
+/*
 	public Descriptor[] getList(Object[] objs) {
 		Descriptor[] files = new Descriptor[objs.length];
 		int i = 0;
@@ -54,7 +52,7 @@ public class FileChooser extends ListActivity {
 
 		return files;
 	}
-
+*/
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		super.onKeyDown(keyCode, event);
@@ -90,12 +88,10 @@ public class FileChooser extends ListActivity {
 		try {
 			for (File ff : dirs) {
 				if (ff.isDirectory())
-					dir.add(new Option(ff.getName(), "folder", ff
-							.getAbsolutePath(), Option.FILE, null));
+					dir.add(new Option(ff.getName(),"Folder",ff.getAbsolutePath()));
 				else
-					fls.add(new Option(ff.getName(),
-							"File Size " + ff.length(), ff.getAbsolutePath(),
-							Option.FILE, null));
+					fls.add(new Option(ff.getName(),"File Size: "+ff.length(),ff.getAbsolutePath()));
+					
 			}
 		} catch (Exception e) {
 
@@ -106,14 +102,13 @@ public class FileChooser extends ListActivity {
 		dir.addAll(fls);
 
 		if (!f.getName().equalsIgnoreCase("sdcard"))
-			dir.add(0, new Option("..", "Parent Directory", f.getParent(),
-					Option.FILE, null));
-
+			dir.add(0,new Option("..","Parent Directory",f.getParent()));
 		adapter = new FileArrayAdapter(FileChooser.this, R.layout.file_view,
 				dir);
 		this.setListAdapter(adapter);
 	}
 
+	/*
 	private void fill(Descriptor[] dirs) {
 		boolean home = true;
 		this.setTitle("Current Dir: Home");
@@ -152,7 +147,7 @@ public class FileChooser extends ListActivity {
 				dir);
 		this.setListAdapter(adapter);
 	}
-
+*/
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		// TODO Auto-generated method stub
@@ -161,18 +156,18 @@ public class FileChooser extends ListActivity {
 
 		if (o.getData().equalsIgnoreCase("folder")
 				|| o.getData().equalsIgnoreCase("parent directory")) {
-			if (o.isFile()) {
+		//	if (o.isFile()) {
 				currentDir = new File(o.getPath());
 				fill(currentDir);
-			} else {
+	//		} 
+			/*else {
 				fill(o.listFile());
-			}
+			}*/
 		} else {
 			selectedFilePath = onFileClick(o);
 
 			Intent data = new Intent();
 			data.putExtra("path", selectedFilePath);
-			data.putExtra("Size", o.getSize());
 			setResult(RESULT_OK, data);
 			Log.d(TAG, selectedFilePath);
 			finish();

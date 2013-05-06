@@ -1,8 +1,8 @@
 package com.project.mantle_v1.dropbox;
 
+import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.MioDatabaseHelper;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 public class Priority extends Activity{
 	private RadioGroup radioPriorityGroup;
@@ -46,7 +45,7 @@ public class Priority extends Activity{
 				
 				if(priority.equals("Bassa")){
 					Log.d("PRIORITY", "Bassa");
-					db.insertPriority(idFile, 0);
+					db.insertPriority(idFile, MantleFile.USELESS_FILE);
 					finish();
 				}
 					
@@ -57,16 +56,10 @@ public class Priority extends Activity{
 				}
 				else if(priority.equals("Alta")){
 					Log.d("PRIORITY", "Alta");
-					db.insertPriority(idFile, 2);
+					db.insertPriority(idFile, MantleFile.NEEDFUL_FILE);
 					finish();
 				}
-
 			}
-
 		});
-
-		
-		
 	}
-	
 }
