@@ -45,7 +45,7 @@ import com.project.mantle_v1.xml.WriterXml;
  * exception handling and flow of control for an app that uploads a file from
  * Dropbox.
  */
-public class Uploader extends AsyncTask<Void, Long, MantleFile> {
+public class Uploader extends AsyncTask<Void, Long, Integer> {
 	private final String TAG = this.getClass().getSimpleName();
 	private final String USER_DETAILS_PREF = "user";
 
@@ -62,6 +62,8 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 	private String mErrorMsg;
 	private DropboxLink shareLink;
 	private String username;
+	
+	private int ID;
 
 	public Uploader(Context context, DropboxAPI<?> api, String dropboxPath,
 			File file, String username) {
@@ -93,7 +95,7 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 	}
 
 	@Override
-	protected MantleFile doInBackground(Void... params) {
+	protected Integer doInBackground(Void... params) {
 		try {
 			// By creating a request, we get a handle to the putFile operation,
 			// so we can cancel it later if we want to
@@ -128,13 +130,13 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 				MantleFile file = new MantleFile(ent, shareAddress, username,
 						mFile);
 				
-				((MyApplication) mContext.getApplicationContext()).media = file;
+	//			((MyApplication) mContext.getApplicationContext()).media = file;
 				
 				// creazione istanza del database
 				MioDatabaseHelper db = new MioDatabaseHelper(mContext);
 
 				// inserimento del fil ne db
-				long ID = db.insertFile(file.getFileName(), file.getLinkFile(),
+				ID = (int) db.insertFile(file.getFileName(), file.getLinkFile(),
 						"", file.getFileKey(), file.getObjectType(), MantleFile.NORMAL_FILE);
 				
 		//		setID(String.valueOf(ID));
@@ -198,7 +200,7 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 					mFile.delete();
 				}
 				file.setLinkComment(shareAddress);
-				return file;
+				return ID;
 			}
 
 		} catch (DropboxUnlinkedException e) {
@@ -258,7 +260,7 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 	}
 
 	@Override
-	protected void onPostExecute(MantleFile result) {
+	protected void onPostExecute(Integer result) {
 		mDialog.dismiss();
 		if (result != null) {
 			showToast("File successfully uploaded");
@@ -270,7 +272,7 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 	private void showToast(String msg) {
 		Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
 	}
-
+/*
 	private void setID(String id) {
 		SharedPreferences fileDetails = mContext2.getSharedPreferences("file", 0);
 		Editor editor = fileDetails.edit();
@@ -279,7 +281,7 @@ public class Uploader extends AsyncTask<Void, Long, MantleFile> {
 		editor.apply();
 		Log.d(TAG, id);
 	}
-
+*/
 	
 	String getShareURL(String strURL) {
 		URLConnection conn = null;

@@ -46,19 +46,19 @@ public class Priority extends Activity{
 				if(priority.equals("Bassa")){
 					Log.d("PRIORITY", "Bassa");
 					db.insertPriority(idFile, MantleFile.USELESS_FILE);
-					finish();
 				}
 					
 				else if(priority.equals("Normale")){
 					Log.d("PRIORITY", "Normale");
 					//non inserisco questo valore di priorità, perche di default ha già questo valore
-					finish();
 				}
 				else if(priority.equals("Alta")){
 					Log.d("PRIORITY", "Alta");
 					db.insertPriority(idFile, MantleFile.NEEDFUL_FILE);
-					finish();
+					
 				}
+				setResult(RESULT_OK);
+				finish();
 			}
 		});
 	}
