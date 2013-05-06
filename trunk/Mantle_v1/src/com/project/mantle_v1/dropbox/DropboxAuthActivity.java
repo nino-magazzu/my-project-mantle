@@ -103,6 +103,8 @@ public class DropboxAuthActivity extends Activity{
 					e.printStackTrace();
 				}
 				
+				Log.v(TAG, " isDownloaded: " + isDownloaded);
+				
 				if(isDownloaded) {
 					MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
 					db.importDB();

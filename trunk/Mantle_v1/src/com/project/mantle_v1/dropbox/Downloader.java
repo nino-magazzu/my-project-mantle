@@ -81,6 +81,7 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 				downloadedFile = mApi.getFileStream(file_path, null);
 			} catch (Exception e1) {
 				//showToast(e1.getMessage());
+				return false;
 			}
 		
 
@@ -103,8 +104,10 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 			}
 		} catch (FileNotFoundException e) {
 			mErrorMsg = e.getMessage();
+			return false;
 		} catch (IOException e) {
 			mErrorMsg = e.getMessage();
+			return false;
 		} finally {
 			try {// in finally block:
 				if (bw != null) {
