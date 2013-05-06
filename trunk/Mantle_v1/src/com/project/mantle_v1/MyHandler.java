@@ -67,7 +67,7 @@ public class MyHandler extends Handler {
 			createNotification(not.getTitle());
 			addItem(not);
 			Log.d(TAG, "ITEMS: " + String.valueOf(ITEMS.size()));
-			Log.d(TAG, "AdapterB: " + adapter.toString());
+			Log.v(TAG, "AdapterB: " + adapter.toString());
 			adapter.notifyDataSetChanged();
 
 		}

@@ -28,9 +28,9 @@ public class FileChooser extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		TAG = this.getClass().getSimpleName();
-		Intent intent = getIntent();
+		//Intent intent = getIntent();
 
-		if (intent.getBooleanExtra("upload", false)) {
+	//	if (intent.getBooleanExtra("upload", false)) {
 			currentDir = new File(STARTING_DIR);
 			fill(currentDir);
 		} 
@@ -40,7 +40,7 @@ public class FileChooser extends ListActivity {
 			Descriptor[] files = getList(dropboxFiles);
 			fill(files);
 		}*/
-	}
+	//}
 /*
 	public Descriptor[] getList(Object[] objs) {
 		Descriptor[] files = new Descriptor[objs.length];
