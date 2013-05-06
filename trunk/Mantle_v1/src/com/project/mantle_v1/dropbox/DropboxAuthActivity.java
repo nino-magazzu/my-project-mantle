@@ -1,11 +1,21 @@
 package com.project.mantle_v1.dropbox;
 
+import java.util.concurrent.ExecutionException;
+
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.TokenPair;
 import com.dropbox.client2.session.Session.AccessType;
+import com.project.mantle_v1.MyHandler;
+import com.project.mantle_v1.R;
+import com.project.mantle_v1.Register;
+import com.project.mantle_v1.User;
+import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.gmail.ReaderTask;
+import com.project.mantle_v1.login.LoginActivity;
+import com.project.mantle_v1.notification_home.NotificaAdapter;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
 
 import android.app.Activity;
@@ -13,6 +23,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -25,7 +36,12 @@ public class DropboxAuthActivity extends Activity{
 	final static private String APP_KEY = "6k7t4o9zc6jbz9n";
 	final static private String APP_SECRET = "ln2raywl1xmqrd7";
 	
+	private final String USER_DETAILS_PREF = "user";
+	
 	final static private AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
+	
+	private String username;
+	private String pswd;
 	
 	private DropboxAPI<AndroidAuthSession> mApi;
 	
@@ -33,6 +49,12 @@ public class DropboxAuthActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		Intent intent = getIntent();
+		username = intent.getStringExtra("username");
+		pswd = intent.getStringExtra("password");
+		
+		setContentView(R.layout.activity_login);
+		
 		TAG = this.getClass().getSimpleName();
 
 		// We create a new AuthSession so that we can use the Dropbox API.
@@ -65,8 +87,75 @@ public class DropboxAuthActivity extends Activity{
 				// Store it locally in our app for later use
 				TokenPair tokens = session.getAccessTokenPair();
 				storeKeys(tokens.key, tokens.secret);
-				Intent intent = new Intent(DropboxAuthActivity.this, NotificationListActivity.class);
-				startActivity(intent);
+				//Intent intent = new Intent(DropboxAuthActivity.this, NotificationListActivity.class);
+				//startActivity(intent);
+				Downloader down = new Downloader(this, mApi, "/storedFile/", Environment
+							.getExternalStorageDirectory().getAbsolutePath());
+				down.execute();
+				boolean isDownloaded = false;
+				try {
+					isDownloaded = down.get();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				if(isDownloaded) {
+					MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+					db.importDB();
+					String[] AccessData = db.login();
+					
+					
+					if (AccessData[0].equals(username) && AccessData[1].equals(pswd)) {
+						// /////////////
+						Log.d("LOGIN ", "Le stringe sono uguli");
+						// /////////////
+
+						setPreferences();
+
+						MyHandler handler = new MyHandler(getApplicationContext());
+						new ReaderTask(handler, getEmail(), getPswdEmail()).start();
+
+						NotificaAdapter adapter = new NotificaAdapter(getApplicationContext(),
+								R.layout.note_layout, MyHandler.ITEMS);
+
+						sendAdapter(adapter, handler);
+						
+						Intent intent = new Intent(DropboxAuthActivity.this,
+								NotificationListActivity.class);// Home.class);
+						startActivity(intent);
+					}
+					
+					else if ((!AccessData[0].equals(username)) && (!AccessData[0].equals(" "))) {
+						// /////////////
+						Log.d("LOGIN ", "le stringe sono diverse");
+						// /////////////
+						Intent intent = new Intent(DropboxAuthActivity.this,
+								LoginActivity.class);
+						startActivity(intent);
+					}
+
+					else if (!AccessData[1].equals(pswd) && (!AccessData[1].equals(" "))) {
+						// /////////////
+						Log.d("LOGIN ", "le stringe sono diverse");
+						// /////////////
+						Intent intent = new Intent(DropboxAuthActivity.this,
+								LoginActivity.class);
+						startActivity(intent);
+					}
+					
+					
+				}
+				
+				else {
+					Intent intent = new Intent(DropboxAuthActivity.this,
+							Register.class);
+					startActivity(intent);
+				}
+				
 
 			} catch (IllegalStateException e) {
 				showToast("Couldn't authenticate with Dropbox:"
@@ -128,4 +217,42 @@ public class DropboxAuthActivity extends Activity{
 	public DropboxAPI<AndroidAuthSession> getAPI() {
 		return mApi;
 	}
+	
+	private void setPreferences() {
+		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
+				0);
+		User user = new User(getApplicationContext());
+		Editor edit = userDetails.edit();
+		edit.clear();
+		edit.putString("username", user.getUsername());
+		String email = user.getEmail();
+		edit.putString("email", email);
+		MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+		edit.putString("emailpswd", db.getPassword(email));
+		edit.putInt("idUser", db.getId(email));
+		edit.commit();
+		db.close();
+	}
+
+	private String getEmail() {
+		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
+				0);
+		return userDetails.getString("email", " ");
+	}
+
+	private String getPswdEmail() {
+		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
+				0);
+		return userDetails.getString("emailpswd", " ");
+	}
+	
+	private void sendAdapter(NotificaAdapter adapter, MyHandler handler) {
+		android.os.Message msg = handler.obtainMessage();
+		Bundle b = new Bundle();
+		b.putSerializable("adapter", adapter);
+		msg.setData(b);
+		handler.sendMessage(msg);
+		Log.d("HOME", "adapter inviato");
+	}
+	
 }

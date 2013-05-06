@@ -10,12 +10,14 @@ import java.io.IOException;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.DropboxInputStream;
 import com.dropbox.client2.exception.DropboxException;
+import com.dropbox.client2.exception.DropboxUnlinkedException;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 public class Downloader extends AsyncTask<Void, Long, Boolean> {
@@ -31,20 +33,20 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 	private String mErrorMsg;
 	private boolean mCanceled;
 
-	private long mLenght;
+	//private long mLenght;
 
 	public Downloader(Context context, DropboxAPI<?> api, String file_path,
-			String saving_path, long size) {
+			String saving_path) {
 		mApi = api;
 		mContext = context.getApplicationContext();
 		this.file_path = file_path;
 		this.saving_path = saving_path;
 
-		mLenght = size;
+		//mLenght = size;
 
 		mDialog = new ProgressDialog(context);
 		mDialog.setMax(100);
-		mDialog.setMessage("Downloading.. ");
+		mDialog.setMessage("Downloading database.. ");
 		mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		mDialog.setProgress(0);
 
@@ -74,11 +76,13 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 		if (mCanceled) {
 			return false;
 		}
-		try {
-			downloadedFile = mApi.getFileStream(file_path, null);
-		} catch (DropboxException e) {
-			showToast(e.getMessage());
-		}
+		
+			try {
+				downloadedFile = mApi.getFileStream(file_path, null);
+			} catch (Exception e1) {
+				//showToast(e1.getMessage());
+			}
+		
 
 		if (mCanceled) {
 			return false;
@@ -115,13 +119,13 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 		}
 		return true;
 	}
-
+/*
 	@Override
 	protected void onProgressUpdate(Long... progress) {
 		int percent = (int) (100.0 * (double) progress[0] / mLenght + 0.5);
 		mDialog.setProgress(percent);
 	}
-
+*/
 	@Override
 	protected void onPostExecute(Boolean result) {
 		mDialog.dismiss();
@@ -133,8 +137,9 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 	}
 
 	private void showToast(String msg) {
-		Toast error = Toast.makeText(mContext, msg, Toast.LENGTH_LONG);
-		error.show();
+		//Toast error = Toast.makeText(mContext, msg, Toast.LENGTH_LONG);
+		//error.show();
+		Log.v("DOWNLOADER", msg);
 	}
 
 	private String getFileName() {
