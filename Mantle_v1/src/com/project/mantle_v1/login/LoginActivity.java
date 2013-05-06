@@ -5,6 +5,7 @@ import com.project.mantle_v1.R;
 import com.project.mantle_v1.Register;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.dropbox.DropboxAuthActivity;
 import com.project.mantle_v1.gmail.ReaderTask;
 import com.project.mantle_v1.notification_home.NotificaAdapter;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
@@ -169,10 +170,12 @@ public class LoginActivity extends Activity {
 				// Inserisco i dati username e password come nuovo db e
 				// avvio il form per la registrazione
 				db.insertService("mantle", mUsername, mPassword);
-				Intent intent = new Intent(LoginActivity.this, Register.class);
+				
+				//Intent intent = new Intent(LoginActivity.this, Register.class);
+				Intent intent = new Intent(LoginActivity.this, DropboxAuthActivity.class);
 				intent.putExtra("username", mUsername);
 				intent.putExtra("password", mPassword);
-				startActivityForResult(intent, 1);
+				startActivity(intent);
 			}
 
 			else if (res[0].equals(mUsername) && res[1].equals(mPassword)) {

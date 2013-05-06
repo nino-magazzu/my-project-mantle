@@ -24,7 +24,7 @@ import android.util.Log;
 public class Sharing extends Activity {
 
 	final static protected String HOME_DIR = Environment
-			.getExternalStorageDirectory().getAbsoluteFile() + "/Mantle";
+			.getExternalStorageDirectory().getAbsolutePath() + "/Mantle";
 	
 	final static private String FILE_DIR = "/storedFile/";
 	
@@ -66,8 +66,7 @@ public class Sharing extends Activity {
 					finish();
 				else {
 					File file = new File(filePath);
-					Uploader upload = new Uploader(this, mApi, FILE_DIR, file,
-							new User(getApplicationContext()).getUsername());
+					Uploader upload = new Uploader(this, mApi, FILE_DIR, file);
 					upload.execute();
 					try {
 						FILE_ID = upload.get();

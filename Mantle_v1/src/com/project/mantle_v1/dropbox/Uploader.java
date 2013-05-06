@@ -56,7 +56,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 	private long mFileLen;
 	private UploadRequest mRequest;
 	private Context mContext;
-	private Context mContext2;
+//	private Context mContext2;
 	private final ProgressDialog mDialog;
 
 	private String mErrorMsg;
@@ -66,12 +66,12 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 	private int ID;
 
 	public Uploader(Context context, DropboxAPI<?> api, String dropboxPath,
-			File file, String username) {
+			File file) {
 		// We set the context this way so we don't accidentally leak activities
 		mContext = context.getApplicationContext();
-		mContext2 = context; 
+		//mContext2 = context; 
 		
-		this.username = username;
+	//	this.username = username;
 
 		mFileLen = file.length();
 		mApi = api;

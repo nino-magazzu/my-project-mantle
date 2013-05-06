@@ -3,7 +3,9 @@ package com.project.mantle_v1;
 import java.io.File;
 
 import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.dropbox.DropboxAuthActivity;
+import com.project.mantle_v1.dropbox.Uploader;
 import com.project.mantle_v1.gmail.ReaderTask;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
 
@@ -73,7 +75,7 @@ public class Register extends Activity {
 					db.insertService("Dropbox", dropboxUser, dropboxPass);
 					db.insertService("Email", email, emailPass);
 					db.showAll();
-					db.close();
+					
 					
 					File dir = new File(Environment.getExternalStorageDirectory() + "/Mantle/history");
 					
@@ -84,6 +86,16 @@ public class Register extends Activity {
 
 			//		MyHandler handler = new MyHandler(getApplicationContext());
 				//	new ReaderTask(handler, email, emailPass).start();
+					
+					db.exportDB();
+					
+					DropboxAuth dropbox = new DropboxAuth(getApplicationContext());
+					
+					
+					Uploader up = new Uploader(getApplicationContext(), dropbox.getAPI(), "/StoredFile/", new File(Environment.getExternalStorageDirectory(), "Mantle"));
+					up.execute();
+					
+					db.close();
 					
 					Intent intent = new Intent(Register.this,
 							DropboxAuthActivity.class);
