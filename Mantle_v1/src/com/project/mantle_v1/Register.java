@@ -3,6 +3,7 @@ package com.project.mantle_v1;
 import java.io.File;
 
 import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.dropbox.DropboxAuthActivity;
 import com.project.mantle_v1.gmail.ReaderTask;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
 
@@ -83,9 +84,9 @@ public class Register extends Activity {
 
 					MyHandler handler = new MyHandler(getApplicationContext());
 					new ReaderTask(handler, email, emailPass).start();
-
+					
 					Intent intent = new Intent(Register.this,
-							NotificationListActivity.class);
+							DropboxAuthActivity.class);
 					startActivity(intent);
 				}
 
