@@ -24,6 +24,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Normale" />
+		
+		<RadioButton
+        	android:id="@+id/radio1"
+	        android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+        	android:text="Alta" />
+        
+        
     </RadioGroup>
 
     <TextView
@@ -34,15 +42,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="33dp"
         android:text="Seleziona priorità : " />
-
-    <RadioButton
-        android:id="@+id/radio1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/radioGroup1"
-        android:layout_below="@+id/radioGroup1"
-        android:text="Alta" />
-
+    
     <Button
         android:id="@+id/button1"
         style="?android:attr/buttonStyleSmall"
