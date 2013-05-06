@@ -52,7 +52,7 @@ public class Priority extends Activity{
 					
 				else if(priority.equals("Normale")){
 					Log.d("PRIORITY", "Normale");
-					db.insertPriority(idFile, 1);
+					//non inserisco questo valore di priorità, perche di default è già questo valore
 					finish();
 				}
 				else if(priority.equals("Alta")){
