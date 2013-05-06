@@ -1,5 +1,9 @@
 package com.project.mantle_v1.database;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
 import com.project.mantle_v1.MantleFile;
@@ -9,6 +13,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 import android.util.Log;
 
 public class MioDatabaseHelper extends SQLiteOpenHelper {
@@ -765,5 +770,59 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		}
 
 	}
+	
+	//esportare database
+	public void exportDB() {
+
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+            
+            //if (sd.canWrite()) {
+                String  currentDBPath= "/data/com.project.mantle_v1/databases/Mantle";
+                String backupDBPath  = "Mantle";
+                
+                File currentDB = new File(data, currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+
+                FileChannel src = new FileInputStream(currentDB).getChannel();
+                FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                dst.transferFrom(src, 0, src.size());
+                src.close();
+                dst.close();
+                Log.d("MIO_DATABASE_HELPER","Mantle db exported");
+            //}
+        } catch (Exception e) {
+
+       	 Log.w("MIO_DATABASE_HELPER","Mantle db not exported" + e);
+
+        }
+    }
+	
+	 //importare database
+   public void importDB() {
+       // TODO Auto-generated method stub
+
+       try {
+           File sd = Environment.getExternalStorageDirectory();
+           File data  = Environment.getDataDirectory();
+
+           //if (sd.canWrite()) {
+               String  currentDBPath= "/data/com.project.mantle_v1/databases/Mantle";
+               String backupDBPath  = "Mantle";
+               File  backupDB= new File(data, currentDBPath);
+               File currentDB  = new File(sd, backupDBPath);
+
+               FileChannel src = new FileInputStream(currentDB).getChannel();
+               FileChannel dst = new FileOutputStream(backupDB).getChannel();
+               dst.transferFrom(src, 0, src.size());
+               src.close();
+               dst.close();
+               Log.d("MIO_DATABASE_HELPER","Mantle db imported");
+           //}
+       } catch (Exception e) {
+       	Log.w("MIO_DATABASE_HELPER","Mantle db exported" + e);
+       }
+   }
 
 }
