@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.project.mantle_v1.dropbox.Dropbox"
+            android:name="com.project.mantle_v1.dropbox.Sharing"
             android:launchMode="singleTop" />
         <activity android:name="com.project.mantle_v1.fileChooser.FileChooser" />
         <activity android:name="com.project.mantle_v1.dropbox.DropBoxFile" />
