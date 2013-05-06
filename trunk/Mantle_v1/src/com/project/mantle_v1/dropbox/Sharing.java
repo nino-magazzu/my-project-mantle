@@ -79,6 +79,7 @@ public class Sharing extends Activity {
 						Log.i(TAG, "Error authenticating", e);
 					}
 					Intent intent = new Intent(this, Priority.class);
+					intent.putExtra("idFile", Integer.valueOf(mt.getIdFile()));
 					startActivityForResult(intent, PRIORITY_CHOOSED_CODE);
 					
 				}
@@ -86,9 +87,6 @@ public class Sharing extends Activity {
 			break;
 			
 		case PRIORITY_CHOOSED_CODE:
-			int priority = data.getIntExtra("priority", 4);
-			if(priority < 4)
-				((MyApplication) getApplicationContext()).media.setPriority(priority);
 			Intent intent = new Intent(this, FriendsList.class);
 			intent.putExtra("flag", 3);
 			startActivityForResult(intent, FRIEND_CHOOSED_CODE);
@@ -98,7 +96,7 @@ public class Sharing extends Activity {
 			Object[] contacts = (Object[]) data
 			.getSerializableExtra("contacts");
 			if (contacts != null) {
-				SharedPreferences fileDetails = getSharedPreferences("file", 0);
+		//		SharedPreferences fileDetails = getSharedPreferences("file", 0);
 				//	if(fileDetails.contains("idFile")) 
 				//	Log.e(TAG, "c'è");
 				//String idFile = fileDetails.getString("idFile", null);
@@ -133,7 +131,7 @@ public class Sharing extends Activity {
 	}
 	
 	private void setID() {
-		SharedPreferences fileDetails = getSharedPreferences("file", 0);
+		SharedPreferences fileDetails = getSharedPreferences("file", MODE_PRIVATE);
 		Editor editor = fileDetails.edit();
 		editor.clear();
 		editor.putString("idFile", mt.getIdFile());

@@ -6,8 +6,7 @@ import com.project.mantle_v1.R;
 import com.project.mantle_v1.Team;
 import com.project.mantle_v1.database.AddFriend;
 import com.project.mantle_v1.database.FriendsList;
-import com.project.mantle_v1.database.MioDatabaseHelper;
-import com.project.mantle_v1.dropbox.Dropbox;
+import com.project.mantle_v1.dropbox.Sharing;
 import com.project.mantle_v1.fileNavigator.FileListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -165,7 +164,7 @@ public class NotificationListActivity extends FragmentActivity implements
 						Toast.makeText(getApplicationContext(),
 								item.getTitle(), Toast.LENGTH_SHORT).show();
 						Intent intent = new Intent(
-								NotificationListActivity.this, Dropbox.class);
+								NotificationListActivity.this, Sharing.class);
 						startActivity(intent);
 						return true;
 					}
