@@ -1,15 +1,14 @@
 package com.project.mantle_v1;
 
 import java.io.File;
+import java.util.concurrent.ExecutionException;
 
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.dropbox.DropboxAuth;
-import com.project.mantle_v1.dropbox.DropboxAuthActivity;
 import com.project.mantle_v1.dropbox.Uploader;
-import com.project.mantle_v1.gmail.ReaderTask;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
-
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -32,6 +31,7 @@ public class Register extends Activity {
 	private EditText dropboxPassEditText;
 	private String username;
 	private String password;
+	private Context mContext;
 
 	private final String USER_DETAILS_PREF = "user";
 
@@ -52,11 +52,13 @@ public class Register extends Activity {
 				getApplicationContext());
 
 		Intent theIntent = this.getIntent();
-		username = (String) theIntent.getSerializableExtra("username");
+		username = theIntent.getStringExtra("username");
 		Log.d("REGISTER", username);
-		password = (String) theIntent.getSerializableExtra("password");
+		password = theIntent.getStringExtra("password");
 		Log.d("REGISTER", password);
 
+		mContext = this;
+		
 		forward.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
@@ -74,6 +76,13 @@ public class Register extends Activity {
 							surname, password);
 					//db.insertService("Dropbox", dropboxUser, dropboxPass);
 					db.insertService("Email", email, emailPass);
+					
+					//****************//
+					
+					db.insertService("mantle", username, password);
+					
+					//****************//
+					
 					db.showAll();
 					
 					
@@ -92,13 +101,23 @@ public class Register extends Activity {
 					DropboxAuth dropbox = new DropboxAuth(getApplicationContext());
 					
 					
-					Uploader up = new Uploader(getApplicationContext(), dropbox.getAPI(), "/StoredFile/", new File(Environment.getExternalStorageDirectory(), "Mantle"));
+					Uploader up = new Uploader(mContext, dropbox.getAPI(), "/StoredFile/", new File(Environment.getExternalStorageDirectory() + "/Mantle/db/Mantle"));
 					up.execute();
+					
+					try {
+						int ID = up.get();
+					} catch (InterruptedException e) {
+						Log.v("REGISTER", e.getMessage());
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						Log.v("REGISTER", e.getMessage());
+						e.printStackTrace();
+					}
 					
 					db.close();
 					
 					Intent intent = new Intent(Register.this,
-							DropboxAuthActivity.class);
+							NotificationListActivity.class);
 					startActivity(intent);
 				}
 

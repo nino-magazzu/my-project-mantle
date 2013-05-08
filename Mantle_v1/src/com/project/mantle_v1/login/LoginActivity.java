@@ -2,14 +2,12 @@ package com.project.mantle_v1.login;
 
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.Register;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.dropbox.DropboxAuthActivity;
 import com.project.mantle_v1.gmail.ReaderTask;
 import com.project.mantle_v1.notification_home.NotificaAdapter;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -169,7 +167,7 @@ public class LoginActivity extends Activity {
 
 				// Inserisco i dati username e password come nuovo db e
 				// avvio il form per la registrazione
-				db.insertService("mantle", mUsername, mPassword);
+			//	db.insertService("mantle", mUsername, mPassword);
 				
 				//Intent intent = new Intent(LoginActivity.this, Register.class);
 				Intent intent = new Intent(LoginActivity.this, DropboxAuthActivity.class);
@@ -185,13 +183,13 @@ public class LoginActivity extends Activity {
 
 				setPreferences();
 
-				MyHandler handler = new MyHandler(getApplicationContext());
-				new ReaderTask(handler, getEmail(), getPswdEmail()).start();
+//				MyHandler handler = new MyHandler(getApplicationContext());
+//				new ReaderTask(handler, getEmail(), getPswdEmail()).start();
 
-				NotificaAdapter adapter = new NotificaAdapter(getApplicationContext(),
-						R.layout.note_layout, MyHandler.ITEMS);
+//				NotificaAdapter adapter = new NotificaAdapter(getApplicationContext(),
+//						R.layout.note_layout, MyHandler.ITEMS);
 
-				sendAdapter(adapter, handler);
+//				sendAdapter(adapter, handler);
 				
 				Intent intent = new Intent(LoginActivity.this,
 						NotificationListActivity.class);// Home.class);

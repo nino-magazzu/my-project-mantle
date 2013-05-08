@@ -169,7 +169,7 @@ public class FileChooser extends ListActivity {
 			Intent data = new Intent();
 			data.putExtra("path", selectedFilePath);
 			setResult(RESULT_OK, data);
-			Log.d(TAG, selectedFilePath);
+			Log.v(TAG, selectedFilePath);
 			finish();
 		}
 	}

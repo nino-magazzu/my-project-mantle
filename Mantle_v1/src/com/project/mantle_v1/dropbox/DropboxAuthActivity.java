@@ -1,5 +1,6 @@
 package com.project.mantle_v1.dropbox;
 
+import java.io.File;
 import java.util.concurrent.ExecutionException;
 
 import com.dropbox.client2.DropboxAPI;
@@ -89,18 +90,27 @@ public class DropboxAuthActivity extends Activity{
 				storeKeys(tokens.key, tokens.secret);
 				//Intent intent = new Intent(DropboxAuthActivity.this, NotificationListActivity.class);
 				//startActivity(intent);
+				
+				File sd = new File(Environment.getExternalStorageDirectory()+"/Mantle/db");
+				if(!sd.exists())
+		        	   sd.mkdirs();
+				
+				Log.v(TAG, " ** Downloading... **");
+				
 				Downloader down = new Downloader(this, mApi, "/storedFile/", Environment
-							.getExternalStorageDirectory().getAbsolutePath());
+							.getExternalStorageDirectory().getAbsoluteFile() + "/Mantle/db/Mantle");
 				down.execute();
+				
 				boolean isDownloaded = false;
+				
 				try {
 					isDownloaded = down.get();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Log.v(TAG, e.getMessage());
+					isDownloaded = false; 
 				} catch (ExecutionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Log.v(TAG, e.getMessage());
+					isDownloaded = false;
 				}
 				
 				Log.v(TAG, " isDownloaded: " + isDownloaded);
@@ -155,6 +165,10 @@ public class DropboxAuthActivity extends Activity{
 				else {
 					Intent intent = new Intent(DropboxAuthActivity.this,
 							Register.class);
+					
+					intent.putExtra("username", username);
+					intent.putExtra("password", pswd);
+					
 					startActivity(intent);
 				}
 				

@@ -75,14 +75,20 @@ public class NotificationListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-	NotificaAdapter notifyAdapter = new NotificaAdapter(getActivity(),
+		NotificaAdapter notifyAdapter = new NotificaAdapter(getActivity(),
 				R.layout.note_layout, MyHandler.ITEMS);
 
 		handler = new MyHandler(getActivity().getApplicationContext());
 
-		 SharedPreferences userDetails = getActivity().getApplicationContext().getSharedPreferences(USER_DETAILS_PREF, 0);
+		SharedPreferences userDetails = getActivity().getApplicationContext()
+				.getSharedPreferences(USER_DETAILS_PREF, 0);
 
-		 new ReaderTask(handler, userDetails.getString("email", " "),userDetails.getString("emailpswd", " ")).start();
+		ReaderTask rt = new ReaderTask(handler, userDetails.getString("email",
+				" "), userDetails.getString("emailpswd", " "));
+
+		
+		if (!rt.isAlive())
+			rt.start();
 
 		setListAdapter(MyHandler.adapter);
 
@@ -102,7 +108,6 @@ public class NotificationListFragment extends ListFragment {
 		}
 	}
 
-	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);

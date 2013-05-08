@@ -6,23 +6,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.DropboxInputStream;
-import com.dropbox.client2.exception.DropboxException;
-import com.dropbox.client2.exception.DropboxUnlinkedException;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 public class Downloader extends AsyncTask<Void, Long, Boolean> {
 	private DropboxAPI<?> mApi;
-	private Context mContext;
+	//private Context mContext;
 
 	private FileOutputStream mFos;
 	private String file_path;
@@ -38,7 +33,7 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 	public Downloader(Context context, DropboxAPI<?> api, String file_path,
 			String saving_path) {
 		mApi = api;
-		mContext = context.getApplicationContext();
+	//	mContext = context.getApplicationContext();
 		this.file_path = file_path;
 		this.saving_path = saving_path;
 
@@ -80,7 +75,7 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 			try {
 				downloadedFile = mApi.getFileStream(file_path, null);
 			} catch (Exception e1) {
-				//showToast(e1.getMessage());
+				showToast(e1.getMessage());
 				return false;
 			}
 		
@@ -142,7 +137,8 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 	private void showToast(String msg) {
 		//Toast error = Toast.makeText(mContext, msg, Toast.LENGTH_LONG);
 		//error.show();
-		Log.v("DOWNLOADER", msg);
+		if(msg != null)
+			Log.v("DOWNLOADER", msg);
 	}
 
 	private String getFileName() {

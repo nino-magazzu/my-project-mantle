@@ -57,7 +57,8 @@ public class Priority extends Activity{
 					Log.d("PRIORITY", "Alta");
 					
 				}
-				setResult(RESULT_FIRST_USER);
+				db.close();
+				setResult(RESULT_OK);
 				Log.v("PRIORITY", "Chiusura priority");
 				finish();
 			}
