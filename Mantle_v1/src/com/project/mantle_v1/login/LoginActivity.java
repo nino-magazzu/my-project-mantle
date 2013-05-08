@@ -1,12 +1,9 @@
 package com.project.mantle_v1.login;
 
-import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.dropbox.DropboxAuthActivity;
-import com.project.mantle_v1.gmail.ReaderTask;
-import com.project.mantle_v1.notification_home.NotificaAdapter;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -238,7 +235,7 @@ public class LoginActivity extends Activity {
 		edit.commit();
 		db.close();
 	}
-
+/*
 	private String getEmail() {
 		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
 				0);
@@ -250,7 +247,7 @@ public class LoginActivity extends Activity {
 				0);
 		return userDetails.getString("emailpswd", " ");
 	}
-
+*/
 	/**
 	 * Shows the progress UI and hides the login form.
 	 */
@@ -291,14 +288,4 @@ public class LoginActivity extends Activity {
 			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
 	}
-	
-	private void sendAdapter(NotificaAdapter adapter, MyHandler handler) {
-		android.os.Message msg = handler.obtainMessage();
-		Bundle b = new Bundle();
-		b.putSerializable("adapter", adapter);
-		msg.setData(b);
-		handler.sendMessage(msg);
-		Log.d("HOME", "adapter inviato");
-	}
-
 }

@@ -17,7 +17,7 @@ import android.util.Log;
 
 public class Downloader extends AsyncTask<Void, Long, Boolean> {
 	private DropboxAPI<?> mApi;
-	//private Context mContext;
+	private Context mContext;
 
 	private FileOutputStream mFos;
 	private String file_path;
@@ -33,13 +33,13 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 	public Downloader(Context context, DropboxAPI<?> api, String file_path,
 			String saving_path) {
 		mApi = api;
-	//	mContext = context.getApplicationContext();
+		mContext = context;//.getApplicationContext();
 		this.file_path = file_path;
 		this.saving_path = saving_path;
 
 		//mLenght = size;
 
-		mDialog = new ProgressDialog(context);
+		mDialog = new ProgressDialog(mContext);
 		mDialog.setMax(100);
 		mDialog.setMessage("Downloading database.. ");
 		mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -139,6 +139,8 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 		//error.show();
 		if(msg != null)
 			Log.v("DOWNLOADER", msg);
+		else 
+			Log.v("DOWNLOADER", "null message");
 	}
 
 	private String getFileName() {

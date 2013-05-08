@@ -21,6 +21,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+
 public class MyHandler extends Handler {
 	private Context context;
 	private String link;
@@ -37,7 +38,8 @@ public class MyHandler extends Handler {
 
 	public MyHandler(Context context) {
 		super();
-		// === scelta del file storia === //
+		
+		// *** scelta del file storia *** //
 		//History his = new History();
 		
 		//FILE_HISTORY_NAME = his.getLastFile();
@@ -47,8 +49,11 @@ public class MyHandler extends Handler {
 		if (ITEMS.isEmpty())
 			addItem(new Notifica(	new Date(System.currentTimeMillis()).toString(),
 					"Benvenuto in Mantle", MantleMessage.SYSTEM));
-		else
+		else {
 			Log.v(TAG, "Items size: " + ITEMS.size());
+			Log.v(TAG, ITEMS.get(0).getNotificationBody());
+		}
+			
 
 	}
 

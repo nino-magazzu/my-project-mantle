@@ -2,23 +2,18 @@ package com.project.mantle_v1.dropbox;
 
 import java.io.File;
 import java.util.concurrent.ExecutionException;
-
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.TokenPair;
 import com.dropbox.client2.session.Session.AccessType;
-import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.Register;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.MioDatabaseHelper;
-import com.project.mantle_v1.gmail.ReaderTask;
 import com.project.mantle_v1.login.LoginActivity;
-import com.project.mantle_v1.notification_home.NotificaAdapter;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -97,11 +92,12 @@ public class DropboxAuthActivity extends Activity{
 				
 				Log.v(TAG, " ** Downloading... **");
 				
+				boolean isDownloaded = false;
+				
 				Downloader down = new Downloader(this, mApi, "/storedFile/", Environment
 							.getExternalStorageDirectory().getAbsoluteFile() + "/Mantle/db/Mantle");
-				down.execute();
 				
-				boolean isDownloaded = false;
+				down.execute();
 				
 				try {
 					isDownloaded = down.get();
@@ -128,14 +124,6 @@ public class DropboxAuthActivity extends Activity{
 
 						setPreferences();
 
-						MyHandler handler = new MyHandler(getApplicationContext());
-						new ReaderTask(handler, getEmail(), getPswdEmail()).start();
-
-						NotificaAdapter adapter = new NotificaAdapter(getApplicationContext(),
-								R.layout.note_layout, MyHandler.ITEMS);
-
-						sendAdapter(adapter, handler);
-						
 						Intent intent = new Intent(DropboxAuthActivity.this,
 								NotificationListActivity.class);// Home.class);
 						startActivity(intent);
@@ -163,13 +151,15 @@ public class DropboxAuthActivity extends Activity{
 				}
 				
 				else {
-					Intent intent = new Intent(DropboxAuthActivity.this,
+					Log.v(TAG, " ** Starting register.. **");
+					
+					Intent MyIntent = new Intent(DropboxAuthActivity.this,
 							Register.class);
 					
-					intent.putExtra("username", username);
-					intent.putExtra("password", pswd);
+					MyIntent.putExtra("username", username);
+					MyIntent.putExtra("password", pswd);
 					
-					startActivity(intent);
+					startActivity(MyIntent);
 				}
 				
 
@@ -249,26 +239,4 @@ public class DropboxAuthActivity extends Activity{
 		edit.commit();
 		db.close();
 	}
-
-	private String getEmail() {
-		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
-				0);
-		return userDetails.getString("email", " ");
-	}
-
-	private String getPswdEmail() {
-		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
-				0);
-		return userDetails.getString("emailpswd", " ");
-	}
-	
-	private void sendAdapter(NotificaAdapter adapter, MyHandler handler) {
-		android.os.Message msg = handler.obtainMessage();
-		Bundle b = new Bundle();
-		b.putSerializable("adapter", adapter);
-		msg.setData(b);
-		handler.sendMessage(msg);
-		Log.d("HOME", "adapter inviato");
-	}
-	
 }
