@@ -1,7 +1,6 @@
 package com.project.mantle_v1.notification_home;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -9,7 +8,6 @@ import android.view.View;
 import android.widget.ListView;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.gmail.ReaderTask;
 
 /**
  * A list fragment representing a list of Notifications. This fragment also

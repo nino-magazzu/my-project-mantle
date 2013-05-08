@@ -77,6 +77,7 @@ public class Reader extends Authenticator {
 	private void readMail(Message[] msg) throws IOException, MessagingException {
 		for (int i = 0; i < msg.length; i++) {
 			if (msg[i].getSubject() != null && msg[i].getSubject().compareTo(Mail.SUBJECT) == 0) {
+				Log.v(TAG, "*** Leggo il messaggio ***");
 				String body = "";
 				MimeMultipart multiPart = (MimeMultipart) msg[0].getContent();
 				for (int x = 0; x < multiPart.getCount(); x++) {

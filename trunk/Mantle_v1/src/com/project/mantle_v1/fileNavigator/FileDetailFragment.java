@@ -91,6 +91,7 @@ public class FileDetailFragment extends Fragment {
 				bundle.putString("email",
 						db.getEmailFromUrl(file.getLinkComment()));
 				bundle.putString("filePath", comment.getAbsolutePath());
+				bundle.putString("idFile", file.getIdFile());
 				myIntent.putExtra("bundle", bundle);
 				db.close();
 				getActivity().startActivity(myIntent);

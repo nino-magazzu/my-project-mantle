@@ -26,8 +26,8 @@ public class Register extends Activity {
 	private EditText surnameEditText;
 	private EditText emailEditText;
 	private EditText emailPassEditText;
-	private EditText dropboxUserEditText;
-	private EditText dropboxPassEditText;
+	//private EditText dropboxUserEditText;
+	//private EditText dropboxPassEditText;
 	private String username;
 	private String password;
 	private Context mContext;
@@ -89,6 +89,12 @@ public class Register extends Activity {
 					
 					if(!dir.exists())
 						dir.mkdirs();
+					
+					dir = new File(Environment.getExternalStorageDirectory() + "/Mantle/tmp");
+					
+					if(!dir.exists())
+						dir.mkdirs();
+					
 					
 					setPreferences(email, emailPass, id);
 

@@ -108,6 +108,7 @@ public class Sharing extends Activity {
 					new Sender(this, body, (String) contacts[j], MantleMessage.SHARING_PHOTO).execute();
 				}
 				db.close();
+				finish();
 			}
 			break;
 		}

@@ -50,6 +50,8 @@ public class NoteActivity extends Activity {
 		this.idFile = bundle.getString("idFile");
 		this.cFile = null;
 
+		Log.v(TAG, idFile);
+		
 		if (filePath == null)
 			cFile = MantleFile.downloadFileFromUrl(url, idFile + ".xml");
 		else
@@ -68,8 +70,11 @@ public class NoteActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		notes = reader.getParsedData();
 	
+		cFile.delete();
+		
 		final NoteAdapter adapter = new NoteAdapter(getApplicationContext(),
 				R.layout.note_layout, notes);
 
@@ -124,7 +129,6 @@ public class NoteActivity extends Activity {
 						Log.e(TAG, ex.getMessage());
 
 					}
-					
 					
 					String[] emails = db.getEmailsFilesShared(Integer.parseInt(idFile));
 					for(int i = 0; i < emails.length; i++) {

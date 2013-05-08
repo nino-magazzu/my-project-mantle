@@ -118,10 +118,12 @@ public class NotificationDetailFragment extends Fragment {
 					public void onClick(View v) {
 						MioDatabaseHelper db = new MioDatabaseHelper(v
 								.getContext());
-						db.insertUser(mItem.getUser().getEmail(), mItem
-								.getUser().getUsername(), mItem.getUser()
-								.getName(), mItem.getUser().getSurname(), mItem
-								.getUser().getKey());
+						db.insertUser(mItem.getUser().getEmail(), 
+								mItem.getUser().getUsername(), 
+								mItem.getUser().getName(), 
+								mItem.getUser().getSurname(), 
+								mItem.getUser().getKey()
+						);
 
 						ParseJSON parser = new ParseJSON(new StringWriter());
 						try {
@@ -216,7 +218,7 @@ public class NotificationDetailFragment extends Fragment {
 								.getCommentLink());
 						bundle.putString("email", ownerEMail);
 						bundle.putString("filePath", comment.getAbsolutePath());
-						bundle.putString("idFile", null);
+						bundle.putString("idFile", idFile);
 						myIntent.putExtra("bundle", bundle);
 						getActivity().startActivity(myIntent);
 					}

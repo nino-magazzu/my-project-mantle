@@ -2,19 +2,18 @@ package com.project.mantle_v1;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
-
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.dropbox.DownladerTask;
 import com.project.mantle_v1.dropbox.UploaderTask;
+
 
 public class MantleFile implements Serializable {
 
@@ -31,6 +30,7 @@ public class MantleFile implements Serializable {
 	public static final int NORMAL_FILE = 2;
 	public static final int USELESS_FILE = 1;
 	public static final int NOT_OWN_FILE = 0;
+	
 	
 	private final String USER_DETAILS_PREF = "user";
 	
@@ -83,7 +83,7 @@ public class MantleFile implements Serializable {
 		SharedPreferences userDetails = cont.getSharedPreferences(USER_DETAILS_PREF, 0);
 		this.username = userDetails.getString("username", "");
 		
-		this.date = new Date(System.currentTimeMillis()).toString();
+		this.date = db.getDateFile(Integer.parseInt(idFile));
 		
 		this.isImage = objectType.contains("image");
 		
