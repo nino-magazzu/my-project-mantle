@@ -8,7 +8,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
@@ -17,7 +16,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -36,7 +34,6 @@ import com.dropbox.client2.exception.DropboxPartialFileException;
 import com.dropbox.client2.exception.DropboxServerException;
 import com.dropbox.client2.exception.DropboxUnlinkedException;
 import com.project.mantle_v1.MantleFile;
-import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.xml.WriterXml;
 
@@ -138,13 +135,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 				// inserimento del fil ne db
 				ID = (int) db.insertFile(file.getFileName(), file.getLinkFile(),
 						"", file.getFileKey(), file.getObjectType(), MantleFile.NORMAL_FILE);
-				
-		//		setID(String.valueOf(ID));
-				
-		//		SharedPreferences details = mContext2.getSharedPreferences("file", 0);
-				
-		//		Log.d(TAG, details.getString("idFile", "papdaspsdp"));
-				
+		
 				SharedPreferences userDetails = mContext.getSharedPreferences(
 						USER_DETAILS_PREF, 0);
 
@@ -174,7 +165,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 				mFile = new File(pathComment, String.valueOf(ID) + ".xml");
 				Log.d(TAG, String.valueOf(ID));
 				fis = new FileInputStream(mFile);
-				// String pathComment = mPath + mFile.getName();
+			   // String pathComment = mPath + mFile.getName();
 				mRequest = mApi.putFileOverwriteRequest(
 						mPath + mFile.getName(), fis, mFile.length(),
 						new ProgressListener() {
@@ -261,7 +252,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 
 	@Override
 	protected void onPostExecute(Integer result) {
-		mDialog.dismiss();
+	mDialog.dismiss();
 		if (result != null) {
 			showToast("File successfully uploaded");
 		} else {
@@ -272,16 +263,6 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 	private void showToast(String msg) {
 		Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
 	}
-/*
-	private void setID(String id) {
-		SharedPreferences fileDetails = mContext2.getSharedPreferences("file", 0);
-		Editor editor = fileDetails.edit();
-		editor.clear();
-		editor.putString("idFile", id);
-		editor.apply();
-		Log.d(TAG, id);
-	}
-*/
 	
 	String getShareURL(String strURL) {
 		URLConnection conn = null;

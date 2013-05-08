@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
+import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -23,6 +24,12 @@ public class MailService extends Service{
 		this.pswd = pswd;
 		this.account = email.substring(0, email.indexOf("@"));
 	}
+	
+	 @Override
+	  public int onStartCommand(Intent intent, int flags, int startId) {
+	    //TODO do something useful
+	    return Service.START_NOT_STICKY;
+	  }
 	
 	@Override
     public void onCreate() {
@@ -64,5 +71,4 @@ public class MailService extends Service{
 	public IBinder onBind(Intent intent) {
 		return null;
 	}
-
 }

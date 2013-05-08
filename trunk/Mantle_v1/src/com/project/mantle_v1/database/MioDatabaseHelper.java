@@ -785,8 +785,11 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	public void exportDB() {
 
         try {
-            File sd = Environment.getExternalStorageDirectory();
+        	File sd = new File(Environment.getExternalStorageDirectory()+"/Mantle/db");
             File data = Environment.getDataDirectory();
+           
+            if(!sd.exists())
+         	   sd.mkdirs();
             
             //if (sd.canWrite()) {
                 String  currentDBPath= "/data/com.project.mantle_v1/databases/Mantle";
@@ -814,9 +817,12 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
        // TODO Auto-generated method stub
 
        try {
-           File sd = Environment.getExternalStorageDirectory();
+           File sd = new File(Environment.getExternalStorageDirectory()+"/Mantle/db");
            File data  = Environment.getDataDirectory();
 
+           if(!sd.exists())
+        	   sd.mkdirs();
+           
            //if (sd.canWrite()) {
                String  currentDBPath= "/data/com.project.mantle_v1/databases/Mantle";
                String backupDBPath  = "Mantle";

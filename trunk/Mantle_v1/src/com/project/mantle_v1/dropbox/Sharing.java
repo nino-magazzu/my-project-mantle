@@ -8,7 +8,6 @@ import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.fileChooser.FileChooser;
@@ -43,8 +42,7 @@ public class Sharing extends Activity {
 		setContentView(R.layout.vuoto);
 		DropboxAuth auth = new DropboxAuth(this);
 		this.mApi = auth.getAPI();
-		
-		startFileUploadChooser();
+		startActivityForResult(new Intent(this, FileChooser.class), UPLOAD_REQUEST_CODE);
 		
 	}
 	
@@ -65,8 +63,7 @@ public class Sharing extends Activity {
 				if (filePath.compareTo("null") == 0)
 					finish();
 				else {
-					File file = new File(filePath);
-					Uploader upload = new Uploader(this, mApi, FILE_DIR, file);
+					Uploader upload = new Uploader(this, mApi, FILE_DIR, new File(filePath));
 					upload.execute();
 					try {
 						FILE_ID = upload.get();
@@ -75,7 +72,7 @@ public class Sharing extends Activity {
 					} catch (ExecutionException e) {
 						Log.i(TAG, "Error authenticating", e);
 					}
-					Log.v(TAG, String.valueOf(FILE_ID));
+					Log.v(TAG, "--> iD File caricato: "+String.valueOf(FILE_ID));
 					Intent intent = new Intent(this, Priority.class);
 					intent.putExtra("idFile", FILE_ID);
 					startActivityForResult(intent, PRIORITY_CHOOSED_CODE);
@@ -85,7 +82,7 @@ public class Sharing extends Activity {
 			break;
 			
 		case PRIORITY_CHOOSED_CODE:
-			Log.v(TAG, "PRIORITY_CHOOSED_CODE");
+			Log.v(TAG, "--> " + "PRIORITY_CHOOSED_CODE");
 			Intent intent = new Intent(this, FriendsList.class);
 			intent.putExtra("flag", 3);
 			startActivityForResult(intent, FRIEND_CHOOSED_CODE);
@@ -101,12 +98,12 @@ public class Sharing extends Activity {
 				try {
 					body = new ParseJSON(new StringWriter()).writeJson(mt);
 				} catch (IOException e) {
-					Log.e(TAG, e.getMessage());
+					Log.e(TAG, "--> " + e.getMessage());
 				}
 				MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
 				
 				for (int j = 0; j < contacts.length; j++) {
-					Log.d("Dropbox", "Ho inviato la mail a " + contacts[j]);
+					Log.v("Dropbox", "--> " + "Ho inviato la mail a " + contacts[j]);
 					db.insertShare(FILE_ID, (String) contacts[j]);
 					new Sender(this, body, (String) contacts[j], MantleMessage.SHARING_PHOTO).execute();
 				}
@@ -114,23 +111,5 @@ public class Sharing extends Activity {
 			}
 			break;
 		}
-		
 	}
-	
-	
-	private void startFileUploadChooser() {
-		Intent intent = new Intent(this, FileChooser.class);
-	//	intent.putExtra("upload", true);
-		startActivityForResult(intent, UPLOAD_REQUEST_CODE);
-
-	}
-	/*
-	private void setID() {
-		SharedPreferences fileDetails = getSharedPreferences("file", MODE_PRIVATE);
-		Editor editor = fileDetails.edit();
-		editor.clear();
-		editor.putString("idFile", String.valueOf(FILE_ID));
-		editor.commit();
-		
-	}*/
 }

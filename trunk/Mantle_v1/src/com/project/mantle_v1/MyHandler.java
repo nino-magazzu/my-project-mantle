@@ -47,6 +47,8 @@ public class MyHandler extends Handler {
 		if (ITEMS.isEmpty())
 			addItem(new Notifica(	new Date(System.currentTimeMillis()).toString(),
 					"Benvenuto in Mantle", MantleMessage.SYSTEM));
+		else
+			Log.v(TAG, "Items size: " + ITEMS.size());
 
 	}
 
