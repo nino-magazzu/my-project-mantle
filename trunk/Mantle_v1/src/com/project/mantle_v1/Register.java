@@ -43,8 +43,8 @@ public class Register extends Activity {
 		nameEditText = (EditText) findViewById(R.id.nameEditText);
 		surnameEditText = (EditText) findViewById(R.id.surnameEditText);
 		emailEditText = (EditText) findViewById(R.id.emailEditText);
-		dropboxUserEditText = (EditText) findViewById(R.id.dropUsernameEditText);
-		dropboxPassEditText = (EditText) findViewById(R.id.dropboxPassEditText);
+		//dropboxUserEditText = (EditText) findViewById(R.id.dropUsernameEditText);
+		//dropboxPassEditText = (EditText) findViewById(R.id.dropboxPassEditText);
 		emailPassEditText = (EditText) findViewById(R.id.emailPassEditText);
 		forward = (Button) findViewById(R.id.forwardButton);
 
@@ -64,15 +64,15 @@ public class Register extends Activity {
 				String surname = surnameEditText.getText().toString();
 				String email = emailEditText.getText().toString();
 				String emailPass = emailPassEditText.getText().toString();
-				String dropboxUser = dropboxUserEditText.getText().toString();
-				String dropboxPass = dropboxPassEditText.getText().toString();
+				//String dropboxUser = dropboxUserEditText.getText().toString();
+				//String dropboxPass = dropboxPassEditText.getText().toString();
 
 				if (!name.equals("") && !surname.equals("")
-						&& !email.equals("") && !dropboxPass.equals("")
-						&& !dropboxUser.equals("")) {
+						&& !email.equals("") /*&& !dropboxPass.equals("")
+						&& !dropboxUser.equals("")*/) {
 					int id = (int) db.insertUser(email, username, name,
 							surname, password);
-					db.insertService("Dropbox", dropboxUser, dropboxPass);
+					//db.insertService("Dropbox", dropboxUser, dropboxPass);
 					db.insertService("Email", email, emailPass);
 					db.showAll();
 					

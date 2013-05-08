@@ -597,6 +597,16 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		return idTeam;
 	}
 
+	public String getDateFile(int idFile){
+		String[] columns = { "Date" };
+		String selection = "idFile = ?";
+		String[] selectionArgs = { String.valueOf(idFile)};
+		Cursor c = db.query("History", columns, selection, selectionArgs, null,
+				null, null);
+		c.moveToNext();
+		String date = c.getString(0);
+		return date; 
+	}
 	//Da l'idFile ricavo le email delle persone con cui ho condiviso il file
 	public String[] getEmailsFilesShared(int idFile){
 		
