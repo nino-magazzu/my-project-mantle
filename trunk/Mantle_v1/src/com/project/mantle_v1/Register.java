@@ -2,7 +2,6 @@ package com.project.mantle_v1;
 
 import java.io.File;
 import java.util.concurrent.ExecutionException;
-
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.dropbox.Uploader;
@@ -105,7 +104,7 @@ public class Register extends Activity {
 					up.execute();
 					
 					try {
-						int ID = up.get();
+						up.get();
 					} catch (InterruptedException e) {
 						Log.v("REGISTER", e.getMessage());
 						e.printStackTrace();

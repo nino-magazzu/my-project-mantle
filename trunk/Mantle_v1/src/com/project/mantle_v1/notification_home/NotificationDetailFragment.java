@@ -251,10 +251,10 @@ public class NotificationDetailFragment extends Fragment {
 				
 				MantleFile file = new MantleFile(getActivity(), idFile);
 				if(file.isImage()) {
-				ImageView iv = (ImageView) rootView
-						.findViewById(R.id.sharedImage);
-				iv.setImageBitmap(BitmapFactory.decodeFile(img
-						.getAbsolutePath()));
+					ImageView iv = (ImageView) rootView
+							.findViewById(R.id.sharedImage);
+					iv.setImageBitmap(BitmapFactory.decodeFile(img
+							.getAbsolutePath()));
 				}
 			}
 			/* ============== CONDIVISIONE DI UNA FOTO ======================= */
@@ -296,7 +296,6 @@ public class NotificationDetailFragment extends Fragment {
 				final long ID = db.insertFile(mFile.getFileName(),
 						mFile.getLinkFile(), mFile.getLinkComment(), "", mFile.getObjectType(), MantleFile.NOT_OWN_FILE);
 				int ID_User = db.getId(mFile.getSender_email());
-				//db.insertShare((int) ID, ID_User);
 				db.insertHistory((int) ID, ID_User, new Date(System.currentTimeMillis()).toString());
 				bComment.setOnClickListener(new OnClickListener() {
 

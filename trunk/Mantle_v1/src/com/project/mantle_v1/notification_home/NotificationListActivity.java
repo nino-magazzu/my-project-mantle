@@ -1,6 +1,7 @@
 package com.project.mantle_v1.notification_home;
 
 import com.project.mantle_v1.AddService;
+import com.project.mantle_v1.MyHandler;
 //import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.Team;
@@ -8,10 +9,12 @@ import com.project.mantle_v1.database.AddFriend;
 import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.dropbox.Sharing;
 import com.project.mantle_v1.fileNavigator.FileListActivity;
+import com.project.mantle_v1.gmail.ReaderTask;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
@@ -54,14 +57,26 @@ public class NotificationListActivity extends FragmentActivity implements
 	 */
 	private boolean mTwoPane;
 	private final String USER_DETAILS_PREF = "user";
+	private MyHandler handler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_notification_list);
 
-		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
-				0);
+		//NotificaAdapter notifyAdapter = new NotificaAdapter(getApplicationContext(),
+			//	R.layout.note_layout, MyHandler.ITEMS);
+
+		handler = new MyHandler(getApplicationContext());
+
+		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF, 0);
+
+		ReaderTask rt = new ReaderTask(handler, userDetails.getString("email",
+				" "), userDetails.getString("emailpswd", " "));
+
+		
+		if (!rt.isAlive())
+			rt.start();
 
 		setTitle("Salve " + userDetails.getString("username", " "));
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -80,12 +95,7 @@ public class NotificationListActivity extends FragmentActivity implements
 					.setActivateOnItemClick(true);
 
 		}
-		/*
-		 * if(((MyApplication) getApplicationContext()).getmApi() == null) {
-		 * DropboxAuth auth = new DropboxAuth(this.getApplicationContext());
-		 * ((MyApplication) getApplicationContext()).setmApi(auth.getAPI());
-		 * Log.d("Home", auth.getAPI().toString()); }
-		 */
+		
 		// TODO: If exposing deep links into your app, handle intents here.
 
 	}
