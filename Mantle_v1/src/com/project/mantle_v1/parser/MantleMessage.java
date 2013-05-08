@@ -1,28 +1,17 @@
 package com.project.mantle_v1.parser;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-
-import org.xml.sax.SAXException;
-
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
-
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.notification_home.Note;
 import com.project.mantle_v1.notification_home.Notifica;
-import com.project.mantle_v1.xml.WriterXml;
 
 /**
  * classe che si occupa di andare a creare il messaggio da inviare e della

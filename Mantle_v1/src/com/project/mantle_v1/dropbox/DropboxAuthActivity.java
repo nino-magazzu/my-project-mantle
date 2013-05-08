@@ -94,8 +94,8 @@ public class DropboxAuthActivity extends Activity{
 				
 				boolean isDownloaded = false;
 				
-				Downloader down = new Downloader(this, mApi, "/storedFile/", Environment
-							.getExternalStorageDirectory().getAbsoluteFile() + "/Mantle/db/Mantle");
+				Downloader down = new Downloader(this, mApi, "/storedFile/Mantle", Environment
+							.getExternalStorageDirectory().getAbsoluteFile() + "/Mantle/db/");
 				
 				down.execute();
 				

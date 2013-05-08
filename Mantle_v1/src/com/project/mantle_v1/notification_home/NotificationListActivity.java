@@ -1,20 +1,26 @@
 package com.project.mantle_v1.notification_home;
 
+import java.io.File;
+
 import com.project.mantle_v1.AddService;
 import com.project.mantle_v1.MyHandler;
-//import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.Team;
 import com.project.mantle_v1.database.AddFriend;
 import com.project.mantle_v1.database.FriendsList;
+import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.dropbox.Sharing;
+import com.project.mantle_v1.dropbox.Uploader;
 import com.project.mantle_v1.fileNavigator.FileListActivity;
 import com.project.mantle_v1.gmail.ReaderTask;
+
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
@@ -58,7 +64,9 @@ public class NotificationListActivity extends FragmentActivity implements
 	private boolean mTwoPane;
 	private final String USER_DETAILS_PREF = "user";
 	private MyHandler handler;
-
+	private Context mContext;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,7 +82,7 @@ public class NotificationListActivity extends FragmentActivity implements
 		ReaderTask rt = new ReaderTask(handler, userDetails.getString("email",
 				" "), userDetails.getString("emailpswd", " "));
 
-		
+		mContext = this;
 		if (!rt.isAlive())
 			rt.start();
 
@@ -155,7 +163,7 @@ public class NotificationListActivity extends FragmentActivity implements
 					}
 				});
 
-		menu.add("I tuoi file").setOnMenuItemClickListener(
+		menu.add("Files").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
@@ -168,6 +176,27 @@ public class NotificationListActivity extends FragmentActivity implements
 					}
 				});
 
+		menu.add("Sincronizza").setOnMenuItemClickListener(
+				new OnMenuItemClickListener() {
+					public boolean onMenuItemClick(MenuItem item) {
+						Toast.makeText(getApplicationContext(),
+								item.getTitle(), Toast.LENGTH_SHORT).show();
+						MioDatabaseHelper db = new MioDatabaseHelper(
+								getApplicationContext());
+
+						db.exportDB();
+						db.close();
+						DropboxAuth dropbox = new DropboxAuth(
+								getApplicationContext());
+
+						new Uploader(mContext, dropbox.getAPI(),
+								"/StoredFile/", new File(Environment
+										.getExternalStorageDirectory()
+										+ "/Mantle/db/Mantle")).execute();
+						return true;
+					}
+				});
+		
 		menu.add("Condividi").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
