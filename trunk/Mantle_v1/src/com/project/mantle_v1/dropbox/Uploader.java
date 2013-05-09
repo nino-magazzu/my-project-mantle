@@ -53,7 +53,6 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 	private long mFileLen;
 	private UploadRequest mRequest;
 	private Context mContext;
-	// private Context mContext2;
 	private final ProgressDialog mDialog;
 
 	private String mErrorMsg;
@@ -66,10 +65,6 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 			File file) {
 		// We set the context this way so we don't accidentally leak activities
 		mContext = context.getApplicationContext();
-		// mContext2 = context;
-
-		// this.username = username;
-
 		mFileLen = file.length();
 		mApi = api;
 		mPath = dropboxPath;
@@ -118,10 +113,15 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 
 			if (mRequest != null) {
 				Entry ent = mRequest.upload();
-
-				String shareAddress = getShareURL(shareLink.url).replaceFirst(
-						"https://www", "https://dl");
-				Log.d(TAG, "dropbox share link " + shareAddress);
+				
+				shareLink = mApi.share(ent.path);
+				
+				Log.v(TAG, "dropbox share link " + shareLink.url);
+				
+				String shareAddress = getShareURL(shareLink.url)
+						.replaceFirst("https://www", "https://dl");
+				
+				Log.v(TAG, "dropbox share link " + shareAddress);
 
 				// creazione del file
 				MantleFile file = new MantleFile(ent, shareAddress, username,
@@ -185,8 +185,8 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 				if (mRequest != null) {
 					ent = mRequest.upload();
 					shareLink = mApi.share(ent.path);
-					shareAddress = getShareURL(shareLink.url).replaceFirst(
-							"https://www", "https://dl");
+					shareAddress = getShareURL(shareLink.url)
+							.replaceFirst("https://www", "https://dl");
 					db.insertLinkComment((int) ID, shareAddress);
 					mFile.delete();
 				}
@@ -272,13 +272,14 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 			Log.v("Uploader", "Connection Opened");
 
 		} catch (MalformedURLException e) {
-			Log.d(TAG, "Please input a valid URL");
+			Log.d(TAG, "Please input a valid URL: " + e.getMessage());
 		} catch (IOException ioe) {
-			Log.d(TAG, "Can not connect to the URL");
+			Log.d(TAG, "Can not connect to the URL: "  + ioe.getMessage());
 		} catch (Exception e) {
 			Log.d(TAG, "Exception: " + e.getMessage());
 		}
-
+		Log.v(TAG, conn.getHeaderFields().keySet().toString());
+		Log.v(TAG, conn.getHeaderFields().values().toString());
 		return conn.getHeaderField("location");
 
 	}

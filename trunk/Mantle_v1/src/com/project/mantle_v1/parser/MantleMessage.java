@@ -36,7 +36,7 @@ public class MantleMessage {
 	private String sender_email;
 	private String message;
 	private Map<String, Integer> DECODE_MAP;
-	private String history;
+//	private String history;
 
 	private final int CODE_DIM = FRIENDSHIP_REQUEST.length();
 
@@ -83,7 +83,7 @@ public class MantleMessage {
 				message.length());
 		this.context = c;
 		this.sender_email = email;
-		this.history = historyFileName;
+	//	this.history = historyFileName;
 		DECODE_MAP = new HashMap<String, Integer>();
 
 		int i = 0;
