@@ -15,6 +15,7 @@ import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -34,7 +35,7 @@ public class Sharing extends Activity {
 	private DropboxAPI<AndroidAuthSession> mApi;
 	private int FILE_ID;
 	private final String TAG = this.getClass().getSimpleName();
-	
+	private Context mContext;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class Sharing extends Activity {
 		DropboxAuth auth = new DropboxAuth(this);
 		this.mApi = auth.getAPI();
 		startActivityForResult(new Intent(this, FileChooser.class), UPLOAD_REQUEST_CODE);
+		mContext = this;
 		
 	}
 	
@@ -63,14 +65,14 @@ public class Sharing extends Activity {
 				if (filePath.compareTo("null") == 0)
 					finish();
 				else {
-					Uploader upload = new Uploader(this, mApi, FILE_DIR, new File(filePath));
+					Uploader upload = new Uploader(Sharing.this, mApi, FILE_DIR, new File(filePath));
 					upload.execute();
 					try {
 						FILE_ID = upload.get();
 					} catch (InterruptedException e) {
-						Log.i(TAG, "Error authenticating", e);
+						Log.e(TAG, "Error authenticating: " + e.getMessage(), e);
 					} catch (ExecutionException e) {
-						Log.i(TAG, "Error authenticating", e);
+						Log.e(TAG, "Error authenticating: " + e.getMessage(), e);
 					}
 					Log.v(TAG, "--> iD File caricato: "+String.valueOf(FILE_ID));
 					Intent intent = new Intent(this, Priority.class);
