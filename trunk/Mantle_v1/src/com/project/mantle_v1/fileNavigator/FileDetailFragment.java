@@ -1,47 +1,35 @@
 package com.project.mantle_v1.fileNavigator;
 
 import java.io.File;
-
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.MenuItem.OnMenuItemClickListener;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
-//import com.project.mantle_v1.MyApplication;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.MioDatabaseHelper;
-import com.project.mantle_v1.notification_home.NoteActivity;
 import com.project.mantle_v1.notification_home.Notifica;
 import com.project.mantle_v1.notification_home.NotificationDetailFragment;
-import com.project.mantle_v1.notification_home.NotificationListActivity;
 
 /**
  * A fragment representing a single File detail screen. This fragment is either
  * contained in a {@link FileListActivity} in two-pane mode (on tablets) or a
  * {@link FileDetailActivity} on handsets.
  */
+
 public class FileDetailFragment extends Fragment {
 	/**
 	 * The fragment argument representing the item ID that this fragment
 	 * represents.
 	 */
 	public static final String ARG_ITEM_ID = "File_id";
-	private final String USER_DETAILS_PREF = "user";
+//	private final String USER_DETAILS_PREF = "user";
 
 	/**
 	 * The dummy content this fragment is presenting.
