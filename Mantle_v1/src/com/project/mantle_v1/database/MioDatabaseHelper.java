@@ -468,6 +468,36 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		return result;
 	}
 
+	public String[] getSharers(String idFile){
+		
+		String[] columns = {"idUser"};
+		String selection = "idFile=?";
+		String[] selectionArgs={idFile};
+		Cursor c = db.query("Share", columns, selection, selectionArgs, null, null, null);
+		
+		int i=c.getCount();
+		String[] idUser=new String[i];
+		String[] result = new String[i*2];
+		i=0;
+		
+		while(c.moveToNext()){
+			idUser[i]=c.getString(0);
+			i++;
+		}
+		
+		String[] columns2 = {"name","surname","username"};
+		selection = "idUser=?";
+		for(i=0;i<idUser.length;i=i+2){
+			String[] selectionArgs2={idUser[i]};
+			c= db.query("User", columns2, selection, selectionArgs2, null, null, null);
+			c.moveToNext();
+			result[i] = c.getString(0)+c.getString(1);
+			result[i+1] = c.getString(2);
+		}
+		
+		return result;
+	}
+	
 	public String[] getTeams() {
 		String[] columns = { "description" };
 		Cursor c = db.query("Team", columns, null, null, null, null, null);
@@ -597,6 +627,8 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		return idTeam;
 	}
 
+	
+	
 	public String getDateFile(int idFile){
 		String[] columns = { "Date" };
 		String selection = "idFile = ?";
