@@ -106,9 +106,6 @@ public class FileDetailFragment extends Fragment {
 
 		listView = (ListView) rootView.findViewById(R.id.listView1);
 		
-		//DAL DB PRELEVA I CONTATTI CON CUI HAI CONDIVISO IL FILE E SETTI LA LISTA
-		
-		
 		MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
 				.getApplicationContext());
 		

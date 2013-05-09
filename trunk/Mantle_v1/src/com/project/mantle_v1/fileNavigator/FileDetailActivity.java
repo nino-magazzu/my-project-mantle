@@ -127,19 +127,21 @@ public class FileDetailActivity extends FragmentActivity {
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
 						MantleFile file = MyHandler.FILE_MAP.get(getIntent().getStringExtra(FileDetailFragment.ARG_ITEM_ID));
-						//Questo rappresenta il file sulla sd 
+						 
 						File sd = new File(Environment.getExternalStorageDirectory()+"/Mantle/tmp");
 						File download = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-						
-						String currentFilePath = Environment.getExternalStorageDirectory().toString();
+						Log.d("FILE_DETAIL_ACTIVITY",Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString());
+						String currentFilePath =file.getFileName();
 						String backupFilePath = file.getFileName();
 						
-						File  backupDB= new File(download, currentFilePath);
-			            File currentDB  = new File(sd, backupFilePath);
-		
+			            File currentFile  = new File(sd, backupFilePath);
+			            Log.d("FILE_DETAIL_ACTIVITY", "1");
+			            File  backupFile= new File(download, currentFilePath);
+			            Log.d("FILE_DETAIL_ACTIVITY", "2");
+			            
 			            try {
-							FileChannel src = new FileInputStream(currentDB).getChannel();
-							FileChannel dst = new FileOutputStream(backupDB).getChannel();
+							FileChannel src = new FileInputStream(currentFile).getChannel();
+							FileChannel dst = new FileOutputStream(backupFile).getChannel();
 							dst.transferFrom(src, 0, src.size());
 				            src.close();
 				            dst.close();
