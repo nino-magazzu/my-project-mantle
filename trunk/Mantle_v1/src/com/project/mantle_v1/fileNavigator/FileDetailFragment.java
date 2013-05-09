@@ -1,6 +1,11 @@
 package com.project.mantle_v1.fileNavigator;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
@@ -36,6 +42,7 @@ public class FileDetailFragment extends Fragment {
 	 */
 	private MantleFile file;
 
+	private ListView listView;
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
@@ -91,16 +98,18 @@ public class FileDetailFragment extends Fragment {
 
 		TextView tw = (TextView) rootView.findViewById(R.id.linkText);
 		tw.setText(file.getFileName());
-		ListView listView = (ListView) rootView.findViewById(R.id.listView1);
+		listView = (ListView) rootView.findViewById(R.id.listView1);
 		
 		//DAL DB PRELEVA I CONTATTI CON CUI HAI CONDIVISO IL FILE E SETTI LA LISTA
+		
 		
 		MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
 				.getApplicationContext());
 		
+		String[] sharers = db.getSharers(file.getIdFile());
+		showSharers(sharers);
 		
-		
-		//Button bComment = (Button) rootView.findViewById(R.id.comment);
+				//Button bComment = (Button) rootView.findViewById(R.id.comment);
 		//final File comment = MantleFile.downloadFileFromUrl(
 		//		file.getLinkComment(), (String) file.getIdFile() + ".xml");
 
@@ -139,4 +148,18 @@ public class FileDetailFragment extends Fragment {
 		return rootView;
 	}
 	
+	public void showSharers (String[] sharers){
+		
+		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+		for (int j = 0; j < sharers.length; j = j + 2) {
+
+			Map<String, String> datum = new HashMap<String, String>(2);
+			datum.put("user", sharers[j]);
+			datum.put("email", sharers[j + 1]);
+			data.add(datum);
+		}
+		
+		SimpleAdapter adapter = new SimpleAdapter(getActivity(), data, android.R.layout.simple_list_item_2, new String[] { "name","username" }, new int[] { android.R.id.text1,android.R.id.text2 });
+		listView.setAdapter(adapter);
+	}
 }

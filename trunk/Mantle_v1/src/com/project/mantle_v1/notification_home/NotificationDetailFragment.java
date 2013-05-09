@@ -44,7 +44,7 @@ public class NotificationDetailFragment extends Fragment {
 	 * The fragment argument representing the item ID that this fragment
 	 * represents.
 	 */
-	public static final String ARG_ITEM_ID = "item_id";
+	public static final String ARG_ITEM_ID = "notifica_id";
 	private final String USER_DETAILS_PREF = "user";
 	/**
 	 * The dummy content this fragment is presenting.
