@@ -179,7 +179,7 @@ public class NotificationDetailFragment extends Fragment {
 				TextView tw = (TextView) rootView.findViewById(R.id.linkText);
 				tw.setText(mItem.getTitle());
 
-				Button bComment = (Button) rootView.findViewById(R.id.comment);
+				//Button bComment = (Button) rootView.findViewById(R.id.comment);
 
 				Log.e(TAG, mItem.getNote().getCommentLink());
 
@@ -195,7 +195,7 @@ public class NotificationDetailFragment extends Fragment {
 
 				Log.d(TAG, comment.getName());
 
-				Button bDownload = (Button) rootView
+/*				Button bDownload = (Button) rootView
 						.findViewById(R.id.download);
 				bDownload.setOnClickListener(new OnClickListener() {
 
@@ -223,7 +223,7 @@ public class NotificationDetailFragment extends Fragment {
 						getActivity().startActivity(myIntent);
 					}
 				});
-
+*/
 				WriterXml xml = new WriterXml();
 				try {
 					xml.addComment(mItem.getNote().getUser(), mItem.getData(),
@@ -267,7 +267,7 @@ public class NotificationDetailFragment extends Fragment {
 				TextView tw = (TextView) rootView.findViewById(R.id.linkText);
 				tw.setText(mItem.getTitle());
 
-				Button bDownload = (Button) rootView
+/*				Button bDownload = (Button) rootView
 						.findViewById(R.id.download);
 				bDownload.setOnClickListener(new OnClickListener() {
 
@@ -276,9 +276,9 @@ public class NotificationDetailFragment extends Fragment {
 						canceled = false;
 
 					}
-				});
+				});*/
 
-				Button bComment = (Button) rootView.findViewById(R.id.comment);
+				//Button bComment = (Button) rootView.findViewById(R.id.comment);
 
 				MantleFile mFile = mItem.getmFile();
 				
@@ -299,7 +299,7 @@ public class NotificationDetailFragment extends Fragment {
 						mFile.getLinkFile(), mFile.getLinkComment(), "", mFile.getObjectType(), MantleFile.NOT_OWN_FILE);
 				int ID_User = db.getId(mFile.getSender_email());
 				db.insertHistory((int) ID, ID_User, new Date(System.currentTimeMillis()).toString());
-				bComment.setOnClickListener(new OnClickListener() {
+				/*bComment.setOnClickListener(new OnClickListener() {
 
 					@Override
 					public void onClick(View v) {
@@ -316,7 +316,7 @@ public class NotificationDetailFragment extends Fragment {
 						myIntent.putExtra("bundle", bundle);
 						getActivity().startActivity(myIntent);
 					}
-				});
+				});*/
 			}
 		}
 		return rootView;

@@ -1,11 +1,22 @@
 package com.project.mantle_v1.fileNavigator;
 
+import java.io.File;
+
+import com.project.mantle_v1.MantleFile;
+import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
+import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.notification_home.NoteActivity;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
+import android.widget.Toast;
 
 /**
  * An activity representing a single File detail screen. This activity is only
@@ -17,11 +28,14 @@ import android.view.MenuItem;
  */
 public class FileDetailActivity extends FragmentActivity {
 
+	private final String USER_DETAILS_PREF = "user";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_file_detail);
 
+		
 		// Show the Up button in the action bar.
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -63,5 +77,51 @@ public class FileDetailActivity extends FragmentActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		menu.add("Commenti").setOnMenuItemClickListener(
+				new OnMenuItemClickListener() {
+					public boolean onMenuItemClick(MenuItem item) {
+						
+						MantleFile file = MyHandler.FILE_MAP.get(getIntent().getStringExtra(FileDetailFragment.ARG_ITEM_ID));						
+						final File comment = MantleFile.downloadFileFromUrl(
+								file.getLinkComment(), (String) file.getIdFile() + ".xml");
+						
+						Intent myIntent = new Intent(getApplicationContext(), NoteActivity.class);
+						Bundle bundle = new Bundle();
+						MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+						SharedPreferences userDetails = getApplicationContext()
+								.getSharedPreferences(USER_DETAILS_PREF, 0);
+						String username = userDetails.getString("username", " ");
+						bundle.putString("username", username);
+						bundle.putString("url", file.getLinkComment());
+						bundle.putString("email",
+								db.getEmailFromUrl(file.getLinkComment()));
+						bundle.putString("filePath", comment.getAbsolutePath());
+						myIntent.putExtra("bundle", bundle);
+						db.close();
+						getApplicationContext().startActivity(myIntent);
+						return true;
+					}
+				});
+		;
+		menu.add("Condividi").setOnMenuItemClickListener(
+				new OnMenuItemClickListener() {
+					public boolean onMenuItemClick(MenuItem item) {
+						return true;
+					}
+				});
+		;
+		menu.add("Download").setOnMenuItemClickListener(
+				new OnMenuItemClickListener() {
+					public boolean onMenuItemClick(MenuItem item) {
+						return true;
+					}
+				});
+		;
+	return true;
 	}
 }
