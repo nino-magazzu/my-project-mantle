@@ -36,8 +36,8 @@ public class MantleMessage {
 	private String sender_email;
 	private String message;
 	private Map<String, Integer> DECODE_MAP;
-	private String history; 
-	
+	private String history;
+
 	private final int CODE_DIM = FRIENDSHIP_REQUEST.length();
 
 	private Context context;
@@ -77,7 +77,8 @@ public class MantleMessage {
 
 	}
 
-	public MantleMessage(String message, Context c, String email, String historyFileName) {
+	public MantleMessage(String message, Context c, String email,
+			String historyFileName) {
 		this.message = message.substring(MantleMessage.MAGIC_NUMBER.length(),
 				message.length());
 		this.context = c;
@@ -118,25 +119,22 @@ public class MantleMessage {
 				Log.e(TAG, "Problema lettura: " + e.getMessage());
 
 			}
-	/*		WriterXml com = new WriterXml();
-			try {
-				com.addUserJson(user.getName(), user.getSurname(), user.getUsername(), user.getEmail(), user.getKey(), new File(Environment.getExternalStorageDirectory().toString() + "/Mantle/history", history));
-			} catch (ParserConfigurationException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (SAXException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (TransformerFactoryConfigurationError e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (TransformerException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}*/
+			/*
+			 * WriterXml com = new WriterXml(); try {
+			 * com.addUserJson(user.getName(), user.getSurname(),
+			 * user.getUsername(), user.getEmail(), user.getKey(), new
+			 * File(Environment.getExternalStorageDirectory().toString() +
+			 * "/Mantle/history", history)); } catch
+			 * (ParserConfigurationException e1) { // TODO Auto-generated catch
+			 * block e1.printStackTrace(); } catch (SAXException e1) { // TODO
+			 * Auto-generated catch block e1.printStackTrace(); } catch
+			 * (IOException e1) { // TODO Auto-generated catch block
+			 * e1.printStackTrace(); } catch
+			 * (TransformerFactoryConfigurationError e1) { // TODO
+			 * Auto-generated catch block e1.printStackTrace(); } catch
+			 * (TransformerException e1) { // TODO Auto-generated catch block
+			 * e1.printStackTrace(); }
+			 */
 			return new Notifica(
 					new Date(System.currentTimeMillis()).toString(), user,
 					FRIENDSHIP_REQUEST);

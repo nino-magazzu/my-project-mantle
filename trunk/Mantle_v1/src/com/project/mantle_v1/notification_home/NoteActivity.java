@@ -51,7 +51,7 @@ public class NoteActivity extends Activity {
 		this.cFile = null;
 
 		Log.v(TAG, idFile);
-		
+
 		if (filePath == null)
 			cFile = MantleFile.downloadFileFromUrl(url, idFile + ".xml");
 		else
@@ -70,11 +70,11 @@ public class NoteActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		notes = reader.getParsedData();
-	
+
 		cFile.delete();
-		
+
 		final NoteAdapter adapter = new NoteAdapter(getApplicationContext(),
 				R.layout.note_layout, notes);
 
@@ -118,7 +118,8 @@ public class NoteActivity extends Activity {
 
 					DropboxAuth auth = new DropboxAuth(getApplicationContext());
 					MantleFile.uploadFile(cFile, auth.getAPI());
-					MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+					MioDatabaseHelper db = new MioDatabaseHelper(
+							getApplicationContext());
 
 					ParseJSON parser = new ParseJSON(new StringWriter());
 					Note note = new Note(username, comment, new Date(System
@@ -129,11 +130,12 @@ public class NoteActivity extends Activity {
 						Log.e(TAG, ex.getMessage());
 
 					}
-					
-					String[] emails = db.getEmailsFilesShared(Integer.parseInt(idFile));
-					for(int i = 0; i < emails.length; i++) {
-						new Sender(NoteActivity.this, parser.toString(), emails[i],
-								MantleMessage.NOTE).execute();
+
+					String[] emails = db.getEmailsFilesShared(Integer
+							.parseInt(idFile));
+					for (int i = 0; i < emails.length; i++) {
+						new Sender(NoteActivity.this, parser.toString(),
+								emails[i], MantleMessage.NOTE).execute();
 
 					}
 

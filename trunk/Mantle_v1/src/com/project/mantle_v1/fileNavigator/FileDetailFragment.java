@@ -36,7 +36,7 @@ public class FileDetailFragment extends Fragment {
 	 * represents.
 	 */
 	public static final String ARG_ITEM_ID = "File_id";
-//	private final String USER_DETAILS_PREF = "user";
+	// private final String USER_DETAILS_PREF = "user";
 
 	/**
 	 * The dummy content this fragment is presenting.
@@ -44,6 +44,7 @@ public class FileDetailFragment extends Fragment {
 	private MantleFile file;
 
 	private ListView listView;
+
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
@@ -63,30 +64,32 @@ public class FileDetailFragment extends Fragment {
 					.get(getArguments().getString(ARG_ITEM_ID));
 			getArguments().clear();
 		}
-		
-		else if(getArguments().containsKey(NotificationDetailFragment.ARG_ITEM_ID)) {
-			Notifica notifica = MyHandler.NOTIFICA_MAP
-					.get(getArguments().getString(NotificationDetailFragment.ARG_ITEM_ID));
-			
-			if(notifica.getNote() == null) {
-				
+
+		else if (getArguments().containsKey(
+				NotificationDetailFragment.ARG_ITEM_ID)) {
+			Notifica notifica = MyHandler.NOTIFICA_MAP.get(getArguments()
+					.getString(NotificationDetailFragment.ARG_ITEM_ID));
+
+			if (notifica.getNote() == null) {
+
 				Log.v("FILE DETAIL", "SHARING PHOTO");
 				file = notifica.getmFile();
 			}
-			
+
 			else {
 				Log.v("FILE DETAIL", "NOTE");
-				MioDatabaseHelper db = new MioDatabaseHelper(
-						getActivity().getApplicationContext());
-				
+				MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
+						.getApplicationContext());
+
 				String fileUrl = db.getLinkfromLinkComment(notifica.getNote()
 						.getCommentLink());
-				
+
 				final String idFile = String.valueOf(db.getIdFile(fileUrl));
-				
-				file = new MantleFile(getActivity().getApplicationContext(), idFile);
+
+				file = new MantleFile(getActivity().getApplicationContext(),
+						idFile);
 			}
-			
+
 		}
 	}
 
@@ -101,48 +104,40 @@ public class FileDetailFragment extends Fragment {
 				container, false);
 
 		TextView tw = (TextView) rootView.findViewById(R.id.linkText);
-		
+
 		tw.setText(file.getFileName());
 
 		listView = (ListView) rootView.findViewById(R.id.listView1);
-		
+
 		MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
 				.getApplicationContext());
-		
+
 		String[] sharers = db.getSharers(file.getIdFile());
 		showSharers(sharers);
-		
-				//Button bComment = (Button) rootView.findViewById(R.id.comment);
-		//final File comment = MantleFile.downloadFileFromUrl(
-		//		file.getLinkComment(), (String) file.getIdFile() + ".xml");
 
-		/*		
-		
-		bComment.setOnClickListener(new OnClickListener() {
+		// Button bComment = (Button) rootView.findViewById(R.id.comment);
+		// final File comment = MantleFile.downloadFileFromUrl(
+		// file.getLinkComment(), (String) file.getIdFile() + ".xml");
 
-			@Override
-			public void onClick(View v) {
-				Intent myIntent = new Intent(getActivity(), NoteActivity.class);
-				Bundle bundle = new Bundle();
-				MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
-						.getApplicationContext());
-				SharedPreferences userDetails = getActivity()
-						.getSharedPreferences(USER_DETAILS_PREF, 0);
-				String username = userDetails.getString("username", " ");
-				bundle.putString("username", username);
-				bundle.putString("url", file.getLinkComment());
-				bundle.putString("email",
-						db.getEmailFromUrl(file.getLinkComment()));
-				bundle.putString("filePath", comment.getAbsolutePath());
-				bundle.putString("idFile", file.getIdFile());
-				myIntent.putExtra("bundle", bundle);
-				db.close();
-				getActivity().startActivity(myIntent);
-			}
-		});
-		
-		*/
-		if(file.isImage()) {
+		/*
+		 * 
+		 * bComment.setOnClickListener(new OnClickListener() {
+		 * 
+		 * @Override public void onClick(View v) { Intent myIntent = new
+		 * Intent(getActivity(), NoteActivity.class); Bundle bundle = new
+		 * Bundle(); MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
+		 * .getApplicationContext()); SharedPreferences userDetails =
+		 * getActivity() .getSharedPreferences(USER_DETAILS_PREF, 0); String
+		 * username = userDetails.getString("username", " ");
+		 * bundle.putString("username", username); bundle.putString("url",
+		 * file.getLinkComment()); bundle.putString("email",
+		 * db.getEmailFromUrl(file.getLinkComment()));
+		 * bundle.putString("filePath", comment.getAbsolutePath());
+		 * bundle.putString("idFile", file.getIdFile());
+		 * myIntent.putExtra("bundle", bundle); db.close();
+		 * getActivity().startActivity(myIntent); } });
+		 */
+		if (file.isImage()) {
 			File img = MantleFile.downloadFileFromUrl(file.getLinkFile(),
 					file.getFileName());
 			ImageView iv = (ImageView) rootView.findViewById(R.id.sharedImage);
@@ -150,9 +145,9 @@ public class FileDetailFragment extends Fragment {
 		}
 		return rootView;
 	}
-	
-	public void showSharers (String[] sharers){
-		
+
+	public void showSharers(String[] sharers) {
+
 		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 		for (int j = 0; j < sharers.length; j = j + 2) {
 
@@ -161,8 +156,11 @@ public class FileDetailFragment extends Fragment {
 			datum.put("email", sharers[j + 1]);
 			data.add(datum);
 		}
-		
-		SimpleAdapter adapter = new SimpleAdapter(getActivity(), data, android.R.layout.simple_list_item_2, new String[] { "name","username" }, new int[] { android.R.id.text1,android.R.id.text2 });
+
+		SimpleAdapter adapter = new SimpleAdapter(getActivity(), data,
+				android.R.layout.simple_list_item_2, new String[] { "name",
+						"username" }, new int[] { android.R.id.text1,
+						android.R.id.text2 });
 		listView.setAdapter(adapter);
 	}
 }

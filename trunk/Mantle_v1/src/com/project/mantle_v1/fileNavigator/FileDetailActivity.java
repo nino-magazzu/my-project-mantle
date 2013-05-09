@@ -37,13 +37,12 @@ import android.widget.Toast;
 public class FileDetailActivity extends FragmentActivity {
 
 	private final String USER_DETAILS_PREF = "user";
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_file_detail);
 
-		
 		// Show the Up button in the action bar.
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -86,24 +85,30 @@ public class FileDetailActivity extends FragmentActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		menu.add("Commenti").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
-						
-						MantleFile file = MyHandler.FILE_MAP.get(getIntent().getStringExtra(FileDetailFragment.ARG_ITEM_ID));						
+
+						MantleFile file = MyHandler.FILE_MAP
+								.get(getIntent().getStringExtra(
+										FileDetailFragment.ARG_ITEM_ID));
 						final File comment = MantleFile.downloadFileFromUrl(
-								file.getLinkComment(), (String) file.getIdFile() + ".xml");
-						
-						Intent myIntent = new Intent(getApplicationContext(), NoteActivity.class);
+								file.getLinkComment(),
+								(String) file.getIdFile() + ".xml");
+
+						Intent myIntent = new Intent(getApplicationContext(),
+								NoteActivity.class);
 						Bundle bundle = new Bundle();
-						MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+						MioDatabaseHelper db = new MioDatabaseHelper(
+								getApplicationContext());
 						SharedPreferences userDetails = getApplicationContext()
 								.getSharedPreferences(USER_DETAILS_PREF, 0);
-						String username = userDetails.getString("username", " ");
+						String username = userDetails
+								.getString("username", " ");
 						bundle.putString("username", username);
 						bundle.putString("url", file.getLinkComment());
 						bundle.putString("email",
@@ -126,33 +131,42 @@ public class FileDetailActivity extends FragmentActivity {
 		menu.add("Download").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
-						MantleFile file = MyHandler.FILE_MAP.get(getIntent().getStringExtra(FileDetailFragment.ARG_ITEM_ID));
-						 
-						File sd = new File(Environment.getExternalStorageDirectory()+"/Mantle/tmp");
-						File download = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-						Log.d("FILE_DETAIL_ACTIVITY",Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString());
-						String currentFilePath =file.getFileName();
+						MantleFile file = MyHandler.FILE_MAP
+								.get(getIntent().getStringExtra(
+										FileDetailFragment.ARG_ITEM_ID));
+
+						File sd = new File(Environment
+								.getExternalStorageDirectory() + "/Mantle/tmp");
+						File download = Environment
+								.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+						Log.d("FILE_DETAIL_ACTIVITY",
+								Environment.getExternalStoragePublicDirectory(
+										Environment.DIRECTORY_DOWNLOADS)
+										.toString());
+						String currentFilePath = file.getFileName();
 						String backupFilePath = file.getFileName();
-						
-			            File currentFile  = new File(sd, backupFilePath);
-			            Log.d("FILE_DETAIL_ACTIVITY", "1");
-			            File  backupFile= new File(download, currentFilePath);
-			            Log.d("FILE_DETAIL_ACTIVITY", "2");
-			            
-			            try {
-							FileChannel src = new FileInputStream(currentFile).getChannel();
-							FileChannel dst = new FileOutputStream(backupFile).getChannel();
+
+						File currentFile = new File(sd, backupFilePath);
+						Log.d("FILE_DETAIL_ACTIVITY", "1");
+						File backupFile = new File(download, currentFilePath);
+						Log.d("FILE_DETAIL_ACTIVITY", "2");
+
+						try {
+							FileChannel src = new FileInputStream(currentFile)
+									.getChannel();
+							FileChannel dst = new FileOutputStream(backupFile)
+									.getChannel();
 							dst.transferFrom(src, 0, src.size());
-				            src.close();
-				            dst.close();
-				               
-			            } catch (Exception e) {
-			               	Log.w("FILE_DETAIL_ACTIVITY","Execption : " + e);
-			            }
+							src.close();
+							dst.close();
+
+						} catch (Exception e) {
+							Log.w("FILE_DETAIL_ACTIVITY", "Execption : " + e);
+						}
 						return true;
 					}
 				});
 		;
-	return true;
+		return true;
 	}
 }

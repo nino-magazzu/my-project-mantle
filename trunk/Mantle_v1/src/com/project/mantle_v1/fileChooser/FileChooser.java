@@ -28,31 +28,26 @@ public class FileChooser extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		TAG = this.getClass().getSimpleName();
-		//Intent intent = getIntent();
+		// Intent intent = getIntent();
 
-	//	if (intent.getBooleanExtra("upload", false)) {
-			currentDir = new File(STARTING_DIR);
-			fill(currentDir);
-		} 
-		/*else {
-			Object[] dropboxFiles = (Object[]) intent
-					.getSerializableExtra("File");
-			Descriptor[] files = getList(dropboxFiles);
-			fill(files);
-		}*/
-	//}
-/*
-	public Descriptor[] getList(Object[] objs) {
-		Descriptor[] files = new Descriptor[objs.length];
-		int i = 0;
-		for (Object obj : objs) {
-			Descriptor file = (Descriptor) obj;
-			files[i++] = file;
-		}
-
-		return files;
+		// if (intent.getBooleanExtra("upload", false)) {
+		currentDir = new File(STARTING_DIR);
+		fill(currentDir);
 	}
-*/
+
+	/*
+	 * else { Object[] dropboxFiles = (Object[]) intent
+	 * .getSerializableExtra("File"); Descriptor[] files =
+	 * getList(dropboxFiles); fill(files); }
+	 */
+	// }
+	/*
+	 * public Descriptor[] getList(Object[] objs) { Descriptor[] files = new
+	 * Descriptor[objs.length]; int i = 0; for (Object obj : objs) { Descriptor
+	 * file = (Descriptor) obj; files[i++] = file; }
+	 * 
+	 * return files; }
+	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		super.onKeyDown(keyCode, event);
@@ -91,10 +86,12 @@ public class FileChooser extends ListActivity {
 		try {
 			for (File ff : dirs) {
 				if (ff.isDirectory())
-					dir.add(new Option(ff.getName(),"Folder",ff.getAbsolutePath()));
+					dir.add(new Option(ff.getName(), "Folder", ff
+							.getAbsolutePath()));
 				else
-					fls.add(new Option(ff.getName(),"File Size: "+ff.length(),ff.getAbsolutePath()));
-					
+					fls.add(new Option(ff.getName(), "File Size: "
+							+ ff.length(), ff.getAbsolutePath()));
+
 			}
 		} catch (Exception e) {
 
@@ -105,52 +102,34 @@ public class FileChooser extends ListActivity {
 		dir.addAll(fls);
 
 		if (!f.getName().equalsIgnoreCase("sdcard"))
-			dir.add(0,new Option("..","Parent Directory",f.getParent()));
+			dir.add(0, new Option("..", "Parent Directory", f.getParent()));
 		adapter = new FileArrayAdapter(FileChooser.this, R.layout.file_view,
 				dir);
 		this.setListAdapter(adapter);
 	}
 
 	/*
-	private void fill(Descriptor[] dirs) {
-		boolean home = true;
-		this.setTitle("Current Dir: Home");
-		List<Option> dir = new ArrayList<Option>();
-		List<Option> fls = new ArrayList<Option>();
-		try {
-			for (Descriptor ff : dirs) {
-				if (ff.isDirectory())
-					dir.add(new Option(ff.getName(), "folder", ff
-							.getAbsolutePath(), Option.DESCRIPTOR, ff
-							.listFiles()));
-				else
-					fls.add(new Option(ff.getName(), "File Size "
-							+ ff.getLenght(), ff.getAbsolutePath(),
-							Option.DESCRIPTOR, ff.listFiles()));
-			}
-		} catch (Exception e) {
-			Log.d(TAG, e.getMessage());
-		}
-		Collections.sort(dir);
-		Collections.sort(fls);
-
-		dir.addAll(fls);
-
-		for (int i = 0; i < dirs.length; i++) {
-			if (!dirs[i].getName().equalsIgnoreCase("storedFile"))
-				home = false;
-		}
-
-		if (!home)
-			dir.add(0,
-					new Option("..", "Parent Directory", dirs[0].getParent(),
-							Option.DESCRIPTOR, dirs[0].listFiles()));
-
-		adapter = new FileArrayAdapter(FileChooser.this, R.layout.file_view,
-				dir);
-		this.setListAdapter(adapter);
-	}
-*/
+	 * private void fill(Descriptor[] dirs) { boolean home = true;
+	 * this.setTitle("Current Dir: Home"); List<Option> dir = new
+	 * ArrayList<Option>(); List<Option> fls = new ArrayList<Option>(); try {
+	 * for (Descriptor ff : dirs) { if (ff.isDirectory()) dir.add(new
+	 * Option(ff.getName(), "folder", ff .getAbsolutePath(), Option.DESCRIPTOR,
+	 * ff .listFiles())); else fls.add(new Option(ff.getName(), "File Size " +
+	 * ff.getLenght(), ff.getAbsolutePath(), Option.DESCRIPTOR,
+	 * ff.listFiles())); } } catch (Exception e) { Log.d(TAG, e.getMessage()); }
+	 * Collections.sort(dir); Collections.sort(fls);
+	 * 
+	 * dir.addAll(fls);
+	 * 
+	 * for (int i = 0; i < dirs.length; i++) { if
+	 * (!dirs[i].getName().equalsIgnoreCase("storedFile")) home = false; }
+	 * 
+	 * if (!home) dir.add(0, new Option("..", "Parent Directory",
+	 * dirs[0].getParent(), Option.DESCRIPTOR, dirs[0].listFiles()));
+	 * 
+	 * adapter = new FileArrayAdapter(FileChooser.this, R.layout.file_view,
+	 * dir); this.setListAdapter(adapter); }
+	 */
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		// TODO Auto-generated method stub
@@ -159,13 +138,13 @@ public class FileChooser extends ListActivity {
 
 		if (o.getData().equalsIgnoreCase("folder")
 				|| o.getData().equalsIgnoreCase("parent directory")) {
-		//	if (o.isFile()) {
-				currentDir = new File(o.getPath());
-				fill(currentDir);
-	//		} 
-			/*else {
-				fill(o.listFile());
-			}*/
+			// if (o.isFile()) {
+			currentDir = new File(o.getPath());
+			fill(currentDir);
+			// }
+			/*
+			 * else { fill(o.listFile()); }
+			 */
 		} else {
 			selectedFilePath = onFileClick(o);
 

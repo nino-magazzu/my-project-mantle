@@ -37,7 +37,7 @@ public class WriterXml {
 			throws ParserConfigurationException, SAXException, IOException,
 			TransformerFactoryConfigurationError, TransformerException {
 
-		//path = Environment.getExternalStorageDirectory().toString() + "/";
+		// path = Environment.getExternalStorageDirectory().toString() + "/";
 		f = new File(path, filename);
 		fw = null;
 		bw = null;
@@ -111,7 +111,8 @@ public class WriterXml {
 		transformer.transform(new DOMSource(doc), result);
 
 		// create XML file
-		String path = Environment.getExternalStorageDirectory().toString() + "/";
+		String path = Environment.getExternalStorageDirectory().toString()
+				+ "/";
 		createXml(writer.toString(), filename, path);
 	}
 
@@ -148,7 +149,8 @@ public class WriterXml {
 		transformer.transform(new DOMSource(doc), result);
 
 		// create XML file
-		String path = Environment.getExternalStorageDirectory().toString() + "/";
+		String path = Environment.getExternalStorageDirectory().toString()
+				+ "/";
 		createXml(writer.toString(), f.getName(), path);
 
 	}
@@ -203,7 +205,8 @@ public class WriterXml {
 		transformer.transform(new DOMSource(doc), result);
 
 		// create XML file
-		String path = Environment.getExternalStorageDirectory().toString() + "/Mantle/history";
+		String path = Environment.getExternalStorageDirectory().toString()
+				+ "/Mantle/history";
 		createXml(writer.toString(), f.getName(), path);
 
 	}
@@ -279,7 +282,8 @@ public class WriterXml {
 		transformer.transform(new DOMSource(doc), result);
 
 		// create XML file
-		String path = Environment.getExternalStorageDirectory().toString() + "/Mantle/history";
+		String path = Environment.getExternalStorageDirectory().toString()
+				+ "/Mantle/history";
 		createXml(writer.toString(), f.getName(), path);
 
 	}
@@ -333,7 +337,8 @@ public class WriterXml {
 		transformer.transform(new DOMSource(doc), result);
 
 		// create XML file
-		String path = Environment.getExternalStorageDirectory().toString() + "/Mantle/history";
+		String path = Environment.getExternalStorageDirectory().toString()
+				+ "/Mantle/history";
 		createXml(writer.toString(), f.getName(), path);
 
 	}
@@ -383,7 +388,8 @@ public class WriterXml {
 		transformer.transform(new DOMSource(doc), result);
 
 		// create XML file
-		String path = Environment.getExternalStorageDirectory().toString() + "/Mantle/history";
+		String path = Environment.getExternalStorageDirectory().toString()
+				+ "/Mantle/history";
 		createXml(writer.toString(), f.getName(), path);
 
 	}
@@ -425,7 +431,8 @@ public class WriterXml {
 		transformer.transform(new DOMSource(doc), result);
 
 		// create XML file
-		String path = Environment.getExternalStorageDirectory().toString() + "/Mantle/history";
+		String path = Environment.getExternalStorageDirectory().toString()
+				+ "/Mantle/history";
 		createXml(writer.toString(), f.getName(), path);
 
 	}

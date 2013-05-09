@@ -26,8 +26,8 @@ public class Register extends Activity {
 	private EditText surnameEditText;
 	private EditText emailEditText;
 	private EditText emailPassEditText;
-	//private EditText dropboxUserEditText;
-	//private EditText dropboxPassEditText;
+	// private EditText dropboxUserEditText;
+	// private EditText dropboxPassEditText;
 	private String username;
 	private String password;
 	private Context mContext;
@@ -42,8 +42,10 @@ public class Register extends Activity {
 		nameEditText = (EditText) findViewById(R.id.nameEditText);
 		surnameEditText = (EditText) findViewById(R.id.surnameEditText);
 		emailEditText = (EditText) findViewById(R.id.emailEditText);
-		//dropboxUserEditText = (EditText) findViewById(R.id.dropUsernameEditText);
-		//dropboxPassEditText = (EditText) findViewById(R.id.dropboxPassEditText);
+		// dropboxUserEditText = (EditText)
+		// findViewById(R.id.dropUsernameEditText);
+		// dropboxPassEditText = (EditText)
+		// findViewById(R.id.dropboxPassEditText);
 		emailPassEditText = (EditText) findViewById(R.id.emailPassEditText);
 		forward = (Button) findViewById(R.id.forwardButton);
 
@@ -57,7 +59,7 @@ public class Register extends Activity {
 		Log.d("REGISTER", password);
 
 		mContext = this;
-		
+
 		forward.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
@@ -65,50 +67,53 @@ public class Register extends Activity {
 				String surname = surnameEditText.getText().toString();
 				String email = emailEditText.getText().toString();
 				String emailPass = emailPassEditText.getText().toString();
-				//String dropboxUser = dropboxUserEditText.getText().toString();
-				//String dropboxPass = dropboxPassEditText.getText().toString();
+				// String dropboxUser =
+				// dropboxUserEditText.getText().toString();
+				// String dropboxPass =
+				// dropboxPassEditText.getText().toString();
 
 				if (!name.equals("") && !surname.equals("")
-						&& !email.equals("") /*&& !dropboxPass.equals("")
-						&& !dropboxUser.equals("")*/) {
+						&& !email.equals("") /*
+											 * && !dropboxPass.equals("") &&
+											 * !dropboxUser.equals("")
+											 */) {
 					int id = (int) db.insertUser(email, username, name,
 							surname, password);
-					//db.insertService("Dropbox", dropboxUser, dropboxPass);
+					// db.insertService("Dropbox", dropboxUser, dropboxPass);
 					db.insertService("Email", email, emailPass);
-					
-					//****************//
-					
-					db.insertService("mantle", username, password);
-					
-					//****************//
-					
-					db.showAll();
-					
-					
-					File dir = new File(Environment.getExternalStorageDirectory() + "/Mantle/history");
-					
-					if(!dir.exists())
-						dir.mkdirs();
-					
-					dir = new File(Environment.getExternalStorageDirectory() + "/Mantle/tmp");
-					
-					if(!dir.exists())
-						dir.mkdirs();
-					
-					
-					setPreferences(email, emailPass, id);
 
-			//		MyHandler handler = new MyHandler(getApplicationContext());
-				//	new ReaderTask(handler, email, emailPass).start();
-					
+					// ****************//
+
+					db.insertService("mantle", username, password);
+
+					// ****************//
+
+					db.showAll();
+
+					File dir = new File(Environment
+							.getExternalStorageDirectory() + "/Mantle/history");
+
+					if (!dir.exists())
+						dir.mkdirs();
+
+					dir = new File(Environment.getExternalStorageDirectory()
+							+ "/Mantle/tmp");
+
+					if (!dir.exists())
+						dir.mkdirs();
+
+					setPreferences(email, emailPass, id);
 					db.exportDB();
-					
-					DropboxAuth dropbox = new DropboxAuth(getApplicationContext());
-					
-					
-					Uploader up = new Uploader(mContext, dropbox.getAPI(), "/StoredFile/", new File(Environment.getExternalStorageDirectory() + "/Mantle/db/Mantle"));
+
+					DropboxAuth dropbox = new DropboxAuth(
+							getApplicationContext());
+
+					Uploader up = new Uploader(mContext, dropbox.getAPI(),
+							"/StoredFile/", new File(Environment
+									.getExternalStorageDirectory()
+									+ "/Mantle/db/Mantle"));
 					up.execute();
-					
+
 					try {
 						up.get();
 					} catch (InterruptedException e) {
@@ -118,9 +123,9 @@ public class Register extends Activity {
 						Log.v("REGISTER", e.getMessage());
 						e.printStackTrace();
 					}
-					
+
 					db.close();
-					
+
 					Intent intent = new Intent(Register.this,
 							NotificationListActivity.class);
 					startActivity(intent);
@@ -143,11 +148,8 @@ public class Register extends Activity {
 		edit.clear();
 		edit.putString("username", username);
 		edit.putString("email", email);
-		// MioDatabaseHelper db = new
-		// MioDatabaseHelper(getApplicationContext());
 		edit.putString("emailpswd", emailpswd);
 		edit.putInt("idUser", id);
 		edit.commit();
-		// db.close();
 	}
 }

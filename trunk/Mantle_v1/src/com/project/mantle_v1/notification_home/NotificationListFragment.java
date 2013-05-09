@@ -21,7 +21,7 @@ import com.project.mantle_v1.R;
 public class NotificationListFragment extends ListFragment {
 
 	private MyHandler handler;
-	//private final String USER_DETAILS_PREF = "user";
+	// private final String USER_DETAILS_PREF = "user";
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -77,17 +77,17 @@ public class NotificationListFragment extends ListFragment {
 				R.layout.note_layout, MyHandler.ITEMS);
 
 		handler = new MyHandler(getActivity().getApplicationContext());
-/*
-		SharedPreferences userDetails = getActivity().getApplicationContext()
-				.getSharedPreferences(USER_DETAILS_PREF, 0);
-
-		ReaderTask rt = new ReaderTask(handler, userDetails.getString("email",
-				" "), userDetails.getString("emailpswd", " "));
-
-		
-		if (!rt.isAlive())
-			rt.start();
-*/
+		/*
+		 * SharedPreferences userDetails = getActivity().getApplicationContext()
+		 * .getSharedPreferences(USER_DETAILS_PREF, 0);
+		 * 
+		 * ReaderTask rt = new ReaderTask(handler,
+		 * userDetails.getString("email", " "),
+		 * userDetails.getString("emailpswd", " "));
+		 * 
+		 * 
+		 * if (!rt.isAlive()) rt.start();
+		 */
 		setListAdapter(notifyAdapter);
 
 		sendAdapter(notifyAdapter);

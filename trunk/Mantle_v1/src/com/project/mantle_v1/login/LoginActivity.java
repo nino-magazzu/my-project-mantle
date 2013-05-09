@@ -32,7 +32,7 @@ public class LoginActivity extends Activity {
 	/**
 	 * The default Username to populate the Username field with.
 	 */
-	public static final String EXTRA_NAME = "Insert username";
+
 	private final String USER_DETAILS_PREF = "user";
 
 	// Values for Username and password at the time of the login attempt.
@@ -55,7 +55,6 @@ public class LoginActivity extends Activity {
 		db = new MioDatabaseHelper(this);
 
 		// Set up the login form.
-		mUsername = getIntent().getStringExtra(EXTRA_NAME);
 		mUsernameView = (EditText) findViewById(R.id.username);
 		mUsernameView.setText(mUsername);
 
@@ -138,12 +137,6 @@ public class LoginActivity extends Activity {
 			// perform the user login attempt.
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
-			// Ho commentato la riga di sopra perche noi non dobbiamo perdere
-			// tempo ad effettuare il
-			// login ma possiamo lanciare direttamente l'activity
-			// seguente(home,registrazione)
-
-			// ////////////
 
 			// db.deleteAll();
 			db.showAll();
@@ -157,21 +150,28 @@ public class LoginActivity extends Activity {
 					+ mPassword);
 			// /////////////
 
+			/*
+			 * Non è presente alcun account all'interno del db. Si procede con
+			 * l'autenticazione con dropbox per scaricare l'eventuale db
+			 * presente sull'account
+			 */
+
 			if (res[0].equals(" ")) {
 				// /////////////
 				Log.d("LOGIN", "l'utente non è registrato");
 				// /////////////
 
-				// Inserisco i dati username e password come nuovo db e
-				// avvio il form per la registrazione
-			//	db.insertService("mantle", mUsername, mPassword);
-				
-				//Intent intent = new Intent(LoginActivity.this, Register.class);
-				Intent intent = new Intent(LoginActivity.this, DropboxAuthActivity.class);
+				Intent intent = new Intent(LoginActivity.this,
+						DropboxAuthActivity.class);
 				intent.putExtra("username", mUsername);
 				intent.putExtra("password", mPassword);
 				startActivity(intent);
 			}
+
+			/*
+			 * Login avvenuto con successo. Si procede avviando la home del
+			 * programma
+			 */
 
 			else if (res[0].equals(mUsername) && res[1].equals(mPassword)) {
 				// /////////////
@@ -180,18 +180,15 @@ public class LoginActivity extends Activity {
 
 				setPreferences();
 
-//				MyHandler handler = new MyHandler(getApplicationContext());
-//				new ReaderTask(handler, getEmail(), getPswdEmail()).start();
-
-//				NotificaAdapter adapter = new NotificaAdapter(getApplicationContext(),
-//						R.layout.note_layout, MyHandler.ITEMS);
-
-//				sendAdapter(adapter, handler);
-				
 				Intent intent = new Intent(LoginActivity.this,
-						NotificationListActivity.class);// Home.class);
+						NotificationListActivity.class);
 				startActivity(intent);
 			}
+
+			/*
+			 * L'username inserito è errato. Si richiede di inserire l'username
+			 * corretto
+			 */
 
 			else if ((!res[0].equals(mUsername)) && (!res[0].equals(" "))) {
 				// /////////////
@@ -203,6 +200,11 @@ public class LoginActivity extends Activity {
 
 			}
 
+			/*
+			 * La password inserita è errata.. Si richiede di inserire quella
+			 * corretta
+			 */
+
 			else if (!res[1].equals(mPassword) && (!res[1].equals(" "))) {
 				// /////////////
 				Log.d("LOGIN ", "le stringe sono diverse");
@@ -211,10 +213,6 @@ public class LoginActivity extends Activity {
 				mPasswordView.setError("password errata");
 				mPasswordView.setText("");
 			}
-			// /////////////
-			// android.os.SystemClock.sleep(3000);
-			// showProgress(false);
-
 			// /////////////
 
 		}
@@ -235,19 +233,7 @@ public class LoginActivity extends Activity {
 		edit.commit();
 		db.close();
 	}
-/*
-	private String getEmail() {
-		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
-				0);
-		return userDetails.getString("email", " ");
-	}
 
-	private String getPswdEmail() {
-		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
-				0);
-		return userDetails.getString("emailpswd", " ");
-	}
-*/
 	/**
 	 * Shows the progress UI and hides the login form.
 	 */

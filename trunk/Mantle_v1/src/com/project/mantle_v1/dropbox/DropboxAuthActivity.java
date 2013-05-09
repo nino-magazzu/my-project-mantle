@@ -23,24 +23,24 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
-public class DropboxAuthActivity extends Activity{
+public class DropboxAuthActivity extends Activity {
 	static private String TAG;
 	final static private String ACCOUNT_PREFS_NAME = "prefs";
 	final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
 	final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
-	
+
 	final static private String APP_KEY = "6k7t4o9zc6jbz9n";
 	final static private String APP_SECRET = "ln2raywl1xmqrd7";
-	
+
 	private final String USER_DETAILS_PREF = "user";
-	
+
 	final static private AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
-	
+
 	private String username;
 	private String pswd;
-	
+
 	private DropboxAPI<AndroidAuthSession> mApi;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,9 +48,9 @@ public class DropboxAuthActivity extends Activity{
 		Intent intent = getIntent();
 		username = intent.getStringExtra("username");
 		pswd = intent.getStringExtra("password");
-		
+
 		setContentView(R.layout.activity_login);
-		
+
 		TAG = this.getClass().getSimpleName();
 
 		// We create a new AuthSession so that we can use the Dropbox API.
@@ -61,12 +61,12 @@ public class DropboxAuthActivity extends Activity{
 		mApi.getSession().startAuthentication(DropboxAuthActivity.this);
 
 	}
-	
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -83,41 +83,47 @@ public class DropboxAuthActivity extends Activity{
 				// Store it locally in our app for later use
 				TokenPair tokens = session.getAccessTokenPair();
 				storeKeys(tokens.key, tokens.secret);
-				//Intent intent = new Intent(DropboxAuthActivity.this, NotificationListActivity.class);
-				//startActivity(intent);
-				
-				File sd = new File(Environment.getExternalStorageDirectory()+"/Mantle/db");
-				if(!sd.exists())
-		        	   sd.mkdirs();
-				
+				// Intent intent = new Intent(DropboxAuthActivity.this,
+				// NotificationListActivity.class);
+				// startActivity(intent);
+
+				File sd = new File(Environment.getExternalStorageDirectory()
+						+ "/Mantle/db");
+				if (!sd.exists())
+					sd.mkdirs();
+
 				Log.v(TAG, " ** Downloading... **");
-				
+
 				boolean isDownloaded = false;
-				
-				Downloader down = new Downloader(this, mApi, "/storedFile/Mantle", Environment
-							.getExternalStorageDirectory().getAbsoluteFile() + "/Mantle/db/");
-				
+
+				Downloader down = new Downloader(this, mApi,
+						"/storedFile/Mantle", Environment
+								.getExternalStorageDirectory()
+								.getAbsoluteFile()
+								+ "/Mantle/db/");
+
 				down.execute();
-				
+
 				try {
 					isDownloaded = down.get();
 				} catch (InterruptedException e) {
 					Log.v(TAG, e.getMessage());
-					isDownloaded = false; 
+					isDownloaded = false;
 				} catch (ExecutionException e) {
 					Log.v(TAG, e.getMessage());
 					isDownloaded = false;
 				}
-				
+
 				Log.v(TAG, " isDownloaded: " + isDownloaded);
-				
-				if(isDownloaded) {
-					MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+
+				if (isDownloaded) {
+					MioDatabaseHelper db = new MioDatabaseHelper(
+							getApplicationContext());
 					db.importDB();
 					String[] AccessData = db.login();
-					
-					
-					if (AccessData[0].equals(username) && AccessData[1].equals(pswd)) {
+
+					if (AccessData[0].equals(username)
+							&& AccessData[1].equals(pswd)) {
 						// /////////////
 						Log.d("LOGIN ", "Le stringe sono uguli");
 						// /////////////
@@ -125,11 +131,12 @@ public class DropboxAuthActivity extends Activity{
 						setPreferences();
 
 						Intent intent = new Intent(DropboxAuthActivity.this,
-								NotificationListActivity.class);// Home.class);
+								NotificationListActivity.class);
 						startActivity(intent);
 					}
-					
-					else if ((!AccessData[0].equals(username)) && (!AccessData[0].equals(" "))) {
+
+					else if ((!AccessData[0].equals(username))
+							&& (!AccessData[0].equals(" "))) {
 						// /////////////
 						Log.d("LOGIN ", "le stringe sono diverse");
 						// /////////////
@@ -138,7 +145,8 @@ public class DropboxAuthActivity extends Activity{
 						startActivity(intent);
 					}
 
-					else if (!AccessData[1].equals(pswd) && (!AccessData[1].equals(" "))) {
+					else if (!AccessData[1].equals(pswd)
+							&& (!AccessData[1].equals(" "))) {
 						// /////////////
 						Log.d("LOGIN ", "le stringe sono diverse");
 						// /////////////
@@ -146,22 +154,19 @@ public class DropboxAuthActivity extends Activity{
 								LoginActivity.class);
 						startActivity(intent);
 					}
-					
-					
 				}
-				
+
 				else {
 					Log.v(TAG, " ** Starting register.. **");
-					
+
 					Intent MyIntent = new Intent(DropboxAuthActivity.this,
 							Register.class);
-					
+
 					MyIntent.putExtra("username", username);
 					MyIntent.putExtra("password", pswd);
-					
+
 					startActivity(MyIntent);
 				}
-				
 
 			} catch (IllegalStateException e) {
 				showToast("Couldn't authenticate with Dropbox:"
@@ -170,12 +175,12 @@ public class DropboxAuthActivity extends Activity{
 			}
 		}
 	}
-	
+
 	private void showToast(String msg) {
 		Toast error = Toast.makeText(this, msg, Toast.LENGTH_LONG);
 		error.show();
 	}
-	
+
 	private String[] getKeys() {
 		SharedPreferences prefs = getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
 		String key = prefs.getString(ACCESS_KEY_NAME, null);
@@ -189,7 +194,7 @@ public class DropboxAuthActivity extends Activity{
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Shows keeping the access keys returned from Trusted Authenticator in a
 	 * local store, rather than storing user name & password, and
@@ -203,7 +208,7 @@ public class DropboxAuthActivity extends Activity{
 		edit.putString(ACCESS_SECRET_NAME, secret);
 		edit.commit();
 	}
-	
+
 	private AndroidAuthSession buildSession() {
 		AppKeyPair appKeyPair = new AppKeyPair(APP_KEY, APP_SECRET);
 		AndroidAuthSession session;
@@ -219,11 +224,11 @@ public class DropboxAuthActivity extends Activity{
 		}
 		return session;
 	}
-	
+
 	public DropboxAPI<AndroidAuthSession> getAPI() {
 		return mApi;
 	}
-	
+
 	private void setPreferences() {
 		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
 				0);

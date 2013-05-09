@@ -118,12 +118,10 @@ public class NotificationDetailFragment extends Fragment {
 					public void onClick(View v) {
 						MioDatabaseHelper db = new MioDatabaseHelper(v
 								.getContext());
-						db.insertUser(mItem.getUser().getEmail(), 
-								mItem.getUser().getUsername(), 
-								mItem.getUser().getName(), 
-								mItem.getUser().getSurname(), 
-								mItem.getUser().getKey()
-						);
+						db.insertUser(mItem.getUser().getEmail(), mItem
+								.getUser().getUsername(), mItem.getUser()
+								.getName(), mItem.getUser().getSurname(), mItem
+								.getUser().getKey());
 
 						ParseJSON parser = new ParseJSON(new StringWriter());
 						try {
@@ -179,7 +177,8 @@ public class NotificationDetailFragment extends Fragment {
 				TextView tw = (TextView) rootView.findViewById(R.id.linkText);
 				tw.setText(mItem.getTitle());
 
-				//Button bComment = (Button) rootView.findViewById(R.id.comment);
+				// Button bComment = (Button)
+				// rootView.findViewById(R.id.comment);
 
 				Log.e(TAG, mItem.getNote().getCommentLink());
 
@@ -195,35 +194,27 @@ public class NotificationDetailFragment extends Fragment {
 
 				Log.d(TAG, comment.getName());
 
-/*				Button bDownload = (Button) rootView
-						.findViewById(R.id.download);
-				bDownload.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						canceled = false;
-
-					}
-				});
-
-				bComment.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						Intent myIntent = new Intent(getActivity(),
-								NoteActivity.class);
-						Bundle bundle = new Bundle();
-						bundle.putString("username", username);
-						bundle.putString("url", mItem.getNote()
-								.getCommentLink());
-						bundle.putString("email", ownerEMail);
-						bundle.putString("filePath", comment.getAbsolutePath());
-						bundle.putString("idFile", idFile);
-						myIntent.putExtra("bundle", bundle);
-						getActivity().startActivity(myIntent);
-					}
-				});
-*/
+				/*
+				 * Button bDownload = (Button) rootView
+				 * .findViewById(R.id.download);
+				 * bDownload.setOnClickListener(new OnClickListener() {
+				 * 
+				 * @Override public void onClick(View v) { canceled = false;
+				 * 
+				 * } });
+				 * 
+				 * bComment.setOnClickListener(new OnClickListener() {
+				 * 
+				 * @Override public void onClick(View v) { Intent myIntent = new
+				 * Intent(getActivity(), NoteActivity.class); Bundle bundle =
+				 * new Bundle(); bundle.putString("username", username);
+				 * bundle.putString("url", mItem.getNote() .getCommentLink());
+				 * bundle.putString("email", ownerEMail);
+				 * bundle.putString("filePath", comment.getAbsolutePath());
+				 * bundle.putString("idFile", idFile);
+				 * myIntent.putExtra("bundle", bundle);
+				 * getActivity().startActivity(myIntent); } });
+				 */
 				WriterXml xml = new WriterXml();
 				try {
 					xml.addComment(mItem.getNote().getUser(), mItem.getData(),
@@ -250,9 +241,9 @@ public class NotificationDetailFragment extends Fragment {
 				// xml.deleteComment(comment);
 				File img = MantleFile.downloadFileFromUrl(fileUrl,
 						mItem.getTitle());
-				
+
 				MantleFile file = new MantleFile(getActivity(), idFile);
-				if(file.isImage()) {
+				if (file.isImage()) {
 					ImageView iv = (ImageView) rootView
 							.findViewById(R.id.sharedImage);
 					iv.setImageBitmap(BitmapFactory.decodeFile(img
@@ -267,23 +258,23 @@ public class NotificationDetailFragment extends Fragment {
 				TextView tw = (TextView) rootView.findViewById(R.id.linkText);
 				tw.setText(mItem.getTitle());
 
-/*				Button bDownload = (Button) rootView
-						.findViewById(R.id.download);
-				bDownload.setOnClickListener(new OnClickListener() {
+				/*
+				 * Button bDownload = (Button) rootView
+				 * .findViewById(R.id.download);
+				 * bDownload.setOnClickListener(new OnClickListener() {
+				 * 
+				 * @Override public void onClick(View v) { canceled = false;
+				 * 
+				 * } });
+				 */
 
-					@Override
-					public void onClick(View v) {
-						canceled = false;
-
-					}
-				});*/
-
-				//Button bComment = (Button) rootView.findViewById(R.id.comment);
+				// Button bComment = (Button)
+				// rootView.findViewById(R.id.comment);
 
 				MantleFile mFile = mItem.getmFile();
-				
+
 				mFile.downloadFileFromUrl(mFile.getFileName());
-				if(mFile.isImage()) {
+				if (mFile.isImage()) {
 					ImageView iv = (ImageView) rootView
 							.findViewById(R.id.sharedImage);
 					iv.setImageBitmap(mFile.getBitmap());
@@ -296,27 +287,24 @@ public class NotificationDetailFragment extends Fragment {
 				 */
 
 				final long ID = db.insertFile(mFile.getFileName(),
-						mFile.getLinkFile(), mFile.getLinkComment(), "", mFile.getObjectType(), MantleFile.NOT_OWN_FILE);
+						mFile.getLinkFile(), mFile.getLinkComment(), "",
+						mFile.getObjectType(), MantleFile.NOT_OWN_FILE);
 				int ID_User = db.getId(mFile.getSender_email());
-				db.insertHistory((int) ID, ID_User, new Date(System.currentTimeMillis()).toString());
-				/*bComment.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						Intent myIntent = new Intent(getActivity(),
-								NoteActivity.class);
-						Bundle bundle = new Bundle();
-						bundle.putString("username", username);
-						bundle.putString("url", mItem.getmFile()
-								.getLinkComment());
-						bundle.putString("email", mItem.getmFile()
-								.getSender_email());
-						bundle.putString("idFile", String.valueOf(ID));
-						bundle.putString("filePath", null);
-						myIntent.putExtra("bundle", bundle);
-						getActivity().startActivity(myIntent);
-					}
-				});*/
+				db.insertHistory((int) ID, ID_User,
+						new Date(System.currentTimeMillis()).toString());
+				/*
+				 * bComment.setOnClickListener(new OnClickListener() {
+				 * 
+				 * @Override public void onClick(View v) { Intent myIntent = new
+				 * Intent(getActivity(), NoteActivity.class); Bundle bundle =
+				 * new Bundle(); bundle.putString("username", username);
+				 * bundle.putString("url", mItem.getmFile() .getLinkComment());
+				 * bundle.putString("email", mItem.getmFile()
+				 * .getSender_email()); bundle.putString("idFile",
+				 * String.valueOf(ID)); bundle.putString("filePath", null);
+				 * myIntent.putExtra("bundle", bundle);
+				 * getActivity().startActivity(myIntent); } });
+				 */
 			}
 		}
 		return rootView;

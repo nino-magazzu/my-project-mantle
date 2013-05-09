@@ -15,8 +15,10 @@ public class DownladerTask extends AsyncTask<Void, Long, File> {
 
 	public DownladerTask(String fileUrl, String Filename) {
 		try {
-			File root = new File(android.os.Environment.getExternalStorageDirectory()+"/Mantle/tmp");
-			if(!root.exists())
+			File root = new File(
+					android.os.Environment.getExternalStorageDirectory()
+							+ "/Mantle/tmp");
+			if (!root.exists())
 				root.mkdirs();
 			this.mUrl = new URL(fileUrl);
 			Log.d(TAG, fileUrl);
