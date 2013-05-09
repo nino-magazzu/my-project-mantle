@@ -2,17 +2,13 @@ package com.project.mantle_v1.fileNavigator;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.channels.FileChannel;
-
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.notification_home.NoteActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,8 +19,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
-import android.widget.ListView;
-import android.widget.Toast;
 
 /**
  * An activity representing a single File detail screen. This activity is only

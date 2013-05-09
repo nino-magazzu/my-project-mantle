@@ -15,11 +15,11 @@ import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+
 
 public class Sharing extends Activity {
 
@@ -35,7 +35,6 @@ public class Sharing extends Activity {
 	private DropboxAPI<AndroidAuthSession> mApi;
 	private int FILE_ID;
 	private final String TAG = this.getClass().getSimpleName();
-	private Context mContext;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +44,6 @@ public class Sharing extends Activity {
 		this.mApi = auth.getAPI();
 		startActivityForResult(new Intent(this, FileChooser.class),
 				UPLOAD_REQUEST_CODE);
-		mContext = this;
 
 	}
 
