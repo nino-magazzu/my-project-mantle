@@ -9,6 +9,7 @@ import java.util.Map;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,10 +69,13 @@ public class FileDetailFragment extends Fragment {
 					.get(getArguments().getString(NotificationDetailFragment.ARG_ITEM_ID));
 			
 			if(notifica.getNote() == null) {
+				
+				Log.v("FILE DETAIL", "SHARING PHOTO");
 				file = notifica.getmFile();
 			}
 			
 			else {
+				Log.v("FILE DETAIL", "NOTE");
 				MioDatabaseHelper db = new MioDatabaseHelper(
 						getActivity().getApplicationContext());
 				
@@ -80,7 +84,7 @@ public class FileDetailFragment extends Fragment {
 				
 				final String idFile = String.valueOf(db.getIdFile(fileUrl));
 				
-				file = new MantleFile(idFile, notifica.getmFile().getFileName(), fileUrl, notifica.getNote().getCommentLink(), "");
+				file = new MantleFile(getActivity().getApplicationContext(), idFile);
 			}
 			
 		}
@@ -97,7 +101,9 @@ public class FileDetailFragment extends Fragment {
 				container, false);
 
 		TextView tw = (TextView) rootView.findViewById(R.id.linkText);
+		
 		tw.setText(file.getFileName());
+
 		listView = (ListView) rootView.findViewById(R.id.listView1);
 		
 		//DAL DB PRELEVA I CONTATTI CON CUI HAI CONDIVISO IL FILE E SETTI LA LISTA
