@@ -53,22 +53,22 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 	private long mFileLen;
 	private UploadRequest mRequest;
 	private Context mContext;
-//	private Context mContext2;
+	// private Context mContext2;
 	private final ProgressDialog mDialog;
 
 	private String mErrorMsg;
 	private DropboxLink shareLink;
 	private String username;
-	
+
 	private int ID;
 
 	public Uploader(Context context, DropboxAPI<?> api, String dropboxPath,
 			File file) {
 		// We set the context this way so we don't accidentally leak activities
 		mContext = context.getApplicationContext();
-		//mContext2 = context; 
-		
-	//	this.username = username;
+		// mContext2 = context;
+
+		// this.username = username;
 
 		mFileLen = file.length();
 		mApi = api;
@@ -118,7 +118,9 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 
 			if (mRequest != null) {
 				Entry ent = mRequest.upload();
+
 				shareLink = mApi.share(ent.path);
+
 				String shareAddress = getShareURL(shareLink.url).replaceFirst(
 						"https://www", "https://dl");
 				Log.d(TAG, "dropbox share link " + shareAddress);
@@ -126,20 +128,20 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 				// creazione del file
 				MantleFile file = new MantleFile(ent, shareAddress, username,
 						mFile);
-				
-	//			((MyApplication) mContext.getApplicationContext()).media = file;
-				
+
 				// creazione istanza del database
 				MioDatabaseHelper db = new MioDatabaseHelper(mContext);
 
 				// inserimento del fil ne db
-				ID = (int) db.insertFile(file.getFileName(), file.getLinkFile(),
-						"", file.getFileKey(), file.getObjectType(), MantleFile.NORMAL_FILE);
-		
+				ID = (int) db.insertFile(file.getFileName(),
+						file.getLinkFile(), "", file.getFileKey(),
+						file.getObjectType(), MantleFile.NORMAL_FILE);
+
 				SharedPreferences userDetails = mContext.getSharedPreferences(
 						USER_DETAILS_PREF, 0);
 
-				db.insertHistory((int) ID, userDetails.getInt("idUser", 1), new Date(System.currentTimeMillis()).toString()); //insertShare((int) ID, userDetails.getInt("idUser", 1));
+				db.insertHistory((int) ID, userDetails.getInt("idUser", 1),
+						new Date(System.currentTimeMillis()).toString());
 
 				WriterXml com = new WriterXml();
 				String pathComment = Environment.getExternalStorageDirectory()
@@ -165,7 +167,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 				mFile = new File(pathComment, String.valueOf(ID) + ".xml");
 				Log.d(TAG, String.valueOf(ID));
 				fis = new FileInputStream(mFile);
-			   // String pathComment = mPath + mFile.getName();
+				// String pathComment = mPath + mFile.getName();
 				mRequest = mApi.putFileOverwriteRequest(
 						mPath + mFile.getName(), fis, mFile.length(),
 						new ProgressListener() {
@@ -252,7 +254,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 
 	@Override
 	protected void onPostExecute(Integer result) {
-	mDialog.dismiss();
+		mDialog.dismiss();
 		if (result != null) {
 			showToast("File successfully uploaded");
 		} else {
@@ -263,7 +265,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 	private void showToast(String msg) {
 		Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
 	}
-	
+
 	String getShareURL(String strURL) {
 		URLConnection conn = null;
 		try {
@@ -274,6 +276,8 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 			Log.d(TAG, "Please input a valid URL");
 		} catch (IOException ioe) {
 			Log.d(TAG, "Can not connect to the URL");
+		} catch (Exception e) {
+			Log.d(TAG, "Exception: " + e.getMessage());
 		}
 
 		return conn.getHeaderField("location");
