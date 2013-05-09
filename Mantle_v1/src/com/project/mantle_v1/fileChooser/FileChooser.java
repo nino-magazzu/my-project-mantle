@@ -56,21 +56,24 @@ public class FileChooser extends ListActivity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		super.onKeyDown(keyCode, event);
+		Intent data = new Intent();
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_CAMERA:
-			// Toast.makeText(FileChooser.this, "Pressed Camera Button",
-			// Toast.LENGTH_SHORT).show();
+			data.putExtra("path", "null");
+			setResult(1, data);
+			finish();
 			return true;
 		case KeyEvent.KEYCODE_1:
-			// Toast.makeText(FileChooser.this, "Pressed 1",
-			// Toast.LENGTH_SHORT).show();
+			data.putExtra("path", "null");
+			setResult(1, data);
+			finish();
 			return true;
 		case KeyEvent.KEYCODE_HOME:
-			// Toast.makeText(FileChooser.this, "Pressed Home Button",
-			// Toast.LENGTH_SHORT).show();
+			data.putExtra("path", "null");
+			setResult(1, data);
+			finish();
 			return true;
 		case KeyEvent.KEYCODE_BACK:
-			Intent data = new Intent();
 			data.putExtra("path", "null");
 			setResult(1, data);
 			finish();
