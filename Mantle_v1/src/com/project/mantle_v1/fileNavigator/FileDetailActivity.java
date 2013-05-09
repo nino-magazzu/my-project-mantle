@@ -1,6 +1,11 @@
 package com.project.mantle_v1.fileNavigator;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
@@ -11,11 +16,14 @@ import com.project.mantle_v1.notification_home.NoteActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
+import android.widget.ListView;
 import android.widget.Toast;
 
 /**
@@ -118,6 +126,27 @@ public class FileDetailActivity extends FragmentActivity {
 		menu.add("Download").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
+						MantleFile file = MyHandler.FILE_MAP.get(getIntent().getStringExtra(FileDetailFragment.ARG_ITEM_ID));
+						//Questo rappresenta il file sulla sd 
+						File sd = new File(Environment.getExternalStorageDirectory()+"/Mantle/tmp");
+						File download = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+						
+						String currentFilePath = Environment.getExternalStorageDirectory().toString();
+						String backupFilePath = file.getFileName();
+						
+						File  backupDB= new File(download, currentFilePath);
+			            File currentDB  = new File(sd, backupFilePath);
+		
+			            try {
+							FileChannel src = new FileInputStream(currentDB).getChannel();
+							FileChannel dst = new FileOutputStream(backupDB).getChannel();
+							dst.transferFrom(src, 0, src.size());
+				            src.close();
+				            dst.close();
+				               
+			            } catch (Exception e) {
+			               	Log.w("FILE_DETAIL_ACTIVITY","Execption : " + e);
+			            }
 						return true;
 					}
 				});
