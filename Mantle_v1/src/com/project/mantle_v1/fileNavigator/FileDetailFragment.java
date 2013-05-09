@@ -26,6 +26,9 @@ import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.notification_home.NoteActivity;
+import com.project.mantle_v1.notification_home.Notifica;
+import com.project.mantle_v1.notification_home.NotificationDetailFragment;
+import com.project.mantle_v1.notification_home.NotificationListActivity;
 
 /**
  * A fragment representing a single File detail screen. This fragment is either
@@ -37,7 +40,7 @@ public class FileDetailFragment extends Fragment {
 	 * The fragment argument representing the item ID that this fragment
 	 * represents.
 	 */
-	public static final String ARG_ITEM_ID = "item_id";
+	public static final String ARG_ITEM_ID = "File_id";
 	private final String USER_DETAILS_PREF = "user";
 
 	/**
@@ -62,6 +65,29 @@ public class FileDetailFragment extends Fragment {
 			// to load content from a content provider.
 			file = MyHandler.FILE_MAP
 					.get(getArguments().getString(ARG_ITEM_ID));
+			getArguments().clear();
+		}
+		
+		else if(getArguments().containsKey(NotificationDetailFragment.ARG_ITEM_ID)) {
+			Notifica notifica = MyHandler.NOTIFICA_MAP
+					.get(getArguments().getString(NotificationDetailFragment.ARG_ITEM_ID));
+			
+			if(notifica.getNote() == null) {
+				file = notifica.getmFile();
+			}
+			
+			else {
+				MioDatabaseHelper db = new MioDatabaseHelper(
+						getActivity().getApplicationContext());
+				
+				String fileUrl = db.getLinkfromLinkComment(notifica.getNote()
+						.getCommentLink());
+				
+				final String idFile = String.valueOf(db.getIdFile(fileUrl));
+				
+				file = new MantleFile(idFile, notifica.getmFile().getFileName(), fileUrl, notifica.getNote().getCommentLink(), "");
+			}
+			
 		}
 	}
 
