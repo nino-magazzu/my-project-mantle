@@ -8,12 +8,18 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
 //import com.project.mantle_v1.MyApplication;
@@ -71,10 +77,21 @@ public class FileDetailFragment extends Fragment {
 
 		TextView tw = (TextView) rootView.findViewById(R.id.linkText);
 		tw.setText(file.getFileName());
+		ListView listView = (ListView) rootView.findViewById(R.id.listView1);
+		
+		//DAL DB PRELEVA I CONTATTI CON CUI HAI CONDIVISO IL FILE E SETTI LA LISTA
+		
+		MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
+				.getApplicationContext());
+		
+		
+		
+		//Button bComment = (Button) rootView.findViewById(R.id.comment);
+		//final File comment = MantleFile.downloadFileFromUrl(
+		//		file.getLinkComment(), (String) file.getIdFile() + ".xml");
 
-		Button bComment = (Button) rootView.findViewById(R.id.comment);
-		final File comment = MantleFile.downloadFileFromUrl(
-				file.getLinkComment(), (String) file.getIdFile() + ".xml");
+		/*		
+		
 		bComment.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -97,6 +114,8 @@ public class FileDetailFragment extends Fragment {
 				getActivity().startActivity(myIntent);
 			}
 		});
+		
+		*/
 		if(file.isImage()) {
 			File img = MantleFile.downloadFileFromUrl(file.getLinkFile(),
 					file.getFileName());
@@ -105,4 +124,5 @@ public class FileDetailFragment extends Fragment {
 		}
 		return rootView;
 	}
+	
 }

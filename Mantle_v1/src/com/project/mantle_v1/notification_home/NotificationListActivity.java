@@ -12,8 +12,11 @@ import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.dropbox.Sharing;
 import com.project.mantle_v1.dropbox.Uploader;
+import com.project.mantle_v1.fileNavigator.FileDetailActivity;
+import com.project.mantle_v1.fileNavigator.FileDetailFragment;
 import com.project.mantle_v1.fileNavigator.FileListActivity;
 import com.project.mantle_v1.gmail.ReaderTask;
+import com.project.mantle_v1.parser.MantleMessage;
 
 import android.content.Context;
 import android.content.Intent;
@@ -129,10 +132,19 @@ public class NotificationListActivity extends FragmentActivity implements
 		} else {
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
-			Intent detailIntent = new Intent(this,
-					NotificationDetailActivity.class);
-			detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID, id);
-			startActivity(detailIntent);
+			Notifica n = MyHandler.NOTIFICA_MAP.get(id); 
+			if(n.getNotificationType().equals(MantleMessage.NOTE)||n.getNotificationType().equals(MantleMessage.SHARING_PHOTO)){
+				Intent detailIntent = new Intent(this,
+						FileDetailActivity.class);
+				detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID, id);
+				startActivity(detailIntent);
+			}
+			else{
+				Intent detailIntent = new Intent(this,
+						NotificationDetailActivity.class);
+				detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID, id);
+				startActivity(detailIntent);
+			}
 		}
 	}
 
