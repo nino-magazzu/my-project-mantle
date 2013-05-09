@@ -68,19 +68,20 @@ public class NotificationListActivity extends FragmentActivity implements
 	private final String USER_DETAILS_PREF = "user";
 	private MyHandler handler;
 	private Context mContext;
-	
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_notification_list);
 
-		//NotificaAdapter notifyAdapter = new NotificaAdapter(getApplicationContext(),
-			//	R.layout.note_layout, MyHandler.ITEMS);
+		// NotificaAdapter notifyAdapter = new
+		// NotificaAdapter(getApplicationContext(),
+		// R.layout.note_layout, MyHandler.ITEMS);
 
 		handler = new MyHandler(getApplicationContext());
 
-		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF, 0);
+		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
+				0);
 
 		ReaderTask rt = new ReaderTask(handler, userDetails.getString("email",
 				" "), userDetails.getString("emailpswd", " "));
@@ -106,7 +107,7 @@ public class NotificationListActivity extends FragmentActivity implements
 					.setActivateOnItemClick(true);
 
 		}
-		
+
 		// TODO: If exposing deep links into your app, handle intents here.
 
 	}
@@ -132,17 +133,19 @@ public class NotificationListActivity extends FragmentActivity implements
 		} else {
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
-			Notifica n = MyHandler.NOTIFICA_MAP.get(id); 
-			if(n.getNotificationType().equals(MantleMessage.NOTE)||n.getNotificationType().equals(MantleMessage.SHARING_PHOTO)){
-				Intent detailIntent = new Intent(this,
-						FileDetailActivity.class);
-				detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID, id);
+			Notifica n = MyHandler.NOTIFICA_MAP.get(id);
+			if (n.getNotificationType().equals(MantleMessage.NOTE)
+					|| n.getNotificationType().equals(
+							MantleMessage.SHARING_PHOTO)) {
+				Intent detailIntent = new Intent(this, FileDetailActivity.class);
+				detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID,
+						id);
 				startActivity(detailIntent);
-			}
-			else{
+			} else {
 				Intent detailIntent = new Intent(this,
 						NotificationDetailActivity.class);
-				detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID, id);
+				detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID,
+						id);
 				startActivity(detailIntent);
 			}
 		}
@@ -208,7 +211,7 @@ public class NotificationListActivity extends FragmentActivity implements
 						return true;
 					}
 				});
-		
+
 		menu.add("Condividi").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {

@@ -21,13 +21,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-
 public class MyHandler extends Handler {
 	private Context context;
 	private String link;
 	private String email;
 	private String FILE_HISTORY_NAME;
-	
+
 	public static List<Notifica> ITEMS = new ArrayList<Notifica>();
 	public static Map<String, Notifica> NOTIFICA_MAP = new HashMap<String, Notifica>();
 	public static Map<String, MantleFile> FILE_MAP = new HashMap<String, MantleFile>();
@@ -38,22 +37,22 @@ public class MyHandler extends Handler {
 
 	public MyHandler(Context context) {
 		super();
-		
+
 		// *** scelta del file storia *** //
-		//History his = new History();
-		
-		//FILE_HISTORY_NAME = his.getLastFile();
-		
+		// History his = new History();
+
+		// FILE_HISTORY_NAME = his.getLastFile();
+
 		this.context = context;
-		
+
 		if (ITEMS.isEmpty())
-			addItem(new Notifica(	new Date(System.currentTimeMillis()).toString(),
+			addItem(new Notifica(
+					new Date(System.currentTimeMillis()).toString(),
 					"Benvenuto in Mantle", MantleMessage.SYSTEM));
 		else {
 			Log.v(TAG, "Items size: " + ITEMS.size());
 			Log.v(TAG, ITEMS.get(0).getNotificationBody());
 		}
-			
 
 	}
 
@@ -69,7 +68,8 @@ public class MyHandler extends Handler {
 			email = bundle.getString("email");
 			Log.d(TAG, "Email amico: " + email);
 
-			MantleMessage mess = new MantleMessage(link, context, email, FILE_HISTORY_NAME);
+			MantleMessage mess = new MantleMessage(link, context, email,
+					FILE_HISTORY_NAME);
 			Notifica not = mess.getNotifica();
 			createNotification(not.getTitle());
 			addItem(not);

@@ -248,7 +248,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		long r = db.insert("Share", null, values);
 		return r;
 	}
-	
+
 	public long insertShare(int idFile, String email) {
 		int idUser = getId(email);
 		ContentValues values = new ContentValues();
@@ -257,7 +257,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		long r = db.insert("Share", null, values);
 		return r;
 	}
-	
+
 	public long insertHistory(int idFile, int idUser, String date) {
 		ContentValues values = new ContentValues();
 		values.put("idFile", idFile);
@@ -266,7 +266,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		long r = db.insert("History", null, values);
 		return r;
 	}
-	
+
 	public void insertLinkComment(int idFile, String link) {
 
 		ContentValues values = new ContentValues();
@@ -276,8 +276,8 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		db.update("File", values, whereClause, whereArgs);
 
 	}
-	
-	public void insertPriority(int idFile, int priority){
+
+	public void insertPriority(int idFile, int priority) {
 		ContentValues values = new ContentValues();
 		values.put("priority", priority);
 		String whereClause = "idFile = ?";
@@ -400,8 +400,8 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		String[] columns2 = { "idUser" };
 		selection = "idFile = ?";
 		String[] selectionArgs2 = { idFile };
-		c = db.query("History", columns2, selection, selectionArgs2, null, null,
-				null);
+		c = db.query("History", columns2, selection, selectionArgs2, null,
+				null, null);
 		c.moveToNext();
 		String idUser = c.getString(0);
 
@@ -468,36 +468,38 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		return result;
 	}
 
-	public String[] getSharers(String idFile){
-		
-		String[] columns = {"idUser"};
+	public String[] getSharers(String idFile) {
+
+		String[] columns = { "idUser" };
 		String selection = "idFile=?";
-		String[] selectionArgs={idFile};
-		Cursor c = db.query("Share", columns, selection, selectionArgs, null, null, null);
-		
-		int i=c.getCount();
-		String[] idUser=new String[i];
-		String[] result = new String[i*2];
-		i=0;
-		
-		while(c.moveToNext()){
-			idUser[i]=c.getString(0);
+		String[] selectionArgs = { idFile };
+		Cursor c = db.query("Share", columns, selection, selectionArgs, null,
+				null, null);
+
+		int i = c.getCount();
+		String[] idUser = new String[i];
+		String[] result = new String[i * 2];
+		i = 0;
+
+		while (c.moveToNext()) {
+			idUser[i] = c.getString(0);
 			i++;
 		}
-		
-		String[] columns2 = {"name","surname","username"};
+
+		String[] columns2 = { "name", "surname", "username" };
 		selection = "idUser=?";
-		for(i=0;i<idUser.length;i=i+2){
-			String[] selectionArgs2={idUser[i]};
-			c= db.query("User", columns2, selection, selectionArgs2, null, null, null);
+		for (i = 0; i < idUser.length; i = i + 2) {
+			String[] selectionArgs2 = { idUser[i] };
+			c = db.query("User", columns2, selection, selectionArgs2, null,
+					null, null);
 			c.moveToNext();
-			result[i] = c.getString(0)+c.getString(1);
-			result[i+1] = c.getString(2);
+			result[i] = c.getString(0) + c.getString(1);
+			result[i + 1] = c.getString(2);
 		}
-		
+
 		return result;
 	}
-	
+
 	public String[] getTeams() {
 		String[] columns = { "description" };
 		Cursor c = db.query("Team", columns, null, null, null, null, null);
@@ -627,49 +629,49 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		return idTeam;
 	}
 
-	
-	
-	public String getDateFile(int idFile){
+	public String getDateFile(int idFile) {
 		String[] columns = { "Date" };
 		String selection = "idFile = ?";
-		String[] selectionArgs = { String.valueOf(idFile)};
+		String[] selectionArgs = { String.valueOf(idFile) };
 		Cursor c = db.query("History", columns, selection, selectionArgs, null,
 				null, null);
 		c.moveToNext();
 		String date = c.getString(0);
-		return date; 
+		return date;
 	}
-	//Da l'idFile ricavo le email delle persone con cui ho condiviso il file
-	public String[] getEmailsFilesShared(int idFile){
-		
-		String[] columns = {"idUser"};
+
+	// Da l'idFile ricavo le email delle persone con cui ho condiviso il file
+	public String[] getEmailsFilesShared(int idFile) {
+
+		String[] columns = { "idUser" };
 		String selection = "idFile = ?";
 		String[] selectionArgs = { String.valueOf(idFile) };
 		Cursor c = db.query("Share", columns, selection, selectionArgs, null,
 				null, null);
 		int i = c.getCount();
 		String[] result = new String[i];
-		String[] emails= new String[i];
+		String[] emails = new String[i];
 		i = 0;
-		
+
 		while (c.moveToNext()) {
 			result[i] = c.getString(0);
 			i++;
 		}
-		
-		String[] columns2 = {"email"}; 
+
+		String[] columns2 = { "email" };
 		selection = "idUser=?";
-		
-		for(int j = 0; j < result.length ; j++){
-			String[] selectionArgs2 = {result[j]};
-			c = db.query("User", columns2, selection, selectionArgs2, null, null, null);
+
+		for (int j = 0; j < result.length; j++) {
+			String[] selectionArgs2 = { result[j] };
+			c = db.query("User", columns2, selection, selectionArgs2, null,
+					null, null);
 			c.moveToNext();
-			emails[j]=c.getString(0);
+			emails[j] = c.getString(0);
 		}
-			
+
 		return emails;
 	}
-	
+
 	public ArrayList<MantleFile> getAllFile() {
 		Cursor c = db.query("File", null, null, null, null, null, null);
 		ArrayList<MantleFile> arr = new ArrayList<MantleFile>();
@@ -684,12 +686,11 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 			mf.setObjectType(c.getString(5));
 			mf.setPriority(c.getInt(6));
 			arr.add(mf);
-			Log.d("MIO_DATABASE_HELPER","ho aggiunto questo filename:"+c.getString(1));
+			Log.d("MIO_DATABASE_HELPER",
+					"ho aggiunto questo filename:" + c.getString(1));
 		}
 		return arr;
 	}
-	
-	
 
 	// ============== METODI PER LA VISUALIZZAZIONE DEL DATABASE ===============
 
@@ -812,65 +813,67 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		}
 
 	}
-	
-	//esportare database
+
+	// esportare database
 	public void exportDB() {
 
-        try {
-        	File sd = new File(Environment.getExternalStorageDirectory()+"/Mantle/db");
-            File data = Environment.getDataDirectory();
-           
-            if(!sd.exists())
-         	   sd.mkdirs();
-            
-            //if (sd.canWrite()) {
-                String  currentDBPath= "/data/com.project.mantle_v1/databases/Mantle";
-                String backupDBPath  = "Mantle";
-                
-                File currentDB = new File(data, currentDBPath);
-                File backupDB = new File(sd, backupDBPath);
+		try {
+			File sd = new File(Environment.getExternalStorageDirectory()
+					+ "/Mantle/db");
+			File data = Environment.getDataDirectory();
 
-                FileChannel src = new FileInputStream(currentDB).getChannel();
-                FileChannel dst = new FileOutputStream(backupDB).getChannel();
-                dst.transferFrom(src, 0, src.size());
-                src.close();
-                dst.close();
-                Log.d("MIO_DATABASE_HELPER","Mantle db exported");
-            //}
-        } catch (Exception e) {
+			if (!sd.exists())
+				sd.mkdirs();
 
-       	 Log.w("MIO_DATABASE_HELPER","Mantle db not exported" + e);
+			// if (sd.canWrite()) {
+			String currentDBPath = "/data/com.project.mantle_v1/databases/Mantle";
+			String backupDBPath = "Mantle";
 
-        }
-    }
-	
-	 //importare database
-   public void importDB() {
-       // TODO Auto-generated method stub
+			File currentDB = new File(data, currentDBPath);
+			File backupDB = new File(sd, backupDBPath);
 
-       try {
-           File sd = new File(Environment.getExternalStorageDirectory()+"/Mantle/db");
-           File data  = Environment.getDataDirectory();
+			FileChannel src = new FileInputStream(currentDB).getChannel();
+			FileChannel dst = new FileOutputStream(backupDB).getChannel();
+			dst.transferFrom(src, 0, src.size());
+			src.close();
+			dst.close();
+			Log.d("MIO_DATABASE_HELPER", "Mantle db exported");
+			// }
+		} catch (Exception e) {
 
-           if(!sd.exists())
-        	   sd.mkdirs();
-           
-           //if (sd.canWrite()) {
-               String  currentDBPath= "/data/com.project.mantle_v1/databases/Mantle";
-               String backupDBPath  = "Mantle";
-               File  backupDB= new File(data, currentDBPath);
-               File currentDB  = new File(sd, backupDBPath);
+			Log.w("MIO_DATABASE_HELPER", "Mantle db not exported" + e);
 
-               FileChannel src = new FileInputStream(currentDB).getChannel();
-               FileChannel dst = new FileOutputStream(backupDB).getChannel();
-               dst.transferFrom(src, 0, src.size());
-               src.close();
-               dst.close();
-               Log.d("MIO_DATABASE_HELPER","Mantle db imported");
-           //}
-       } catch (Exception e) {
-       	Log.w("MIO_DATABASE_HELPER","Mantle db not imported " + e);
-       }
-   }
+		}
+	}
+
+	// importare database
+	public void importDB() {
+		// TODO Auto-generated method stub
+
+		try {
+			File sd = new File(Environment.getExternalStorageDirectory()
+					+ "/Mantle/db");
+			File data = Environment.getDataDirectory();
+
+			if (!sd.exists())
+				sd.mkdirs();
+
+			// if (sd.canWrite()) {
+			String currentDBPath = "/data/com.project.mantle_v1/databases/Mantle";
+			String backupDBPath = "Mantle";
+			File backupDB = new File(data, currentDBPath);
+			File currentDB = new File(sd, backupDBPath);
+
+			FileChannel src = new FileInputStream(currentDB).getChannel();
+			FileChannel dst = new FileOutputStream(backupDB).getChannel();
+			dst.transferFrom(src, 0, src.size());
+			src.close();
+			dst.close();
+			Log.d("MIO_DATABASE_HELPER", "Mantle db imported");
+			// }
+		} catch (Exception e) {
+			Log.w("MIO_DATABASE_HELPER", "Mantle db not imported " + e);
+		}
+	}
 
 }

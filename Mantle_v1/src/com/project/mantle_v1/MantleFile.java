@@ -14,7 +14,6 @@ import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.dropbox.DownladerTask;
 import com.project.mantle_v1.dropbox.UploaderTask;
 
-
 public class MantleFile implements Serializable {
 
 	/*
@@ -22,18 +21,16 @@ public class MantleFile implements Serializable {
 	 * 
 	 * private MantleImage thumbnail; private MantleImage fullImage;
 	 */
-	
-	
+
 	// **** PRIORITY TYPE ****
-	
+
 	public static final int NEEDFUL_FILE = 3;
 	public static final int NORMAL_FILE = 2;
 	public static final int USELESS_FILE = 1;
 	public static final int NOT_OWN_FILE = 0;
-	
-	
+
 	private final String USER_DETAILS_PREF = "user";
-	
+
 	public MantleFile(Entry ent, String link, String username, File file) {
 		this.linkFile = link;
 		this.date = ent.modified;
@@ -79,14 +76,15 @@ public class MantleFile implements Serializable {
 		this.fileKey = file[4];
 		this.objectType = file[5];
 		this.priority = Integer.parseInt(file[6]);
-		
-		SharedPreferences userDetails = cont.getSharedPreferences(USER_DETAILS_PREF, 0);
+
+		SharedPreferences userDetails = cont.getSharedPreferences(
+				USER_DETAILS_PREF, 0);
 		this.username = userDetails.getString("username", "");
-		
+
 		this.date = db.getDateFile(Integer.parseInt(idFile));
-		
+
 		this.isImage = objectType.contains("image");
-		
+
 		db.close();
 	}
 

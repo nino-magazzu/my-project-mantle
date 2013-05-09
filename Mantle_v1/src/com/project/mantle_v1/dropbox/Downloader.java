@@ -28,16 +28,16 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 	private String mErrorMsg;
 	private boolean mCanceled;
 
-	//private long mLenght;
+	// private long mLenght;
 
 	public Downloader(Context context, DropboxAPI<?> api, String file_path,
 			String saving_path) {
 		mApi = api;
-		mContext = context;//.getApplicationContext();
+		mContext = context;// .getApplicationContext();
 		this.file_path = file_path;
 		this.saving_path = saving_path;
 
-		//mLenght = size;
+		// mLenght = size;
 
 		mDialog = new ProgressDialog(mContext);
 		mDialog.setMax(100);
@@ -71,14 +71,13 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 		if (mCanceled) {
 			return false;
 		}
-		
-			try {
-				downloadedFile = mApi.getFileStream(file_path, null);
-			} catch (Exception e1) {
-				showToast(e1.getMessage());
-				return false;
-			}
-		
+
+		try {
+			downloadedFile = mApi.getFileStream(file_path, null);
+		} catch (Exception e1) {
+			showToast(e1.getMessage());
+			return false;
+		}
 
 		if (mCanceled) {
 			return false;
@@ -117,13 +116,12 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 		}
 		return true;
 	}
-/*
-	@Override
-	protected void onProgressUpdate(Long... progress) {
-		int percent = (int) (100.0 * (double) progress[0] / mLenght + 0.5);
-		mDialog.setProgress(percent);
-	}
-*/
+
+	/*
+	 * @Override protected void onProgressUpdate(Long... progress) { int percent
+	 * = (int) (100.0 * (double) progress[0] / mLenght + 0.5);
+	 * mDialog.setProgress(percent); }
+	 */
 	@Override
 	protected void onPostExecute(Boolean result) {
 		mDialog.dismiss();
@@ -135,11 +133,11 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 	}
 
 	private void showToast(String msg) {
-		//Toast error = Toast.makeText(mContext, msg, Toast.LENGTH_LONG);
-		//error.show();
-		if(msg != null)
+		// Toast error = Toast.makeText(mContext, msg, Toast.LENGTH_LONG);
+		// error.show();
+		if (msg != null)
 			Log.v("DOWNLOADER", msg);
-		else 
+		else
 			Log.v("DOWNLOADER", "null message");
 	}
 

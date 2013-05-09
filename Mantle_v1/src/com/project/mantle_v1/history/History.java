@@ -16,24 +16,29 @@ import android.os.Environment;
 import android.util.Log;
 
 public class History {
-	
+
 	public String getLastFile() {
 		// Used to examplify deletion of files more than 1 month old
-	
+
 		// Note the L that tells the compiler to interpret the number as a Long
 		final long MAXFILEAGE = 2678400000L; // 1 month in milliseconds
 
-		// Get file handle to the directory. In this case the application files dir
-		File dir = new File(Environment.getExternalStorageDirectory() + "/Mantle/history");
-		
-		// Optain list of files in the directory. 
+		// Get file handle to the directory. In this case the application files
+		// dir
+		File dir = new File(Environment.getExternalStorageDirectory()
+				+ "/Mantle/history");
+
+		// Optain list of files in the directory.
 		// listFiles() returns a list of File objects to each file found.
 		File[] files = dir.listFiles();
-		
-		if(files == null) {
+
+		if (files == null) {
 			try {
 				WriterXml com = new WriterXml();
-				com.createComment(new Date(System.currentTimeMillis()) + ".xml", Environment.getExternalStorageDirectory().toString() + "/Mantle/history");
+				com.createComment(
+						new Date(System.currentTimeMillis()) + ".xml",
+						Environment.getExternalStorageDirectory().toString()
+								+ "/Mantle/history");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -51,25 +56,27 @@ public class History {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return  new Date(System.currentTimeMillis()) + ".xml";
-		}
-		else {
+			return new Date(System.currentTimeMillis()) + ".xml";
+		} else {
 			// Loop through all files
-			for (File f : files ) {
+			for (File f : files) {
 
-			   // Get the last modified date. Miliseconds since 1970
-			   long lastmodified = f.lastModified();
+				// Get the last modified date. Miliseconds since 1970
+				long lastmodified = f.lastModified();
 
-			   // Do stuff here to deal with the file.. 
-			   // For instance delete files older than 1 month
-			   if(lastmodified+MAXFILEAGE<System.currentTimeMillis()) {
-			      return f.getName();
-			   }
-			   
+				// Do stuff here to deal with the file..
+				// For instance delete files older than 1 month
+				if (lastmodified + MAXFILEAGE < System.currentTimeMillis()) {
+					return f.getName();
+				}
+
 			}
 			try {
 				WriterXml com = new WriterXml();
-				com.createComment(new Date(System.currentTimeMillis()) + ".xml", Environment.getExternalStorageDirectory().toString() + "/Mantle/history");
+				com.createComment(
+						new Date(System.currentTimeMillis()) + ".xml",
+						Environment.getExternalStorageDirectory().toString()
+								+ "/Mantle/history");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -88,6 +95,6 @@ public class History {
 			}
 			return new Date(System.currentTimeMillis()) + ".xml";
 		}
-		
+
 	}
 }

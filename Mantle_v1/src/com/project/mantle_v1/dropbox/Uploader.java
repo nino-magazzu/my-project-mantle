@@ -119,8 +119,6 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 			if (mRequest != null) {
 				Entry ent = mRequest.upload();
 
-				shareLink = mApi.share(ent.path);
-
 				String shareAddress = getShareURL(shareLink.url).replaceFirst(
 						"https://www", "https://dl");
 				Log.d(TAG, "dropbox share link " + shareAddress);
@@ -271,6 +269,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		try {
 			URL inputURL = new URL(strURL);
 			conn = inputURL.openConnection();
+			Log.v("Uploader", "Connection Opened");
 
 		} catch (MalformedURLException e) {
 			Log.d(TAG, "Please input a valid URL");
