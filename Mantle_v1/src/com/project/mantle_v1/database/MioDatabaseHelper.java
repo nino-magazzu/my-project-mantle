@@ -584,7 +584,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 						null, null);
 				c.moveToNext();
 				
-				result[i] = c.getString(0) + c.getString(1);
+				result[i] = c.getString(0) +" "+ c.getString(1);
 				Log.d("MIO_DATABASE_HELPER","result["+i+"]"+result[i]);
 				result[i + 1] = c.getString(2);
 				i = i + 2;
