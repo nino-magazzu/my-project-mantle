@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,7 +20,6 @@ import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.MioDatabaseHelper;
-import com.project.mantle_v1.notification_home.Notifica;
 import com.project.mantle_v1.notification_home.NotificationDetailFragment;
 
 /**
@@ -36,7 +34,6 @@ public class FileDetailFragment extends Fragment {
 	 * represents.
 	 */
 	public static final String ARG_ITEM_ID = "File_id";
-	// private final String USER_DETAILS_PREF = "user";
 
 	/**
 	 * The dummy content this fragment is presenting.
@@ -69,29 +66,11 @@ public class FileDetailFragment extends Fragment {
 
 		else if (getArguments().containsKey(
 				NotificationDetailFragment.ARG_ITEM_ID)) {
-			Notifica notifica = MyHandler.NOTIFICA_MAP.get(getArguments()
-					.getString(NotificationDetailFragment.ARG_ITEM_ID));
-
-			if (notifica.getNote() == null) {
-
-				Log.v("FILE DETAIL", "SHARING PHOTO");
-				file = notifica.getmFile();
-			}
-
-			else {
-				Log.v("FILE DETAIL", "NOTE");
-				MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
-						.getApplicationContext());
-
-				String fileUrl = db.getLinkfromLinkComment(notifica.getNote()
-						.getCommentLink());
-
-				final String idFile = String.valueOf(db.getIdFile(fileUrl));
 
 				file = new MantleFile(getActivity().getApplicationContext(),
-						idFile);
-			}
-			getArguments().clear();
+						getArguments().getString(NotificationDetailFragment.ARG_ITEM_ID));
+
+				getArguments().clear();
 		}
 	}
 

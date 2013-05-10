@@ -9,6 +9,7 @@ import java.nio.channels.FileChannel;
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
+import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.gmail.Sender;
@@ -38,9 +39,9 @@ import android.view.MenuItem.OnMenuItemClickListener;
  */
 public class FileDetailActivity extends FragmentActivity {
 
-	private final String USER_DETAILS_PREF = "user";
 	final static private int FRIEND_CHOOSED_CODE = 8;
 	private final String TAG = this.getClass().getSimpleName();
+	private MantleFile file;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +65,22 @@ public class FileDetailActivity extends FragmentActivity {
 			// using a fragment transaction.
 			Bundle arguments = new Bundle();
 			
-			if(getIntent().hasExtra(FileDetailFragment.ARG_ITEM_ID))
+			if(getIntent().hasExtra(FileDetailFragment.ARG_ITEM_ID)) {
 				arguments.putString(FileDetailFragment.ARG_ITEM_ID, getIntent()
 						.getStringExtra(FileDetailFragment.ARG_ITEM_ID));
+				
+				file = MyHandler.FILE_MAP.get(getIntent().getStringExtra(
+								FileDetailFragment.ARG_ITEM_ID));
+			}
 			
-			else if(getIntent().hasExtra(NotificationDetailFragment.ARG_ITEM_ID))
+			else if(getIntent().hasExtra(NotificationDetailFragment.ARG_ITEM_ID)) {
 				arguments.putString(NotificationDetailFragment.ARG_ITEM_ID, getIntent()
 						.getStringExtra(NotificationDetailFragment.ARG_ITEM_ID));
+				
+				file = new MantleFile(getApplicationContext(), getIntent()
+						.getStringExtra(NotificationDetailFragment.ARG_ITEM_ID));
+				
+			}
 			
 			FileDetailFragment fragment = new FileDetailFragment();
 			fragment.setArguments(arguments);
@@ -103,10 +113,7 @@ public class FileDetailActivity extends FragmentActivity {
 		menu.add("Commenti").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
-
-						MantleFile file = new MantleFile( getApplicationContext(), MyHandler.FILE_MAP
-								.get(getIntent().getStringExtra(
-										FileDetailFragment.ARG_ITEM_ID)).getIdFile());
+						
 						final File comment = MantleFile.downloadFileFromUrl(
 								file.getLinkComment(),
 								(String) file.getIdFile() + ".xml");
@@ -117,7 +124,7 @@ public class FileDetailActivity extends FragmentActivity {
 						MioDatabaseHelper db = new MioDatabaseHelper(
 								getApplicationContext());
 						SharedPreferences userDetails = getApplicationContext()
-								.getSharedPreferences(USER_DETAILS_PREF, 0);
+								.getSharedPreferences(User.USER_DETAILS_PREF, 0);
 						String username = userDetails
 								.getString("username", " ");
 						bundle.putString("username", username);
@@ -195,12 +202,9 @@ public class FileDetailActivity extends FragmentActivity {
 			Object[] contacts = (Object[]) data
 					.getSerializableExtra("contacts");
 			if (contacts != null) {
-				MantleFile mt = new MantleFile(getApplicationContext(), MyHandler.FILE_MAP
-						.get(getIntent().getStringExtra(
-								FileDetailFragment.ARG_ITEM_ID)).getIdFile());
 				String body = "";
 				try {
-					body = new ParseJSON(new StringWriter()).writeJson(mt);
+					body = new ParseJSON(new StringWriter()).writeJson(file);
 				} catch (IOException e) {
 					Log.e(TAG, "--> " + e.getMessage());
 				}
@@ -210,7 +214,7 @@ public class FileDetailActivity extends FragmentActivity {
 				for (int j = 0; j < contacts.length; j++) {
 					Log.v("Dropbox", "--> " + "Ho inviato la mail a "
 							+ contacts[j]);
-					db.insertShare(Integer.parseInt(mt.getIdFile()), (String) contacts[j]);
+					db.insertShare(Integer.parseInt(file.getIdFile()), (String) contacts[j]);
 					new Sender(this, body, (String) contacts[j],
 							MantleMessage.SHARING_PHOTO).execute();
 				}
