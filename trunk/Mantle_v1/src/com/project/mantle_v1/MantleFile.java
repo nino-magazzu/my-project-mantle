@@ -248,6 +248,14 @@ public class MantleFile implements Serializable {
 		this.priority = priority;
 	}
 
+	public String getLinkThumb() {
+		return linkThumb;
+	}
+
+	public void setLinkThumb(String linkThumb) {
+		this.linkThumb = linkThumb;
+	}
+
 	@Override
 	public String toString() {
 		return this.fileName;
@@ -255,11 +263,12 @@ public class MantleFile implements Serializable {
 
 	private static final long serialVersionUID = 6107134499898867188L;
 	private final String TAG = this.getClass().getSimpleName();
-
+	
 	private String idFile;
 	private String fileName;
 	private String linkFile;
 	private String linkComment;
+	private String linkThumb;
 	private String fileKey;
 	private MioDatabaseHelper db;
 	private File mFile;
