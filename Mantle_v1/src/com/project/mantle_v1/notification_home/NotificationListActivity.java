@@ -183,30 +183,26 @@ public class NotificationListActivity extends FragmentActivity implements
 	    	menu1.setIcon(R.drawable.ic_action_friend);
 	    	menu1.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 	    }
-	    
 	    menu1.setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
 								item.getTitle(), Toast.LENGTH_SHORT).show();
-						Log.d("HOME","Actionbar cliccato"+item.getTitle());
-						return true;
-					}
-				});
-
-		menu.add("Nuovo Servizio").setOnMenuItemClickListener(
-				new OnMenuItemClickListener() {
-					public boolean onMenuItemClick(MenuItem item) {
-						Toast.makeText(getApplicationContext(),
-								item.getTitle(), Toast.LENGTH_SHORT).show();
 						Intent intent = new Intent(
-								NotificationListActivity.this, AddService.class);
+								NotificationListActivity.this,
+								FriendsList.class);
+						intent.putExtra("flag", 1);
 						startActivity(intent);
 						return true;
 					}
 				});
-
-		menu.add("File").setOnMenuItemClickListener(
+	    
+	    MenuItem menu2 = menu.add(1,1,1,"AMICI");
+	    {
+	    	menu2.setIcon(R.drawable.ic_action_friend);
+	    	menu2.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+	    }
+	    menu2.setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
@@ -218,6 +214,20 @@ public class NotificationListActivity extends FragmentActivity implements
 						return true;
 					}
 				});
+		
+	    menu.add("Nuovo Servizio").setOnMenuItemClickListener(
+				new OnMenuItemClickListener() {
+					public boolean onMenuItemClick(MenuItem item) {
+						Toast.makeText(getApplicationContext(),
+								item.getTitle(), Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent(
+								NotificationListActivity.this, AddService.class);
+						startActivity(intent);
+						return true;
+					}
+				});
+
+		
 
 		menu.add("Sincronizza").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
@@ -259,20 +269,6 @@ public class NotificationListActivity extends FragmentActivity implements
 								item.getTitle(), Toast.LENGTH_SHORT).show();
 						Intent intent = new Intent(
 								NotificationListActivity.this, Team.class);
-						startActivity(intent);
-						return true;
-					}
-				});
-
-		menu.add("Amici").setOnMenuItemClickListener(
-				new OnMenuItemClickListener() {
-					public boolean onMenuItemClick(MenuItem item) {
-						Toast.makeText(getApplicationContext(),
-								item.getTitle(), Toast.LENGTH_SHORT).show();
-						Intent intent = new Intent(
-								NotificationListActivity.this,
-								FriendsList.class);
-						intent.putExtra("flag", 1);
 						startActivity(intent);
 						return true;
 					}
