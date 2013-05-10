@@ -37,31 +37,30 @@ public class AddService extends Activity {
 		db = new MioDatabaseHelper(getApplicationContext());
 		addService.setOnClickListener(new View.OnClickListener() {
 
-			@Override
-			public void onClick(View arg0) {
-				service = edit_service.getText().toString();
-				user = edit_user.getText().toString();
-				password = edit_password.getText().toString();
+		@Override
+		public void onClick(View arg0) {
+			service = edit_service.getText().toString();
+			user = edit_user.getText().toString();
+			password = edit_password.getText().toString();
 
-				if (!service.equals("") || !user.equals("")
-						|| !password.equals("")) {
-					db.insertService(service, user, password);
-					Toast mes = Toast.makeText(AddService.this,
-							"insertion was successful", Toast.LENGTH_LONG);
-					mes.show();
-					edit_password.setText("");
-					edit_service.setText("");
-					edit_user.setText("");
-					db.showAll();
-				} else {
-					Log.w("ADD_SERVICE", "insert all the value");
-					Toast error = Toast.makeText(AddService.this,
-							"Invalid value", Toast.LENGTH_LONG);
-					error.show();
-				}
+			if (!service.equals("") || !user.equals("")
+					|| !password.equals("")) {
+				db.insertService(service, user, password);
+				Toast mes = Toast.makeText(AddService.this,
+						"insertion was successful", Toast.LENGTH_LONG);
+				mes.show();
+				edit_password.setText("");
+				edit_service.setText("");
+				edit_user.setText("");
+				db.showAll();
+			} else {
+				Log.w("ADD_SERVICE", "insert all the value");
+				Toast error = Toast.makeText(AddService.this,
+						"Invalid value", Toast.LENGTH_LONG);
+				error.show();
 			}
+		}
 
-		});
+	});
 	}
-
 }
