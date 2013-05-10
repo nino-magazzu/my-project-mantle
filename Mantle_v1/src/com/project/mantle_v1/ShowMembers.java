@@ -22,7 +22,9 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemLongClickListener;
 
+// Questa Activity fornisce un'iterfaccia per la visualizzazione e la gestione degli utenti aparteneti ad una cerchia 
 public class ShowMembers extends Activity {
+	
 	private MioDatabaseHelper db;
 	private String teamName;
 	private int idTeam;
@@ -53,9 +55,6 @@ public class ShowMembers extends Activity {
 			public boolean onItemLongClick(AdapterView<?> listView,
 					View itemView, int position, long itemId) {
 
-				// Ottengo la stringa relativa al subitem "email" per verificare
-				// successivamente se è effettivamente un contatto o è la
-				// stringa TEAM
 				String selectedFromList = (String) (listView
 						.getItemAtPosition(position).toString());
 				String[] contatto = selectedFromList.split(", user=");
