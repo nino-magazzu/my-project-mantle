@@ -224,24 +224,35 @@ public class ParseJSON {
 	
 	private void readImage(MantleFile media) throws IOException {
 		reader.beginObject();
+		String prova;
 		while (reader.hasNext()) {
 			String name = reader.nextName();
 			if (name.equals(THUMB_LINK))
 				media.setLinkThumb(reader.nextString());
 			// TODO: aggiungere eventualmente la lettura delle
-			// dimensioni dell'immagine
+		   // dimensioni dell'immagine
+			else if(name.equals(HEIGHT))
+				prova = reader.nextString();
+			else if(name.equals(WIDTH))
+				prova = reader.nextString();
 		}
 		reader.endObject();
 	}
 	
 	private void readFullImage(MantleFile media) throws IOException {
 		reader.beginObject();
+		String prova;
 		while (reader.hasNext()) {
 			String name = reader.nextName();
 			if (name.equals(FILE_LINK))
 				media.setLinkFile(reader.nextString());
 			// TODO: aggiungere eventualmente la lettura delle
 			// dimensioni dell'immagine
+			else if(name.equals(HEIGHT))
+				prova = reader.nextString();
+			else if(name.equals(WIDTH))
+				prova = reader.nextString();
+
 		}
 		reader.endObject();
 	}

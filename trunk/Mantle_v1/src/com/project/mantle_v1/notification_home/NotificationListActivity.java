@@ -135,14 +135,22 @@ public class NotificationListActivity extends FragmentActivity implements
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
 			Notifica n = MyHandler.NOTIFICA_MAP.get(id);
+			
 			if (n.getNotificationType().equals(MantleMessage.NOTE)
 					|| n.getNotificationType().equals(
 							MantleMessage.SHARING_PHOTO)) {
+				
+				Log.v("Notification List Activity", "FileDetailActivity");
+
 				Intent detailIntent = new Intent(this, FileDetailActivity.class);
 				detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID,
 						id);
 				startActivity(detailIntent);
+			
 			} else {
+			
+				Log.v("Notification List Activity", "NotificationDetailFragment");
+				
 				Intent detailIntent = new Intent(this,
 						NotificationDetailActivity.class);
 				detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID,

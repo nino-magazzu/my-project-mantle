@@ -55,8 +55,10 @@ public class FileDetailFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		if (getArguments().containsKey(ARG_ITEM_ID)) {
+		 
+		Log.v(getClass().getSimpleName(), getArguments().keySet().toString());
+		
+		 if (getArguments().containsKey(ARG_ITEM_ID)) {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
@@ -89,7 +91,7 @@ public class FileDetailFragment extends Fragment {
 				file = new MantleFile(getActivity().getApplicationContext(),
 						idFile);
 			}
-
+			getArguments().clear();
 		}
 	}
 
