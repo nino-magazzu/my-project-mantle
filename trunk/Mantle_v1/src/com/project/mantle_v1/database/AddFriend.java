@@ -52,7 +52,7 @@ public class AddFriend extends Activity {
 					error.show();
 				}
 
-				else if (/* !db.isAlreadyFriend(email)&& */email.contains("@")) {
+				else if (!db.isAlreadyFriend(email)&& email.contains("@")) {
 					Toast error = Toast.makeText(AddFriend.this,
 							"Request is sent", Toast.LENGTH_LONG);
 					error.show();
