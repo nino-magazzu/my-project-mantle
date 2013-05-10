@@ -27,7 +27,7 @@ public class MyHandler extends Handler {
 	private String email;
 	private String FILE_HISTORY_NAME;
 
-	public static List<Notifica> ITEMS = new ArrayList<Notifica>();
+    public static List<Notifica> ITEMS = new ArrayList<Notifica>();
 	public static Map<String, Notifica> NOTIFICA_MAP = new HashMap<String, Notifica>();
 	public static Map<String, MantleFile> FILE_MAP = new HashMap<String, MantleFile>();
 
@@ -44,16 +44,11 @@ public class MyHandler extends Handler {
 		// FILE_HISTORY_NAME = his.getLastFile();
 
 		this.context = context;
-
+		
 		if (ITEMS.isEmpty())
 			addItem(new Notifica(
 					new Date(System.currentTimeMillis()).toString(),
 					"Benvenuto in Mantle", MantleMessage.SYSTEM));
-		else {
-			Log.v(TAG, "Items size: " + ITEMS.size());
-			Log.v(TAG, ITEMS.get(0).getNotificationBody());
-		}
-
 	}
 
 	@Override
@@ -73,7 +68,7 @@ public class MyHandler extends Handler {
 			Notifica not = mess.getNotifica();
 			createNotification(not.getTitle());
 			addItem(not);
-			Log.d(TAG, "ITEMS: " + String.valueOf(ITEMS.size()));
+			//Log.d(TAG, "ITEMS: " + String.valueOf(ITEMS.size()));
 			Log.v(TAG, "AdapterB: " + adapter.toString());
 			adapter.notifyDataSetChanged();
 

@@ -13,6 +13,9 @@ public class User {
 	private String surname;
 	private String key;
 	private MioDatabaseHelper db;
+	
+	
+	public static final String USER_DETAILS_PREF = "user";
 
 	public User(String idUser, String email, String username, String name,
 			String surname, String key) {

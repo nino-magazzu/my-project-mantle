@@ -6,6 +6,7 @@ import java.util.Date;
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
+import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.AddFriend;
 import com.project.mantle_v1.database.AddService;
 import com.project.mantle_v1.database.FriendsList;
@@ -68,7 +69,6 @@ public class NotificationListActivity extends FragmentActivity implements
 	 * device.
 	 */
 	private boolean mTwoPane;
-	private final String USER_DETAILS_PREF = "user";
 	private MyHandler handler;
 	private Context mContext;
 
@@ -77,13 +77,9 @@ public class NotificationListActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_notification_list);
 
-		// NotificaAdapter notifyAdapter = new
-		// NotificaAdapter(getApplicationContext(),
-		// R.layout.note_layout, MyHandler.ITEMS);
-
 		handler = new MyHandler(getApplicationContext());
 
-		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
+		SharedPreferences userDetails = getSharedPreferences(User.USER_DETAILS_PREF,
 				0);
 
 		ReaderTask rt = new ReaderTask(handler, userDetails.getString("email",
@@ -156,15 +152,31 @@ public class NotificationListActivity extends FragmentActivity implements
 						new Date(System.currentTimeMillis()).toString());
 				db.close();
 				Intent detailIntent = new Intent(this, FileDetailActivity.class);
+				
+				/* 
+				 *  Passo alla File Detail Activity l'id del file che mi è stato condiviso
+				 */
+				
 				detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID,
-						id);
+						String.valueOf(ID));
+				
+				
 				startActivity(detailIntent);
 			
 			}
 			else if(n.getNotificationType().equals(MantleMessage.NOTE)){
+				
+				/* 
+				 *  Passo alla File Detail Activity l'id del file che mi è stato condiviso
+				 */
+
+				MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+				String fileUrl = db.getLinkfromLinkComment(n.getNote()
+						.getCommentLink());
+				String idFile = String.valueOf(db.getIdFile(fileUrl));
 				Intent detailIntent = new Intent(this, FileDetailActivity.class);
 				detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID,
-						id);
+						idFile);
 				startActivity(detailIntent);
 				}
 				
