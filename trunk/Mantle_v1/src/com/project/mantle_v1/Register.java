@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+//Questa Activity fornisce un interfaccia per gestire la registrazione di un utente
 public class Register extends Activity {
 
 	private Button forward;
@@ -72,11 +73,13 @@ public class Register extends Activity {
 				// String dropboxPass =
 				// dropboxPassEditText.getText().toString();
 
+				//verica non ci siano dei campi vuoti
 				if (!name.equals("") && !surname.equals("")
 						&& !email.equals("") /*
 											 * && !dropboxPass.equals("") &&
 											 * !dropboxUser.equals("")
 											 */) {
+					//Inserimento dei valori nel db
 					int id = (int) db.insertUser(email, username, name,
 							surname, password);
 					// db.insertService("Dropbox", dropboxUser, dropboxPass);
@@ -89,7 +92,8 @@ public class Register extends Activity {
 					// ****************//
 
 					db.showAll();
-
+					
+					//Vengono create le cartelle che servono per il funzionamento dell'applicazione
 					File dir = new File(Environment
 							.getExternalStorageDirectory() + "/Mantle/history");
 
@@ -103,6 +107,8 @@ public class Register extends Activity {
 						dir.mkdirs();
 
 					setPreferences(email, emailPass, id);
+					
+					//Viene esportato il db appena creato e caricato su dropbox
 					db.exportDB();
 
 					DropboxAuth dropbox = new DropboxAuth(
@@ -125,7 +131,8 @@ public class Register extends Activity {
 					}
 
 					db.close();
-
+					
+					//Viene lanciata la home
 					Intent intent = new Intent(Register.this,
 							NotificationListActivity.class);
 					startActivity(intent);
@@ -141,6 +148,8 @@ public class Register extends Activity {
 		});
 	}
 
+	//Viene settato un oggetto SharedPreferences che contiene 
+	// le principali informazioni dell'utente che devono avere visibilità globale  
 	private void setPreferences(String email, String emailpswd, int id) {
 		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
 				0);
