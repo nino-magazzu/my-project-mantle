@@ -622,9 +622,9 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		String[] selectionArgs = { idFile };
 		Cursor c = db.query("File", null, selection, selectionArgs, null, null,
 				null);
-		String[] result = new String[7];
+		String[] result = new String[8];
 		c.moveToNext();
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < 8; i++) {
 			result[i] = c.getString(i);
 		}
 		return result;
@@ -693,10 +693,11 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 			mf.setIdFile(c.getString(0));
 			mf.setFileName(c.getString(1));
 			mf.setLinkFile(c.getString(2));
-			mf.setLinkComment(c.getString(3));
-			mf.setFileKey(c.getString(4));
-			mf.setObjectType(c.getString(5));
-			mf.setPriority(c.getInt(6));
+			mf.setLinkThumb(c.getString(3));
+			mf.setLinkComment(c.getString(4));
+			mf.setFileKey(c.getString(5));
+			mf.setObjectType(c.getString(6));
+			mf.setPriority(c.getInt(7));
 			arr.add(mf);
 			Log.d("MIO_DATABASE_HELPER",
 					"ho aggiunto questo filename:" + c.getString(1));
@@ -744,7 +745,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		while (cursor.moveToNext()) {
 			result[i] = cursor.getString(0) + " " + cursor.getString(1) + " "
 					+ cursor.getString(2) + " " + cursor.getString(3) + " "
-					+ cursor.getString(4);
+					+ cursor.getString(4)+" " + cursor.getString(5)+" " + cursor.getString(6)+" " + cursor.getString(7);
 			Log.d("MIO_DATABASE_HELPER", result[i]);
 			i++;
 		}
