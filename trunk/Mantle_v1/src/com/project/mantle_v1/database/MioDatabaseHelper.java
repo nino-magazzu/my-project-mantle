@@ -69,6 +69,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		sql += " idFile INTEGER PRIMARY KEY,";
 		sql += " fileName TEXT,";
 		sql += " linkFile TEXT,";
+		sql += " linkThumbnail TEXT,";
 		sql += " linkComment TEXT,";
 		sql += " fileKey TEXT,";
 		sql += " mimeType TEXT,";
@@ -227,11 +228,12 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		return r;
 	}
 
-	public long insertFile(String fileName, String linkFile,
+	public long insertFile(String fileName, String linkFile, String linkThumbnail,
 			String linkComment, String fileKey, String mimeType, int priority) {
 		ContentValues values = new ContentValues();
 		values.put("fileName", fileName);
 		values.put("linkFile", linkFile);
+		values.put("linkThumbnail", linkThumbnail);
 		values.put("linkComment", linkComment);
 		values.put("fileKey", fileKey);
 		values.put("priority", priority);
@@ -267,6 +269,16 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 		return r;
 	}
 
+	public void insertLinkThumbnail(int idFile, String link) {
+
+		ContentValues values = new ContentValues();
+		values.put("linkThumbnail", link);
+		String whereClause = "idFile = ?";
+		String[] whereArgs = { String.valueOf(idFile) };
+		db.update("File", values, whereClause, whereArgs);
+
+	}
+	
 	public void insertLinkComment(int idFile, String link) {
 
 		ContentValues values = new ContentValues();
