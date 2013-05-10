@@ -161,6 +161,7 @@ public class NotificationListActivity extends FragmentActivity implements
 	    	menu1.setIcon(R.drawable.ic_action_friend);
 	    	menu1.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 	    }
+	    
 	    menu1.setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {

@@ -556,27 +556,43 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 				null, null);
 
 		int i = c.getCount();
-		String[] idUser = new String[i];
-		String[] result = new String[i * 2];
-		i = 0;
+		
+		if(i<1){
+			Log.d("MIO_DATABASE_HELPER","Il file non è stato mai condiviso");
+			String[] noResult={"",""};
+			return noResult;
+			
+		}
+		
+		else{
+			String[] idUser = new String[i];
+			String[] result = new String[i * 2];
+			i = 0;
 
-		while (c.moveToNext()) {
-			idUser[i] = c.getString(0);
-			i++;
+			while (c.moveToNext()) {
+				idUser[i] = c.getString(0);
+				i++;
+			}
+
+			String[] columns2 = { "name", "surname", "username" };
+			selection = "idUser=?";
+			int j = 0;
+					
+			for ( j = 0, i = 0; i < idUser.length; j++) {
+				String[] selectionArgs2 = { idUser[j] };
+				c = db.query("User", columns2, selection, selectionArgs2, null,
+						null, null);
+				c.moveToNext();
+				
+				result[i] = c.getString(0) + c.getString(1);
+				Log.d("MIO_DATABASE_HELPER","result["+i+"]"+result[i]);
+				result[i + 1] = c.getString(2);
+				i = i + 2;
+			}
+			return result;
 		}
 
-		String[] columns2 = { "name", "surname", "username" };
-		selection = "idUser=?";
-		for (i = 0; i < idUser.length; i = i + 2) {
-			String[] selectionArgs2 = { idUser[i] };
-			c = db.query("User", columns2, selection, selectionArgs2, null,
-					null, null);
-			c.moveToNext();
-			result[i] = c.getString(0) + c.getString(1);
-			result[i + 1] = c.getString(2);
-		}
-
-		return result;
+		
 	}
 
 	//Ottenere un vettore contenente le informazioni(il nome)di tutti i gruppi creati
@@ -765,7 +781,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	//Ottenere un ArrayList di MantleFile di tutti i file salvati sul db
 	public ArrayList<MantleFile> getAllFile() {
 		
-		String selection = "idUser != 1";
+		String selection = "idFile != 1";
 		Cursor c = db.query("File", null, selection, null, null, null, null);
 		ArrayList<MantleFile> arr = new ArrayList<MantleFile>();
 
