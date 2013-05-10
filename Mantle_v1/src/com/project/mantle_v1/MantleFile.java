@@ -31,10 +31,6 @@ public class MantleFile implements Serializable {
 		this.isImage = objectType.contains("image");
 		this.fileName = file.getName();
 		this.mFile = file;
-		if (objectType.contains("image"))
-			this.icon = "page_white_picture48";
-		else
-			this.icon = "page_white_acrobat48";
 		this.username = username;
 	}
 
@@ -45,8 +41,6 @@ public class MantleFile implements Serializable {
 		this.linkFile = null;
 		this.linkComment = null;
 		this.fileKey = null;
-		// this.fullImage = null;
-		// this.thumbnail = null;
 	}
 
 	public MantleFile(String idFile, String filename, String linkFile,
@@ -65,10 +59,11 @@ public class MantleFile implements Serializable {
 		this.idFile = file[0];
 		this.fileName = file[1];
 		this.linkFile = file[2];
-		this.linkComment = file[3];
-		this.fileKey = file[4];
-		this.objectType = file[5];
-		this.priority = Integer.parseInt(file[6]);
+		this.linkThumb = file[3];
+		this.linkComment = file[4];
+		this.fileKey = file[5];
+		this.objectType = file[6];
+		this.priority = Integer.parseInt(file[7]);
 
 		SharedPreferences userDetails = cont.getSharedPreferences(
 				USER_DETAILS_PREF, 0);
@@ -164,17 +159,6 @@ public class MantleFile implements Serializable {
 		this.fileKey = fileKey;
 	}
 
-	/*
-	 * public MantleImage getThumbnail() { return thumbnail; }
-	 * 
-	 * public void setThumbnail(MantleImage thumbnail) { this.thumbnail =
-	 * thumbnail; }
-	 * 
-	 * public MantleImage getFullImage() { return fullImage; }
-	 * 
-	 * public void setFullImage(MantleImage fullImage) { this.fullImage =
-	 * fullImage; }
-	 */
 	public String getObjectType() {
 		return objectType;
 	}
@@ -182,14 +166,6 @@ public class MantleFile implements Serializable {
 	public void setObjectType(String objectType) {
 		this.objectType = objectType;
 		this.isImage = objectType.contains("image");
-	}
-
-	public String getIcon() {
-		return icon;
-	}
-
-	public void setIcon(String icon) {
-		this.icon = icon;
 	}
 
 	public boolean isImage() {
@@ -266,7 +242,6 @@ public class MantleFile implements Serializable {
 	private MioDatabaseHelper db;
 	private File mFile;
 	private String objectType;
-	private String icon;
 	private boolean isImage;
 	private Bitmap bitmap;
 	private String date;
