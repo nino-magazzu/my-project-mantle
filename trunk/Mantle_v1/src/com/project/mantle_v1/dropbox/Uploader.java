@@ -117,6 +117,15 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 			if (mRequest != null) {
 				Entry ent = mRequest.upload();
 				
+				shareLink = mApi.share(ent.path);
+				
+				Log.v(TAG, "dropbox share link " + shareLink.url);
+				
+				String shareAddress = getShareURL(shareLink.url)
+						.replaceFirst("https://www", "https://dl");
+				
+				Log.v(TAG, "dropbox share link " + shareAddress);
+				
 				if(ent.thumbExists) {
 					String fileName = getTumbName(mFile.getName());
 					File thumb = new File(Environment.getExternalStorageDirectory()
@@ -124,19 +133,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 					mApi.getThumbnail(ent.path, new FileOutputStream(thumb), ThumbSize.BESTFIT_320x240, ThumbFormat.JPEG, null);
 					path = mPath + fileName;
 					fis = new FileInputStream(thumb);
-					mRequest = mApi.putFileOverwriteRequest(path, fis, thumb.length(),
-							new ProgressListener() {
-								@Override
-								public long progressInterval() {
-									// Update the progress bar every half-second or so
-									return 500;
-								}
-
-								@Override
-								public void onProgress(long bytes, long total) {
-									publishProgress(bytes);
-								}
-							});
+					mRequest = mApi.putFileOverwriteRequest(path, fis, thumb.length(), null);
 					
 					if (mRequest != null) {
 						Entry entThumb = mRequest.upload();
@@ -147,15 +144,6 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 					}
 				}
 					
-				shareLink = mApi.share(ent.path);
-				
-				Log.v(TAG, "dropbox share link " + shareLink.url);
-				
-				String shareAddress = getShareURL(shareLink.url)
-						.replaceFirst("https://www", "https://dl");
-				
-				Log.v(TAG, "dropbox share link " + shareAddress);
-
 				// creazione del file
 				MantleFile file = new MantleFile(ent, shareAddress, username,
 						mFile);
