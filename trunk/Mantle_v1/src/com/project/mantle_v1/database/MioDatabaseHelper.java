@@ -548,7 +548,9 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	
 	//Ottenere un vettore 0)name,surname; 1)username; degli utenti con cui è stato condiviso un file	
 	public String[] getSharers(String idFile) {
-
+		
+		Log.v("MIO DATABASE HELPER", idFile);
+		
 		String[] columns = { "idUser" };
 		String selection = "idFile=?";
 		String[] selectionArgs = { idFile };

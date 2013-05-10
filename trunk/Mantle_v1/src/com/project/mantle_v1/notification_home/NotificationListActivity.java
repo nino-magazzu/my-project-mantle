@@ -1,7 +1,9 @@
 package com.project.mantle_v1.notification_home;
 
 import java.io.File;
+import java.util.Date;
 
+import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.AddFriend;
@@ -141,7 +143,19 @@ public class NotificationListActivity extends FragmentActivity implements
 							MantleMessage.SHARING_PHOTO)) {
 				
 				Log.v("Notification List Activity", "FileDetailActivity");
-
+				
+				MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+				
+				long ID = db.insertFile(n.getmFile().getFileName(),
+						n.getmFile().getLinkFile(), n.getmFile().getLinkThumb(), n.getmFile().getLinkComment(), "",
+						n.getmFile().getObjectType(), MantleFile.NOT_OWN_FILE);
+				
+				n.getmFile().setIdFile(String.valueOf(ID));
+				
+				int ID_User = db.getId(n.getmFile().getSender_email());
+				db.insertHistory((int) ID, ID_User,
+						new Date(System.currentTimeMillis()).toString());
+				db.close();
 				Intent detailIntent = new Intent(this, FileDetailActivity.class);
 				detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID,
 						id);
