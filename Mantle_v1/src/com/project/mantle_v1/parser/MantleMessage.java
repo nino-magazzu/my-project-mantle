@@ -30,7 +30,8 @@ public class MantleMessage {
 	public static String SHARING_PHOTO = "004 ";
 	public static String NOTE = "005 ";
 	public static String SYSTEM = "006 ";
-
+	public static String SHARING_FILE = "007 ";
+	
 	private String jsonText;
 	private String type;
 	private String sender_email;
@@ -73,6 +74,9 @@ public class MantleMessage {
 		if (type.equals(SHARING_PHOTO))
 			return MAGIC_NUMBER + type + jsonText;
 
+		if (type.equals(SHARING_FILE))
+			return MAGIC_NUMBER + type + jsonText;
+
 		throw new Exception("Message Type Errato!");
 
 	}
@@ -93,6 +97,7 @@ public class MantleMessage {
 		DECODE_MAP.put(SHARING_PHOTO, ++i);
 		DECODE_MAP.put(NOTE, ++i);
 		DECODE_MAP.put(SYSTEM, ++i);
+		DECODE_MAP.put(SHARING_FILE, ++i);
 
 	}
 
@@ -174,7 +179,7 @@ public class MantleMessage {
 			Log.d(TAG, jsonText);
 			parser = new ParseJSON(new StringReader(jsonText));
 			try {
-				media = parser.readMediaJson();
+				media = parser.readImageMediaJson();
 			} catch (IOException e) {
 				Log.e(TAG, "Problema lettura: " + e.getMessage());
 			}
@@ -205,6 +210,18 @@ public class MantleMessage {
 			}
 			return new Notifica(note.getDate(), note.getContent(),
 					MantleMessage.SYSTEM);
+			
+		case 007:
+			jsonText = message.substring(CODE_DIM, message.length());
+			Log.d(TAG, jsonText);
+			parser = new ParseJSON(new StringReader(jsonText));
+			try {
+				media = parser.readFileMediaJson();
+			} catch (IOException e) {
+				Log.e(TAG, "Problema lettura: " + e.getMessage());
+			}
+			media.setSender_email(sender_email);
+			return new Notifica(SHARING_FILE, media);
 
 		default:
 			throw new Error("Codice Errato");

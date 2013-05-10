@@ -16,18 +16,18 @@ public class ParseJSON {
 	final private String OBJECT_TYPE = "objectType";
 	final private String FILE_LINK = "url_file";
 	final private String NOTES_LINK = "url_notes";
+	final private String THUMB_LINK = "url_thumb";
 	final private String CONTENT = "content";
-	// final private String ICON = "icon";
-	// final private String WIDTH = "width";
-	// final private String HEIGHT = "height";
+	final private String ICON = "icon";
+    final private String WIDTH = "width";
+	final private String HEIGHT = "height";
 	final private String NAME = "name";
 	final private String SURNAME = "surname";
 	final private String PUBLIC_KEY = "publicKey";
 	final private String EMAIL = "email";
 	final private String FILE_NAME = "fileName";
-
-	// final private String IMAGE = "image";
-	// final private String FULL_IMAGE = "fullImage";
+	final private String IMAGE = "image";
+	final private String FULL_IMAGE = "fullImage";
 
 	public ParseJSON(StringReader In) {
 		this.in = In;
@@ -40,9 +40,39 @@ public class ParseJSON {
 	public String writeJson(MantleFile mt) throws IOException {
 		this.writer = new JsonWriter(out);
 		writer.setIndent("  ");
-		writeMedia(mt);
+		
+		if(!mt.isImage())
+			writeFile(mt);
+		else
+			writeImg(mt);
+		
 		writer.close();
 		return out.toString();
+	}
+
+	private void writeImg(MantleFile media) throws IOException {
+		writer.beginObject();
+		writer.name(FILE_NAME).value(media.getFileName());
+		writer.name(OBJECT_TYPE).value(media.getObjectType());
+		writer.name(NOTES_LINK).value(media.getLinkComment());
+		writer.name(USERNAME).value(media.getUsername());
+		writer.name(PUBLISHED).value(media.getDate());
+		writer.name(IMAGE);
+		imageDetails(media);
+		writer.name(FULL_IMAGE); 
+		fullImageDetails(media);
+		
+	}
+	
+	private void writeFile(MantleFile media) throws IOException {
+		writer.beginObject();
+		writer.name(FILE_NAME).value(media.getFileName());
+		writer.name(FILE_LINK).value(media.getLinkFile());
+		writer.name(NOTES_LINK).value(media.getLinkComment());
+		writer.name(OBJECT_TYPE).value(media.getObjectType());
+		writer.name(USERNAME).value(media.getUsername());
+		writer.name(PUBLISHED).value(media.getDate());
+		writer.endObject();
 	}
 
 	public String writeJson(Note note) throws IOException {
@@ -81,37 +111,22 @@ public class ParseJSON {
 		writer.endObject();
 	}
 
-	private void writeMedia(MantleFile media) throws IOException {
+	private void imageDetails(MantleFile media) throws IOException {
 		writer.beginObject();
-		writer.name(FILE_NAME).value(media.getFileName());
-		writer.name(FILE_LINK).value(media.getLinkFile());
-		writer.name(NOTES_LINK).value(media.getLinkComment());
-		writer.name(OBJECT_TYPE).value(media.getObjectType());
-		writer.name(USERNAME).value(media.getUsername());
-		writer.name(PUBLISHED).value(media.getDate());
-		/*
-		 * if(media.isImage()) { writer.name(IMAGE); imageDetails(media);
-		 * writer.name(FULL_IMAGE); fullImageDetails(media); }
-		 */
+		writer.name(THUMB_LINK).value(media.getLinkThumb());
+		writer.name(WIDTH).value("320");
+		writer.name(HEIGHT).value("240");
 		writer.endObject();
 	}
 
-	/*
-	 * private void imageDetails(MantleFile media) throws IOException {
-	 * writer.beginObject(); writer.name(ICON).value(media.getIcon());
-	 * writer.name(WIDTH).value(48); writer.name(HEIGHT).value(48);
-	 * writer.endObject(); }
-	 * 
-	 * 
-	 * private void fullImageDetails(MantleImage media) throws IOException {
-	 * writer.beginObject(); writer.name(FILE_LINK).value(media.getLink());
-	 * writer.name(WIDTH).value(media.getWidth());
-	 * writer.name(HEIGHT).value(media.getHeight()); writer.endObject(); }
-	 * 
-	 * public Note readSystemInfo() throws IOException { this.reader = new
-	 * JsonReader(in); reader.setLenient(lenient); Note note = new Note(); try {
-	 * readSystemInfo(note); } finally { reader.close(); } return note; }
-	 */
+	private void fullImageDetails(MantleFile media) throws IOException {
+		writer.beginObject();
+		writer.name(FILE_LINK).value(media.getLinkFile());
+		writer.name(WIDTH).value("100");
+		writer.name(HEIGHT).value("100");
+		writer.endObject();
+	}
+	
 
 	public Note readNote() throws IOException {
 		this.reader = new JsonReader(in);
@@ -142,20 +157,19 @@ public class ParseJSON {
 		reader.endObject();
 	}
 
-	public MantleFile readMediaJson() throws IOException {
+	public MantleFile readFileMediaJson() throws IOException {
 		this.reader = new JsonReader(in);
 		reader.setLenient(lenient);
 		MantleFile media = new MantleFile();
 		try {
-			readMedia(media);
+			readFileMedia(media);
 		} finally {
 			reader.close();
 		}
 		return media;
-
 	}
 
-	private void readMedia(MantleFile media) throws IOException {
+	private void readFileMedia(MantleFile media) throws IOException {
 		reader.beginObject();
 		while (reader.hasNext()) {
 			String name = reader.nextName();
@@ -171,9 +185,64 @@ public class ParseJSON {
 				media.setUsername(reader.nextString());
 			else if (name.equals(PUBLISHED))
 				media.setDate(reader.nextString());
-			/*
-			 * else if(name.equals(ICON)) media.setIcon(reader.nextString());
-			 */
+		}
+		reader.endObject();
+	}
+
+	public MantleFile readImageMediaJson() throws IOException {
+		this.reader = new JsonReader(in);
+		reader.setLenient(lenient);
+		MantleFile media = new MantleFile();
+		try {
+			readImageMedia(media);
+		} finally {
+			reader.close();
+		}
+		return media;
+	}
+	
+	private void readImageMedia(MantleFile media) throws IOException {
+		reader.beginObject();
+		while (reader.hasNext()) {
+			String name = reader.nextName();
+			if (name.equals(FILE_NAME))
+				media.setFileName(reader.nextString());
+			else if (name.equals(NOTES_LINK))
+				media.setLinkComment(reader.nextString());
+			else if (name.equals(OBJECT_TYPE))
+				media.setObjectType(reader.nextString());
+			else if (name.equals(USERNAME))
+				media.setUsername(reader.nextString());
+			else if (name.equals(PUBLISHED))
+				media.setDate(reader.nextString());
+			else if(name.equals(IMAGE))
+				readImage(media);
+			else if(name.equals(FULL_IMAGE))
+				readFullImage(media);
+		}
+		reader.endObject();
+	}
+	
+	private void readImage(MantleFile media) throws IOException {
+		reader.beginObject();
+		while (reader.hasNext()) {
+			String name = reader.nextName();
+			if (name.equals(THUMB_LINK))
+				media.setLinkThumb(reader.nextString());
+			// TODO: aggiungere eventualmente la lettura delle
+			// dimensioni dell'immagine
+		}
+		reader.endObject();
+	}
+	
+	private void readFullImage(MantleFile media) throws IOException {
+		reader.beginObject();
+		while (reader.hasNext()) {
+			String name = reader.nextName();
+			if (name.equals(FILE_LINK))
+				media.setLinkFile(reader.nextString());
+			// TODO: aggiungere eventualmente la lettura delle
+			// dimensioni dell'immagine
 		}
 		reader.endObject();
 	}
