@@ -115,6 +115,7 @@ public class FileDetailFragment extends Fragment {
 				.getApplicationContext());
 
 		String[] sharers = db.getSharers(file.getIdFile());
+		Log.d("FIle_DETAIL_FRAGMENT","Ho ricevuto il vettore adesso lo stmapo nella lista");
 		showSharers(sharers);
 
 		// Button bComment = (Button) rootView.findViewById(R.id.comment);
@@ -154,8 +155,8 @@ public class FileDetailFragment extends Fragment {
 		for (int j = 0; j < sharers.length; j = j + 2) {
 
 			Map<String, String> datum = new HashMap<String, String>(2);
-			datum.put("user", sharers[j]);
-			datum.put("email", sharers[j + 1]);
+			datum.put("name", sharers[j]);
+			datum.put("username", sharers[j + 1]);
 			data.add(datum);
 		}
 
