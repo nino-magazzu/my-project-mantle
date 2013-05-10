@@ -1,6 +1,8 @@
-package com.project.mantle_v1;
+package com.project.mantle_v1.database;
 
-import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.R;
+import com.project.mantle_v1.R.id;
+import com.project.mantle_v1.R.layout;
 
 import android.app.Activity;
 import android.os.Bundle;

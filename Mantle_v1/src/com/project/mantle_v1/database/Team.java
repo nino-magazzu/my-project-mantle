@@ -1,11 +1,14 @@
-package com.project.mantle_v1;
+package com.project.mantle_v1.database;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.project.mantle_v1.database.FriendsList;
-import com.project.mantle_v1.database.MioDatabaseHelper;
+
+import com.project.mantle_v1.R;
+import com.project.mantle_v1.R.id;
+import com.project.mantle_v1.R.layout;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

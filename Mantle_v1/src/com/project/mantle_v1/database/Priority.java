@@ -1,8 +1,7 @@
-package com.project.mantle_v1.dropbox;
+package com.project.mantle_v1.database;
 
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.database.MioDatabaseHelper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

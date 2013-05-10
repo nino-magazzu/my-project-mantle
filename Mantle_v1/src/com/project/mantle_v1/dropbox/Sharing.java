@@ -10,6 +10,7 @@ import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.database.Priority;
 import com.project.mantle_v1.fileChooser.FileChooser;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
