@@ -194,9 +194,9 @@ public class FileDetailActivity extends FragmentActivity {
 			Object[] contacts = (Object[]) data
 					.getSerializableExtra("contacts");
 			if (contacts != null) {
-				MantleFile mt = MyHandler.FILE_MAP
+				MantleFile mt = new MantleFile(getApplicationContext(), MyHandler.FILE_MAP
 						.get(getIntent().getStringExtra(
-								FileDetailFragment.ARG_ITEM_ID));
+								FileDetailFragment.ARG_ITEM_ID)).getIdFile());
 				String body = "";
 				try {
 					body = new ParseJSON(new StringWriter()).writeJson(mt);
