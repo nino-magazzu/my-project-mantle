@@ -178,7 +178,7 @@ public class NotificationListActivity extends FragmentActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		
 		
-		MenuItem menu1 = menu.add(0,0,0,"AMICI");
+		MenuItem menu1 = menu.add(0,0,0,"Amici");
 	    {
 	    	menu1.setIcon(R.drawable.ic_action_friend);
 	    	menu1.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
@@ -197,12 +197,24 @@ public class NotificationListActivity extends FragmentActivity implements
 					}
 				});
 	    
-	    MenuItem menu2 = menu.add(1,1,1,"AMICI");
+	    MenuItem menu2 = menu.add(1,1,1,"Condividi");
 	    {
-	    	menu2.setIcon(R.drawable.ic_action_friend);
+	    	menu2.setIcon(R.drawable.ic_action_share);
 	    	menu2.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 	    }
 	    menu2.setOnMenuItemClickListener(
+				new OnMenuItemClickListener() {
+					public boolean onMenuItemClick(MenuItem item) {
+						Toast.makeText(getApplicationContext(),
+								item.getTitle(), Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent(
+								NotificationListActivity.this, Sharing.class);
+						startActivity(intent);
+						return true;
+					}
+				});
+	    
+	    menu.add("File").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
@@ -227,8 +239,6 @@ public class NotificationListActivity extends FragmentActivity implements
 					}
 				});
 
-		
-
 		menu.add("Sincronizza").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
@@ -246,18 +256,6 @@ public class NotificationListActivity extends FragmentActivity implements
 								"/StoredFile/", new File(Environment
 										.getExternalStorageDirectory()
 										+ "/Mantle/db/Mantle")).execute();
-						return true;
-					}
-				});
-
-		menu.add("Condividi").setOnMenuItemClickListener(
-				new OnMenuItemClickListener() {
-					public boolean onMenuItemClick(MenuItem item) {
-						Toast.makeText(getApplicationContext(),
-								item.getTitle(), Toast.LENGTH_SHORT).show();
-						Intent intent = new Intent(
-								NotificationListActivity.this, Sharing.class);
-						startActivity(intent);
 						return true;
 					}
 				});
