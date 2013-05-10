@@ -15,13 +15,6 @@ import com.project.mantle_v1.dropbox.DownladerTask;
 import com.project.mantle_v1.dropbox.UploaderTask;
 
 public class MantleFile implements Serializable {
-
-	/*
-	 * TODO: da gestire in seguito alla modifica della struttura del db
-	 * 
-	 * private MantleImage thumbnail; private MantleImage fullImage;
-	 */
-
 	// **** PRIORITY TYPE ****
 
 	public static final int NEEDFUL_FILE = 3;
