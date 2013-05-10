@@ -138,8 +138,8 @@ public class FileDetailFragment extends Fragment {
 		 * getActivity().startActivity(myIntent); } });
 		 */
 		if (file.isImage()) {
-			File img = MantleFile.downloadFileFromUrl(file.getLinkFile(),
-					file.getFileName());
+			File img = MantleFile.downloadFileFromUrl(file.getLinkThumb(),
+					getTumbName(file.getFileName()));
 			ImageView iv = (ImageView) rootView.findViewById(R.id.sharedImage);
 			iv.setImageBitmap(BitmapFactory.decodeFile(img.getAbsolutePath()));
 		}
@@ -162,5 +162,13 @@ public class FileDetailFragment extends Fragment {
 						"username" }, new int[] { android.R.id.text1,
 						android.R.id.text2 });
 		listView.setAdapter(adapter);
+	}
+	
+	private String getTumbName(String fileName) {
+		final int lastPeriodPos = fileName.lastIndexOf('.');
+		if (lastPeriodPos <= 0) 
+	        return fileName+ "_t";
+		else 
+			return fileName.substring(0, lastPeriodPos)+ "_t";
 	}
 }

@@ -285,7 +285,7 @@ public class NotificationDetailFragment extends Fragment {
 				 */
 
 				final long ID = db.insertFile(mFile.getFileName(),
-						mFile.getLinkFile(), mFile.getLinkComment(), "",
+						mFile.getLinkFile(), mFile.getLinkThumb(), mFile.getLinkComment(), "",
 						mFile.getObjectType(), MantleFile.NOT_OWN_FILE);
 				int ID_User = db.getId(mFile.getSender_email());
 				db.insertHistory((int) ID, ID_User,

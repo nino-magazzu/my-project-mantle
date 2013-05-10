@@ -61,7 +61,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 	private String mErrorMsg;
 	private DropboxLink shareLink;
 	private String username;
-
+	private String ThumbAddress;
 	private int ID;
 
 	public Uploader(Context context, DropboxAPI<?> api, String dropboxPath,
@@ -116,9 +116,37 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 
 			if (mRequest != null) {
 				Entry ent = mRequest.upload();
-				if(ent.thumbExists)
-					mApi.getThumbnail(ent.path, new FileOutputStream(new File(Environment.getExternalStorageDirectory()
-							.toString() + "/Mantle/temp", mFile.getName() + "_t")), ThumbSize.BESTFIT_320x240, ThumbFormat.JPEG, null);
+				
+				if(ent.thumbExists) {
+					String fileName = getTumbName(mFile.getName());
+					File thumb = new File(Environment.getExternalStorageDirectory()
+							.toString() + "/Mantle/temp", fileName);
+					mApi.getThumbnail(ent.path, new FileOutputStream(thumb), ThumbSize.BESTFIT_320x240, ThumbFormat.JPEG, null);
+					path = mPath + fileName;
+					fis = new FileInputStream(thumb);
+					mRequest = mApi.putFileOverwriteRequest(path, fis, thumb.length(),
+							new ProgressListener() {
+								@Override
+								public long progressInterval() {
+									// Update the progress bar every half-second or so
+									return 500;
+								}
+
+								@Override
+								public void onProgress(long bytes, long total) {
+									publishProgress(bytes);
+								}
+							});
+					
+					if (mRequest != null) {
+						Entry entThumb = mRequest.upload();
+						thumb.delete();
+						shareLink = mApi.share(entThumb.path);
+						ThumbAddress = getShareURL(shareLink.url)
+								.replaceFirst("https://www", "https://dl");
+					}
+				}
+					
 				shareLink = mApi.share(ent.path);
 				
 				Log.v(TAG, "dropbox share link " + shareLink.url);
@@ -134,11 +162,16 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 
 				// creazione istanza del database
 				MioDatabaseHelper db = new MioDatabaseHelper(mContext);
-
+				
 				// inserimento del fil ne db
-				ID = (int) db.insertFile(file.getFileName(),
-						file.getLinkFile(), "", file.getFileKey(),
-						file.getObjectType(), MantleFile.NORMAL_FILE);
+				if(ThumbAddress == null) 
+					ID = (int) db.insertFile(file.getFileName(),
+							file.getLinkFile(), "","", file.getFileKey(),
+							file.getObjectType(), MantleFile.NORMAL_FILE);
+				else
+					ID = (int) db.insertFile(file.getFileName(),
+							file.getLinkFile(), ThumbAddress,"", file.getFileKey(),
+							file.getObjectType(), MantleFile.NORMAL_FILE);
 
 				SharedPreferences userDetails = mContext.getSharedPreferences(
 						USER_DETAILS_PREF, 0);
@@ -269,7 +302,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
 	}
 
-	String getShareURL(String strURL) {
+	private String getShareURL(String strURL) {
 		URLConnection conn = null;
 		try {
 			URL inputURL = new URL(strURL);
@@ -286,6 +319,13 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		//Log.v(TAG, conn.getHeaderFields().keySet().toString());
 		//Log.v(TAG, conn.getHeaderFields().values().toString());
 		return conn.getHeaderField("location");
-
+	}
+	
+	private String getTumbName(String fileName) {
+		final int lastPeriodPos = fileName.lastIndexOf('.');
+		if (lastPeriodPos <= 0) 
+	        return fileName+ "_t";
+		else 
+			return fileName.substring(0, lastPeriodPos)+ "_t";
 	}
 }
