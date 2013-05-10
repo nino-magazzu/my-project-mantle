@@ -764,7 +764,9 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 
 	//Ottenere un ArrayList di MantleFile di tutti i file salvati sul db
 	public ArrayList<MantleFile> getAllFile() {
-		Cursor c = db.query("File", null, null, null, null, null, null);
+		
+		String selection = "idUser != 1";
+		Cursor c = db.query("File", null, selection, null, null, null, null);
 		ArrayList<MantleFile> arr = new ArrayList<MantleFile>();
 
 		while (c.moveToNext()) {

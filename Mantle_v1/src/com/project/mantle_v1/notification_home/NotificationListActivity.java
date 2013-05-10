@@ -24,6 +24,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
@@ -153,6 +154,22 @@ public class NotificationListActivity extends FragmentActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		
+		
+		MenuItem menu1 = menu.add(0,0,0,"AMICI");
+	    {
+	    	menu1.setIcon(R.drawable.ic_action_friend);
+	    	menu1.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+	    }
+	    menu1.setOnMenuItemClickListener(
+				new OnMenuItemClickListener() {
+					public boolean onMenuItemClick(MenuItem item) {
+						Toast.makeText(getApplicationContext(),
+								item.getTitle(), Toast.LENGTH_SHORT).show();
+						Log.d("HOME","Actionbar cliccato"+item.getTitle());
+						return true;
+					}
+				});
 
 		menu.add("Nuovo Servizio").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
