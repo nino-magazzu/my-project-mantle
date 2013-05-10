@@ -166,19 +166,7 @@ public class NotificationListActivity extends FragmentActivity implements
 					}
 				});
 
-		menu.add("Aggiungi un amico").setOnMenuItemClickListener(
-				new OnMenuItemClickListener() {
-					public boolean onMenuItemClick(MenuItem item) {
-						Toast.makeText(getApplicationContext(),
-								item.getTitle(), Toast.LENGTH_SHORT).show();
-						Intent intent = new Intent(
-								NotificationListActivity.this, AddFriend.class);
-						startActivity(intent);
-						return true;
-					}
-				});
-
-		menu.add("Files").setOnMenuItemClickListener(
+		menu.add("File").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
@@ -236,7 +224,7 @@ public class NotificationListActivity extends FragmentActivity implements
 					}
 				});
 
-		menu.add("I tuoi amici").setOnMenuItemClickListener(
+		menu.add("Amici").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),

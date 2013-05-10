@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.project.mantle_v1.R;
+import com.project.mantle_v1.notification_home.NotificationListActivity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -213,7 +215,19 @@ public class FriendsList extends Activity {
 					}
 				});
 		;
-
+		
+		menu.add("Aggiungi un amico").setOnMenuItemClickListener(
+				new OnMenuItemClickListener() {
+					public boolean onMenuItemClick(MenuItem item) {
+						Toast.makeText(getApplicationContext(),
+								item.getTitle(), Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent(
+								FriendsList.this, AddFriend.class);
+						startActivity(intent);
+						return true;
+					}
+				});
+		
 		switch (flag) {
 
 		case 2:
