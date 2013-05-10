@@ -113,7 +113,8 @@ public class FileDetailFragment extends Fragment {
 
 		MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
 				.getApplicationContext());
-
+		
+		
 		String[] sharers = db.getSharers(file.getIdFile());
 		Log.d("FIle_DETAIL_FRAGMENT","Ho ricevuto il vettore adesso lo stmapo nella lista");
 		showSharers(sharers);

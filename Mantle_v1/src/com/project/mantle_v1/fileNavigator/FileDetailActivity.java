@@ -104,9 +104,9 @@ public class FileDetailActivity extends FragmentActivity {
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
 
-						MantleFile file = MyHandler.FILE_MAP
+						MantleFile file = new MantleFile( getApplicationContext(), MyHandler.FILE_MAP
 								.get(getIntent().getStringExtra(
-										FileDetailFragment.ARG_ITEM_ID));
+										FileDetailFragment.ARG_ITEM_ID)).getIdFile());
 						final File comment = MantleFile.downloadFileFromUrl(
 								file.getLinkComment(),
 								(String) file.getIdFile() + ".xml");
@@ -127,7 +127,7 @@ public class FileDetailActivity extends FragmentActivity {
 						bundle.putString("filePath", comment.getAbsolutePath());
 						myIntent.putExtra("bundle", bundle);
 						db.close();
-						getApplicationContext().startActivity(myIntent);
+						startActivity(myIntent);
 						return true;
 					}
 				});
