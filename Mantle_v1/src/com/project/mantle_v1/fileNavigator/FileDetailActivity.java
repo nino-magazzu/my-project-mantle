@@ -9,6 +9,8 @@ import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.MioDatabaseHelper;
 import com.project.mantle_v1.notification_home.NoteActivity;
+import com.project.mantle_v1.notification_home.NotificationDetailFragment;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -53,8 +55,15 @@ public class FileDetailActivity extends FragmentActivity {
 			// Create the detail fragment and add it to the activity
 			// using a fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(FileDetailFragment.ARG_ITEM_ID, getIntent()
-					.getStringExtra(FileDetailFragment.ARG_ITEM_ID));
+			
+			if(getIntent().hasExtra(FileDetailFragment.ARG_ITEM_ID))
+				arguments.putString(FileDetailFragment.ARG_ITEM_ID, getIntent()
+						.getStringExtra(FileDetailFragment.ARG_ITEM_ID));
+			
+			else if(getIntent().hasExtra(NotificationDetailFragment.ARG_ITEM_ID))
+				arguments.putString(NotificationDetailFragment.ARG_ITEM_ID, getIntent()
+						.getStringExtra(NotificationDetailFragment.ARG_ITEM_ID));
+			
 			FileDetailFragment fragment = new FileDetailFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()
