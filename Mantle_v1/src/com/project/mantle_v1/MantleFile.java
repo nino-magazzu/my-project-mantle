@@ -1,12 +1,18 @@
 package com.project.mantle_v1;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
+import android.os.Environment;
 import android.util.Log;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
@@ -34,6 +40,10 @@ public class MantleFile implements Serializable {
 		this.username = username;
 	}
 
+	public MantleFile(File file) {
+		this.mFile = file;
+	}
+	
 	public MantleFile() {
 		super();
 		this.idFile = null;
@@ -119,6 +129,40 @@ public class MantleFile implements Serializable {
 		return file;
 	}
 
+	public File createThumbnail() {
+		final int THUMBNAIL_SIZE = 64;
+
+        FileInputStream fis;
+		try {
+			fis = new FileInputStream(mFile);
+			Bitmap imageBitmap = BitmapFactory.decodeStream(fis);
+		   // imageBitmap = Bitmap.createScaledBitmap(imageBitmap, THUMBNAIL_SIZE, THUMBNAIL_SIZE, false);
+		    imageBitmap = ThumbnailUtils.extractThumbnail(imageBitmap, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+		    File fOut = new File(Environment.getExternalStorageDirectory() + "/Mantle/tmp", getTumbName(mFile.getName()));
+		    fOut.createNewFile();
+			FileOutputStream fos = new FileOutputStream(fOut);
+		    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+		    fos.flush();
+		    fos.close();
+		    return fOut;
+		    
+		} catch (FileNotFoundException e) {
+			Log.v("MantleFile", "File non trovato");
+			return null;
+		} catch (IOException e) {
+			Log.v("MantleFile", "IOException: " + e.getMessage());
+			return null;
+		}
+	}
+	
+	private String getTumbName(String fileName) {
+		final int lastPeriodPos = fileName.lastIndexOf('.');
+		if (lastPeriodPos <= 0) 
+	        return fileName + "_t.jpg";
+		else 
+			return fileName.substring(0, lastPeriodPos) + "_t.jpg";
+	}
+	
 	public String getIdFile() {
 		return idFile;
 	}

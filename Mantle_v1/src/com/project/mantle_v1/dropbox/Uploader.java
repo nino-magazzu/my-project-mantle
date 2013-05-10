@@ -3,7 +3,6 @@ package com.project.mantle_v1.dropbox;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,8 +24,6 @@ import android.widget.Toast;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.DropboxLink;
 import com.dropbox.client2.DropboxAPI.Entry;
-import com.dropbox.client2.DropboxAPI.ThumbFormat;
-import com.dropbox.client2.DropboxAPI.ThumbSize;
 import com.dropbox.client2.DropboxAPI.UploadRequest;
 import com.dropbox.client2.ProgressListener;
 import com.dropbox.client2.exception.DropboxException;
@@ -60,19 +57,22 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 
 	private String mErrorMsg;
 	private DropboxLink shareLink;
-	private String username;
 	private String ThumbAddress;
+	private String fileKey;
 	private int ID;
 
 	public Uploader(Context context, DropboxAPI<?> api, String dropboxPath,
 			File file) {
-		// We set the context this way so we don't accidentally leak activities
+		
+		//Inizializzazione delle variabili e della progress bar 
+		
 		mContext = context.getApplicationContext();
 		mFileLen = file.length();
 		mApi = api;
 		mPath = dropboxPath;
 		mFile = file;
-
+		fileKey = "";
+		
 		mDialog = new ProgressDialog(context);
 		mDialog.setMax(100);
 		mDialog.setMessage("Uploading " + file.getName());
@@ -81,23 +81,32 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		mDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
 				new OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-						// This will cancel the putFile operation
+						// Annulla l'upload del file
 						mRequest.abort();
 					}
 				});
 		mDialog.show();
-		showToast("File ricevuto: " + mPath + mFile.getName());
 	}
 
 	@Override
 	protected Integer doInBackground(Void... params) {
 		try {
-			// By creating a request, we get a handle to the putFile operation,
-			// so we can cancel it later if we want to
-
-			// TODO: inserire la funzione di cifratura del file, prima del
-			// caricamento dello stesso su
-
+			
+			/* ##########################
+			 *
+			 *  In questo punto va inserita la cifratura del file 
+			 *  (mFile) che sarà caricato su dropbox. 
+			 *  La chiave simmetri di cifratura del file verrà
+			 *  inserita nell'attributo fileKey e salvata quindi sul 
+			 *  database
+			 *  
+			 *  Il valore di ritorno dovrebbe essere di tipo File. 
+			 *  Va passato al costruttore del FileInputStream
+			 *  al posto di mFile. 
+			 *  
+			 ########################### */
+			
+			
 			FileInputStream fis = new FileInputStream(mFile);
 			String path = mPath + mFile.getName();
 			mRequest = mApi.putFileOverwriteRequest(path, fis, mFile.length(),
@@ -119,22 +128,33 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 				
 				shareLink = mApi.share(ent.path);
 				
-				Log.v(TAG, "dropbox share link " + shareLink.url);
-				
 				String shareAddress = getShareURL(shareLink.url)
 						.replaceFirst("https://www", "https://dl");
 				
-				Log.v(TAG, "dropbox share link " + shareAddress);
-				
-				if(ent.thumbExists) {
-					String fileName = getTumbName(mFile.getName());
-					File thumb = new File(Environment.getExternalStorageDirectory()
-							.toString() + "/Mantle/temp", fileName);
-					mApi.getThumbnail(ent.path, new FileOutputStream(thumb), ThumbSize.BESTFIT_320x240, ThumbFormat.JPEG, null);
-					path = mPath + fileName;
-					fis = new FileInputStream(thumb);
-					mRequest = mApi.putFileOverwriteRequest(path, fis, thumb.length(), null);
+				if(ent.mimeType.contains("image")) {
+					Log.v(TAG, "*** Creating thumbnail ***");
 					
+					/* ##########################
+					 *
+					 *	Nel caso in cui un file sia un'immagine verrà
+					 * creato  anche il thumbnail, che sarà caricato 
+					 * anch'esso su dropbox cifrato con la stessa chiave
+					 * simmetrica usata per il file originale. 
+					 * 
+					 *  Va cifrato l'oggetto thumb. Come sopra 
+					 *  l'operazione di cifratura dovrebbe restituire
+					 *  un oggetto di tipo File e passato al 
+					 *  FileInputStream
+					 *  
+					 ########################### */
+					
+					MantleFile original = new MantleFile(mFile);
+					File thumb = original.createThumbnail();
+					
+					FileInputStream fIs = new FileInputStream(thumb);
+					String thumbPath = mPath + thumb.getName();
+					mRequest = mApi.putFileOverwriteRequest(thumbPath, fIs, thumb.length(), null);
+						
 					if (mRequest != null) {
 						Entry entThumb = mRequest.upload();
 						thumb.delete();
@@ -143,30 +163,28 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 								.replaceFirst("https://www", "https://dl");
 					}
 				}
-					
-				// creazione del file
-				MantleFile file = new MantleFile(ent, shareAddress, username,
-						mFile);
-
+		
 				// creazione istanza del database
 				MioDatabaseHelper db = new MioDatabaseHelper(mContext);
 				
 				// inserimento del fil ne db
 				if(ThumbAddress == null) 
-					ID = (int) db.insertFile(file.getFileName(),
-							file.getLinkFile(), "","", file.getFileKey(),
-							file.getObjectType(), MantleFile.NORMAL_FILE);
+					ID = (int) db.insertFile(mFile.getName(),
+							shareAddress, "","", fileKey,
+							ent.mimeType, MantleFile.NORMAL_FILE);
 				else
-					ID = (int) db.insertFile(file.getFileName(),
-							file.getLinkFile(), ThumbAddress,"", file.getFileKey(),
-							file.getObjectType(), MantleFile.NORMAL_FILE);
+					ID = (int) db.insertFile(mFile.getName(),
+							shareAddress, ThumbAddress,"", fileKey,
+							ent.mimeType, MantleFile.NORMAL_FILE);
 
 				SharedPreferences userDetails = mContext.getSharedPreferences(
 						USER_DETAILS_PREF, 0);
 
 				db.insertHistory((int) ID, userDetails.getInt("idUser", 1),
 						new Date(System.currentTimeMillis()).toString());
-
+				
+				Log.v(TAG, "*** Creating XML*****");
+				
 				WriterXml com = new WriterXml();
 				String pathComment = Environment.getExternalStorageDirectory()
 						.toString() + "/Mantle";
@@ -188,10 +206,17 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				/* #################################
+				 * 
+				 * Va cifrato anche mFile che invece va a contenere i commenti
+				 * come sopra va usata sempre la stessa chiave simmetrica per 
+				 * cifrarlo
+				 * 
+				 ################################### */
+				
 				mFile = new File(pathComment, String.valueOf(ID) + ".xml");
-				Log.d(TAG, String.valueOf(ID));
 				fis = new FileInputStream(mFile);
-				// String pathComment = mPath + mFile.getName();
 				mRequest = mApi.putFileOverwriteRequest(
 						mPath + mFile.getName(), fis, mFile.length(),
 						new ProgressListener() {
@@ -216,7 +241,6 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 					db.insertLinkComment((int) ID, shareAddress);
 					mFile.delete();
 				}
-				file.setLinkComment(shareAddress);
 				return ID;
 			}
 
@@ -295,7 +319,6 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		try {
 			URL inputURL = new URL(strURL);
 			conn = inputURL.openConnection();
-			Log.v("Uploader", "Connection Opened");
 
 		} catch (MalformedURLException e) {
 			Log.d(TAG, "Please input a valid URL: " + e.getMessage());
@@ -307,13 +330,5 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		//Log.v(TAG, conn.getHeaderFields().keySet().toString());
 		//Log.v(TAG, conn.getHeaderFields().values().toString());
 		return conn.getHeaderField("location");
-	}
-	
-	private String getTumbName(String fileName) {
-		final int lastPeriodPos = fileName.lastIndexOf('.');
-		if (lastPeriodPos <= 0) 
-	        return fileName+ "_t";
-		else 
-			return fileName.substring(0, lastPeriodPos)+ "_t";
 	}
 }

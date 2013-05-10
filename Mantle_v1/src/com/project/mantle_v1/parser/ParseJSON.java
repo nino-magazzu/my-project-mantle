@@ -18,7 +18,6 @@ public class ParseJSON {
 	final private String NOTES_LINK = "url_notes";
 	final private String THUMB_LINK = "url_thumb";
 	final private String CONTENT = "content";
-	final private String ICON = "icon";
     final private String WIDTH = "width";
 	final private String HEIGHT = "height";
 	final private String NAME = "name";
@@ -61,7 +60,7 @@ public class ParseJSON {
 		imageDetails(media);
 		writer.name(FULL_IMAGE); 
 		fullImageDetails(media);
-		
+		writer.endObject();
 	}
 	
 	private void writeFile(MantleFile media) throws IOException {
