@@ -3,6 +3,7 @@ package com.project.mantle_v1.dropbox;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -24,6 +25,8 @@ import android.widget.Toast;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.DropboxLink;
 import com.dropbox.client2.DropboxAPI.Entry;
+import com.dropbox.client2.DropboxAPI.ThumbFormat;
+import com.dropbox.client2.DropboxAPI.ThumbSize;
 import com.dropbox.client2.DropboxAPI.UploadRequest;
 import com.dropbox.client2.ProgressListener;
 import com.dropbox.client2.exception.DropboxException;
@@ -113,7 +116,9 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 
 			if (mRequest != null) {
 				Entry ent = mRequest.upload();
-				
+				if(ent.thumbExists)
+					mApi.getThumbnail(ent.path, new FileOutputStream(new File(Environment.getExternalStorageDirectory()
+							.toString() + "/Mantle/temp", mFile.getName() + "_t")), ThumbSize.BESTFIT_320x240, ThumbFormat.JPEG, null);
 				shareLink = mApi.share(ent.path);
 				
 				Log.v(TAG, "dropbox share link " + shareLink.url);
@@ -143,7 +148,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 
 				WriterXml com = new WriterXml();
 				String pathComment = Environment.getExternalStorageDirectory()
-						.toString() + "/";
+						.toString() + "/Mantle";
 				try {
 					com.createComment(String.valueOf(ID) + ".xml", pathComment);
 				} catch (ParserConfigurationException e) {
@@ -278,8 +283,8 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		} catch (Exception e) {
 			Log.d(TAG, "Exception: " + e.getMessage());
 		}
-		Log.v(TAG, conn.getHeaderFields().keySet().toString());
-		Log.v(TAG, conn.getHeaderFields().values().toString());
+		//Log.v(TAG, conn.getHeaderFields().keySet().toString());
+		//Log.v(TAG, conn.getHeaderFields().values().toString());
 		return conn.getHeaderField("location");
 
 	}
