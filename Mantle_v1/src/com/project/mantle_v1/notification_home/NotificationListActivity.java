@@ -138,8 +138,7 @@ public class NotificationListActivity extends FragmentActivity implements
 			// for the selected item ID.
 			Notifica n = MyHandler.NOTIFICA_MAP.get(id);
 			
-			if (n.getNotificationType().equals(MantleMessage.NOTE)
-					|| n.getNotificationType().equals(
+			if (n.getNotificationType().equals(
 							MantleMessage.SHARING_PHOTO)) {
 				
 				Log.v("Notification List Activity", "FileDetailActivity");
@@ -161,8 +160,15 @@ public class NotificationListActivity extends FragmentActivity implements
 						id);
 				startActivity(detailIntent);
 			
-			} else {
-			
+			}
+			else if(n.getNotificationType().equals(MantleMessage.NOTE)){
+				Intent detailIntent = new Intent(this, FileDetailActivity.class);
+				detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID,
+						id);
+				startActivity(detailIntent);
+				}
+				
+			else{
 				Log.v("Notification List Activity", "NotificationDetailFragment");
 				
 				Intent detailIntent = new Intent(this,
