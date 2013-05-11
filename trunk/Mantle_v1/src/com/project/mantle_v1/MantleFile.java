@@ -105,6 +105,7 @@ public class MantleFile implements Serializable {
 	 *            : nome del file sul dispositivo
 	 */
 
+	
 	public void downloadFileFromUrl(String fileName) {
 		DownladerTask down = new DownladerTask(this.linkFile, fileName);
 		down.execute();
