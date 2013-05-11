@@ -95,31 +95,8 @@ public class FileDetailFragment extends Fragment {
 		
 		
 		String[] sharers = db.getSharers(file.getIdFile());
-		Log.d("FIle_DETAIL_FRAGMENT","Ho ricevuto il vettore adesso lo stmapo nella lista");
 		showSharers(sharers);
 
-		// Button bComment = (Button) rootView.findViewById(R.id.comment);
-		// final File comment = MantleFile.downloadFileFromUrl(
-		// file.getLinkComment(), (String) file.getIdFile() + ".xml");
-
-		/*
-		 * 
-		 * bComment.setOnClickListener(new OnClickListener() {
-		 * 
-		 * @Override public void onClick(View v) { Intent myIntent = new
-		 * Intent(getActivity(), NoteActivity.class); Bundle bundle = new
-		 * Bundle(); MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
-		 * .getApplicationContext()); SharedPreferences userDetails =
-		 * getActivity() .getSharedPreferences(USER_DETAILS_PREF, 0); String
-		 * username = userDetails.getString("username", " ");
-		 * bundle.putString("username", username); bundle.putString("url",
-		 * file.getLinkComment()); bundle.putString("email",
-		 * db.getEmailFromUrl(file.getLinkComment()));
-		 * bundle.putString("filePath", comment.getAbsolutePath());
-		 * bundle.putString("idFile", file.getIdFile());
-		 * myIntent.putExtra("bundle", bundle); db.close();
-		 * getActivity().startActivity(myIntent); } });
-		 */
 		if (file.isImage()) {
 			File img = new File(MantleFile.DIRECTORY_TEMP, getTumbName(file.getFileName()));
 			if(!img.exists())
