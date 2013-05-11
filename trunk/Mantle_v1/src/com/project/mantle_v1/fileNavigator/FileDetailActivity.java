@@ -137,6 +137,7 @@ public class FileDetailActivity extends FragmentActivity {
 						db.close();
 						startActivity(myIntent);
 						return true;
+						
 					}
 				});
 		;
