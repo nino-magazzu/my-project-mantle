@@ -23,6 +23,7 @@ public class ParseJSON {
 	final private String NAME = "name";
 	final private String SURNAME = "surname";
 	final private String PUBLIC_KEY = "publicKey";
+	final private String CIPHER_KEY = "cipherKey";
 	final private String EMAIL = "email";
 	final private String FILE_NAME = "fileName";
 	final private String IMAGE = "image";
@@ -56,6 +57,7 @@ public class ParseJSON {
 		writer.name(NOTES_LINK).value(media.getLinkComment());
 		writer.name(USERNAME).value(media.getUsername());
 		writer.name(PUBLISHED).value(media.getDate());
+		writer.name(CIPHER_KEY).value(media.getFileKey());
 		writer.name(IMAGE);
 		imageDetails(media);
 		writer.name(FULL_IMAGE); 
@@ -71,6 +73,7 @@ public class ParseJSON {
 		writer.name(OBJECT_TYPE).value(media.getObjectType());
 		writer.name(USERNAME).value(media.getUsername());
 		writer.name(PUBLISHED).value(media.getDate());
+		writer.name(CIPHER_KEY).value(media.getFileKey());
 		writer.endObject();
 	}
 
@@ -184,6 +187,8 @@ public class ParseJSON {
 				media.setUsername(reader.nextString());
 			else if (name.equals(PUBLISHED))
 				media.setDate(reader.nextString());
+			else if (name.equals(CIPHER_KEY))
+				media.setFileKey(reader.nextString());
 		}
 		reader.endObject();
 	}
@@ -214,6 +219,8 @@ public class ParseJSON {
 				media.setUsername(reader.nextString());
 			else if (name.equals(PUBLISHED))
 				media.setDate(reader.nextString());
+			else if (name.equals(CIPHER_KEY))
+				media.setFileKey(reader.nextString());
 			else if(name.equals(IMAGE))
 				readImage(media);
 			else if(name.equals(FULL_IMAGE))
