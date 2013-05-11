@@ -10,6 +10,7 @@ import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.User;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -22,7 +23,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	private static final int DB_VERSION = 11;
 	final SQLiteDatabase db;
 
-	// private String username;
+	private String username;
 	// private String email;
 	// private String password;
 	// private int idUser;
@@ -31,6 +32,9 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	public MioDatabaseHelper(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
 		db = this.getWritableDatabase();
+		SharedPreferences userDetails = context.getSharedPreferences(
+				User.USER_DETAILS_PREF, 0);
+		this.username = userDetails.getString("username", "");
 	}
 
 	// Creazione del database
@@ -797,6 +801,8 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 			mf.setFileKey(c.getString(5));
 			mf.setObjectType(c.getString(6));
 			mf.setPriority(c.getInt(7));
+			mf.setUsername(username);
+			mf.setDate(getDateFile(Integer.parseInt(c.getString(0))));
 			arr.add(mf);
 			Log.d("MIO_DATABASE_HELPER",
 					"ho aggiunto questo filename:" + c.getString(1));
