@@ -167,7 +167,7 @@ public class FileListFragment extends ListFragment {
 
 	private void populateMap() {
 		for (int i = 0; i < list.size(); i++) {
-			Log.d("File", list.get(i).getIdFile());
+			//Log.d("File", list.get(i).getIdFile());
 			MyHandler.addFile(list.get(i));
 		}
 	}
