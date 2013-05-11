@@ -8,6 +8,9 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import org.apache.http.util.ByteArrayBuffer;
+
+import com.project.mantle_v1.MantleFile;
+
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -15,9 +18,7 @@ public class DownladerTask extends AsyncTask<Void, Long, File> {
 
 	public DownladerTask(String fileUrl, String Filename) {
 		try {
-			File root = new File(
-					android.os.Environment.getExternalStorageDirectory()
-							+ "/Mantle/tmp");
+			File root = new File(MantleFile.DIRECTORY_TEMP);
 			if (!root.exists())
 				root.mkdirs();
 			this.mUrl = new URL(fileUrl);
@@ -59,6 +60,7 @@ public class DownladerTask extends AsyncTask<Void, Long, File> {
 		} catch (Exception e) {
 			Log.e(TAG, e.getMessage());
 		}
+		Log.v(TAG, "*** Download Compleatato ***");
 		return mFile;
 	}
 

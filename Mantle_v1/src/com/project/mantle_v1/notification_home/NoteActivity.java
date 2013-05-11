@@ -73,8 +73,6 @@ public class NoteActivity extends Activity {
 
 		notes = reader.getParsedData();
 
-		cFile.delete();
-
 		final NoteAdapter adapter = new NoteAdapter(getApplicationContext(),
 				R.layout.note_layout, notes);
 
@@ -92,6 +90,8 @@ public class NoteActivity extends Activity {
 						USER_DETAILS_PREF, 0);
 
 				if (email.equals(userDetails.getString("email", " "))) {
+					Log.v(TAG, "*** Sei il proprietario del file ***");
+					
 					WriterXml xml = new WriterXml();
 
 					try {
@@ -100,24 +100,25 @@ public class NoteActivity extends Activity {
 								new Date(System.currentTimeMillis()).toString(),
 								comment, cFile);
 					} catch (ParserConfigurationException e) {
-						// TODO Auto-generated catch block
+						Log.e(TAG, e.getMessage());
 						e.printStackTrace();
 					} catch (SAXException e) {
-						// TODO Auto-generated catch block
+						Log.e(TAG, e.getMessage());
 						e.printStackTrace();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
+						Log.e(TAG, e.getMessage());
 						e.printStackTrace();
 					} catch (TransformerFactoryConfigurationError e) {
-						// TODO Auto-generated catch block
+						Log.e(TAG, e.getMessage());
 						e.printStackTrace();
 					} catch (TransformerException e) {
-						// TODO Auto-generated catch block
+						Log.e(TAG, e.getMessage());
 						e.printStackTrace();
 					}
 
 					DropboxAuth auth = new DropboxAuth(getApplicationContext());
-					MantleFile.uploadFile(cFile, auth.getAPI());
+					boolean bl = MantleFile.uploadFile(cFile, auth.getAPI());
+					Log.v(TAG, "upload: "+bl);
 					MioDatabaseHelper db = new MioDatabaseHelper(
 							getApplicationContext());
 
@@ -140,6 +141,7 @@ public class NoteActivity extends Activity {
 					}
 
 				} else {
+					Log.v(TAG, "*** Inviando il commento al proprietario ***");
 					ParseJSON parser = new ParseJSON(new StringWriter());
 					Note note = new Note(username, comment, new Date(System
 							.currentTimeMillis()).toString(), url);
@@ -158,9 +160,15 @@ public class NoteActivity extends Activity {
 						.currentTimeMillis()).toString());
 				notes.add(note);
 				adapter.notifyDataSetChanged();
-
 			}
 		});
+	}
+	
+	@Override
+    protected void onDestroy() {
+		super.onDestroy();
+		if(cFile.exists())
+			cFile.deleteOnExit();
 	}
 
 	private String username;

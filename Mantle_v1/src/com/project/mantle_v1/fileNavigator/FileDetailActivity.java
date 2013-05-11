@@ -157,8 +157,7 @@ public class FileDetailActivity extends FragmentActivity {
 								.get(getIntent().getStringExtra(
 										FileDetailFragment.ARG_ITEM_ID));
 
-						File sd = new File(Environment
-								.getExternalStorageDirectory() + "/Mantle/tmp");
+						File sd = new File(MantleFile.DIRECTORY_TEMP);
 						File download = Environment
 								.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 						Log.d("FILE_DETAIL_ACTIVITY",

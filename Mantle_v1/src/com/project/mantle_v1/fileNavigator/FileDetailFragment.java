@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -121,8 +122,10 @@ public class FileDetailFragment extends Fragment {
 		 * getActivity().startActivity(myIntent); } });
 		 */
 		if (file.isImage()) {
-			File img = MantleFile.downloadFileFromUrl(file.getLinkThumb(),
-					getTumbName(file.getFileName()));
+			File img = new File(MantleFile.DIRECTORY_TEMP, getTumbName(file.getFileName()));
+			if(!img.exists())
+				img = MantleFile.downloadFileFromUrl(file.getLinkThumb(),
+						getTumbName(file.getFileName()));
 			ImageView iv = (ImageView) rootView.findViewById(R.id.sharedImage);
 			iv.setImageBitmap(BitmapFactory.decodeFile(img.getAbsolutePath()));
 		}

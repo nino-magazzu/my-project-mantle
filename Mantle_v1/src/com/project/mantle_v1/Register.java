@@ -33,8 +33,6 @@ public class Register extends Activity {
 	private String password;
 	private Context mContext;
 
-	private final String USER_DETAILS_PREF = "user";
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -114,10 +112,10 @@ public class Register extends Activity {
 					DropboxAuth dropbox = new DropboxAuth(
 							getApplicationContext());
 
+					File file = new File(MantleFile.DIRECTORY_DB, "Mantle");
+					
 					Uploader up = new Uploader(mContext, dropbox.getAPI(),
-							"/StoredFile/", new File(Environment
-									.getExternalStorageDirectory()
-									+ "/Mantle/db/Mantle"));
+							"/StoredFile/", file);
 					up.execute();
 
 					try {
@@ -151,7 +149,7 @@ public class Register extends Activity {
 	//Viene settato un oggetto SharedPreferences che contiene 
 	// le principali informazioni dell'utente che devono avere visibilità globale  
 	private void setPreferences(String email, String emailpswd, int id) {
-		SharedPreferences userDetails = getSharedPreferences(USER_DETAILS_PREF,
+		SharedPreferences userDetails = getSharedPreferences(User.USER_DETAILS_PREF,
 				0);
 		Editor edit = userDetails.edit();
 		edit.clear();

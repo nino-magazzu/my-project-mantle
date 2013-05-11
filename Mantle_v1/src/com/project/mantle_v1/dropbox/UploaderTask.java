@@ -45,13 +45,15 @@ public class UploaderTask extends AsyncTask<Void, Long, Boolean> {
 						}
 					});
 
-			if (mRequest != null)
+			if (mRequest != null) {
 				mRequest.upload();
-
+				return true;
+			}
+			return false;
 		} catch (Exception e) {
 			// This session wasn't authenticated properly or user unlinked
 			Log.e("UploaderTask", e.getMessage());
+			return false;
 		}
-		return null;
 	}
 }
