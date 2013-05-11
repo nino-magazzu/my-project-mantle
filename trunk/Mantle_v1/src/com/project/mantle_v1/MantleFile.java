@@ -21,15 +21,24 @@ import com.project.mantle_v1.dropbox.DownladerTask;
 import com.project.mantle_v1.dropbox.UploaderTask;
 
 public class MantleFile implements Serializable {
-	// **** PRIORITY TYPE ****
+	
+	/**** PRIORITY TYPE ****/
 
 	public static final int NEEDFUL_FILE = 3;
 	public static final int NORMAL_FILE = 2;
 	public static final int USELESS_FILE = 1;
 	public static final int NOT_OWN_FILE = 0;
 
-	private final String USER_DETAILS_PREF = "user";
-
+	
+	/**** APPLICATION DIRECTORY ****/
+	
+	public static final String DIRECTORY_TEMP = Environment.getExternalStorageDirectory() + "/Mantle/tmp/";
+	public static final String MAIN_DIR = Environment.getExternalStorageDirectory() + "/Mantle/";
+	public static final String DIRECTORY_DB = Environment.getExternalStorageDirectory() + "/Mantle/db/";
+	public static final String DIRECTORY_HISTORY = Environment.getExternalStorageDirectory() + "/Mantle/history/";
+	
+	
+	
 	public MantleFile(Entry ent, String link, String username, File file) {
 		this.linkFile = link;
 		this.date = ent.modified;
@@ -76,7 +85,7 @@ public class MantleFile implements Serializable {
 		this.priority = Integer.parseInt(file[7]);
 
 		SharedPreferences userDetails = cont.getSharedPreferences(
-				USER_DETAILS_PREF, 0);
+				User.USER_DETAILS_PREF, 0);
 		this.username = userDetails.getString("username", "");
 
 		this.date = db.getDateFile(Integer.parseInt(idFile));
@@ -110,9 +119,18 @@ public class MantleFile implements Serializable {
 
 	}
 
-	public static void uploadFile(File f, DropboxAPI<?> mApi) {
+	public static boolean uploadFile(File f, DropboxAPI<?> mApi) {
 		UploaderTask upl = new UploaderTask(mApi, f);
 		upl.execute();
+		boolean bl = false;
+		try {
+			bl = upl.get();
+		} catch (InterruptedException e) {
+			Log.i("MantleFile", "Error authenticating", e);
+		} catch (ExecutionException e) {
+			Log.i("MantleFile", "Error authenticating", e);
+		}
+		return bl;
 	}
 
 	public static File downloadFileFromUrl(String url, String fileName) {
