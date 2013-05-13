@@ -80,10 +80,10 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		fileKey = "";
 		
 		mDialog = new ProgressDialog(context);
-		mDialog.setMax(100);
+		//mDialog.setMax(100);
 		mDialog.setMessage("Uploading " + file.getName());
-		mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-		mDialog.setProgress(0);
+		//mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		//mDialog.setProgress(0);
 		mDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
 				new OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
@@ -91,9 +91,16 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 						mRequest.abort();
 					}
 				});
-		mDialog.show();
+		//mDialog.show();
 	}
 
+	@Override
+    protected void onPreExecute() {
+        mDialog.setTitle("Please wait");
+        mDialog.show();
+    }
+	
+	
 	@Override
 	protected Integer doInBackground(Void... params) {
 		try {
@@ -115,20 +122,8 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 			
 			FileInputStream fis = new FileInputStream(mFile);
 			String path = mPath + mFile.getName();
-			mRequest = mApi.putFileOverwriteRequest(path, fis, mFile.length(),
-					new ProgressListener() {
-						@Override
-						public long progressInterval() {
-							// Update the progress bar every half-second or so
-							return 500;
-						}
-
-						@Override
-						public void onProgress(long bytes, long total) {
-							publishProgress(bytes);
-						}
-					});
-
+			mRequest = mApi.putFileOverwriteRequest(path, fis, mFile.length(), null);
+					
 			if (mRequest != null) {
 				Entry ent = mRequest.upload();
 				
@@ -192,8 +187,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 				Log.v(TAG, "*** Creating XML*****");
 				
 				WriterXml com = new WriterXml();
-				String pathComment = Environment.getExternalStorageDirectory()
-						.toString() + "/Mantle";
+				String pathComment = MantleFile.DIRECTORY_TEMP;
 				try {
 					com.createComment(String.valueOf(ID) + ".xml", pathComment);
 				} catch (ParserConfigurationException e) {
@@ -299,13 +293,15 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		}
 		return null;
 	}
-
+	
+/*
 	@Override
 	protected void onProgressUpdate(Long... progress) {
 		int percent = (int) (100.0 * (double) progress[0] / mFileLen + 0.5);
 		mDialog.setProgress(percent);
 	}
-
+*/
+	
 	@Override
 	protected void onPostExecute(Integer result) {
 		mDialog.dismiss();

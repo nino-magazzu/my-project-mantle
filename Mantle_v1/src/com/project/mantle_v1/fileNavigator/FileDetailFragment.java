@@ -5,10 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -75,7 +71,7 @@ public class FileDetailFragment extends Fragment {
 
 				file = new MantleFile(getActivity().getApplicationContext(),
 						getArguments().getString(NotificationDetailFragment.ARG_ITEM_ID));
-
+				
 				getArguments().clear();
 		}
 		 
@@ -90,7 +86,7 @@ public class FileDetailFragment extends Fragment {
 		 */
 		View rootView = inflater.inflate(R.layout.fragment_photo_sharing,
 				container, false);
-
+				
 		TextView tw = (TextView) rootView.findViewById(R.id.linkText);
 
 		tw.setText(file.getFileName());
