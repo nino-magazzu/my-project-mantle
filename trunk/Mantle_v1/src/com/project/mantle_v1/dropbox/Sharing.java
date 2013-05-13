@@ -16,6 +16,8 @@ import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -43,9 +45,10 @@ public class Sharing extends Activity {
 		setContentView(R.layout.vuoto);
 		DropboxAuth auth = new DropboxAuth(this);
 		this.mApi = auth.getAPI();
+		
 		startActivityForResult(new Intent(this, FileChooser.class),
 				UPLOAD_REQUEST_CODE);
-
+		
 	}
 
 	@Override
@@ -65,7 +68,7 @@ public class Sharing extends Activity {
 				if (filePath.compareTo("null") == 0)
 					finish();
 				else {
-					Uploader upload = new Uploader(Sharing.this, mApi,
+					Uploader upload = new Uploader(this, mApi,
 							FILE_DIR, new File(filePath));
 					upload.execute();
 					try {
