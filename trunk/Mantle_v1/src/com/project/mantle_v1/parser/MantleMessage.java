@@ -196,6 +196,7 @@ public class MantleMessage {
 			} catch (IOException e) {
 				Log.e(TAG, "Problema lettura: " + e.getMessage());
 			}
+			note.setSender_mail(sender_email);
 			return new Notifica(NOTE, note);
 
 		case 006:

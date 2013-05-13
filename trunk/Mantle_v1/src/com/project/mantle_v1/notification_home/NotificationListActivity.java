@@ -177,7 +177,7 @@ public class NotificationListActivity extends FragmentActivity implements
 				Intent detailIntent = new Intent(this, FileDetailActivity.class);
 				detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID,
 						idFile);
-				detailIntent.putExtra("Comment", n.getNote().getContent());
+				detailIntent.putExtra("Comment", n.getNote());
 				startActivity(detailIntent);
 				}
 				
