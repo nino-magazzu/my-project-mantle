@@ -1,15 +1,7 @@
 package com.project.mantle_v1.notification_home;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Date;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import org.xml.sax.SAXException;
-import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -18,19 +10,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.MioDatabaseHelper;
-import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;
-import com.project.mantle_v1.xml.WriterXml;
 
 /**
  * A fragment representing a single Notification detail screen. This fragment is
@@ -43,12 +31,10 @@ public class NotificationDetailFragment extends Fragment {
 	 * represents.
 	 */
 	public static final String ARG_ITEM_ID = "notifica_id";
-	private final String USER_DETAILS_PREF = "user";
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
 	private Notifica mItem;
-	private boolean canceled = true;
 	private String TAG = this.getClass().getSimpleName();
 
 	/**
@@ -76,9 +62,6 @@ public class NotificationDetailFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = null;
-		SharedPreferences userDetails = getActivity().getSharedPreferences(
-				USER_DETAILS_PREF, 0);
-		final String username = userDetails.getString("username", " ");
 
 		if (mItem != null) {
 			/* ========== AMICIZIA ACCETTATA O RIFIUTATA ================ */
@@ -165,144 +148,6 @@ public class NotificationDetailFragment extends Fragment {
 						bDenied.setEnabled(false);
 					}
 				});
-
-			}
-			/* ========== COMMENTO ALLA FOTO ================ */
-			else if (mItem.getNotificationType().equals(MantleMessage.NOTE)) {
-				rootView = inflater.inflate(R.layout.fragment_photo_sharing,
-						container, false);
-
-				TextView tw = (TextView) rootView.findViewById(R.id.linkText);
-				tw.setText(mItem.getTitle());
-
-				// Button bComment = (Button)
-				// rootView.findViewById(R.id.comment);
-
-				Log.e(TAG, mItem.getNote().getCommentLink());
-
-				MioDatabaseHelper db = new MioDatabaseHelper(
-						rootView.getContext());
-				String fileUrl = db.getLinkfromLinkComment(mItem.getNote()
-						.getCommentLink());
-				final String idFile = String.valueOf(db.getIdFile(fileUrl));
-				final File comment = MantleFile.downloadFileFromUrl(mItem
-						.getNote().getCommentLink(), idFile + ".xml");
-				final String ownerEMail = db.getEmailFromUrl(mItem.getNote()
-						.getCommentLink());
-
-				Log.d(TAG, comment.getName());
-
-				/*
-				 * Button bDownload = (Button) rootView
-				 * .findViewById(R.id.download);
-				 * bDownload.setOnClickListener(new OnClickListener() {
-				 * 
-				 * @Override public void onClick(View v) { canceled = false;
-				 * 
-				 * } });
-				 * 
-				 * bComment.setOnClickListener(new OnClickListener() {
-				 * 
-				 * @Override public void onClick(View v) { Intent myIntent = new
-				 * Intent(getActivity(), NoteActivity.class); Bundle bundle =
-				 * new Bundle(); bundle.putString("username", username);
-				 * bundle.putString("url", mItem.getNote() .getCommentLink());
-				 * bundle.putString("email", ownerEMail);
-				 * bundle.putString("filePath", comment.getAbsolutePath());
-				 * bundle.putString("idFile", idFile);
-				 * myIntent.putExtra("bundle", bundle);
-				 * getActivity().startActivity(myIntent); } });
-				 */
-				WriterXml xml = new WriterXml();
-				try {
-					xml.addComment(mItem.getNote().getUser(), mItem.getData(),
-							mItem.getNote().getContent(), comment);
-				} catch (ParserConfigurationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SAXException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (TransformerFactoryConfigurationError e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (TransformerException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				DropboxAuth auth = new DropboxAuth(getActivity()
-						.getApplicationContext());
-				MantleFile.uploadFile(comment, auth.getAPI());
-				// xml.deleteComment(comment);
-				File img = MantleFile.downloadFileFromUrl(fileUrl,
-						mItem.getTitle());
-
-				MantleFile file = new MantleFile(getActivity(), idFile);
-				if (file.isImage()) {
-					ImageView iv = (ImageView) rootView
-							.findViewById(R.id.sharedImage);
-					iv.setImageBitmap(BitmapFactory.decodeFile(img
-							.getAbsolutePath()));
-				}
-			}
-			/* ============== CONDIVISIONE DI UNA FOTO ======================= */
-			else {
-				rootView = inflater.inflate(R.layout.fragment_photo_sharing,
-						container, false);
-
-				TextView tw = (TextView) rootView.findViewById(R.id.linkText);
-				tw.setText(mItem.getTitle());
-
-				/*
-				 * Button bDownload = (Button) rootView
-				 * .findViewById(R.id.download);
-				 * bDownload.setOnClickListener(new OnClickListener() {
-				 * 
-				 * @Override public void onClick(View v) { canceled = false;
-				 * 
-				 * } });
-				 */
-
-				// Button bComment = (Button)
-				// rootView.findViewById(R.id.comment);
-
-				MantleFile mFile = mItem.getmFile();
-
-				mFile.downloadFileFromUrl(mFile.getFileName());
-				if (mFile.isImage()) {
-					ImageView iv = (ImageView) rootView
-							.findViewById(R.id.sharedImage);
-					iv.setImageBitmap(mFile.getBitmap());
-				}
-				MioDatabaseHelper db = new MioDatabaseHelper(
-						rootView.getContext());
-
-				/*
-				 * TODO: Sostituire la stringa vuota con la chiave di cifratura
-				 */
-
-				final long ID = db.insertFile(mFile.getFileName(),
-						mFile.getLinkFile(), mFile.getLinkThumb(), mFile.getLinkComment(), "",
-						mFile.getObjectType(), MantleFile.NOT_OWN_FILE);
-				int ID_User = db.getId(mFile.getSender_email());
-				db.insertHistory((int) ID, ID_User,
-						new Date(System.currentTimeMillis()).toString());
-				/*
-				 * bComment.setOnClickListener(new OnClickListener() {
-				 * 
-				 * @Override public void onClick(View v) { Intent myIntent = new
-				 * Intent(getActivity(), NoteActivity.class); Bundle bundle =
-				 * new Bundle(); bundle.putString("username", username);
-				 * bundle.putString("url", mItem.getmFile() .getLinkComment());
-				 * bundle.putString("email", mItem.getmFile()
-				 * .getSender_email()); bundle.putString("idFile",
-				 * String.valueOf(ID)); bundle.putString("filePath", null);
-				 * myIntent.putExtra("bundle", bundle);
-				 * getActivity().startActivity(myIntent); } });
-				 */
 			}
 		}
 		return rootView;

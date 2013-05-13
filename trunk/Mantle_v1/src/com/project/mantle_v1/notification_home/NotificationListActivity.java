@@ -135,7 +135,8 @@ public class NotificationListActivity extends FragmentActivity implements
 			Notifica n = MyHandler.NOTIFICA_MAP.get(id);
 			
 			if (n.getNotificationType().equals(
-							MantleMessage.SHARING_PHOTO)) {
+							MantleMessage.SHARING_PHOTO) || n.getNotificationType().equals(
+									MantleMessage.SHARING_FILE)) {
 				
 				Log.v("Notification List Activity", "FileDetailActivity");
 				

@@ -96,6 +96,7 @@ public class FileDetailActivity extends FragmentActivity {
 					Log.d(TAG,"");
 					showMyDialog();
 					}
+				
 				file = new MantleFile(getApplicationContext(), getIntent()
 						.getStringExtra(NotificationDetailFragment.ARG_ITEM_ID));
 				
