@@ -234,8 +234,12 @@ public class FileDetailActivity extends FragmentActivity {
 					Log.v("Dropbox", "--> " + "Ho inviato la mail a "
 							+ contacts[j]);
 					db.insertShare(Integer.parseInt(file.getIdFile()), (String) contacts[j]);
-					new Sender(this, body, (String) contacts[j],
-							MantleMessage.SHARING_PHOTO).execute();
+					if(file.isImage())
+						new Sender(this, body, (String) contacts[j],
+								MantleMessage.SHARING_PHOTO).execute();
+					else 
+						new Sender(this, body, (String) contacts[j],
+								MantleMessage.SHARING_FILE).execute();
 				}
 				db.close();
 			}
@@ -327,7 +331,8 @@ public class FileDetailActivity extends FragmentActivity {
 				dialog.cancel();
 			}
 		});
-		AlertDialog alert = builder.show();
+		AlertDialog alert = builder.create();
+		alert.show();
 	}
 
 	

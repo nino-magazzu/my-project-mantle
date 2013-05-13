@@ -114,13 +114,17 @@ public class Sharing extends Activity {
 				}
 				MioDatabaseHelper db = new MioDatabaseHelper(
 						getApplicationContext());
-
+				
 				for (int j = 0; j < contacts.length; j++) {
 					Log.v("Dropbox", "--> " + "Ho inviato la mail a "
 							+ contacts[j]);
 					db.insertShare(FILE_ID, (String) contacts[j]);
-					new Sender(this, body, (String) contacts[j],
-							MantleMessage.SHARING_PHOTO).execute();
+					if(mt.isImage())
+						new Sender(this, body, (String) contacts[j],
+								MantleMessage.SHARING_PHOTO).execute();
+					else 
+						new Sender(this, body, (String) contacts[j],
+								MantleMessage.SHARING_FILE).execute();
 				}
 				db.close();
 				finish();
