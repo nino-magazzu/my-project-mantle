@@ -35,8 +35,6 @@ public class FileDetailFragment extends Fragment {
 	 */
 	public static final String ARG_ITEM_ID = "File_id";
 
-	private static final String DIALOG_ALERT_ID = null;
-
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
