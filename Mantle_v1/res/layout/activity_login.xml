@@ -76,7 +76,7 @@
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cambia utente" />
+                android:text="@+string/ChangeAccount" />
 
         </LinearLayout>
     </ScrollView>
