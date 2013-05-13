@@ -19,7 +19,7 @@ import android.util.Log;
 
 public class MioDatabaseHelper extends SQLiteOpenHelper {
 
-	private static final String DB_NAME = "Mantle";
+	public static final String DB_NAME = "MantleDbApplication";
 	private static final int DB_VERSION = 11;
 	final SQLiteDatabase db;
 
