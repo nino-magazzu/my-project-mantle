@@ -132,6 +132,7 @@ public class Reader extends Authenticator {
 
 		for (;;) {
 			Thread.sleep(10000);
+			Log.d(TAG,"Check for a new email");
 			folder.getMessageCount();
 		}
 	}
