@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -34,6 +38,8 @@ public class FileDetailFragment extends Fragment {
 	 * represents.
 	 */
 	public static final String ARG_ITEM_ID = "File_id";
+
+	private static final String DIALOG_ALERT_ID = null;
 
 	/**
 	 * The dummy content this fragment is presenting.
@@ -72,6 +78,7 @@ public class FileDetailFragment extends Fragment {
 
 				getArguments().clear();
 		}
+		 
 	}
 
 	@Override
@@ -92,7 +99,6 @@ public class FileDetailFragment extends Fragment {
 
 		MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
 				.getApplicationContext());
-		
 		
 		String[] sharers = db.getSharers(file.getIdFile());
 		showSharers(sharers);
@@ -133,4 +139,5 @@ public class FileDetailFragment extends Fragment {
 		else 
 			return fileName.substring(0, lastPeriodPos)+ "_t";
 	}
+	
 }
