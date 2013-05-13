@@ -92,14 +92,12 @@ public class Register extends Activity {
 					db.showAll();
 					
 					//Vengono create le cartelle che servono per il funzionamento dell'applicazione
-					File dir = new File(Environment
-							.getExternalStorageDirectory() + "/Mantle/history");
+					File dir = new File(MantleFile.DIRECTORY_HISTORY);
 
 					if (!dir.exists())
 						dir.mkdirs();
 
-					dir = new File(Environment.getExternalStorageDirectory()
-							+ "/Mantle/tmp");
+					dir = new File(MantleFile.DIRECTORY_TEMP);
 
 					if (!dir.exists())
 						dir.mkdirs();
@@ -112,7 +110,7 @@ public class Register extends Activity {
 					DropboxAuth dropbox = new DropboxAuth(
 							getApplicationContext());
 
-					File file = new File(MantleFile.DIRECTORY_DB, "Mantle");
+					File file = new File(MantleFile.DIRECTORY_DB, MioDatabaseHelper.DB_NAME);
 					
 					Uploader up = new Uploader(mContext, dropbox.getAPI(),
 							"/StoredFile/", file);

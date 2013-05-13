@@ -71,85 +71,97 @@ public class NotificationDetailFragment extends Fragment {
 							MantleMessage.FRIENDSHIP_DENIED)
 					|| mItem.getNotificationType().equals(MantleMessage.SYSTEM)) {
 
-				rootView = inflater.inflate(R.layout.no_button_fragment,
-						container, false);
-
-				((TextView) rootView.findViewById(R.id.SystemInfo))
-						.setText(mItem.getNotificationBody());
+				rootView = createNotificationView(inflater, container);
 
 			}
 
 			/* ========== RICHIESTA D'AMICIZIA ================ */
 			else if (mItem.getNotificationType().equals(
 					MantleMessage.FRIENDSHIP_REQUEST)) {
-
-				rootView = inflater.inflate(R.layout.two_button_fragment,
-						container, false);
-
-				((TextView) rootView.findViewById(R.id.FriendshipRequest))
-						.setText(mItem.getNotificationBody());
-
-				final Button bDenied = (Button) rootView
-						.findViewById(R.id.RifiutaFriend);
-				final Button bAccept = (Button) rootView
-						.findViewById(R.id.accetta);
-				bAccept.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						MioDatabaseHelper db = new MioDatabaseHelper(v
-								.getContext());
-						db.insertUser(mItem.getUser().getEmail(), mItem
-								.getUser().getUsername(), mItem.getUser()
-								.getName(), mItem.getUser().getSurname(), mItem
-								.getUser().getKey());
-
-						ParseJSON parser = new ParseJSON(new StringWriter());
-						try {
-							parser.writeJson(new User(v.getContext()));
-						} catch (IOException e) {
-							Log.e(TAG, e.getMessage());
-						}
-
-						new Sender(v.getContext(), parser.toString(), mItem
-								.getUser().getEmail(),
-								MantleMessage.FRIENDSHIP_ACCEPTED).execute();
-						Toast.makeText(
-								v.getContext(),
-								mItem.getUser().getLongName()
-										+ " è stato aggiunto alla tua lista amici",
-								Toast.LENGTH_LONG).show();
-						db.close();
-						bAccept.setEnabled(false);
-						bDenied.setEnabled(false);
-					}
-				});
-
-				bDenied.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						ParseJSON parser = new ParseJSON(new StringWriter());
-						try {
-							User user = new User(v.getContext());
-							Note note = new Note(
-									user.getUsername(),
-									user.getLongName()
-											+ " ha rifiutato la tua richiesta d'amicizia");
-							parser.writeJson(note);
-						} catch (IOException e) {
-							Log.e(TAG, e.getMessage());
-						}
-
-						new Sender(v.getContext(), parser.toString(), mItem
-								.getUser().getEmail(),
-								MantleMessage.FRIENDSHIP_DENIED).execute();
-						bAccept.setEnabled(false);
-						bDenied.setEnabled(false);
-					}
-				});
+				rootView = createRequestView(inflater, container);
 			}
 		}
+		return rootView;
+	}
+
+	private View createNotificationView(LayoutInflater inflater,
+			ViewGroup container) {
+		View rootView;
+		rootView = inflater.inflate(R.layout.no_button_fragment,
+				container, false);
+
+		((TextView) rootView.findViewById(R.id.SystemInfo))
+				.setText(mItem.getNotificationBody());
+		return rootView;
+	}
+
+	private View createRequestView(LayoutInflater inflater, ViewGroup container) {
+		View rootView;
+		rootView = inflater.inflate(R.layout.two_button_fragment,
+				container, false);
+
+		((TextView) rootView.findViewById(R.id.FriendshipRequest))
+				.setText(mItem.getNotificationBody());
+
+		final Button bDenied = (Button) rootView
+				.findViewById(R.id.RifiutaFriend);
+		final Button bAccept = (Button) rootView
+				.findViewById(R.id.accetta);
+		bAccept.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				MioDatabaseHelper db = new MioDatabaseHelper(v
+						.getContext());
+				db.insertUser(mItem.getUser().getEmail(), mItem
+						.getUser().getUsername(), mItem.getUser()
+						.getName(), mItem.getUser().getSurname(), mItem
+						.getUser().getKey());
+
+				ParseJSON parser = new ParseJSON(new StringWriter());
+				try {
+					parser.writeJson(new User(v.getContext()));
+				} catch (IOException e) {
+					Log.e(TAG, e.getMessage());
+				}
+
+				new Sender(v.getContext(), parser.toString(), mItem
+						.getUser().getEmail(),
+						MantleMessage.FRIENDSHIP_ACCEPTED).execute();
+				Toast.makeText(
+						v.getContext(),
+						mItem.getUser().getLongName()
+								+ " è stato aggiunto alla tua lista amici",
+						Toast.LENGTH_LONG).show();
+				db.close();
+				bAccept.setEnabled(false);
+				bDenied.setEnabled(false);
+			}
+		});
+
+		bDenied.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				ParseJSON parser = new ParseJSON(new StringWriter());
+				try {
+					User user = new User(v.getContext());
+					Note note = new Note(
+							user.getUsername(),
+							user.getLongName()
+									+ " ha rifiutato la tua richiesta d'amicizia");
+					parser.writeJson(note);
+				} catch (IOException e) {
+					Log.e(TAG, e.getMessage());
+				}
+
+				new Sender(v.getContext(), parser.toString(), mItem
+						.getUser().getEmail(),
+						MantleMessage.FRIENDSHIP_DENIED).execute();
+				bAccept.setEnabled(false);
+				bDenied.setEnabled(false);
+			}
+		});
 		return rootView;
 	}
 }

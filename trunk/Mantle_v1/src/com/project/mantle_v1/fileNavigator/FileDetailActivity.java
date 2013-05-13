@@ -66,15 +66,6 @@ public class FileDetailActivity extends FragmentActivity {
 		// Show the Up button in the action bar.
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		// savedInstanceState is non-null when there is fragment state
-		// saved from previous configurations of this activity
-		// (e.g. when rotating the screen from portrait to landscape).
-		// In this case, the fragment will automatically be re-added
-		// to its container so we don't need to manually add it.
-		// For more information, see the Fragments API guide at:
-		//
-		// http://developer.android.com/guide/components/fragments.html
-		//
 		if (savedInstanceState == null) {
 			// Create the detail fragment and add it to the activity
 			// using a fragment transaction.
@@ -160,7 +151,7 @@ public class FileDetailActivity extends FragmentActivity {
 						
 					}
 				});
-		;
+		
 		menu.add("Condividi").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
@@ -170,7 +161,7 @@ public class FileDetailActivity extends FragmentActivity {
 						return true;
 					}
 				});
-		;
+		
 		menu.add("Download").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
@@ -208,7 +199,7 @@ public class FileDetailActivity extends FragmentActivity {
 						return true;
 					}
 				});
-		;
+		
 		return true;
 	}
 	
@@ -251,7 +242,7 @@ public class FileDetailActivity extends FragmentActivity {
 	protected void showMyDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Conferma");
-		final Note note = (Note) getIntent().getSerializableExtra("Comment");
+		final Note note = (Note) getIntent().getSerializableExtra("Commento");
 		builder.setMessage("Vuoi aggiungere il commento : " + note.getContent());
 		builder.setCancelable(false);
 		builder.setPositiveButton("Accetta", new DialogInterface.OnClickListener() {
@@ -335,6 +326,4 @@ public class FileDetailActivity extends FragmentActivity {
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
-
-	
 }
