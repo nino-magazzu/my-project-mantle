@@ -704,8 +704,8 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	//Ottenere l'idFile conoscendo il link di condivisione
 	public int getIdFile(String linkFile) {
 		String[] columns = { "idFile" };
-		String selection = "linkFile=?";
-		String[] selectionArgs = { linkFile };
+		String selection = "linkFile=? OR linkComment=?";
+		String[] selectionArgs = { linkFile, linkFile };
 		Cursor c = db.query("File", columns, selection, selectionArgs, null,
 				null, null);
 		c.moveToNext();

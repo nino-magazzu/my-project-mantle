@@ -6,17 +6,28 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.channels.FileChannel;
+import java.util.Date;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+
+import org.xml.sax.SAXException;
+
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.gmail.Sender;
+import com.project.mantle_v1.notification_home.Note;
 import com.project.mantle_v1.notification_home.NoteActivity;
 import com.project.mantle_v1.notification_home.NotificationDetailFragment;
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;
+import com.project.mantle_v1.xml.WriterXml;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -82,8 +93,8 @@ public class FileDetailActivity extends FragmentActivity {
 						.getStringExtra(NotificationDetailFragment.ARG_ITEM_ID));
 				
 				if(getIntent().hasExtra("Commento")){
-					Log.d(TAG,"Sto creando la dialog perchè c'è il commento");
-					showDialog(DIALOG_ALERT_ID);
+					Log.d(TAG,"");
+					showMyDialog();
 					}
 				file = new MantleFile(getApplicationContext(), getIntent()
 						.getStringExtra(NotificationDetailFragment.ARG_ITEM_ID));
@@ -232,28 +243,91 @@ public class FileDetailActivity extends FragmentActivity {
 		}
 	}
 	
-	@Override
-	protected Dialog onCreateDialog(int id) {
+	protected void showMyDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Conferma");
-		builder.setMessage("Vuoi aggiungere il commento : " + getIntent().getStringExtra("Comment"));
+		final Note note = (Note) getIntent().getSerializableExtra("Comment");
+		builder.setMessage("Vuoi aggiungere il commento : " + note.getContent());
 		builder.setCancelable(false);
 		builder.setPositiveButton("Accetta", new DialogInterface.OnClickListener() {
+			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				Log.d(TAG,"Commento accettato");
-				dismissDialog(DIALOG_ALERT_ID);
+			
+				MioDatabaseHelper db = new MioDatabaseHelper(
+						getApplicationContext());
+		
+				int idFile = db.getIdFile(note.getCommentLink());
+				File cFile = MantleFile.downloadFileFromUrl(note.getCommentLink(), idFile + ".xml");
+				WriterXml xml = new WriterXml();
+
+					try {
+						xml.addComment(
+								note.getUser(),
+								note.getDate(),
+								note.getContent(),cFile );
+					} catch (ParserConfigurationException e) {
+						Log.e(TAG, e.getMessage());
+						e.printStackTrace();
+					} catch (SAXException e) {
+						Log.e(TAG, e.getMessage());
+						e.printStackTrace();
+					} catch (IOException e) {
+						Log.e(TAG, e.getMessage());
+						e.printStackTrace();
+					} catch (TransformerFactoryConfigurationError e) {
+						Log.e(TAG, e.getMessage());
+						e.printStackTrace();
+					} catch (TransformerException e) {
+						Log.e(TAG, e.getMessage());
+						e.printStackTrace();
+					}
+
+					DropboxAuth auth = new DropboxAuth(getApplicationContext());
+					boolean bl = MantleFile.uploadFile(cFile, auth.getAPI());
+					
+					Log.v(TAG, "upload: "+bl);
+					
+					ParseJSON parser = new ParseJSON(new StringWriter());
+					
+					try {
+						parser.writeJson(note);
+					} catch (IOException ex) {
+						Log.e(TAG, ex.getMessage());
+
+					}
+
+					String[] emails = db.getEmailsFilesShared(idFile);
+					for (int i = 0; i < emails.length; i++) {
+						new Sender(FileDetailActivity.this, parser.toString(),
+								emails[i], MantleMessage.NOTE).execute();
+					}
+					
+				dialog.cancel();
 			}
 		});
+		
 		builder.setNegativeButton("Rifiuta", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				Log.d(TAG,"Commento annullato");
-				dismissDialog(DIALOG_ALERT_ID);
+				
+				ParseJSON parser = new ParseJSON(new StringWriter());
+				note.setContent("Comment Refused");
+				
+				try {
+					parser.writeJson(note);
+				} catch (IOException ex) {
+					Log.e(TAG, ex.getMessage());
+				}
+				
+				new Sender(FileDetailActivity.this, parser.toString(),
+						note.getSender_mail() , MantleMessage.SYSTEM).execute();
+				dialog.cancel();
 			}
 		});
-		AlertDialog alert = builder.create();
-		return alert;
+		AlertDialog alert = builder.show();
 	}
 
 	
