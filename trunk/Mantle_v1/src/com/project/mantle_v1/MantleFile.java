@@ -38,6 +38,11 @@ public class MantleFile implements Serializable {
 	public static final String DIRECTORY_HISTORY = Environment.getExternalStorageDirectory() + "/Mantle/history/";
 	
 	
+	/**** TYPE OF FILE TO DOWNLOAD ****/
+	public static final String THUMBNAIL = "thumbnail";
+	public static final String FILE = "full";
+	public static final String COMMENT = "comment";
+	
 	
 	public MantleFile(Entry ent, String link, String username, File file) {
 		this.linkFile = link;
@@ -106,50 +111,56 @@ public class MantleFile implements Serializable {
 	 */
 
 	
-	public void downloadFileFromUrl(String fileName) {
-		DownladerTask down = new DownladerTask(this.linkFile, fileName);
+	public boolean downloadFileFromUrl(String type, String fileName, String path) {
+		String url = this.linkFile;
+		if(type.equals(THUMBNAIL))
+			url = this.linkThumb;
+		else if(type.equals(COMMENT))
+			url = this.linkComment;
+		
+		DownladerTask down = new DownladerTask(url, fileName, path);
 		down.execute();
-
 		try {
 			this.mFile = down.get();
+			
+			/*
+			 * TODO: decifrare di mFile usando la chiave che si trova
+			 * in fileKey. Il file qui ottenuto va salvato in mFile
+			 */
+			
+			return true;
 		} catch (InterruptedException e) {
 			Log.i(TAG, "Error authenticating", e);
+			return false;
 		} catch (ExecutionException e) {
 			Log.i(TAG, "Error authenticating", e);
+			return false;
 		}
-
 	}
 
-	public static boolean uploadFile(File f, DropboxAPI<?> mApi) {
-		UploaderTask upl = new UploaderTask(mApi, f);
+	public boolean uploadFile(DropboxAPI<?> mApi) {
+		
+		/*
+		 * TODO: cifrare il file contenuto in mFile che poi sarà passato
+		 * alla funzione UploaderTask che si occuperà di caricarlo su dropbox.
+		 * Per la cifratura usare la chiave contenuta in fileKey
+		 */
+		
+		UploaderTask upl = new UploaderTask(mApi, this.mFile);
 		upl.execute();
 		boolean bl = false;
 		try {
 			bl = upl.get();
 		} catch (InterruptedException e) {
-			Log.i("MantleFile", "Error authenticating", e);
+			Log.i(TAG, "Error authenticating", e);
 		} catch (ExecutionException e) {
-			Log.i("MantleFile", "Error authenticating", e);
+			Log.i(TAG, "Error authenticating", e);
 		}
 		return bl;
 	}
-
-	public static File downloadFileFromUrl(String url, String fileName) {
-		DownladerTask down = new DownladerTask(url, fileName);
-		down.execute();
-		File file = null;
-		try {
-			file = down.get();
-		} catch (InterruptedException e) {
-			Log.i("MantleFile", "Error authenticating", e);
-		} catch (ExecutionException e) {
-			Log.i("MantleFile", "Error authenticating", e);
-		}
-		return file;
-	}
-
+	
 	public File createThumbnail() {
-		final int THUMBNAIL_SIZE = 64;
+		final int THUMBNAIL_SIZE = 128;
 
         FileInputStream fis;
 		try {
@@ -166,10 +177,10 @@ public class MantleFile implements Serializable {
 		    return fOut;
 		    
 		} catch (FileNotFoundException e) {
-			Log.v("MantleFile", "File non trovato");
+			Log.v(TAG, "File non trovato");
 			return null;
 		} catch (IOException e) {
-			Log.v("MantleFile", "IOException: " + e.getMessage());
+			Log.v(TAG, "IOException: " + e.getMessage());
 			return null;
 		}
 	}
@@ -286,6 +297,14 @@ public class MantleFile implements Serializable {
 
 	public void setLinkThumb(String linkThumb) {
 		this.linkThumb = linkThumb;
+	}
+
+	public File getmFile() {
+		return mFile;
+	}
+
+	public void setmFile(File mFile) {
+		this.mFile = mFile;
 	}
 
 	@Override

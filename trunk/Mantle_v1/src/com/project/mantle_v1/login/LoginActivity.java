@@ -1,5 +1,8 @@
 package com.project.mantle_v1.login;
 
+import java.io.File;
+
+import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.MioDatabaseHelper;
@@ -94,6 +97,27 @@ public class LoginActivity extends Activity {
 						attemptLogin();
 					}
 				});
+		
+		findViewById(R.id.textView1).setOnClickListener(
+				new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						db.deleteAll();
+						File[] dirs = new File(MantleFile.MAIN_DIR).listFiles();
+						for (File ff : dirs) {
+							if(ff.isDirectory()) {
+								File[] files = ff.listFiles();
+								for (File fl : files) {
+										fl.delete();
+								}
+							}
+							else
+								ff.delete();
+						}
+						
+					}
+				} );
 	}
 
 	@Override

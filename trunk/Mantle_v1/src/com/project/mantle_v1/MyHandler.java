@@ -66,12 +66,14 @@ public class MyHandler extends Handler {
 			MantleMessage mess = new MantleMessage(link, context, email,
 					FILE_HISTORY_NAME);
 			Notifica not = mess.getNotifica();
-			createNotification(not.getTitle());
-			addItem(not);
-			//Log.d(TAG, "ITEMS: " + String.valueOf(ITEMS.size()));
-			Log.v(TAG, "AdapterB: " + adapter.toString());
-			adapter.notifyDataSetChanged();
 
+			if(not != null) {
+				createNotification(not.getTitle());
+				addItem(not);
+				Log.v(TAG, "AdapterB: " + adapter.toString());
+				adapter.notifyDataSetChanged();
+
+			}
 		}
 
 		if (bundle.containsKey("adapter")) {

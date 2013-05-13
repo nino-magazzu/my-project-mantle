@@ -16,9 +16,9 @@ import android.util.Log;
 
 public class DownladerTask extends AsyncTask<Void, Long, File> {
 
-	public DownladerTask(String fileUrl, String Filename) {
+	public DownladerTask(String fileUrl, String Filename, String path) {
 		try {
-			File root = new File(MantleFile.DIRECTORY_TEMP);
+			File root = new File(path);
 			if (!root.exists())
 				root.mkdirs();
 			this.mUrl = new URL(fileUrl);

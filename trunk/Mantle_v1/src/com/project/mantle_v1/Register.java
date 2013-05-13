@@ -40,10 +40,6 @@ public class Register extends Activity {
 		nameEditText = (EditText) findViewById(R.id.nameEditText);
 		surnameEditText = (EditText) findViewById(R.id.surnameEditText);
 		emailEditText = (EditText) findViewById(R.id.emailEditText);
-		// dropboxUserEditText = (EditText)
-		// findViewById(R.id.dropUsernameEditText);
-		// dropboxPassEditText = (EditText)
-		// findViewById(R.id.dropboxPassEditText);
 		emailPassEditText = (EditText) findViewById(R.id.emailPassEditText);
 		forward = (Button) findViewById(R.id.forwardButton);
 
@@ -65,25 +61,33 @@ public class Register extends Activity {
 				String surname = surnameEditText.getText().toString();
 				String email = emailEditText.getText().toString();
 				String emailPass = emailPassEditText.getText().toString();
-				// String dropboxUser =
-				// dropboxUserEditText.getText().toString();
-				// String dropboxPass =
-				// dropboxPassEditText.getText().toString();
 
-				//verica non ci siano dei campi vuoti
+				//verifica non ci siano dei campi vuoti
 				if (!name.equals("") && !surname.equals("")
-						&& !email.equals("") /*
-											 * && !dropboxPass.equals("") &&
-											 * !dropboxUser.equals("")
-											 */) {
+						&& !email.equals("")) {
+					
+					/*
+					 *  TODO: generazione della chiave pubblica dell'utente
+					 *  
+					 */
+					
+					String publicKey = "";
+					
 					//Inserimento dei valori nel db
 					int id = (int) db.insertUser(email, username, name,
-							surname, password);
-					// db.insertService("Dropbox", dropboxUser, dropboxPass);
+							surname, publicKey);
+					
 					db.insertService("Email", email, emailPass);
 
 					// ****************//
 
+					/*
+					 *  la variabile password oltre a contenere quella che è 
+					 *  la chiave di accesso all'applicazione Mantle
+					 *  conterrà quella che per adesso sarà la chiave privata 
+					 *  dell'utente
+					 */
+					
 					db.insertService("mantle", username, password);
 
 					// ****************//
@@ -153,6 +157,7 @@ public class Register extends Activity {
 		edit.putString("username", username);
 		edit.putString("email", email);
 		edit.putString("emailpswd", emailpswd);
+		edit.putString("privateKey", password);
 		edit.putInt("idUser", id);
 		edit.commit();
 	}

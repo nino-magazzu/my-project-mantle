@@ -52,14 +52,17 @@ public class NoteActivity extends Activity {
 
 		Log.v(TAG, idFile);
 
-		if (filePath == null)
-			cFile = MantleFile.downloadFileFromUrl(url, idFile + ".xml");
+		if (filePath == null) {
+			cFile = new MantleFile(this, idFile);
+			cFile.downloadFileFromUrl(MantleFile.COMMENT, idFile + ".xml", MantleFile.DIRECTORY_TEMP);
+		}
+			
 		else
-			cFile = new File(filePath);
+			cFile.setmFile( new File(filePath));
 
 		ReaderXml reader = new ReaderXml();
 		try {
-			reader.parseComment(cFile);
+			reader.parseComment(cFile.getmFile());
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -98,7 +101,7 @@ public class NoteActivity extends Activity {
 						xml.addComment(
 								username,
 								new Date(System.currentTimeMillis()).toString(),
-								comment, cFile);
+								comment, cFile.getmFile());
 					} catch (ParserConfigurationException e) {
 						Log.e(TAG, e.getMessage());
 						e.printStackTrace();
@@ -117,8 +120,7 @@ public class NoteActivity extends Activity {
 					}
 
 					DropboxAuth auth = new DropboxAuth(getApplicationContext());
-					boolean bl = MantleFile.uploadFile(cFile, auth.getAPI());
-					Log.v(TAG, "upload: "+bl);
+					cFile.uploadFile(auth.getAPI());
 					MioDatabaseHelper db = new MioDatabaseHelper(
 							getApplicationContext());
 
@@ -167,15 +169,15 @@ public class NoteActivity extends Activity {
 	@Override
     protected void onDestroy() {
 		super.onDestroy();
-		if(cFile.exists())
-			cFile.deleteOnExit();
+		if(cFile.getmFile().exists())
+			cFile.getmFile().deleteOnExit();
 	}
 
 	private String username;
 	private String email;
 	private String url;
 	private String filePath;
-	private File cFile;
+	private MantleFile cFile;
 	private List<Note> notes;
 	private String idFile;
 }

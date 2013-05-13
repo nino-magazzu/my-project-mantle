@@ -107,6 +107,10 @@ public class MantleMessage {
 
 		int CODE = DECODE_MAP.get(code);
 
+		MioDatabaseHelper db = new MioDatabaseHelper(context);
+		
+		
+		
 		ParseJSON parser = null;
 		User user = null;
 		MantleFile media = null;
@@ -153,7 +157,7 @@ public class MantleMessage {
 			} catch (IOException e) {
 				Log.e(TAG, "Problema lettura: " + e.getMessage());
 			}
-			MioDatabaseHelper db = new MioDatabaseHelper(context);
+			//MioDatabaseHelper db = new MioDatabaseHelper(context);
 			db.insertUser(user.getEmail(), user.getUsername(), user.getName(),
 					user.getSurname(), user.getKey());
 			db.close();
@@ -175,6 +179,8 @@ public class MantleMessage {
 					MantleMessage.FRIENDSHIP_DENIED);
 
 		case 004:
+			if(!db.isAlreadyFriend(sender_email))
+				return null;
 			jsonText = message.substring(CODE_DIM, message.length());
 			Log.d(TAG, jsonText);
 			parser = new ParseJSON(new StringReader(jsonText));
@@ -187,6 +193,8 @@ public class MantleMessage {
 			return new Notifica(SHARING_PHOTO, media);
 
 		case 005:
+			if(!db.isAlreadyFriend(sender_email))
+				return null;
 			jsonText = message.substring(CODE_DIM, message.length());
 			Log.d(TAG, jsonText);
 			parser = new ParseJSON(new StringReader(jsonText));
@@ -213,6 +221,8 @@ public class MantleMessage {
 					MantleMessage.SYSTEM);
 			
 		case 007:
+			if(!db.isAlreadyFriend(sender_email))
+				return null;
 			jsonText = message.substring(CODE_DIM, message.length());
 			Log.d(TAG, jsonText);
 			parser = new ParseJSON(new StringReader(jsonText));

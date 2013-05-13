@@ -1,19 +1,11 @@
 package com.project.mantle_v1.fileNavigator;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.nio.channels.FileChannel;
-import java.util.Date;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
-
 import org.xml.sax.SAXException;
-
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
@@ -28,9 +20,7 @@ import com.project.mantle_v1.notification_home.NotificationDetailFragment;
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;
 import com.project.mantle_v1.xml.WriterXml;
-
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -42,6 +32,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
+import android.widget.Toast;
 
 /**
  * An activity representing a single File detail screen. This activity is only
@@ -62,7 +53,6 @@ public class FileDetailActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_file_detail);
-		
 		// Show the Up button in the action bar.
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -125,9 +115,8 @@ public class FileDetailActivity extends FragmentActivity {
 				new OnMenuItemClickListener() {
 					public boolean onMenuItemClick(MenuItem item) {
 						
-						final File comment = MantleFile.downloadFileFromUrl(
-								file.getLinkComment(),
-								(String) file.getIdFile() + ".xml");
+						file.downloadFileFromUrl(MantleFile.COMMENT,
+								(String) file.getIdFile() + ".xml", MantleFile.DIRECTORY_TEMP);
 
 						Intent myIntent = new Intent(getApplicationContext(),
 								NoteActivity.class);
@@ -142,7 +131,7 @@ public class FileDetailActivity extends FragmentActivity {
 						bundle.putString("url", file.getLinkComment());
 						bundle.putString("email",
 								db.getEmailFromUrl(file.getLinkComment()));
-						bundle.putString("filePath", comment.getAbsolutePath());
+						bundle.putString("filePath", file.getmFile().getAbsolutePath());
 						bundle.putString("idFile", file.getIdFile());
 						myIntent.putExtra("bundle", bundle);
 						db.close();
@@ -168,34 +157,8 @@ public class FileDetailActivity extends FragmentActivity {
 						MantleFile file = MyHandler.FILE_MAP
 								.get(getIntent().getStringExtra(
 										FileDetailFragment.ARG_ITEM_ID));
-
-						File sd = new File(MantleFile.DIRECTORY_TEMP);
-						File download = Environment
-								.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-						Log.d("FILE_DETAIL_ACTIVITY",
-								Environment.getExternalStoragePublicDirectory(
-										Environment.DIRECTORY_DOWNLOADS)
-										.toString());
-						String currentFilePath = file.getFileName();
-						String backupFilePath = file.getFileName();
-
-						File currentFile = new File(sd, backupFilePath);
-						Log.d("FILE_DETAIL_ACTIVITY", "1");
-						File backupFile = new File(download, currentFilePath);
-						Log.d("FILE_DETAIL_ACTIVITY", "2");
-
-						try {
-							FileChannel src = new FileInputStream(currentFile)
-									.getChannel();
-							FileChannel dst = new FileOutputStream(backupFile)
-									.getChannel();
-							dst.transferFrom(src, 0, src.size());
-							src.close();
-							dst.close();
-
-						} catch (Exception e) {
-							Log.w("FILE_DETAIL_ACTIVITY", "Execption : " + e);
-						}
+						file.downloadFileFromUrl(MantleFile.FILE, file.getFileName(), Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
+						showToast("Download completato!");
 						return true;
 					}
 				});
@@ -255,14 +218,15 @@ public class FileDetailActivity extends FragmentActivity {
 						getApplicationContext());
 		
 				int idFile = db.getIdFile(note.getCommentLink());
-				File cFile = MantleFile.downloadFileFromUrl(note.getCommentLink(), idFile + ".xml");
+				MantleFile cFile = new MantleFile(getApplicationContext(), String.valueOf(idFile)); 
+						cFile.downloadFileFromUrl(MantleFile.COMMENT, idFile + ".xml", MantleFile.DIRECTORY_TEMP);
 				WriterXml xml = new WriterXml();
 
 					try {
 						xml.addComment(
 								note.getUser(),
 								note.getDate(),
-								note.getContent(),cFile );
+								note.getContent(),cFile.getmFile() );
 					} catch (ParserConfigurationException e) {
 						Log.e(TAG, e.getMessage());
 						e.printStackTrace();
@@ -280,8 +244,7 @@ public class FileDetailActivity extends FragmentActivity {
 						e.printStackTrace();
 					}
 
-					DropboxAuth auth = new DropboxAuth(getApplicationContext());
-					boolean bl = MantleFile.uploadFile(cFile, auth.getAPI());
+					boolean bl = cFile.uploadFile(new DropboxAuth(getApplicationContext()).getAPI());
 					
 					Log.v(TAG, "upload: "+bl);
 					
@@ -297,7 +260,7 @@ public class FileDetailActivity extends FragmentActivity {
 					String[] emails = db.getEmailsFilesShared(idFile);
 					for (int i = 0; i < emails.length; i++) {
 						new Sender(FileDetailActivity.this, parser.toString(),
-								emails[i], MantleMessage.NOTE).execute();
+								emails[i], MantleMessage.SYSTEM).execute();
 					}
 					
 				dialog.cancel();
@@ -325,5 +288,9 @@ public class FileDetailActivity extends FragmentActivity {
 		});
 		AlertDialog alert = builder.create();
 		alert.show();
+	}
+	
+	private void showToast(String msg) {
+		Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
 	}
 }
