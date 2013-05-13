@@ -65,7 +65,7 @@
             android:parentActivityName="com.project.mantle_v1.notification_home.NotificationListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".NotificationListActivity" />
+                android:value="com.project.mantle_v1.notification_home.NotificationListActivity" />
         </activity>
         <activity
             android:name="com.project.mantle_v1.fileNavigator.FileListActivity"

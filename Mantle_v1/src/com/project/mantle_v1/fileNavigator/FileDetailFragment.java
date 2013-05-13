@@ -99,9 +99,11 @@ public class FileDetailFragment extends Fragment {
 
 		if (file.isImage()) {
 			File img = new File(MantleFile.DIRECTORY_TEMP, getTumbName(file.getFileName()));
-			if(!img.exists())
-				img = MantleFile.downloadFileFromUrl(file.getLinkThumb(),
-						getTumbName(file.getFileName()));
+			if(!img.exists()) {
+				file.downloadFileFromUrl(MantleFile.THUMBNAIL,
+						getTumbName(file.getFileName()), MantleFile.DIRECTORY_TEMP);
+				img = file.getmFile();
+			}
 			ImageView iv = (ImageView) rootView.findViewById(R.id.sharedImage);
 			iv.setImageBitmap(BitmapFactory.decodeFile(img.getAbsolutePath()));
 		}

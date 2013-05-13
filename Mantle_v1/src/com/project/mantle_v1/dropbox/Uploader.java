@@ -102,7 +102,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 			 *
 			 *  In questo punto va inserita la cifratura del file 
 			 *  (mFile) che sarà caricato su dropbox. 
-			 *  La chiave simmetri di cifratura del file verrà
+			 *  La chiave simmetrica di cifratura del file verrà
 			 *  inserita nell'attributo fileKey e salvata quindi sul 
 			 *  database
 			 *  
@@ -149,10 +149,10 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 				db.insertHistory((int) ID, userDetails.getInt("idUser", 1),
 						new Date(System.currentTimeMillis()).toString());
 				
-				if(mFile.getName().compareTo(MioDatabaseHelper.DB_NAME) != 0)
+				//if(mFile.getName().compareTo(MioDatabaseHelper.DB_NAME) != 0)
 					return uploadingXML(db);
-				else
-					return ID;
+		//		else
+			//		return ID;
 			}
 
 		} catch (DropboxUnlinkedException e) {
@@ -339,8 +339,6 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		} catch (Exception e) {
 			Log.d(TAG, "Exception: " + e.getMessage());
 		}
-		//Log.v(TAG, conn.getHeaderFields().keySet().toString());
-		//Log.v(TAG, conn.getHeaderFields().values().toString());
 		return conn.getHeaderField("location");
 	}
 	
