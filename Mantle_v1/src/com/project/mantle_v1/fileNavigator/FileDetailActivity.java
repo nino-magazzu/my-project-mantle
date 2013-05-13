@@ -18,6 +18,9 @@ import com.project.mantle_v1.notification_home.NotificationDetailFragment;
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -40,6 +43,7 @@ import android.view.MenuItem.OnMenuItemClickListener;
 public class FileDetailActivity extends FragmentActivity {
 
 	final static private int FRIEND_CHOOSED_CODE = 8;
+	protected static final int DIALOG_ALERT_ID = 1;
 	private final String TAG = this.getClass().getSimpleName();
 	private MantleFile file;
 
@@ -77,6 +81,10 @@ public class FileDetailActivity extends FragmentActivity {
 				arguments.putString(NotificationDetailFragment.ARG_ITEM_ID, getIntent()
 						.getStringExtra(NotificationDetailFragment.ARG_ITEM_ID));
 				
+				if(getIntent().hasExtra("Commento")){
+					Log.d(TAG,"Sto creando la dialog perchè c'è il commento");
+					showDialog(DIALOG_ALERT_ID);
+					}
 				file = new MantleFile(getApplicationContext(), getIntent()
 						.getStringExtra(NotificationDetailFragment.ARG_ITEM_ID));
 				
@@ -223,4 +231,30 @@ public class FileDetailActivity extends FragmentActivity {
 			break;
 		}
 	}
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Conferma");
+		builder.setMessage("Vuoi aggiungere il commento : " + getIntent().getStringExtra("Comment"));
+		builder.setCancelable(false);
+		builder.setPositiveButton("Accetta", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Log.d(TAG,"Commento accettato");
+				dismissDialog(DIALOG_ALERT_ID);
+			}
+		});
+		builder.setNegativeButton("Rifiuta", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Log.d(TAG,"Commento annullato");
+				dismissDialog(DIALOG_ALERT_ID);
+			}
+		});
+		AlertDialog alert = builder.create();
+		return alert;
+	}
+
+	
 }
