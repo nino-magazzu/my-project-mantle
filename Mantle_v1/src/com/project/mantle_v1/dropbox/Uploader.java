@@ -12,20 +12,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import org.xml.sax.SAXException;
-
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Environment;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.DropboxLink;
@@ -133,36 +126,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 						.replaceFirst("https://www", "https://dl");
 				
 				if(ent.mimeType.contains("image")) {
-					Log.v(TAG, "*** Creating thumbnail ***");
-					
-					/* ##########################
-					 *
-					 *	Nel caso in cui un file sia un'immagine verrà
-					 * creato  anche il thumbnail, che sarà caricato 
-					 * anch'esso su dropbox cifrato con la stessa chiave
-					 * simmetrica usata per il file originale. 
-					 * 
-					 *  Va cifrato l'oggetto thumb. Come sopra 
-					 *  l'operazione di cifratura dovrebbe restituire
-					 *  un oggetto di tipo File e passato al 
-					 *  FileInputStream
-					 *  
-					 ########################### */
-					
-					MantleFile original = new MantleFile(mFile);
-					File thumb = original.createThumbnail();
-					
-					FileInputStream fIs = new FileInputStream(thumb);
-					String thumbPath = mPath + thumb.getName();
-					mRequest = mApi.putFileOverwriteRequest(thumbPath, fIs, thumb.length(), null);
-						
-					if (mRequest != null) {
-						Entry entThumb = mRequest.upload();
-						thumb.delete();
-						shareLink = mApi.share(entThumb.path);
-						ThumbAddress = getShareURL(shareLink.url)
-								.replaceFirst("https://www", "https://dl");
-					}
+					uploadingThumbnail();
 				}
 		
 				// creazione istanza del database
@@ -177,71 +141,18 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 					ID = (int) db.insertFile(mFile.getName(),
 							shareAddress, ThumbAddress,"", fileKey,
 							ent.mimeType, MantleFile.NORMAL_FILE);
-
+				
+					
 				SharedPreferences userDetails = mContext.getSharedPreferences(
 						USER_DETAILS_PREF, 0);
 
 				db.insertHistory((int) ID, userDetails.getInt("idUser", 1),
 						new Date(System.currentTimeMillis()).toString());
 				
-				Log.v(TAG, "*** Creating XML*****");
-				
-				WriterXml com = new WriterXml();
-				String pathComment = MantleFile.DIRECTORY_TEMP;
-				try {
-					com.createComment(String.valueOf(ID) + ".xml", pathComment);
-				} catch (ParserConfigurationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (TransformerFactoryConfigurationError e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (TransformerException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SAXException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				/* #################################
-				 * 
-				 * Va cifrato anche mFile che invece va a contenere i commenti
-				 * come sopra va usata sempre la stessa chiave simmetrica per 
-				 * cifrarlo
-				 * 
-				 ################################### */
-				
-				mFile = new File(pathComment, String.valueOf(ID) + ".xml");
-				fis = new FileInputStream(mFile);
-				mRequest = mApi.putFileOverwriteRequest(
-						mPath + mFile.getName(), fis, mFile.length(),
-						new ProgressListener() {
-							@Override
-							public long progressInterval() {
-								// Update the progress bar every half-second or
-								// so
-								return 500;
-							}
-
-							@Override
-							public void onProgress(long bytes, long total) {
-								publishProgress(bytes);
-							}
-						});
-
-				if (mRequest != null) {
-					ent = mRequest.upload();
-					shareLink = mApi.share(ent.path);
-					shareAddress = getShareURL(shareLink.url)
-							.replaceFirst("https://www", "https://dl");
-					db.insertLinkComment((int) ID, shareAddress);
-					mFile.delete();
-				}
-				return ID;
+				if(mFile.getName().compareTo(MioDatabaseHelper.DB_NAME) != 0)
+					return uploadingXML(db);
+				else
+					return ID;
 			}
 
 		} catch (DropboxUnlinkedException e) {
@@ -292,6 +203,105 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 			mErrorMsg = "File not Found.  Try again.";
 		}
 		return null;
+	}
+
+	private Integer uploadingXML(MioDatabaseHelper db)
+			throws FileNotFoundException, DropboxException {
+		FileInputStream fis;
+		Entry ent;
+		String shareAddress;
+		Log.v(TAG, "*** Creating XML*****");
+		
+		WriterXml com = new WriterXml();
+		String pathComment = MantleFile.DIRECTORY_TEMP;
+		try {
+			com.createComment(String.valueOf(ID) + ".xml", pathComment);
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerFactoryConfigurationError e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		/* #################################
+		 * 
+		 * Va cifrato anche mFile che invece va a contenere i commenti
+		 * come sopra va usata sempre la stessa chiave simmetrica per 
+		 * cifrarlo
+		 * 
+		 ################################### */
+		
+		mFile = new File(pathComment, String.valueOf(ID) + ".xml");
+		fis = new FileInputStream(mFile);
+		mRequest = mApi.putFileOverwriteRequest(
+				mPath + mFile.getName(), fis, mFile.length(),
+				new ProgressListener() {
+					@Override
+					public long progressInterval() {
+						// Update the progress bar every half-second or
+						// so
+						return 500;
+					}
+
+					@Override
+					public void onProgress(long bytes, long total) {
+						publishProgress(bytes);
+					}
+				});
+
+		if (mRequest != null) {
+			ent = mRequest.upload();
+			shareLink = mApi.share(ent.path);
+			shareAddress = getShareURL(shareLink.url)
+					.replaceFirst("https://www", "https://dl");
+			db.insertLinkComment((int) ID, shareAddress);
+			mFile.delete();
+		}
+		return ID;
+	}
+
+	private void uploadingThumbnail() throws FileNotFoundException,
+			DropboxException {
+		Log.v(TAG, "*** Creating thumbnail ***");
+		
+		/* ##########################
+		 *
+		 *	Nel caso in cui un file sia un'immagine verrà
+		 * creato  anche il thumbnail, che sarà caricato 
+		 * anch'esso su dropbox cifrato con la stessa chiave
+		 * simmetrica usata per il file originale. 
+		 * 
+		 *  Va cifrato l'oggetto thumb. Come sopra 
+		 *  l'operazione di cifratura dovrebbe restituire
+		 *  un oggetto di tipo File e passato al 
+		 *  FileInputStream
+		 *  
+		 ########################### */
+		
+		MantleFile original = new MantleFile(mFile);
+		File thumb = original.createThumbnail();
+		
+		FileInputStream fIs = new FileInputStream(thumb);
+		String thumbPath = mPath + thumb.getName();
+		mRequest = mApi.putFileOverwriteRequest(thumbPath, fIs, thumb.length(), null);
+			
+		if (mRequest != null) {
+			Entry entThumb = mRequest.upload();
+			thumb.delete();
+			shareLink = mApi.share(entThumb.path);
+			ThumbAddress = getShareURL(shareLink.url)
+					.replaceFirst("https://www", "https://dl");
+		}
 	}
 	
 /*

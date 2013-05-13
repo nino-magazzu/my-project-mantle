@@ -7,7 +7,6 @@ import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
-import com.project.mantle_v1.database.AddFriend;
 import com.project.mantle_v1.database.AddService;
 import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.database.MioDatabaseHelper;
@@ -16,11 +15,9 @@ import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.dropbox.Sharing;
 import com.project.mantle_v1.dropbox.Uploader;
 import com.project.mantle_v1.fileNavigator.FileDetailActivity;
-import com.project.mantle_v1.fileNavigator.FileDetailFragment;
 import com.project.mantle_v1.fileNavigator.FileListActivity;
 import com.project.mantle_v1.gmail.ReaderTask;
 import com.project.mantle_v1.parser.MantleMessage;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -178,7 +175,7 @@ public class NotificationListActivity extends FragmentActivity implements
 				Intent detailIntent = new Intent(this, FileDetailActivity.class);
 				detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID,
 						idFile);
-				detailIntent.putExtra("Comment", n.getNote());
+				detailIntent.putExtra("Commento", n.getNote());
 				startActivity(detailIntent);
 				}
 				
@@ -273,9 +270,7 @@ public class NotificationListActivity extends FragmentActivity implements
 								getApplicationContext());
 
 						new Uploader(mContext, dropbox.getAPI(),
-								"/StoredFile/", new File(Environment
-										.getExternalStorageDirectory()
-										+ "/Mantle/db/Mantle")).execute();
+								"/StoredFile/", new File(MantleFile.DIRECTORY_DB + MioDatabaseHelper.DB_NAME)).execute();
 						return true;
 					}
 				});
