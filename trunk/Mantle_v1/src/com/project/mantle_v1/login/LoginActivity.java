@@ -50,7 +50,6 @@ public class LoginActivity extends Activity {
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
 	private MioDatabaseHelper db;
-	private TextView changeAccountTV;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +63,6 @@ public class LoginActivity extends Activity {
 		mUsernameView.setText(mUsername);
 
 		mPasswordView = (EditText) findViewById(R.id.password);
-		
-		changeAccountTV.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				
-			}
-		});
 		
 		mPasswordView
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
