@@ -1,8 +1,8 @@
 package com.project.mantle_v1;
 
-import com.project.mantle_v1.database.MioDatabaseHelper;
-
 import android.content.Context;
+
+import com.project.mantle_v1.database.MioDatabaseHelper;
 
 public class User {
 
@@ -13,8 +13,7 @@ public class User {
 	private String surname;
 	private String key;
 	private MioDatabaseHelper db;
-	
-	
+
 	public static final String USER_DETAILS_PREF = "user";
 
 	public User(String idUser, String email, String username, String name,

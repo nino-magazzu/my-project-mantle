@@ -2,18 +2,7 @@ package com.project.mantle_v1.dropbox;
 
 import java.io.File;
 import java.util.concurrent.ExecutionException;
-import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.android.AndroidAuthSession;
-import com.dropbox.client2.session.AccessTokenPair;
-import com.dropbox.client2.session.AppKeyPair;
-import com.dropbox.client2.session.TokenPair;
-import com.dropbox.client2.session.Session.AccessType;
-import com.project.mantle_v1.R;
-import com.project.mantle_v1.Register;
-import com.project.mantle_v1.User;
-import com.project.mantle_v1.database.MioDatabaseHelper;
-import com.project.mantle_v1.login.LoginActivity;
-import com.project.mantle_v1.notification_home.NotificationListActivity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +11,20 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.session.AccessTokenPair;
+import com.dropbox.client2.session.AppKeyPair;
+import com.dropbox.client2.session.Session.AccessType;
+import com.dropbox.client2.session.TokenPair;
+import com.project.mantle_v1.MantleFile;
+import com.project.mantle_v1.R;
+import com.project.mantle_v1.Register;
+import com.project.mantle_v1.User;
+import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.login.LoginActivity;
+import com.project.mantle_v1.notification_home.NotificationListActivity;
 
 public class DropboxAuthActivity extends Activity {
 	static private String TAG;
@@ -96,11 +99,8 @@ public class DropboxAuthActivity extends Activity {
 
 				boolean isDownloaded = false;
 
-				Downloader down = new Downloader(this, mApi,
-						"/storedFile/" + MioDatabaseHelper.DB_NAME, Environment
-								.getExternalStorageDirectory()
-								.getAbsoluteFile()
-								+ "/Mantle/db/");
+				Downloader down = new Downloader(this, mApi, "/storedFile/"
+						+ MioDatabaseHelper.DB_NAME, MantleFile.DIRECTORY_DB);
 
 				down.execute();
 
@@ -117,6 +117,15 @@ public class DropboxAuthActivity extends Activity {
 				Log.v(TAG, " isDownloaded: " + isDownloaded);
 
 				if (isDownloaded) {
+
+					/*
+					 * decifrare il fine del db appena scaricato che si trova in
+					 * MantleFile.DIRECTORY_DB utilizzando la chiave d'accesso a
+					 * mantle. Se viene ricostruito il db la chiave è corretta e
+					 * si continua con l'applicazione altrimenti si può anche
+					 * cancellare il file
+					 */
+
 					MioDatabaseHelper db = new MioDatabaseHelper(
 							getApplicationContext());
 					db.importDB();

@@ -2,10 +2,27 @@ package com.project.mantle_v1.fileNavigator;
 
 import java.io.IOException;
 import java.io.StringWriter;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
+
 import org.xml.sax.SAXException;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
+import android.widget.Toast;
+
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
@@ -20,19 +37,6 @@ import com.project.mantle_v1.notification_home.NotificationDetailFragment;
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;
 import com.project.mantle_v1.xml.WriterXml;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.os.Environment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
-import android.widget.Toast;
 
 /**
  * An activity representing a single File detail screen. This activity is only
@@ -60,29 +64,32 @@ public class FileDetailActivity extends FragmentActivity {
 			// Create the detail fragment and add it to the activity
 			// using a fragment transaction.
 			Bundle arguments = new Bundle();
-			
-			if(getIntent().hasExtra(FileDetailFragment.ARG_ITEM_ID)) {
+
+			if (getIntent().hasExtra(FileDetailFragment.ARG_ITEM_ID)) {
 				arguments.putString(FileDetailFragment.ARG_ITEM_ID, getIntent()
 						.getStringExtra(FileDetailFragment.ARG_ITEM_ID));
-				
+
 				file = MyHandler.FILE_MAP.get(getIntent().getStringExtra(
-								FileDetailFragment.ARG_ITEM_ID));
+						FileDetailFragment.ARG_ITEM_ID));
 			}
-			
-			else if(getIntent().hasExtra(NotificationDetailFragment.ARG_ITEM_ID)) {
-				arguments.putString(NotificationDetailFragment.ARG_ITEM_ID, getIntent()
-						.getStringExtra(NotificationDetailFragment.ARG_ITEM_ID));
-				
-				if(getIntent().hasExtra("Commento")){
-					Log.d(TAG,"");
+
+			else if (getIntent().hasExtra(
+					NotificationDetailFragment.ARG_ITEM_ID)) {
+				arguments.putString(
+						NotificationDetailFragment.ARG_ITEM_ID,
+						getIntent().getStringExtra(
+								NotificationDetailFragment.ARG_ITEM_ID));
+
+				if (getIntent().hasExtra("Commento")) {
+					Log.d(TAG, "");
 					showMyDialog();
-					}
-				
+				}
+
 				file = new MantleFile(getApplicationContext(), getIntent()
 						.getStringExtra(NotificationDetailFragment.ARG_ITEM_ID));
-				
+
 			}
-			
+
 			FileDetailFragment fragment = new FileDetailFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()
@@ -113,10 +120,12 @@ public class FileDetailActivity extends FragmentActivity {
 
 		menu.add("Commenti").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
+					@Override
 					public boolean onMenuItemClick(MenuItem item) {
-						
+
 						file.downloadFileFromUrl(MantleFile.COMMENT,
-								(String) file.getIdFile() + ".xml", MantleFile.DIRECTORY_TEMP);
+								file.getIdFile() + ".xml",
+								MantleFile.DIRECTORY_TEMP);
 
 						Intent myIntent = new Intent(getApplicationContext(),
 								NoteActivity.class);
@@ -131,41 +140,50 @@ public class FileDetailActivity extends FragmentActivity {
 						bundle.putString("url", file.getLinkComment());
 						bundle.putString("email",
 								db.getEmailFromUrl(file.getLinkComment()));
-						bundle.putString("filePath", file.getmFile().getAbsolutePath());
+						bundle.putString("filePath", file.getmFile()
+								.getAbsolutePath());
 						bundle.putString("idFile", file.getIdFile());
 						myIntent.putExtra("bundle", bundle);
 						db.close();
 						startActivity(myIntent);
 						return true;
-						
+
 					}
 				});
-		
+
 		menu.add("Condividi").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
+					@Override
 					public boolean onMenuItemClick(MenuItem item) {
-						Intent intent = new Intent(getApplicationContext(), FriendsList.class);
+						Intent intent = new Intent(getApplicationContext(),
+								FriendsList.class);
 						intent.putExtra("flag", 3);
 						startActivityForResult(intent, FRIEND_CHOOSED_CODE);
 						return true;
 					}
 				});
-		
+
 		menu.add("Download").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
+					@Override
 					public boolean onMenuItemClick(MenuItem item) {
 						MantleFile file = MyHandler.FILE_MAP
 								.get(getIntent().getStringExtra(
 										FileDetailFragment.ARG_ITEM_ID));
-						file.downloadFileFromUrl(MantleFile.FILE, file.getFileName(), Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
+						file.downloadFileFromUrl(
+								MantleFile.FILE,
+								file.getFileName(),
+								Environment.getExternalStoragePublicDirectory(
+										Environment.DIRECTORY_DOWNLOADS)
+										.getAbsolutePath());
 						showToast("Download completato!");
 						return true;
 					}
 				});
-		
+
 		return true;
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -188,11 +206,12 @@ public class FileDetailActivity extends FragmentActivity {
 				for (int j = 0; j < contacts.length; j++) {
 					Log.v("Dropbox", "--> " + "Ho inviato la mail a "
 							+ contacts[j]);
-					db.insertShare(Integer.parseInt(file.getIdFile()), (String) contacts[j]);
-					if(file.isImage())
+					db.insertShare(Integer.parseInt(file.getIdFile()),
+							(String) contacts[j]);
+					if (file.isImage())
 						new Sender(this, body, (String) contacts[j],
 								MantleMessage.SHARING_PHOTO).execute();
-					else 
+					else
 						new Sender(this, body, (String) contacts[j],
 								MantleMessage.SHARING_FILE).execute();
 				}
@@ -201,95 +220,100 @@ public class FileDetailActivity extends FragmentActivity {
 			break;
 		}
 	}
-	
+
 	protected void showMyDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Conferma");
 		final Note note = (Note) getIntent().getSerializableExtra("Commento");
 		builder.setMessage("Vuoi aggiungere il commento : " + note.getContent());
 		builder.setCancelable(false);
-		builder.setPositiveButton("Accetta", new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				Log.d(TAG,"Commento accettato");
-			
-				MioDatabaseHelper db = new MioDatabaseHelper(
-						getApplicationContext());
-		
-				int idFile = db.getIdFile(note.getCommentLink());
-				MantleFile cFile = new MantleFile(getApplicationContext(), String.valueOf(idFile)); 
-						cFile.downloadFileFromUrl(MantleFile.COMMENT, idFile + ".xml", MantleFile.DIRECTORY_TEMP);
-				WriterXml xml = new WriterXml();
+		builder.setPositiveButton("Accetta",
+				new DialogInterface.OnClickListener() {
 
-					try {
-						xml.addComment(
-								note.getUser(),
-								note.getDate(),
-								note.getContent(),cFile.getmFile() );
-					} catch (ParserConfigurationException e) {
-						Log.e(TAG, e.getMessage());
-						e.printStackTrace();
-					} catch (SAXException e) {
-						Log.e(TAG, e.getMessage());
-						e.printStackTrace();
-					} catch (IOException e) {
-						Log.e(TAG, e.getMessage());
-						e.printStackTrace();
-					} catch (TransformerFactoryConfigurationError e) {
-						Log.e(TAG, e.getMessage());
-						e.printStackTrace();
-					} catch (TransformerException e) {
-						Log.e(TAG, e.getMessage());
-						e.printStackTrace();
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Log.d(TAG, "Commento accettato");
+
+						MioDatabaseHelper db = new MioDatabaseHelper(
+								getApplicationContext());
+
+						int idFile = db.getIdFile(note.getCommentLink());
+						MantleFile cFile = new MantleFile(
+								getApplicationContext(), String.valueOf(idFile));
+						cFile.downloadFileFromUrl(MantleFile.COMMENT, idFile
+								+ ".xml", MantleFile.DIRECTORY_TEMP);
+						WriterXml xml = new WriterXml();
+
+						try {
+							xml.addComment(note.getUser(), note.getDate(),
+									note.getContent(), cFile.getmFile());
+						} catch (ParserConfigurationException e) {
+							Log.e(TAG, e.getMessage());
+							e.printStackTrace();
+						} catch (SAXException e) {
+							Log.e(TAG, e.getMessage());
+							e.printStackTrace();
+						} catch (IOException e) {
+							Log.e(TAG, e.getMessage());
+							e.printStackTrace();
+						} catch (TransformerFactoryConfigurationError e) {
+							Log.e(TAG, e.getMessage());
+							e.printStackTrace();
+						} catch (TransformerException e) {
+							Log.e(TAG, e.getMessage());
+							e.printStackTrace();
+						}
+
+						boolean bl = cFile.uploadFile(new DropboxAuth(
+								getApplicationContext()).getAPI());
+
+						Log.v(TAG, "upload: " + bl);
+
+						ParseJSON parser = new ParseJSON(new StringWriter());
+
+						try {
+							parser.writeJson(note);
+						} catch (IOException ex) {
+							Log.e(TAG, ex.getMessage());
+
+						}
+
+						String[] emails = db.getEmailsFilesShared(idFile);
+						for (int i = 0; i < emails.length; i++) {
+							new Sender(FileDetailActivity.this, parser
+									.toString(), emails[i],
+									MantleMessage.SYSTEM).execute();
+						}
+
+						dialog.cancel();
 					}
+				});
 
-					boolean bl = cFile.uploadFile(new DropboxAuth(getApplicationContext()).getAPI());
-					
-					Log.v(TAG, "upload: "+bl);
-					
-					ParseJSON parser = new ParseJSON(new StringWriter());
-					
-					try {
-						parser.writeJson(note);
-					} catch (IOException ex) {
-						Log.e(TAG, ex.getMessage());
+		builder.setNegativeButton("Rifiuta",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Log.d(TAG, "Commento annullato");
 
-					}
+						ParseJSON parser = new ParseJSON(new StringWriter());
+						note.setContent("Comment Refused");
 
-					String[] emails = db.getEmailsFilesShared(idFile);
-					for (int i = 0; i < emails.length; i++) {
+						try {
+							parser.writeJson(note);
+						} catch (IOException ex) {
+							Log.e(TAG, ex.getMessage());
+						}
+
 						new Sender(FileDetailActivity.this, parser.toString(),
-								emails[i], MantleMessage.SYSTEM).execute();
+								note.getSender_mail(), MantleMessage.SYSTEM)
+								.execute();
+						dialog.cancel();
 					}
-					
-				dialog.cancel();
-			}
-		});
-		
-		builder.setNegativeButton("Rifiuta", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				Log.d(TAG,"Commento annullato");
-				
-				ParseJSON parser = new ParseJSON(new StringWriter());
-				note.setContent("Comment Refused");
-				
-				try {
-					parser.writeJson(note);
-				} catch (IOException ex) {
-					Log.e(TAG, ex.getMessage());
-				}
-				
-				new Sender(FileDetailActivity.this, parser.toString(),
-						note.getSender_mail() , MantleMessage.SYSTEM).execute();
-				dialog.cancel();
-			}
-		});
+				});
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
-	
+
 	private void showToast(String msg) {
 		Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
 	}

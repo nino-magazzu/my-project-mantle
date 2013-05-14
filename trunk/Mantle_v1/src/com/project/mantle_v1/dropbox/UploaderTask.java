@@ -2,11 +2,13 @@ package com.project.mantle_v1.dropbox;
 
 import java.io.File;
 import java.io.FileInputStream;
-import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.ProgressListener;
-import com.dropbox.client2.DropboxAPI.UploadRequest;
+
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.DropboxAPI.UploadRequest;
+import com.dropbox.client2.ProgressListener;
 
 public class UploaderTask extends AsyncTask<Void, Long, Boolean> {
 	final static private String FILE_DIR = "/storedFile/";

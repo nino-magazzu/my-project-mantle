@@ -5,19 +5,13 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Date;
 import java.util.List;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
+
 import org.xml.sax.SAXException;
-import com.project.mantle_v1.MantleFile;
-import com.project.mantle_v1.R;
-import com.project.mantle_v1.database.MioDatabaseHelper;
-import com.project.mantle_v1.dropbox.DropboxAuth;
-import com.project.mantle_v1.gmail.Sender;
-import com.project.mantle_v1.parser.MantleMessage;
-import com.project.mantle_v1.parser.ParseJSON;
-import com.project.mantle_v1.xml.ReaderXml;
-import com.project.mantle_v1.xml.WriterXml;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,6 +22,16 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import com.project.mantle_v1.MantleFile;
+import com.project.mantle_v1.R;
+import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.dropbox.DropboxAuth;
+import com.project.mantle_v1.gmail.Sender;
+import com.project.mantle_v1.parser.MantleMessage;
+import com.project.mantle_v1.parser.ParseJSON;
+import com.project.mantle_v1.xml.ReaderXml;
+import com.project.mantle_v1.xml.WriterXml;
 
 public class NoteActivity extends Activity {
 
@@ -54,11 +58,12 @@ public class NoteActivity extends Activity {
 
 		if (filePath == null) {
 			cFile = new MantleFile(this, idFile);
-			cFile.downloadFileFromUrl(MantleFile.COMMENT, idFile + ".xml", MantleFile.DIRECTORY_TEMP);
+			cFile.downloadFileFromUrl(MantleFile.COMMENT, idFile + ".xml",
+					MantleFile.DIRECTORY_TEMP);
 		}
-			
+
 		else
-			cFile.setmFile( new File(filePath));
+			cFile.setmFile(new File(filePath));
 
 		ReaderXml reader = new ReaderXml();
 		try {
@@ -94,7 +99,7 @@ public class NoteActivity extends Activity {
 
 				if (email.equals(userDetails.getString("email", " "))) {
 					Log.v(TAG, "*** Sei il proprietario del file ***");
-					
+
 					WriterXml xml = new WriterXml();
 
 					try {
@@ -165,11 +170,11 @@ public class NoteActivity extends Activity {
 			}
 		});
 	}
-	
+
 	@Override
-    protected void onDestroy() {
+	protected void onDestroy() {
 		super.onDestroy();
-		if(cFile.getmFile().exists())
+		if (cFile.getmFile().exists())
 			cFile.getmFile().deleteOnExit();
 	}
 

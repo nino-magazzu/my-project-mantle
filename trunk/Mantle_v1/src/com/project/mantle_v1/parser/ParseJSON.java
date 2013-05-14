@@ -3,11 +3,13 @@ package com.project.mantle_v1.parser;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+
+import android.util.JsonReader;
+import android.util.JsonWriter;
+
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.notification_home.Note;
-import android.util.JsonReader;
-import android.util.JsonWriter;
 
 public class ParseJSON {
 
@@ -18,7 +20,7 @@ public class ParseJSON {
 	final private String NOTES_LINK = "url_notes";
 	final private String THUMB_LINK = "url_thumb";
 	final private String CONTENT = "content";
-    final private String WIDTH = "width";
+	final private String WIDTH = "width";
 	final private String HEIGHT = "height";
 	final private String NAME = "name";
 	final private String SURNAME = "surname";
@@ -40,12 +42,12 @@ public class ParseJSON {
 	public String writeJson(MantleFile mt) throws IOException {
 		this.writer = new JsonWriter(out);
 		writer.setIndent("  ");
-		
-		if(!mt.isImage())
+
+		if (!mt.isImage())
 			writeFile(mt);
 		else
 			writeImg(mt);
-		
+
 		writer.close();
 		return out.toString();
 	}
@@ -60,11 +62,11 @@ public class ParseJSON {
 		writer.name(CIPHER_KEY).value(media.getFileKey());
 		writer.name(IMAGE);
 		imageDetails(media);
-		writer.name(FULL_IMAGE); 
+		writer.name(FULL_IMAGE);
 		fullImageDetails(media);
 		writer.endObject();
 	}
-	
+
 	private void writeFile(MantleFile media) throws IOException {
 		writer.beginObject();
 		writer.name(FILE_NAME).value(media.getFileName());
@@ -128,7 +130,6 @@ public class ParseJSON {
 		writer.name(HEIGHT).value("100");
 		writer.endObject();
 	}
-	
 
 	public Note readNote() throws IOException {
 		this.reader = new JsonReader(in);
@@ -204,7 +205,7 @@ public class ParseJSON {
 		}
 		return media;
 	}
-	
+
 	private void readImageMedia(MantleFile media) throws IOException {
 		reader.beginObject();
 		while (reader.hasNext()) {
@@ -221,14 +222,14 @@ public class ParseJSON {
 				media.setDate(reader.nextString());
 			else if (name.equals(CIPHER_KEY))
 				media.setFileKey(reader.nextString());
-			else if(name.equals(IMAGE))
+			else if (name.equals(IMAGE))
 				readImage(media);
-			else if(name.equals(FULL_IMAGE))
+			else if (name.equals(FULL_IMAGE))
 				readFullImage(media);
 		}
 		reader.endObject();
 	}
-	
+
 	private void readImage(MantleFile media) throws IOException {
 		reader.beginObject();
 		String prova;
@@ -237,15 +238,15 @@ public class ParseJSON {
 			if (name.equals(THUMB_LINK))
 				media.setLinkThumb(reader.nextString());
 			// TODO: aggiungere eventualmente la lettura delle
-		   // dimensioni dell'immagine
-			else if(name.equals(HEIGHT))
+			// dimensioni dell'immagine
+			else if (name.equals(HEIGHT))
 				prova = reader.nextString();
-			else if(name.equals(WIDTH))
+			else if (name.equals(WIDTH))
 				prova = reader.nextString();
 		}
 		reader.endObject();
 	}
-	
+
 	private void readFullImage(MantleFile media) throws IOException {
 		reader.beginObject();
 		String prova;
@@ -255,9 +256,9 @@ public class ParseJSON {
 				media.setLinkFile(reader.nextString());
 			// TODO: aggiungere eventualmente la lettura delle
 			// dimensioni dell'immagine
-			else if(name.equals(HEIGHT))
+			else if (name.equals(HEIGHT))
 				prova = reader.nextString();
-			else if(name.equals(WIDTH))
+			else if (name.equals(WIDTH))
 				prova = reader.nextString();
 
 		}
@@ -294,6 +295,7 @@ public class ParseJSON {
 		reader.endObject();
 	}
 
+	@Override
 	public String toString() {
 		return out.toString();
 	}

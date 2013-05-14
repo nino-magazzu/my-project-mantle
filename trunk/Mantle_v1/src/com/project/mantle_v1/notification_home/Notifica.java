@@ -1,7 +1,9 @@
 package com.project.mantle_v1.notification_home;
 
 import java.io.Serializable;
+
 import android.util.Log;
+
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.parser.MantleMessage;

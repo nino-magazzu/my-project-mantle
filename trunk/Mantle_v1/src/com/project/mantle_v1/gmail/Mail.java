@@ -9,6 +9,7 @@ import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.activation.MailcapCommandMap;
 import javax.mail.BodyPart;
+import javax.mail.Message.RecipientType;
 import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
@@ -91,7 +92,7 @@ public class Mail extends javax.mail.Authenticator {
 			}
 
 			// setup email
-			msg.setRecipients(MimeMessage.RecipientType.TO, addressTo);
+			msg.setRecipients(RecipientType.TO, addressTo);
 			msg.setSubject(subject);
 			msg.setSentDate(new Date());
 

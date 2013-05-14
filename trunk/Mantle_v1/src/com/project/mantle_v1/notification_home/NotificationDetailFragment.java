@@ -2,6 +2,7 @@ package com.project.mantle_v1.notification_home;
 
 import java.io.IOException;
 import java.io.StringWriter;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
@@ -87,36 +89,33 @@ public class NotificationDetailFragment extends Fragment {
 	private View createNotificationView(LayoutInflater inflater,
 			ViewGroup container) {
 		View rootView;
-		rootView = inflater.inflate(R.layout.no_button_fragment,
-				container, false);
+		rootView = inflater.inflate(R.layout.no_button_fragment, container,
+				false);
 
-		((TextView) rootView.findViewById(R.id.SystemInfo))
-				.setText(mItem.getNotificationBody());
+		((TextView) rootView.findViewById(R.id.SystemInfo)).setText(mItem
+				.getNotificationBody());
 		return rootView;
 	}
 
 	private View createRequestView(LayoutInflater inflater, ViewGroup container) {
 		View rootView;
-		rootView = inflater.inflate(R.layout.two_button_fragment,
-				container, false);
+		rootView = inflater.inflate(R.layout.two_button_fragment, container,
+				false);
 
 		((TextView) rootView.findViewById(R.id.FriendshipRequest))
 				.setText(mItem.getNotificationBody());
 
 		final Button bDenied = (Button) rootView
 				.findViewById(R.id.RifiutaFriend);
-		final Button bAccept = (Button) rootView
-				.findViewById(R.id.accetta);
+		final Button bAccept = (Button) rootView.findViewById(R.id.accetta);
 		bAccept.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				MioDatabaseHelper db = new MioDatabaseHelper(v
-						.getContext());
-				db.insertUser(mItem.getUser().getEmail(), mItem
-						.getUser().getUsername(), mItem.getUser()
-						.getName(), mItem.getUser().getSurname(), mItem
-						.getUser().getKey());
+				MioDatabaseHelper db = new MioDatabaseHelper(v.getContext());
+				db.insertUser(mItem.getUser().getEmail(), mItem.getUser()
+						.getUsername(), mItem.getUser().getName(), mItem
+						.getUser().getSurname(), mItem.getUser().getKey());
 
 				ParseJSON parser = new ParseJSON(new StringWriter());
 				try {
@@ -125,9 +124,9 @@ public class NotificationDetailFragment extends Fragment {
 					Log.e(TAG, e.getMessage());
 				}
 
-				new Sender(v.getContext(), parser.toString(), mItem
-						.getUser().getEmail(),
-						MantleMessage.FRIENDSHIP_ACCEPTED).execute();
+				new Sender(v.getContext(), parser.toString(), mItem.getUser()
+						.getEmail(), MantleMessage.FRIENDSHIP_ACCEPTED)
+						.execute();
 				Toast.makeText(
 						v.getContext(),
 						mItem.getUser().getLongName()
@@ -146,18 +145,15 @@ public class NotificationDetailFragment extends Fragment {
 				ParseJSON parser = new ParseJSON(new StringWriter());
 				try {
 					User user = new User(v.getContext());
-					Note note = new Note(
-							user.getUsername(),
-							user.getLongName()
-									+ " ha rifiutato la tua richiesta d'amicizia");
+					Note note = new Note(user.getUsername(), user.getLongName()
+							+ " ha rifiutato la tua richiesta d'amicizia");
 					parser.writeJson(note);
 				} catch (IOException e) {
 					Log.e(TAG, e.getMessage());
 				}
 
-				new Sender(v.getContext(), parser.toString(), mItem
-						.getUser().getEmail(),
-						MantleMessage.FRIENDSHIP_DENIED).execute();
+				new Sender(v.getContext(), parser.toString(), mItem.getUser()
+						.getEmail(), MantleMessage.FRIENDSHIP_DENIED).execute();
 				bAccept.setEnabled(false);
 				bDenied.setEnabled(false);
 			}

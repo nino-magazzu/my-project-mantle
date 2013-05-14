@@ -1,8 +1,8 @@
 package com.project.mantle_v1.gmail;
 
-import com.project.mantle_v1.MyHandler;
-
 import android.util.Log;
+
+import com.project.mantle_v1.MyHandler;
 
 public class ReaderTask extends Thread {
 	private final String TAG = this.getClass().getSimpleName();

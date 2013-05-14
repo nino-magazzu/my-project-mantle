@@ -5,8 +5,10 @@ import java.io.StringReader;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 import android.content.Context;
 import android.util.Log;
+
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.MioDatabaseHelper;
@@ -31,13 +33,13 @@ public class MantleMessage {
 	public static String NOTE = "005 ";
 	public static String SYSTEM = "006 ";
 	public static String SHARING_FILE = "007 ";
-	
+
 	private String jsonText;
 	private String type;
 	private String sender_email;
 	private String message;
 	private Map<String, Integer> DECODE_MAP;
-//	private String history;
+	// private String history;
 
 	private final int CODE_DIM = FRIENDSHIP_REQUEST.length();
 
@@ -87,7 +89,7 @@ public class MantleMessage {
 				message.length());
 		this.context = c;
 		this.sender_email = email;
-	//	this.history = historyFileName;
+		// this.history = historyFileName;
 		DECODE_MAP = new HashMap<String, Integer>();
 
 		int i = 0;
@@ -108,9 +110,7 @@ public class MantleMessage {
 		int CODE = DECODE_MAP.get(code);
 
 		MioDatabaseHelper db = new MioDatabaseHelper(context);
-		
-		
-		
+
 		ParseJSON parser = null;
 		User user = null;
 		MantleFile media = null;
@@ -157,7 +157,7 @@ public class MantleMessage {
 			} catch (IOException e) {
 				Log.e(TAG, "Problema lettura: " + e.getMessage());
 			}
-			//MioDatabaseHelper db = new MioDatabaseHelper(context);
+			// MioDatabaseHelper db = new MioDatabaseHelper(context);
 			db.insertUser(user.getEmail(), user.getUsername(), user.getName(),
 					user.getSurname(), user.getKey());
 			db.close();
@@ -179,7 +179,7 @@ public class MantleMessage {
 					MantleMessage.FRIENDSHIP_DENIED);
 
 		case 004:
-			if(!db.isAlreadyFriend(sender_email))
+			if (!db.isAlreadyFriend(sender_email))
 				return null;
 			jsonText = message.substring(CODE_DIM, message.length());
 			Log.d(TAG, jsonText);
@@ -193,7 +193,7 @@ public class MantleMessage {
 			return new Notifica(SHARING_PHOTO, media);
 
 		case 005:
-			if(!db.isAlreadyFriend(sender_email))
+			if (!db.isAlreadyFriend(sender_email))
 				return null;
 			jsonText = message.substring(CODE_DIM, message.length());
 			Log.d(TAG, jsonText);
@@ -219,9 +219,9 @@ public class MantleMessage {
 			}
 			return new Notifica(note.getDate(), note.getContent(),
 					MantleMessage.SYSTEM);
-			
+
 		case 007:
-			if(!db.isAlreadyFriend(sender_email))
+			if (!db.isAlreadyFriend(sender_email))
 				return null;
 			jsonText = message.substring(CODE_DIM, message.length());
 			Log.d(TAG, jsonText);

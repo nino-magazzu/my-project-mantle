@@ -1,12 +1,12 @@
 package com.project.mantle_v1.database;
 
-import com.project.mantle_v1.R;
-import com.project.mantle_v1.User;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.project.mantle_v1.R;
+import com.project.mantle_v1.User;
 
 public class ShowFriend extends Activity {
 

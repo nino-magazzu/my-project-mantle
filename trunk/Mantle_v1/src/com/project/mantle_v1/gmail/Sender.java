@@ -1,13 +1,13 @@
 package com.project.mantle_v1.gmail;
 
-import com.project.mantle_v1.User;
-import com.project.mantle_v1.database.MioDatabaseHelper;
-import com.project.mantle_v1.parser.MantleMessage;
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.project.mantle_v1.User;
+import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.parser.MantleMessage;
 
 public class Sender extends AsyncTask<Void, Long, Boolean> {
 

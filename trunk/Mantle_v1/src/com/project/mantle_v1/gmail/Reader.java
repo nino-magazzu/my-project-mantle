@@ -15,11 +15,12 @@ import javax.mail.event.MessageCountEvent;
 import javax.mail.event.MessageCountListener;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.search.FlagTerm;
-import com.project.mantle_v1.MyHandler;
-import com.project.mantle_v1.parser.MantleMessage;
 
 import android.os.Bundle;
 import android.util.Log;
+
+import com.project.mantle_v1.MyHandler;
+import com.project.mantle_v1.parser.MantleMessage;
 
 public class Reader extends Authenticator {
 
@@ -98,10 +99,12 @@ public class Reader extends Authenticator {
 		folder.open(Folder.READ_WRITE);
 		folder.addMessageCountListener(new MessageCountListener() {
 
+			@Override
 			public void messagesRemoved(MessageCountEvent arg0) {
 				// TODO Auto-generated method stub
 			}
 
+			@Override
 			public void messagesAdded(MessageCountEvent arg0) {
 				try {
 					Message[] msg = arg0.getMessages();
@@ -132,7 +135,7 @@ public class Reader extends Authenticator {
 
 		for (;;) {
 			Thread.sleep(10000);
-			Log.d(TAG,"Check for a new email");
+			Log.d(TAG, "Check for a new email");
 			folder.getMessageCount();
 		}
 	}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
@@ -52,10 +54,10 @@ public class FileDetailFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		 
+
 		Log.v(getClass().getSimpleName(), getArguments().keySet().toString());
-		
-		 if (getArguments().containsKey(ARG_ITEM_ID)) {
+
+		if (getArguments().containsKey(ARG_ITEM_ID)) {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
@@ -67,12 +69,13 @@ public class FileDetailFragment extends Fragment {
 		else if (getArguments().containsKey(
 				NotificationDetailFragment.ARG_ITEM_ID)) {
 
-				file = new MantleFile(getActivity().getApplicationContext(),
-						getArguments().getString(NotificationDetailFragment.ARG_ITEM_ID));
-				
-				getArguments().clear();
+			file = new MantleFile(getActivity().getApplicationContext(),
+					getArguments().getString(
+							NotificationDetailFragment.ARG_ITEM_ID));
+
+			getArguments().clear();
 		}
-		 
+
 	}
 
 	@Override
@@ -84,7 +87,7 @@ public class FileDetailFragment extends Fragment {
 		 */
 		View rootView = inflater.inflate(R.layout.fragment_photo_sharing,
 				container, false);
-				
+
 		TextView tw = (TextView) rootView.findViewById(R.id.linkText);
 
 		tw.setText(file.getFileName());
@@ -93,15 +96,17 @@ public class FileDetailFragment extends Fragment {
 
 		MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
 				.getApplicationContext());
-		
+
 		String[] sharers = db.getSharers(file.getIdFile());
 		showSharers(sharers);
 
 		if (file.isImage()) {
-			File img = new File(MantleFile.DIRECTORY_TEMP, getTumbName(file.getFileName()));
-			if(!img.exists()) {
+			File img = new File(MantleFile.DIRECTORY_TEMP,
+					getTumbName(file.getFileName()));
+			if (!img.exists()) {
 				file.downloadFileFromUrl(MantleFile.THUMBNAIL,
-						getTumbName(file.getFileName()), MantleFile.DIRECTORY_TEMP);
+						getTumbName(file.getFileName()),
+						MantleFile.DIRECTORY_TEMP);
 				img = file.getmFile();
 			}
 			ImageView iv = (ImageView) rootView.findViewById(R.id.sharedImage);
@@ -127,13 +132,13 @@ public class FileDetailFragment extends Fragment {
 						android.R.id.text2 });
 		listView.setAdapter(adapter);
 	}
-	
+
 	private String getTumbName(String fileName) {
 		final int lastPeriodPos = fileName.lastIndexOf('.');
-		if (lastPeriodPos <= 0) 
-	        return fileName+ "_t";
-		else 
-			return fileName.substring(0, lastPeriodPos)+ "_t";
+		if (lastPeriodPos <= 0)
+			return fileName + "_t";
+		else
+			return fileName.substring(0, lastPeriodPos) + "_t";
 	}
-	
+
 }
