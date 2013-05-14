@@ -1,13 +1,16 @@
 package com.project.mantle_v1.fileNavigator;
 
 import java.util.ArrayList;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.database.MioDatabaseHelper;
@@ -137,7 +140,7 @@ public class FileListFragment extends ListFragment {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		if (mActivatedPosition != ListView.INVALID_POSITION) {
+		if (mActivatedPosition != AdapterView.INVALID_POSITION) {
 			// Serialize and persist the activated item position.
 			outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
 		}
@@ -151,12 +154,12 @@ public class FileListFragment extends ListFragment {
 		// When setting CHOICE_MODE_SINGLE, ListView will automatically
 		// give items the 'activated' state when touched.
 		getListView().setChoiceMode(
-				activateOnItemClick ? ListView.CHOICE_MODE_SINGLE
-						: ListView.CHOICE_MODE_NONE);
+				activateOnItemClick ? AbsListView.CHOICE_MODE_SINGLE
+						: AbsListView.CHOICE_MODE_NONE);
 	}
 
 	private void setActivatedPosition(int position) {
-		if (position == ListView.INVALID_POSITION) {
+		if (position == AdapterView.INVALID_POSITION) {
 			getListView().setItemChecked(mActivatedPosition, false);
 		} else {
 			getListView().setItemChecked(position, true);
@@ -167,7 +170,7 @@ public class FileListFragment extends ListFragment {
 
 	private void populateMap() {
 		for (int i = 0; i < list.size(); i++) {
-			//Log.d("File", list.get(i).getIdFile());
+			// Log.d("File", list.get(i).getIdFile());
 			MyHandler.addFile(list.get(i));
 		}
 	}

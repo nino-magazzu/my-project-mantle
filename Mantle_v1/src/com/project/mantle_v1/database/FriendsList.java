@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.project.mantle_v1.R;
-import com.project.mantle_v1.notification_home.NotificationListActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +19,8 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
+
+import com.project.mantle_v1.R;
 
 public class FriendsList extends Activity {
 
@@ -62,7 +61,7 @@ public class FriendsList extends Activity {
 				Log.d("ListViewActivity", "con id = " + itemId
 						+ " e position = " + position);
 
-				String selectedFromList = (String) (listView
+				String selectedFromList = (listView
 						.getItemAtPosition(position).toString());
 				String[] contatto = selectedFromList.split(", user=");
 				String email = contatto[0].substring(7);
@@ -98,7 +97,7 @@ public class FriendsList extends Activity {
 				// Ottengo la stringa relativa al subitem "email" per verificare
 				// successivamente se è effettivamente un contatto o è la
 				// stringa TEAM
-				String selectedFromList = (String) (listView
+				String selectedFromList = (listView
 						.getItemAtPosition(position).toString());
 				String[] contatto = selectedFromList.split(", user=");
 				String email = contatto[0].substring(7);
@@ -202,6 +201,7 @@ public class FriendsList extends Activity {
 
 		menu.add("Elimina amici").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
+					@Override
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
 								item.getTitle(), Toast.LENGTH_SHORT).show();
@@ -215,24 +215,26 @@ public class FriendsList extends Activity {
 					}
 				});
 		;
-		
+
 		menu.add("Aggiungi un amico").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
+					@Override
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
 								item.getTitle(), Toast.LENGTH_SHORT).show();
-						Intent intent = new Intent(
-								FriendsList.this, AddFriend.class);
+						Intent intent = new Intent(FriendsList.this,
+								AddFriend.class);
 						startActivity(intent);
 						return true;
 					}
 				});
-		
+
 		switch (flag) {
 
 		case 2:
 			menu.add("Aggiungi al gruppo").setOnMenuItemClickListener(
 					new OnMenuItemClickListener() {
+						@Override
 						public boolean onMenuItemClick(MenuItem item) {
 							Toast.makeText(getApplicationContext(),
 									item.getTitle(), Toast.LENGTH_SHORT).show();
@@ -259,6 +261,7 @@ public class FriendsList extends Activity {
 		case 3:
 			menu.add("Condividi").setOnMenuItemClickListener(
 					new OnMenuItemClickListener() {
+						@Override
 						public boolean onMenuItemClick(MenuItem item) {
 							Toast.makeText(getApplicationContext(),
 									item.getTitle(), Toast.LENGTH_SHORT).show();

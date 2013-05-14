@@ -2,14 +2,16 @@ package com.project.mantle_v1.database;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import android.os.Bundle;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.gmail.Sender;
@@ -40,6 +42,7 @@ public class AddFriend extends Activity {
 
 		addFriend.setOnClickListener(new View.OnClickListener() {
 
+			@Override
 			public void onClick(View v) {
 
 				email = edit_email.getText().toString();
@@ -52,7 +55,7 @@ public class AddFriend extends Activity {
 					error.show();
 				}
 
-				else if (!db.isAlreadyFriend(email)&& email.contains("@")) {
+				else if (!db.isAlreadyFriend(email) && email.contains("@")) {
 					Toast error = Toast.makeText(AddFriend.this,
 							"Request is sent", Toast.LENGTH_LONG);
 					error.show();

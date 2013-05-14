@@ -7,9 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import org.apache.http.util.ByteArrayBuffer;
 
-import com.project.mantle_v1.MantleFile;
+import org.apache.http.util.ByteArrayBuffer;
 
 import android.os.AsyncTask;
 import android.util.Log;

@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -14,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.os.Environment;
 import android.util.Log;
+
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.project.mantle_v1.database.MioDatabaseHelper;
@@ -21,7 +23,7 @@ import com.project.mantle_v1.dropbox.DownladerTask;
 import com.project.mantle_v1.dropbox.UploaderTask;
 
 public class MantleFile implements Serializable {
-	
+
 	/**** PRIORITY TYPE ****/
 
 	public static final int NEEDFUL_FILE = 3;
@@ -29,21 +31,22 @@ public class MantleFile implements Serializable {
 	public static final int USELESS_FILE = 1;
 	public static final int NOT_OWN_FILE = 0;
 
-	
 	/**** APPLICATION DIRECTORY ****/
-	
-	public static final String DIRECTORY_TEMP = Environment.getExternalStorageDirectory() + "/Mantle/tmp/";
-	public static final String MAIN_DIR = Environment.getExternalStorageDirectory() + "/Mantle/";
-	public static final String DIRECTORY_DB = Environment.getExternalStorageDirectory() + "/Mantle/db/";
-	public static final String DIRECTORY_HISTORY = Environment.getExternalStorageDirectory() + "/Mantle/history/";
-	
-	
+
+	public static final String DIRECTORY_TEMP = Environment
+			.getExternalStorageDirectory() + "/Mantle/tmp/";
+	public static final String MAIN_DIR = Environment
+			.getExternalStorageDirectory() + "/Mantle/";
+	public static final String DIRECTORY_DB = Environment
+			.getExternalStorageDirectory() + "/Mantle/db/";
+	public static final String DIRECTORY_HISTORY = Environment
+			.getExternalStorageDirectory() + "/Mantle/history/";
+
 	/**** TYPE OF FILE TO DOWNLOAD ****/
 	public static final String THUMBNAIL = "thumbnail";
 	public static final String FILE = "full";
 	public static final String COMMENT = "comment";
-	
-	
+
 	public MantleFile(Entry ent, String link, String username, File file) {
 		this.linkFile = link;
 		this.date = ent.modified;
@@ -57,7 +60,7 @@ public class MantleFile implements Serializable {
 	public MantleFile(File file) {
 		this.mFile = file;
 	}
-	
+
 	public MantleFile() {
 		super();
 		this.idFile = null;
@@ -110,24 +113,23 @@ public class MantleFile implements Serializable {
 	 *            : nome del file sul dispositivo
 	 */
 
-	
 	public boolean downloadFileFromUrl(String type, String fileName, String path) {
 		String url = this.linkFile;
-		if(type.equals(THUMBNAIL))
+		if (type.equals(THUMBNAIL))
 			url = this.linkThumb;
-		else if(type.equals(COMMENT))
+		else if (type.equals(COMMENT))
 			url = this.linkComment;
-		
+
 		DownladerTask down = new DownladerTask(url, fileName, path);
 		down.execute();
 		try {
 			this.mFile = down.get();
-			
+
 			/*
-			 * TODO: decifrare di mFile usando la chiave che si trova
-			 * in fileKey. Il file qui ottenuto va salvato in mFile
+			 * TODO: decifrare di mFile usando la chiave che si trova in
+			 * fileKey. Il file qui ottenuto va salvato in mFile
 			 */
-			
+
 			return true;
 		} catch (InterruptedException e) {
 			Log.i(TAG, "Error authenticating", e);
@@ -139,13 +141,13 @@ public class MantleFile implements Serializable {
 	}
 
 	public boolean uploadFile(DropboxAPI<?> mApi) {
-		
+
 		/*
-		 * TODO: cifrare il file contenuto in mFile che poi sarà passato
-		 * alla funzione UploaderTask che si occuperà di caricarlo su dropbox.
-		 * Per la cifratura usare la chiave contenuta in fileKey
+		 * TODO: cifrare il file contenuto in mFile che poi sarà passato alla
+		 * funzione UploaderTask che si occuperà di caricarlo su dropbox. Per la
+		 * cifratura usare la chiave contenuta in fileKey
 		 */
-		
+
 		UploaderTask upl = new UploaderTask(mApi, this.mFile);
 		upl.execute();
 		boolean bl = false;
@@ -158,24 +160,27 @@ public class MantleFile implements Serializable {
 		}
 		return bl;
 	}
-	
+
 	public File createThumbnail() {
 		final int THUMBNAIL_SIZE = 128;
 
-        FileInputStream fis;
+		FileInputStream fis;
 		try {
 			fis = new FileInputStream(mFile);
 			Bitmap imageBitmap = BitmapFactory.decodeStream(fis);
-		   // imageBitmap = Bitmap.createScaledBitmap(imageBitmap, THUMBNAIL_SIZE, THUMBNAIL_SIZE, false);
-		    imageBitmap = ThumbnailUtils.extractThumbnail(imageBitmap, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-		    File fOut = new File(Environment.getExternalStorageDirectory() + "/Mantle/tmp", getTumbName(mFile.getName()));
-		    fOut.createNewFile();
+			// imageBitmap = Bitmap.createScaledBitmap(imageBitmap,
+			// THUMBNAIL_SIZE, THUMBNAIL_SIZE, false);
+			imageBitmap = ThumbnailUtils.extractThumbnail(imageBitmap,
+					THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+			File fOut = new File(Environment.getExternalStorageDirectory()
+					+ "/Mantle/tmp", getTumbName(mFile.getName()));
+			fOut.createNewFile();
 			FileOutputStream fos = new FileOutputStream(fOut);
-		    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
-		    fos.flush();
-		    fos.close();
-		    return fOut;
-		    
+			imageBitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+			fos.flush();
+			fos.close();
+			return fOut;
+
 		} catch (FileNotFoundException e) {
 			Log.v(TAG, "File non trovato");
 			return null;
@@ -184,15 +189,15 @@ public class MantleFile implements Serializable {
 			return null;
 		}
 	}
-	
+
 	private String getTumbName(String fileName) {
 		final int lastPeriodPos = fileName.lastIndexOf('.');
-		if (lastPeriodPos <= 0) 
-	        return fileName + "_t.jpg";
-		else 
+		if (lastPeriodPos <= 0)
+			return fileName + "_t.jpg";
+		else
 			return fileName.substring(0, lastPeriodPos) + "_t.jpg";
 	}
-	
+
 	public String getIdFile() {
 		return idFile;
 	}
@@ -314,7 +319,7 @@ public class MantleFile implements Serializable {
 
 	private static final long serialVersionUID = 6107134499898867188L;
 	private final String TAG = this.getClass().getSimpleName();
-	
+
 	private String idFile;
 	private String fileName;
 	private String linkFile;

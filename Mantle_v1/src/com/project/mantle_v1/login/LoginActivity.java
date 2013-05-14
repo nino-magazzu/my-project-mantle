@@ -2,12 +2,6 @@ package com.project.mantle_v1.login;
 
 import java.io.File;
 
-import com.project.mantle_v1.MantleFile;
-import com.project.mantle_v1.R;
-import com.project.mantle_v1.User;
-import com.project.mantle_v1.database.MioDatabaseHelper;
-import com.project.mantle_v1.dropbox.DropboxAuthActivity;
-import com.project.mantle_v1.notification_home.NotificationListActivity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -22,10 +16,16 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.project.mantle_v1.MantleFile;
+import com.project.mantle_v1.R;
+import com.project.mantle_v1.User;
+import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.dropbox.DropboxAuthActivity;
+import com.project.mantle_v1.notification_home.NotificationListActivity;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -50,7 +50,7 @@ public class LoginActivity extends Activity {
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
 	private MioDatabaseHelper db;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,7 +63,7 @@ public class LoginActivity extends Activity {
 		mUsernameView.setText(mUsername);
 
 		mPasswordView = (EditText) findViewById(R.id.password);
-		
+
 		mPasswordView
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 					@Override
@@ -88,27 +88,26 @@ public class LoginActivity extends Activity {
 						attemptLogin();
 					}
 				});
-		
+
 		findViewById(R.id.textView1).setOnClickListener(
 				new View.OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
 						db.deleteAll();
 						File[] dirs = new File(MantleFile.MAIN_DIR).listFiles();
 						for (File ff : dirs) {
-							if(ff.isDirectory()) {
+							if (ff.isDirectory()) {
 								File[] files = ff.listFiles();
 								for (File fl : files) {
-										fl.delete();
+									fl.delete();
 								}
-							}
-							else
+							} else
 								ff.delete();
 						}
-						
+
 					}
-				} );
+				});
 	}
 
 	@Override

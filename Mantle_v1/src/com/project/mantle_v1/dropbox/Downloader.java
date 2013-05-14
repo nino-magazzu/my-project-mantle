@@ -6,14 +6,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.DropboxAPI.DropboxInputStream;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.DropboxAPI.DropboxInputStream;
 
 public class Downloader extends AsyncTask<Void, Long, Boolean> {
 	private DropboxAPI<?> mApi;
@@ -28,16 +30,12 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 	private String mErrorMsg;
 	private boolean mCanceled;
 
-	// private long mLenght;
-
 	public Downloader(Context context, DropboxAPI<?> api, String file_path,
 			String saving_path) {
 		mApi = api;
 		mContext = context;// .getApplicationContext();
 		this.file_path = file_path;
 		this.saving_path = saving_path;
-
-		// mLenght = size;
 
 		mDialog = new ProgressDialog(mContext);
 		mDialog.setMax(100);
@@ -47,6 +45,7 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 
 		mDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
 				new OnClickListener() {
+					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						mCanceled = true;
 						mErrorMsg = "Canceled";
@@ -117,11 +116,6 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 		return true;
 	}
 
-	/*
-	 * @Override protected void onProgressUpdate(Long... progress) { int percent
-	 * = (int) (100.0 * (double) progress[0] / mLenght + 0.5);
-	 * mDialog.setProgress(percent); }
-	 */
 	@Override
 	protected void onPostExecute(Boolean result) {
 		mDialog.dismiss();

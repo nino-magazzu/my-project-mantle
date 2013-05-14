@@ -1,7 +1,5 @@
 package com.project.mantle_v1.database;
 
-import com.project.mantle_v1.MantleFile;
-import com.project.mantle_v1.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +9,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import com.project.mantle_v1.MantleFile;
+import com.project.mantle_v1.R;
 
 public class Priority extends Activity {
 	private RadioGroup radioPriorityGroup;

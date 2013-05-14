@@ -5,26 +5,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.project.mantle_v1.R;
-import com.project.mantle_v1.R.id;
-import com.project.mantle_v1.R.layout;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.MenuItem.OnMenuItemClickListener;
+import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
+
+import com.project.mantle_v1.R;
 
 //Questa Activity fornisce un'iterfaccia per la visualizzazione e la creazione di nuove cerchie
 public class Team extends Activity {
@@ -65,8 +63,9 @@ public class Team extends Activity {
 					Toast mes = Toast.makeText(Team.this,
 							"insertion was successful", Toast.LENGTH_LONG);
 					mes.show();
-					
-					//Viene lanciato una friendList per la scelta degli utenti da inserire nella cerchia 
+
+					// Viene lanciato una friendList per la scelta degli utenti
+					// da inserire nella cerchia
 					Intent intent = new Intent(Team.this, FriendsList.class);
 					intent.putExtra("idTeam", idTeam);
 					intent.putExtra("flag", 2);
@@ -77,14 +76,15 @@ public class Team extends Activity {
 
 		});
 
-		//Con un click vengono visualizzate le informazioni relative al contatto 
+		// Con un click vengono visualizzate le informazioni relative al
+		// contatto
 		listView.setOnItemClickListener(new OnItemClickListener() {
-			
+
 			@Override
 			public void onItemClick(AdapterView<?> listView, View itemView,
 					int position, long itemId) {
 
-				String selectedFromList = (String) (listView
+				String selectedFromList = (listView
 						.getItemAtPosition(position).toString());
 				int lastChar = selectedFromList.indexOf("}");
 				// elimino dalla stringa selezionata i caratteri {team=...}
@@ -97,15 +97,16 @@ public class Team extends Activity {
 			}
 
 		});
-		
-		//Con un LongClick l'item selzionato viene aggiunto ad una ArrayList che 
-		// indica gli elementi su cui si devono slogere delle operazioni 
+
+		// Con un LongClick l'item selzionato viene aggiunto ad una ArrayList
+		// che
+		// indica gli elementi su cui si devono slogere delle operazioni
 		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> listView,
 					View itemView, int position, long itemId) {
-				String selectedFromList = (String) (listView
+				String selectedFromList = (listView
 						.getItemAtPosition(position).toString());
 				int lastChar = selectedFromList.indexOf("}");
 				// elimino dalla stringa selezionata i caratteri {team=...}
@@ -122,7 +123,7 @@ public class Team extends Activity {
 
 	}
 
-	//Metodo per aggiornare la visualizzazione degli elementi nella lista
+	// Metodo per aggiornare la visualizzazione degli elementi nella lista
 	public void showTeams(String[] Team) {
 
 		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
@@ -144,6 +145,7 @@ public class Team extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add("Elimina gruppo").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
+					@Override
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
 								item.getTitle(), Toast.LENGTH_SHORT).show();
@@ -166,7 +168,7 @@ public class Team extends Activity {
 		return true;
 
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);

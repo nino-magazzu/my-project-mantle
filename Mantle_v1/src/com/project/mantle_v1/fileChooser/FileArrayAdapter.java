@@ -2,14 +2,14 @@ package com.project.mantle_v1.fileChooser;
 
 import java.util.List;
 
-import com.project.mantle_v1.R;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.project.mantle_v1.R;
 
 public class FileArrayAdapter extends ArrayAdapter<Option> {
 
@@ -25,6 +25,7 @@ public class FileArrayAdapter extends ArrayAdapter<Option> {
 		items = objects;
 	}
 
+	@Override
 	public Option getItem(int i) {
 		return items.get(i);
 	}

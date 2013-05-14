@@ -5,10 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.project.mantle_v1.R;
-import com.project.mantle_v1.R.id;
-import com.project.mantle_v1.R.layout;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,14 +14,16 @@ import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemLongClickListener;
+
+import com.project.mantle_v1.R;
 
 // Questa Activity fornisce un'iterfaccia per la visualizzazione e la gestione degli utenti aparteneti ad una cerchia 
 public class ShowMembers extends Activity {
-	
+
 	private MioDatabaseHelper db;
 	private String teamName;
 	private int idTeam;
@@ -56,7 +54,7 @@ public class ShowMembers extends Activity {
 			public boolean onItemLongClick(AdapterView<?> listView,
 					View itemView, int position, long itemId) {
 
-				String selectedFromList = (String) (listView
+				String selectedFromList = (listView
 						.getItemAtPosition(position).toString());
 				String[] contatto = selectedFromList.split(", user=");
 				String email = contatto[0].substring(7);
@@ -99,6 +97,7 @@ public class ShowMembers extends Activity {
 
 		menu.add("Elimina dal gruppo").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
+					@Override
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
 								item.getTitle(), Toast.LENGTH_SHORT).show();
