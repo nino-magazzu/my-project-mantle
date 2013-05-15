@@ -15,7 +15,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.util.Log;
 
-import com.project.mantle_v1.User;
 import com.project.mantle_v1.fileNavigator.MantleFile;
 
 public class DatabaseHelper extends SQLiteOpenHelper {

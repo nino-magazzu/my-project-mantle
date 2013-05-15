@@ -1,8 +1,7 @@
-package com.project.mantle_v1;
+package com.project.mantle_v1.database;
 
 import android.content.Context;
 
-import com.project.mantle_v1.database.DatabaseHelper;
 
 public class User {
 

@@ -9,8 +9,8 @@ import java.util.Map;
 import android.content.Context;
 import android.util.Log;
 
-import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.DatabaseHelper;
+import com.project.mantle_v1.database.User;
 import com.project.mantle_v1.fileNavigator.MantleFile;
 import com.project.mantle_v1.notification_home.Note;
 import com.project.mantle_v1.notification_home.Notifica;

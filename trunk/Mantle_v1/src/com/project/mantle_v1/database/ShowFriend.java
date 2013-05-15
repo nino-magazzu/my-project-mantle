@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.User;
 
 public class ShowFriend extends Activity {
 

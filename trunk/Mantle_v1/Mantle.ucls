@@ -28,8 +28,8 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="com.project.mantle_v1.User" project="Mantle_v1" 
-    file="/Mantle_v1/src/com/project/mantle_v1/User.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="4" language="java" name="com.project.mantle_v1.database.User" project="Mantle_v1" 
+    file="/Mantle_v1/src/com/project/mantle_v1/database/User.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2277" y="499"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      

@@ -5,8 +5,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.DatabaseHelper;
+import com.project.mantle_v1.database.User;
 import com.project.mantle_v1.parser.MantleMessage;
 
 public class Sender extends AsyncTask<Void, Long, Boolean> {
