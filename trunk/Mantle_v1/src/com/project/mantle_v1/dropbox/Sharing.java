@@ -13,13 +13,13 @@ import android.util.Log;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
-import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.database.Priority;
 import com.project.mantle_v1.fileChooser.FileChooser;
+import com.project.mantle_v1.fileNavigator.MantleFile;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;

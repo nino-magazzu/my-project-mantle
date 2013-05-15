@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.R;
+import com.project.mantle_v1.fileNavigator.MantleFile;
 
 public class Priority extends Activity {
 	private RadioGroup radioPriorityGroup;

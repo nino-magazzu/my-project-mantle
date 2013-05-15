@@ -7,8 +7,8 @@ import java.io.StringWriter;
 import android.util.JsonReader;
 import android.util.JsonWriter;
 
-import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.User;
+import com.project.mantle_v1.fileNavigator.MantleFile;
 import com.project.mantle_v1.notification_home.Note;
 
 public class ParseJSON {

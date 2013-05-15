@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
 
 import android.util.Log;
 
-import com.project.mantle_v1.MantleFile;
+import com.project.mantle_v1.fileNavigator.MantleFile;
 
 public class WriterXml {
 

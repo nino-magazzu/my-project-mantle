@@ -23,10 +23,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.dropbox.DropboxAuth;
+import com.project.mantle_v1.fileNavigator.MantleFile;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;

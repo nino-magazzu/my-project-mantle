@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.widget.Toast;
 
-import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
@@ -27,6 +26,7 @@ import com.project.mantle_v1.dropbox.Sharing;
 import com.project.mantle_v1.dropbox.Uploader;
 import com.project.mantle_v1.fileNavigator.FileDetailActivity;
 import com.project.mantle_v1.fileNavigator.FileListActivity;
+import com.project.mantle_v1.fileNavigator.MantleFile;
 import com.project.mantle_v1.gmail.ReaderTask;
 import com.project.mantle_v1.parser.MantleMessage;
 

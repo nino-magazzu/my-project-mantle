@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import android.util.Log;
 
-import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.User;
+import com.project.mantle_v1.fileNavigator.MantleFile;
 import com.project.mantle_v1.parser.MantleMessage;
 
 public class Notifica implements Serializable {

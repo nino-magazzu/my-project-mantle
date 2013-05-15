@@ -36,8 +36,8 @@ import com.dropbox.client2.exception.DropboxParseException;
 import com.dropbox.client2.exception.DropboxPartialFileException;
 import com.dropbox.client2.exception.DropboxServerException;
 import com.dropbox.client2.exception.DropboxUnlinkedException;
-import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.database.DatabaseHelper;
+import com.project.mantle_v1.fileNavigator.MantleFile;
 import com.project.mantle_v1.xml.WriterXml;
 
 /**
