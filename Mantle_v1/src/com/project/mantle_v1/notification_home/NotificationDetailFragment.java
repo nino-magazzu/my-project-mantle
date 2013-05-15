@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.database.User;

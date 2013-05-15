@@ -1,4 +1,4 @@
-package com.project.mantle_v1;
+package com.project.mantle_v1.notification_home;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,10 +18,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.project.mantle_v1.R;
+import com.project.mantle_v1.R.drawable;
 import com.project.mantle_v1.fileNavigator.MantleFile;
-import com.project.mantle_v1.notification_home.Notifica;
-import com.project.mantle_v1.notification_home.NotificaAdapter;
-import com.project.mantle_v1.notification_home.NotificationListActivity;
 import com.project.mantle_v1.parser.MantleMessage;
 
 public class MyHandler extends Handler {

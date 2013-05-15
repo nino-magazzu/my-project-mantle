@@ -2,7 +2,7 @@ package com.project.mantle_v1.gmail;
 
 import android.util.Log;
 
-import com.project.mantle_v1.MyHandler;
+import com.project.mantle_v1.notification_home.MyHandler;
 
 public class ReaderTask extends Thread {
 	private final String TAG = this.getClass().getSimpleName();
