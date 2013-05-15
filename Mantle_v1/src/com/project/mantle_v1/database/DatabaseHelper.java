@@ -26,10 +26,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private String username;
 
-	// private String email;
-	// private String password;
-	// private int idUser;
-
 	// costruttore della classe
 	public DatabaseHelper(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
