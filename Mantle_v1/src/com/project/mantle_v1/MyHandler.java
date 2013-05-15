@@ -98,7 +98,7 @@ public class MyHandler extends Handler {
 		// Actions are just fake
 		Notification noti = new Notification.Builder(context)
 				.setContentTitle("Mantle").setContentText(title)
-				.setSmallIcon(R.drawable.ic_action_share)
+				.setSmallIcon(R.drawable.ic_launcher)
 				.setContentIntent(pIntent)
 				// .addAction(R.drawable.icon, "More", pIntent)
 				// .addAction(R.drawable.icon, "Call", pIntent)
