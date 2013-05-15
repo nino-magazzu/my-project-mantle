@@ -19,8 +19,8 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="com.project.mantle_v1.MyHandler" project="Mantle_v1" 
-    file="/Mantle_v1/src/com/project/mantle_v1/MyHandler.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="3" language="java" name="com.project.mantle_v1.notification_home.MyHandler" project="Mantle_v1" 
+    file="/Mantle_v1/src/com/project/mantle_v1/notification_home/MyHandler.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1991" y="291"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      

@@ -23,13 +23,13 @@ import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.widget.Toast;
 
-import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.database.User;
 import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.gmail.Sender;
+import com.project.mantle_v1.notification_home.MyHandler;
 import com.project.mantle_v1.notification_home.Note;
 import com.project.mantle_v1.notification_home.NoteActivity;
 import com.project.mantle_v1.notification_home.NotificationDetailFragment;

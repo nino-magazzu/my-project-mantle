@@ -18,9 +18,9 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.DatabaseHelper;
+import com.project.mantle_v1.notification_home.MyHandler;
 import com.project.mantle_v1.notification_home.NotificationDetailFragment;
 
 /**

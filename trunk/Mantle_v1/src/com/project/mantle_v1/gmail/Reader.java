@@ -19,7 +19,7 @@ import javax.mail.search.FlagTerm;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.project.mantle_v1.MyHandler;
+import com.project.mantle_v1.notification_home.MyHandler;
 import com.project.mantle_v1.parser.MantleMessage;
 
 /**

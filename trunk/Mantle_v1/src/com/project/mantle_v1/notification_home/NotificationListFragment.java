@@ -9,7 +9,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 
 /**
