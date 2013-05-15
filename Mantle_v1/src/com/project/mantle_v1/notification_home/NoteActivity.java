@@ -52,18 +52,19 @@ public class NoteActivity extends Activity {
 		this.url = bundle.getString("url");
 		this.filePath = bundle.getString("filePath");
 		this.idFile = bundle.getString("idFile");
-		this.cFile = null;
-
+		this.cFile = new MantleFile(this, idFile);
+		
 		Log.v(TAG, idFile);
 
 		if (filePath == null) {
-			cFile = new MantleFile(this, idFile);
 			cFile.downloadFileFromUrl(MantleFile.COMMENT, idFile + ".xml",
 					MantleFile.DIRECTORY_TEMP);
 		}
 
-		else
+		else {
 			cFile.setmFile(new File(filePath));
+		}
+			
 
 		ReaderXml reader = new ReaderXml();
 		try {
