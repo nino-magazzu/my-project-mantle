@@ -1,4 +1,4 @@
-package com.project.mantle_v1;
+package com.project.mantle_v1.login;
 
 import java.io.File;
 import java.util.concurrent.ExecutionException;
@@ -15,9 +15,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.project.mantle_v1.R;
+import com.project.mantle_v1.User;
+import com.project.mantle_v1.R.id;
+import com.project.mantle_v1.R.layout;
 import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.dropbox.Uploader;
+import com.project.mantle_v1.fileNavigator.MantleFile;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
 
 //Questa Activity fornisce un interfaccia per gestire la registrazione di un utente

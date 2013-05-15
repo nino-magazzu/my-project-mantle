@@ -20,11 +20,11 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.dropbox.DropboxAuthActivity;
+import com.project.mantle_v1.fileNavigator.MantleFile;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
 
 /**

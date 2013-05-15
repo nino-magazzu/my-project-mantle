@@ -18,12 +18,12 @@ import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.dropbox.client2.session.TokenPair;
-import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.Register;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.DatabaseHelper;
+import com.project.mantle_v1.fileNavigator.MantleFile;
 import com.project.mantle_v1.login.LoginActivity;
+import com.project.mantle_v1.login.Register;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
 
 public class DropboxAuthActivity extends Activity {

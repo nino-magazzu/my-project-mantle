@@ -1,4 +1,4 @@
-package com.project.mantle_v1;
+package com.project.mantle_v1.fileNavigator;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,20 +18,21 @@ import android.util.Log;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
+import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.dropbox.DownladerTask;
 import com.project.mantle_v1.dropbox.UploaderTask;
 
 public class MantleFile implements Serializable {
 
-	/**** PRIORITY TYPE ****/
+	// PRIORITY TYPE 
 
 	public static final int NEEDFUL_FILE = 3;
 	public static final int NORMAL_FILE = 2;
 	public static final int USELESS_FILE = 1;
 	public static final int NOT_OWN_FILE = 0;
 
-	/**** APPLICATION DIRECTORY ****/
+	// APPLICATION DIRECTORY 
 
 	public static final String DIRECTORY_TEMP = Environment
 			.getExternalStorageDirectory() + "/Mantle/tmp/";
@@ -42,7 +43,8 @@ public class MantleFile implements Serializable {
 	public static final String DIRECTORY_HISTORY = Environment
 			.getExternalStorageDirectory() + "/Mantle/history/";
 
-	/**** TYPE OF FILE TO DOWNLOAD ****/
+	// TYPE OF FILE TO DOWNLOAD 
+	
 	public static final String THUMBNAIL = "thumbnail";
 	public static final String FILE = "full";
 	public static final String COMMENT = "comment";
@@ -81,7 +83,7 @@ public class MantleFile implements Serializable {
 
 	// Costrutore per prendere uno specifico file
 	public MantleFile(Context cont, String idFile) {
-		db = new DatabaseHelper(cont);
+		DatabaseHelper db = new DatabaseHelper(cont);
 		String[] file = db.getFile(idFile);
 		this.idFile = file[0];
 		this.fileName = file[1];
@@ -326,7 +328,6 @@ public class MantleFile implements Serializable {
 	private String linkComment;
 	private String linkThumb;
 	private String fileKey;
-	private DatabaseHelper db;
 	private File mFile;
 	private String objectType;
 	private boolean isImage;
