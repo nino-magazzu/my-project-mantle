@@ -16,11 +16,11 @@ import android.widget.Toast;
 
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.AddService;
 import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.database.Team;
+import com.project.mantle_v1.database.User;
 import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.dropbox.Sharing;
 import com.project.mantle_v1.dropbox.Uploader;

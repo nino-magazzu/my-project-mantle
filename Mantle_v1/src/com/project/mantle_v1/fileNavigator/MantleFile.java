@@ -18,8 +18,8 @@ import android.util.Log;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
-import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.DatabaseHelper;
+import com.project.mantle_v1.database.User;
 import com.project.mantle_v1.dropbox.DownladerTask;
 import com.project.mantle_v1.dropbox.UploaderTask;
 
