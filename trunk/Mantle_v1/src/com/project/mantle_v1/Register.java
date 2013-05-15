@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.dropbox.Uploader;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
@@ -45,7 +45,7 @@ public class Register extends Activity {
 		emailPassEditText = (EditText) findViewById(R.id.emailPassEditText);
 		forward = (Button) findViewById(R.id.forwardButton);
 
-		final MioDatabaseHelper db = new MioDatabaseHelper(
+		final DatabaseHelper db = new DatabaseHelper(
 				getApplicationContext());
 
 		Intent theIntent = this.getIntent();
@@ -116,7 +116,7 @@ public class Register extends Activity {
 							getApplicationContext());
 
 					File file = new File(MantleFile.DIRECTORY_DB,
-							MioDatabaseHelper.DB_NAME);
+							DatabaseHelper.DB_NAME);
 
 					/*
 					 * Il db potrebbe essere cifrato in maniera simmetriva

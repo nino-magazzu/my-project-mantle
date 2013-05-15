@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.project.mantle_v1.User;
-import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.parser.MantleMessage;
 
 public class Sender extends AsyncTask<Void, Long, Boolean> {
@@ -28,7 +28,7 @@ public class Sender extends AsyncTask<Void, Long, Boolean> {
 		context = c.getApplicationContext();
 		User user = new User(context);
 		this.email = user.getEmail();
-		MioDatabaseHelper db = new MioDatabaseHelper(context);
+		DatabaseHelper db = new DatabaseHelper(context);
 		this.psw = db.getPassword(email);
 		db.close();
 		this.code = code;

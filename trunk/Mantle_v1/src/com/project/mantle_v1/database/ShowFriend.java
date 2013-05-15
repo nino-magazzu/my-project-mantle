@@ -10,7 +10,7 @@ import com.project.mantle_v1.User;
 
 public class ShowFriend extends Activity {
 
-	private MioDatabaseHelper db;
+	private DatabaseHelper db;
 	private TextView tv_username;
 	private TextView tv_name;
 	private TextView tv_surname;
@@ -21,7 +21,7 @@ public class ShowFriend extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.friend_sharing);
-		db = new MioDatabaseHelper(getApplicationContext());
+		db = new DatabaseHelper(getApplicationContext());
 
 		tv_username = (TextView) findViewById(R.id.textViewUsername);
 		tv_name = (TextView) findViewById(R.id.textViewName);

@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
-import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
 import com.project.mantle_v1.parser.ParseJSON;
@@ -112,7 +112,7 @@ public class NotificationDetailFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				MioDatabaseHelper db = new MioDatabaseHelper(v.getContext());
+				DatabaseHelper db = new DatabaseHelper(v.getContext());
 				db.insertUser(mItem.getUser().getEmail(), mItem.getUser()
 						.getUsername(), mItem.getUser().getName(), mItem
 						.getUser().getSurname(), mItem.getUser().getKey());

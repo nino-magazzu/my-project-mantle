@@ -28,7 +28,7 @@ import com.project.mantle_v1.R;
 public class Team extends Activity {
 	private Button createTeam;
 	private EditText teamName;
-	private MioDatabaseHelper db;
+	private DatabaseHelper db;
 	private ListView listView;
 	ArrayList<String> arr;
 
@@ -38,7 +38,7 @@ public class Team extends Activity {
 
 		setContentView(R.layout.create_team);
 
-		db = new MioDatabaseHelper(getApplicationContext());
+		db = new DatabaseHelper(getApplicationContext());
 		createTeam = (Button) findViewById(R.id.createTeambutton);
 		teamName = (EditText) findViewById(R.id.editText1);
 		listView = (ListView) findViewById(R.id.listView1);

@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.notification_home.NotificationDetailFragment;
 
 /**
@@ -94,7 +94,7 @@ public class FileDetailFragment extends Fragment {
 
 		listView = (ListView) rootView.findViewById(R.id.listView1);
 
-		MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
+		DatabaseHelper db = new DatabaseHelper(getActivity()
 				.getApplicationContext());
 
 		String[] sharers = db.getSharers(file.getIdFile());
