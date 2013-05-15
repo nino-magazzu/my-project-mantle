@@ -11,7 +11,7 @@ import android.util.Log;
 
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.User;
-import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.notification_home.Note;
 import com.project.mantle_v1.notification_home.Notifica;
 
@@ -109,7 +109,7 @@ public class MantleMessage {
 
 		int CODE = DECODE_MAP.get(code);
 
-		MioDatabaseHelper db = new MioDatabaseHelper(context);
+		DatabaseHelper db = new DatabaseHelper(context);
 
 		ParseJSON parser = null;
 		User user = null;

@@ -2,7 +2,7 @@ package com.project.mantle_v1;
 
 import android.content.Context;
 
-import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.database.DatabaseHelper;
 
 public class User {
 
@@ -12,7 +12,7 @@ public class User {
 	private String name;
 	private String surname;
 	private String key;
-	private MioDatabaseHelper db;
+	private DatabaseHelper db;
 
 	public static final String USER_DETAILS_PREF = "user";
 
@@ -39,7 +39,7 @@ public class User {
 	// Costruttore per prendere uno specifico amico
 
 	public User(Context cont) {
-		db = new MioDatabaseHelper(cont);
+		db = new DatabaseHelper(cont);
 		String[] user = db.getUser();
 		this.idUser = user[0];
 		this.email = user[1];
@@ -52,7 +52,7 @@ public class User {
 
 	// Costrutore per prendere i dati del proprietario dell'app
 	public User(Context cont, int idUser) {
-		db = new MioDatabaseHelper(cont);
+		db = new DatabaseHelper(cont);
 		String[] user = db.getUser(idUser);
 		this.idUser = user[0];
 		this.email = user[1];

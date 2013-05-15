@@ -22,7 +22,7 @@ import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.Register;
 import com.project.mantle_v1.User;
-import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.login.LoginActivity;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
 
@@ -100,7 +100,7 @@ public class DropboxAuthActivity extends Activity {
 				boolean isDownloaded = false;
 
 				Downloader down = new Downloader(this, mApi, "/storedFile/"
-						+ MioDatabaseHelper.DB_NAME, MantleFile.DIRECTORY_DB);
+						+ DatabaseHelper.DB_NAME, MantleFile.DIRECTORY_DB);
 
 				down.execute();
 
@@ -126,7 +126,7 @@ public class DropboxAuthActivity extends Activity {
 					 * cancellare il file
 					 */
 
-					MioDatabaseHelper db = new MioDatabaseHelper(
+					DatabaseHelper db = new DatabaseHelper(
 							getApplicationContext());
 					db.importDB();
 					String[] AccessData = db.login();
@@ -247,7 +247,7 @@ public class DropboxAuthActivity extends Activity {
 		edit.putString("username", user.getUsername());
 		String email = user.getEmail();
 		edit.putString("email", email);
-		MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+		DatabaseHelper db = new DatabaseHelper(getApplicationContext());
 		edit.putString("emailpswd", db.getPassword(email));
 		edit.putInt("idUser", db.getId(email));
 		edit.commit();

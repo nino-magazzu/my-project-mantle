@@ -20,7 +20,7 @@ import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.AddService;
 import com.project.mantle_v1.database.FriendsList;
-import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.database.Team;
 import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.dropbox.Sharing;
@@ -137,7 +137,7 @@ public class NotificationListActivity extends FragmentActivity implements
 
 				Log.v("Notification List Activity", "FileDetailActivity");
 
-				MioDatabaseHelper db = new MioDatabaseHelper(
+				DatabaseHelper db = new DatabaseHelper(
 						getApplicationContext());
 
 				/*
@@ -176,7 +176,7 @@ public class NotificationListActivity extends FragmentActivity implements
 				 * condiviso
 				 */
 
-				MioDatabaseHelper db = new MioDatabaseHelper(
+				DatabaseHelper db = new DatabaseHelper(
 						getApplicationContext());
 				String fileUrl = db.getLinkfromLinkComment(n.getNote()
 						.getCommentLink());
@@ -274,7 +274,7 @@ public class NotificationListActivity extends FragmentActivity implements
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
 								item.getTitle(), Toast.LENGTH_SHORT).show();
-						MioDatabaseHelper db = new MioDatabaseHelper(
+						DatabaseHelper db = new DatabaseHelper(
 								getApplicationContext());
 
 						db.exportDB();
@@ -285,7 +285,7 @@ public class NotificationListActivity extends FragmentActivity implements
 						new Uploader(mContext, dropbox.getAPI(),
 								"/StoredFile/", new File(
 										MantleFile.DIRECTORY_DB
-												+ MioDatabaseHelper.DB_NAME))
+												+ DatabaseHelper.DB_NAME))
 								.execute();
 						return true;
 					}

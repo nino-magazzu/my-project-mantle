@@ -28,7 +28,7 @@ import com.project.mantle_v1.MyHandler;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
 import com.project.mantle_v1.database.FriendsList;
-import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.notification_home.Note;
@@ -130,7 +130,7 @@ public class FileDetailActivity extends FragmentActivity {
 						Intent myIntent = new Intent(getApplicationContext(),
 								NoteActivity.class);
 						Bundle bundle = new Bundle();
-						MioDatabaseHelper db = new MioDatabaseHelper(
+						DatabaseHelper db = new DatabaseHelper(
 								getApplicationContext());
 						SharedPreferences userDetails = getApplicationContext()
 								.getSharedPreferences(User.USER_DETAILS_PREF, 0);
@@ -200,7 +200,7 @@ public class FileDetailActivity extends FragmentActivity {
 				} catch (IOException e) {
 					Log.e(TAG, "--> " + e.getMessage());
 				}
-				MioDatabaseHelper db = new MioDatabaseHelper(
+				DatabaseHelper db = new DatabaseHelper(
 						getApplicationContext());
 
 				for (int j = 0; j < contacts.length; j++) {
@@ -234,7 +234,7 @@ public class FileDetailActivity extends FragmentActivity {
 					public void onClick(DialogInterface dialog, int which) {
 						Log.d(TAG, "Commento accettato");
 
-						MioDatabaseHelper db = new MioDatabaseHelper(
+						DatabaseHelper db = new DatabaseHelper(
 								getApplicationContext());
 
 						int idFile = db.getIdFile(note.getCommentLink());

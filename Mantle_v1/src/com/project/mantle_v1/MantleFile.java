@@ -18,7 +18,7 @@ import android.util.Log;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
-import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.dropbox.DownladerTask;
 import com.project.mantle_v1.dropbox.UploaderTask;
 
@@ -81,7 +81,7 @@ public class MantleFile implements Serializable {
 
 	// Costrutore per prendere uno specifico file
 	public MantleFile(Context cont, String idFile) {
-		db = new MioDatabaseHelper(cont);
+		db = new DatabaseHelper(cont);
 		String[] file = db.getFile(idFile);
 		this.idFile = file[0];
 		this.fileName = file[1];
@@ -326,7 +326,7 @@ public class MantleFile implements Serializable {
 	private String linkComment;
 	private String linkThumb;
 	private String fileKey;
-	private MioDatabaseHelper db;
+	private DatabaseHelper db;
 	private File mFile;
 	private String objectType;
 	private boolean isImage;

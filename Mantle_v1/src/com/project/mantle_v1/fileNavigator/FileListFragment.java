@@ -13,7 +13,7 @@ import android.widget.ListView;
 
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.MyHandler;
-import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.database.DatabaseHelper;
 
 /**
  * A list fragment representing a list of Files. This fragment also supports
@@ -76,7 +76,7 @@ public class FileListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		MioDatabaseHelper db = new MioDatabaseHelper(getActivity()
+		DatabaseHelper db = new DatabaseHelper(getActivity()
 				.getApplicationContext());
 		list = db.getAllFile();
 		if (list.isEmpty()) {

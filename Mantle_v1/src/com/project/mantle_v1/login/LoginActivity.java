@@ -23,7 +23,7 @@ import android.widget.TextView;
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.User;
-import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.dropbox.DropboxAuthActivity;
 import com.project.mantle_v1.notification_home.NotificationListActivity;
 
@@ -49,14 +49,14 @@ public class LoginActivity extends Activity {
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
-	private MioDatabaseHelper db;
+	private DatabaseHelper db;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_login);
-		db = new MioDatabaseHelper(this);
+		db = new DatabaseHelper(this);
 
 		// Set up the login form.
 		mUsernameView = (EditText) findViewById(R.id.username);
@@ -252,7 +252,7 @@ public class LoginActivity extends Activity {
 		edit.putString("username", user.getUsername());
 		String email = user.getEmail();
 		edit.putString("email", email);
-		MioDatabaseHelper db = new MioDatabaseHelper(getApplicationContext());
+		DatabaseHelper db = new DatabaseHelper(getApplicationContext());
 		edit.putString("emailpswd", db.getPassword(email));
 		edit.putInt("idUser", db.getId(email));
 		edit.commit();

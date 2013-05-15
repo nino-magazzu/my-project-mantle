@@ -18,7 +18,7 @@ import android.util.Log;
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.User;
 
-public class MioDatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
 
 	public static final String DB_NAME = "MantleDbApplication";
 	private static final int DB_VERSION = 11;
@@ -31,7 +31,7 @@ public class MioDatabaseHelper extends SQLiteOpenHelper {
 	// private int idUser;
 
 	// costruttore della classe
-	public MioDatabaseHelper(Context context) {
+	public DatabaseHelper(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
 		db = this.getWritableDatabase();
 		SharedPreferences userDetails = context.getSharedPreferences(

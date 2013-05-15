@@ -24,7 +24,7 @@ import com.project.mantle_v1.R;
 // Questa Activity fornisce un'iterfaccia per la visualizzazione e la gestione degli utenti aparteneti ad una cerchia 
 public class ShowMembers extends Activity {
 
-	private MioDatabaseHelper db;
+	private DatabaseHelper db;
 	private String teamName;
 	private int idTeam;
 	private ListView listView;
@@ -35,7 +35,7 @@ public class ShowMembers extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.friend_list);
-		db = new MioDatabaseHelper(getApplicationContext());
+		db = new DatabaseHelper(getApplicationContext());
 
 		Intent intent = getIntent();
 		teamName = intent.getStringExtra("teamName");

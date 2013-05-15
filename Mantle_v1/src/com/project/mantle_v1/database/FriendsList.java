@@ -26,7 +26,7 @@ public class FriendsList extends Activity {
 
 	ArrayList<String> status;
 	ArrayList<String> arr;
-	private MioDatabaseHelper db;
+	private DatabaseHelper db;
 	ListView listView;
 	int flag;
 
@@ -38,7 +38,7 @@ public class FriendsList extends Activity {
 		arr = new ArrayList<String>();
 		status = new ArrayList<String>();
 
-		db = new MioDatabaseHelper(getApplicationContext());
+		db = new DatabaseHelper(getApplicationContext());
 
 		Intent intent = getIntent();
 		flag = intent.getIntExtra("flag", 0);

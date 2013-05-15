@@ -37,7 +37,7 @@ import com.dropbox.client2.exception.DropboxPartialFileException;
 import com.dropbox.client2.exception.DropboxServerException;
 import com.dropbox.client2.exception.DropboxUnlinkedException;
 import com.project.mantle_v1.MantleFile;
-import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.xml.WriterXml;
 
 /**
@@ -134,7 +134,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 				}
 
 				// creazione istanza del database
-				MioDatabaseHelper db = new MioDatabaseHelper(mContext);
+				DatabaseHelper db = new DatabaseHelper(mContext);
 
 				// inserimento del fil ne db
 				if (ThumbAddress == null)
@@ -207,7 +207,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		return null;
 	}
 
-	private Integer uploadingXML(MioDatabaseHelper db)
+	private Integer uploadingXML(DatabaseHelper db)
 			throws FileNotFoundException, DropboxException {
 		FileInputStream fis;
 		Entry ent;

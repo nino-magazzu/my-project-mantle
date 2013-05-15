@@ -21,7 +21,7 @@ import com.project.mantle_v1.parser.ParseJSON;
 public class AddFriend extends Activity {
 
 	private String TAG = this.getClass().getSimpleName();
-	private MioDatabaseHelper db;
+	private DatabaseHelper db;
 	private Button addFriend;
 	private Button showFriends;
 	private EditText edit_email;
@@ -38,7 +38,7 @@ public class AddFriend extends Activity {
 		edit_email = (EditText) findViewById(R.id.emailAddFriendEditText);
 
 		// Ottengo un puntatore al database
-		db = new MioDatabaseHelper(getApplicationContext());
+		db = new DatabaseHelper(getApplicationContext());
 
 		addFriend.setOnClickListener(new View.OnClickListener() {
 

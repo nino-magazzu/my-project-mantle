@@ -17,7 +17,7 @@ public class Priority extends Activity {
 	private RadioGroup radioPriorityGroup;
 	private RadioButton radioButton;
 	private Button okButton;
-	private MioDatabaseHelper db;
+	private DatabaseHelper db;
 	private int idFile;
 
 	@Override
@@ -26,7 +26,7 @@ public class Priority extends Activity {
 		setContentView(R.layout.choose_priority);
 		radioPriorityGroup = (RadioGroup) findViewById(R.id.radioGroup1);
 		okButton = (Button) findViewById(R.id.button1);
-		db = new MioDatabaseHelper(getApplicationContext());
+		db = new DatabaseHelper(getApplicationContext());
 		Intent intent = getIntent();
 		idFile = intent.getIntExtra("idFile", 0);
 

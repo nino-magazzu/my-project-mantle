@@ -12,7 +12,7 @@ import com.project.mantle_v1.R;
 
 public class AddService extends Activity {
 
-	private MioDatabaseHelper db;
+	private DatabaseHelper db;
 	private Button addService;
 	private EditText edit_service;
 	private EditText edit_user;
@@ -34,7 +34,7 @@ public class AddService extends Activity {
 		edit_password = (EditText) findViewById(R.id.passwordEditText);
 		edit_service = (EditText) findViewById(R.id.serviceEditText);
 
-		db = new MioDatabaseHelper(getApplicationContext());
+		db = new DatabaseHelper(getApplicationContext());
 		addService.setOnClickListener(new View.OnClickListener() {
 
 			@Override

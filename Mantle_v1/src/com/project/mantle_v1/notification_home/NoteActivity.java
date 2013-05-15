@@ -25,7 +25,7 @@ import android.widget.ListView;
 
 import com.project.mantle_v1.MantleFile;
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.database.MioDatabaseHelper;
+import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.gmail.Sender;
 import com.project.mantle_v1.parser.MantleMessage;
@@ -127,7 +127,7 @@ public class NoteActivity extends Activity {
 
 					DropboxAuth auth = new DropboxAuth(getApplicationContext());
 					cFile.uploadFile(auth.getAPI());
-					MioDatabaseHelper db = new MioDatabaseHelper(
+					DatabaseHelper db = new DatabaseHelper(
 							getApplicationContext());
 
 					ParseJSON parser = new ParseJSON(new StringWriter());
