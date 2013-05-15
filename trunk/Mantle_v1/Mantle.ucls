@@ -3,7 +3,7 @@
   generalizations="true" realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
   <class id="1" language="java" name="com.project.mantle_v1.MantleFile" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/MantleFile.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="480" y="2269"/>    
+    <position height="-1" width="-1" x="3589" y="1758"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="com.project.mantle_v1.Register" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/Register.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="259" width="201" x="585" y="-46"/>    
+    <position height="-1" width="-1" x="1745" y="273"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="com.project.mantle_v1.MyHandler" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/MyHandler.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="295" width="211" x="826" y="-46"/>    
+    <position height="-1" width="-1" x="1991" y="291"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="com.project.mantle_v1.User" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/User.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="511" width="240" x="1077" y="-46"/>    
+    <position height="-1" width="-1" x="2277" y="499"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -39,7 +39,7 @@
   </class>  
   <class id="5" language="java" name="com.project.mantle_v1.database.ShowMembers" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/database/ShowMembers.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="241" width="210" x="1937" y="218"/>    
+    <position height="-1" width="-1" x="4322" y="198"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -48,7 +48,7 @@
   </class>  
   <class id="6" language="java" name="com.project.mantle_v1.database.AddFriend" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/database/AddFriend.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="187" width="146" x="1751" y="218"/>    
+    <position height="-1" width="-1" x="4104" y="171"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -57,7 +57,7 @@
   </class>  
   <class id="7" language="java" name="com.project.mantle_v1.database.MioDatabaseHelper" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/database/MioDatabaseHelper.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="925" width="297" x="2404" y="499"/>    
+    <position height="-1" width="-1" x="4832" y="821"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -66,7 +66,7 @@
   </class>  
   <class id="8" language="java" name="com.project.mantle_v1.database.Priority" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/database/Priority.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="169" width="177" x="2187" y="218"/>    
+    <position height="-1" width="-1" x="4555" y="162"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -75,7 +75,7 @@
   </class>  
   <class id="9" language="java" name="com.project.mantle_v1.database.ShowFriend" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/database/ShowFriend.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="187" width="146" x="2404" y="218"/>    
+    <position height="-1" width="-1" x="4757" y="171"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -84,7 +84,7 @@
   </class>  
   <class id="10" language="java" name="com.project.mantle_v1.database.FriendsList" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/database/FriendsList.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="223" width="210" x="2776" y="218"/>    
+    <position height="-1" width="-1" x="5161" y="189"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -93,7 +93,7 @@
   </class>  
   <class id="11" language="java" name="com.project.mantle_v1.database.AddService" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/database/AddService.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="223" width="146" x="2590" y="218"/>    
+    <position height="-1" width="-1" x="4943" y="189"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -102,7 +102,7 @@
   </class>  
   <class id="12" language="java" name="com.project.mantle_v1.database.Team" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/database/Team.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="223" width="210" x="3026" y="218"/>    
+    <position height="-1" width="-1" x="5411" y="189"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -111,7 +111,7 @@
   </class>  
   <class id="13" language="java" name="com.project.mantle_v1.dropbox.DownladerTask" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/dropbox/DownladerTask.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="151" width="198" x="3337" y="1164"/>    
+    <position height="-1" width="-1" x="5562" y="1125"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -120,7 +120,7 @@
   </class>  
   <class id="14" language="java" name="com.project.mantle_v1.dropbox.Sharing" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/dropbox/Sharing.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="277" width="222" x="3575" y="1164"/>    
+    <position height="-1" width="-1" x="5812" y="1188"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -129,7 +129,7 @@
   </class>  
   <class id="15" language="java" name="com.project.mantle_v1.dropbox.UploaderTask" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/dropbox/UploaderTask.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="169" width="196" x="3837" y="1164"/>    
+    <position height="-1" width="-1" x="6061" y="1134"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -138,7 +138,7 @@
   </class>  
   <class id="16" language="java" name="com.project.mantle_v1.dropbox.Uploader" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/dropbox/Uploader.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="457" width="245" x="4073" y="1164"/>    
+    <position height="-1" width="-1" x="6321" y="1278"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -147,7 +147,7 @@
   </class>  
   <class id="17" language="java" name="com.project.mantle_v1.dropbox.Downloader" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/dropbox/Downloader.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="295" width="270" x="4358" y="1164"/>    
+    <position height="-1" width="-1" x="6619" y="1197"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -156,7 +156,7 @@
   </class>  
   <class id="18" language="java" name="com.project.mantle_v1.dropbox.DropboxAuth" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/dropbox/DropboxAuth.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="277" width="235" x="4668" y="1164"/>    
+    <position height="-1" width="-1" x="6911" y="1188"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -165,7 +165,7 @@
   </class>  
   <class id="19" language="java" name="com.project.mantle_v1.dropbox.DropboxAuthActivity" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/dropbox/DropboxAuthActivity.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="439" width="235" x="4943" y="1164"/>    
+    <position height="-1" width="-1" x="7186" y="1269"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -174,7 +174,7 @@
   </class>  
   <class id="20" language="java" name="com.project.mantle_v1.fileChooser.FileChooser" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/fileChooser/FileChooser.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="259" width="229" x="3990" y="303"/>    
+    <position height="-1" width="-1" x="6230" y="318"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -183,7 +183,7 @@
   </class>  
   <class id="21" language="java" name="com.project.mantle_v1.fileChooser.FileArrayAdapter" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/fileChooser/FileArrayAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="151" width="228" x="3990" y="602"/>    
+    <position height="-1" width="-1" x="6230" y="563"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -192,7 +192,7 @@
   </class>  
   <class id="22" language="java" name="com.project.mantle_v1.fileChooser.Option" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/fileChooser/Option.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="205" width="155" x="3990" y="793"/>    
+    <position height="-1" width="-1" x="6193" y="781"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -202,7 +202,7 @@
   <class id="23" language="java" name="com.project.mantle_v1.fileNavigator.FileDetailFragment" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/fileNavigator/FileDetailFragment.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1460" y="2035"/>    
+    <position height="-1" width="-1" x="1566" y="1983"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -211,7 +211,7 @@
   </class>  
   <class id="24" language="java" name="com.project.mantle_v1.fileNavigator.FileListFragment" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/fileNavigator/FileListFragment.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1757" y="2080"/>    
+    <position height="-1" width="-1" x="1597" y="2234"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -220,7 +220,7 @@
   </class>  
   <class id="25" language="java" name="com.project.mantle_v1.fileNavigator.FileListActivity" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/fileNavigator/FileListActivity.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2028" y="2017"/>    
+    <position height="-1" width="-1" x="1954" y="2279"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -230,7 +230,7 @@
   <class id="26" language="java" name="com.project.mantle_v1.fileNavigator.FileDetailActivity" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/fileNavigator/FileDetailActivity.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2301" y="2062"/>    
+    <position height="-1" width="-1" x="2287" y="2334"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -240,7 +240,7 @@
   <interface id="27" language="java" name="com.project.mantle_v1.fileNavigator.FileListFragment.Callbacks" 
     project="Mantle_v1" file="/Mantle_v1/src/com/project/mantle_v1/fileNavigator/FileListFragment.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1782" y="2550"/>    
+    <position height="-1" width="-1" x="2140" y="1987"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -249,7 +249,7 @@
   </interface>  
   <class id="28" language="java" name="com.project.mantle_v1.gmail.ReaderTask" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/gmail/ReaderTask.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="151" width="206" x="3257" y="2460"/>    
+    <position height="-1" width="-1" x="2780" y="155"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -258,7 +258,7 @@
   </class>  
   <class id="29" language="java" name="com.project.mantle_v1.gmail.Sender" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/gmail/Sender.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="277" width="199" x="3503" y="2460"/>    
+    <position height="-1" width="-1" x="3192" y="238"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -267,7 +267,7 @@
   </class>  
   <class id="30" language="java" name="com.project.mantle_v1.gmail.Mail" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/gmail/Mail.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="493" width="280" x="3742" y="2460"/>    
+    <position height="-1" width="-1" x="3472" y="346"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -276,7 +276,7 @@
   </class>  
   <class id="31" language="java" name="com.project.mantle_v1.gmail.Reader" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/gmail/Reader.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="241" width="184" x="4062" y="2460"/>    
+    <position height="-1" width="-1" x="3744" y="220"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -285,7 +285,7 @@
   </class>  
   <class id="32" language="java" name="com.project.mantle_v1.login.LoginActivity" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/login/LoginActivity.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="313" width="210" x="5028" y="1830"/>    
+    <position height="-1" width="-1" x="5671" y="1740"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -295,7 +295,7 @@
   <class id="33" language="java" name="com.project.mantle_v1.notification_home.NotificationDetailActivity" 
     project="Mantle_v1" file="/Mantle_v1/src/com/project/mantle_v1/notification_home/NotificationDetailActivity.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="115" width="233" x="1370" y="3062"/>    
+    <position height="-1" width="-1" x="168" y="589"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -305,7 +305,7 @@
   <class id="34" language="java" name="com.project.mantle_v1.notification_home.NotificaAdapter" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/notification_home/NotificaAdapter.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="133" width="232" x="1643" y="3062"/>    
+    <position height="-1" width="-1" x="437" y="591"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -314,7 +314,7 @@
   </class>  
   <class id="35" language="java" name="com.project.mantle_v1.notification_home.NoteActivity" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/notification_home/NoteActivity.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="241" width="181" x="1473" y="3379"/>    
+    <position height="-1" width="-1" x="133" y="1073"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -323,7 +323,7 @@
   </class>  
   <class id="36" language="java" name="com.project.mantle_v1.notification_home.Note" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/notification_home/Note.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="475" width="181" x="1804" y="3822"/>    
+    <position height="-1" width="-1" x="504" y="1509"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -333,7 +333,7 @@
   <class id="37" language="java" name="com.project.mantle_v1.notification_home.NotificationListFragment" 
     project="Mantle_v1" file="/Mantle_v1/src/com/project/mantle_v1/notification_home/NotificationListFragment.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="277" width="229" x="1915" y="3062"/>    
+    <position height="-1" width="-1" x="695" y="742"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -343,7 +343,7 @@
   <class id="38" language="java" name="com.project.mantle_v1.notification_home.NotificationListActivity" 
     project="Mantle_v1" file="/Mantle_v1/src/com/project/mantle_v1/notification_home/NotificationListActivity.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="169" width="210" x="2184" y="3062"/>    
+    <position height="-1" width="-1" x="1195" y="732"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -353,7 +353,7 @@
   <class id="39" language="java" name="com.project.mantle_v1.notification_home.NotificaAdapter.ViewHolder" 
     project="Mantle_v1" file="/Mantle_v1/src/com/project/mantle_v1/notification_home/NotificaAdapter.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="115" width="181" x="1694" y="3379"/>    
+    <position height="-1" width="-1" x="430" y="986"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -363,7 +363,7 @@
   <class id="40" language="java" name="com.project.mantle_v1.notification_home.NoteAdapter.ViewHolder" 
     project="Mantle_v1" file="/Mantle_v1/src/com/project/mantle_v1/notification_home/NoteAdapter.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="115" width="181" x="2760" y="3379"/>    
+    <position height="-1" width="-1" x="404" y="246"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -373,7 +373,7 @@
   <interface id="41" language="java" name="com.project.mantle_v1.notification_home.NotificationListFragment.Callbacks" 
     project="Mantle_v1" file="/Mantle_v1/src/com/project/mantle_v1/notification_home/NotificationListFragment.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="79" width="181" x="1915" y="3379"/>    
+    <position height="-1" width="-1" x="755" y="1060"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -382,7 +382,7 @@
   </interface>  
   <class id="42" language="java" name="com.project.mantle_v1.notification_home.Notifica" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/notification_home/Notifica.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="403" width="181" x="2136" y="3379"/>    
+    <position height="-1" width="-1" x="2040" y="1126"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -392,7 +392,7 @@
   <class id="43" language="java" name="com.project.mantle_v1.notification_home.NotificationDetailFragment" 
     project="Mantle_v1" file="/Mantle_v1/src/com/project/mantle_v1/notification_home/NotificationDetailFragment.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="187" width="286" x="2434" y="3062"/>    
+    <position height="-1" width="-1" x="1347" y="957"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -401,7 +401,7 @@
   </class>  
   <class id="44" language="java" name="com.project.mantle_v1.notification_home.NoteAdapter" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/notification_home/NoteAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="115" width="232" x="2760" y="3062"/>    
+    <position height="-1" width="-1" x="1038" y="269"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -410,7 +410,7 @@
   </class>  
   <class id="45" language="java" name="com.project.mantle_v1.parser.ParseJSON" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/parser/ParseJSON.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="853" width="189" x="4986" y="140"/>    
+    <position height="-1" width="-1" x="7206" y="452"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -419,7 +419,7 @@
   </class>  
   <class id="46" language="java" name="com.project.mantle_v1.parser.MantleMessage" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/parser/MantleMessage.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="421" width="239" x="5215" y="140"/>    
+    <position height="-1" width="-1" x="7460" y="236"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -428,7 +428,7 @@
   </class>  
   <class id="47" language="java" name="com.project.mantle_v1.xml.WriterXml" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/xml/WriterXml.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="331" width="316" x="4548" y="2921"/>    
+    <position height="-1" width="-1" x="644" y="2270"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -437,7 +437,7 @@
   </class>  
   <class id="48" language="java" name="com.project.mantle_v1.xml.ReaderXml" project="Mantle_v1" 
     file="/Mantle_v1/src/com/project/mantle_v1/xml/ReaderXml.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="115" width="186" x="4904" y="2921"/>    
+    <position height="-1" width="-1" x="755" y="2010"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -453,235 +453,235 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="52">    
-    <end type="SOURCE" refId="37" navigable="false">      
-      <attribute id="53" name="mCallbacks"/>      
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="53" name="adapter"/>      
       <multiplicity id="54" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="34" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="55">    
+    <end type="SOURCE" refId="44"/>    
+    <end type="TARGET" refId="40"/>  
+  </nesting>  
+  <association id="56">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="57" name="db"/>      
+      <multiplicity id="58" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="59">    
+    <end type="SOURCE" refId="24"/>    
+    <end type="TARGET" refId="27"/>  
+  </nesting>  
+  <association id="60">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="61" name="handler"/>      
+      <multiplicity id="62" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="63">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="64" name="ITEMS"/>      
+      <multiplicity id="65" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="42" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="66">    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="41"/>  
+  </realization>  
+  <association id="67">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="68" name="sDummyCallbacks"/>      
+      <multiplicity id="69" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="41" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="55">    
-    <end type="SOURCE" refId="37" navigable="false">      
-      <attribute id="56" name="handler"/>      
-      <multiplicity id="57" minimum="0" maximum="1"/>    
+  <association id="70">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="71" name="NOTIFICA_MAP"/>      
+      <multiplicity id="72" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="42" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="58">    
-    <end type="SOURCE" refId="28" navigable="false">      
-      <attribute id="59" name="handler"/>      
-      <multiplicity id="60" minimum="0" maximum="1"/>    
+  <association id="73">    
+    <end type="SOURCE" refId="43" navigable="false">      
+      <attribute id="74" name="mItem"/>      
+      <multiplicity id="75" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="42" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="61">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="62" name="db"/>      
-      <multiplicity id="63" minimum="0" maximum="1"/>    
+  <association id="76">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="77" name="db"/>      
+      <multiplicity id="78" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="64">    
-    <end type="SOURCE" refId="24" navigable="false">      
-      <attribute id="65" name="mCallbacks"/>      
-      <multiplicity id="66" minimum="0" maximum="1"/>    
+  <association id="79">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="80" name="db"/>      
+      <multiplicity id="81" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="27" navigable="true"/>    
+    <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="67">    
+  <nesting id="82">    
+    <end type="SOURCE" refId="34"/>    
+    <end type="TARGET" refId="39"/>  
+  </nesting>  
+  <association id="83">    
     <end type="SOURCE" refId="35" navigable="false">      
-      <attribute id="68" name="cFile"/>      
-      <multiplicity id="69" minimum="0" maximum="1"/>    
+      <attribute id="84" name="cFile"/>      
+      <multiplicity id="85" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="70">    
-    <end type="SOURCE" refId="24" navigable="false">      
-      <attribute id="71" name="sDummyCallbacks"/>      
-      <multiplicity id="72" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="27" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting id="73">    
-    <end type="SOURCE" refId="37"/>    
-    <end type="TARGET" refId="41"/>  
-  </nesting>  
-  <association id="74">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="75" name="ITEMS"/>      
-      <multiplicity id="76" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="42" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="77">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="78" name="db"/>      
-      <multiplicity id="79" minimum="0" maximum="1"/>    
+  <association id="86">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="87" name="db"/>      
+      <multiplicity id="88" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="80">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="81" name="NOTIFICA_MAP"/>      
-      <multiplicity id="82" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="42" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="83">    
-    <end type="SOURCE" refId="25"/>    
-    <end type="TARGET" refId="27"/>  
-  </realization>  
-  <association id="84">    
-    <end type="SOURCE" refId="43" navigable="false">      
-      <attribute id="85" name="mItem"/>      
-      <multiplicity id="86" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="42" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="87">    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="88" name="db"/>      
-      <multiplicity id="89" minimum="0" maximum="1"/>    
+  <association id="89">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="90" name="db"/>      
+      <multiplicity id="91" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="90">    
-    <end type="SOURCE" refId="42" navigable="false">      
-      <attribute id="91" name="note"/>      
-      <multiplicity id="92" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="36" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="93">    
+  <association id="92">    
     <end type="SOURCE" refId="21" navigable="false">      
-      <attribute id="94" name="items"/>      
-      <multiplicity id="95" minimum="0" maximum="2147483647"/>    
+      <attribute id="93" name="items"/>      
+      <multiplicity id="94" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="22" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="96">    
-    <end type="SOURCE" refId="26" navigable="false">      
-      <attribute id="97" name="file"/>      
-      <multiplicity id="98" minimum="0" maximum="1"/>    
+  <association id="95">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="96" name="db"/>      
+      <multiplicity id="97" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="98">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="99" name="sDummyCallbacks"/>      
+      <multiplicity id="100" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="101">    
+    <end type="SOURCE" refId="42" navigable="false">      
+      <attribute id="102" name="mFile"/>      
+      <multiplicity id="103" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="99">    
-    <end type="SOURCE" refId="42" navigable="false">      
-      <attribute id="100" name="user"/>      
-      <multiplicity id="101" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="102">    
-    <end type="SOURCE" refId="12" navigable="false">      
-      <attribute id="103" name="db"/>      
-      <multiplicity id="104" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="105">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="106" name="db"/>      
-      <multiplicity id="107" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting id="108">    
-    <end type="SOURCE" refId="24"/>    
-    <end type="TARGET" refId="27"/>  
-  </nesting>  
-  <association id="109">    
-    <end type="SOURCE" refId="35" navigable="false">      
-      <attribute id="110" name="notes"/>      
-      <multiplicity id="111" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="36" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="112">    
-    <end type="SOURCE" refId="37" navigable="false">      
-      <attribute id="113" name="sDummyCallbacks"/>      
-      <multiplicity id="114" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="41" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="115">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="116" name="db"/>      
-      <multiplicity id="117" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="118">    
-    <end type="SOURCE" refId="38"/>    
-    <end type="TARGET" refId="41"/>  
-  </realization>  
-  <association id="119">    
-    <end type="SOURCE" refId="48" navigable="false">      
-      <attribute id="120" name="parsedComment"/>      
-      <multiplicity id="121" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="36" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="122">    
+  <association id="104">    
     <end type="SOURCE" refId="38" navigable="false">      
-      <attribute id="123" name="handler"/>      
-      <multiplicity id="124" minimum="0" maximum="1"/>    
+      <attribute id="105" name="handler"/>      
+      <multiplicity id="106" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="125">    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="126" name="db"/>      
-      <multiplicity id="127" minimum="0" maximum="1"/>    
+  <association id="107">    
+    <end type="SOURCE" refId="32" navigable="false">      
+      <attribute id="108" name="db"/>      
+      <multiplicity id="109" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="128">    
-    <end type="SOURCE" refId="34"/>    
-    <end type="TARGET" refId="39"/>  
+  <nesting id="110">    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="41"/>  
   </nesting>  
-  <association id="129">    
-    <end type="SOURCE" refId="23" navigable="false">      
-      <attribute id="130" name="file"/>      
-      <multiplicity id="131" minimum="0" maximum="1"/>    
+  <association id="111">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="112" name="mCallbacks"/>      
+      <multiplicity id="113" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="41" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="114">    
+    <end type="SOURCE" refId="42" navigable="false">      
+      <attribute id="115" name="note"/>      
+      <multiplicity id="116" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="36" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="117">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="118" name="list"/>      
+      <multiplicity id="119" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="132">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="133" name="db"/>      
-      <multiplicity id="134" minimum="0" maximum="1"/>    
+  <association id="120">    
+    <end type="SOURCE" refId="42" navigable="false">      
+      <attribute id="121" name="user"/>      
+      <multiplicity id="122" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="123">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="124" name="handler"/>      
+      <multiplicity id="125" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="126">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="127" name="db"/>      
+      <multiplicity id="128" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <association id="129">    
+    <end type="SOURCE" refId="48" navigable="false">      
+      <attribute id="130" name="parsedComment"/>      
+      <multiplicity id="131" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="36" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="132">    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="133" name="file"/>      
+      <multiplicity id="134" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <association id="135">    
-    <end type="SOURCE" refId="32" navigable="false">      
+    <end type="SOURCE" refId="11" navigable="false">      
       <attribute id="136" name="db"/>      
       <multiplicity id="137" minimum="0" maximum="1"/>    
     </end>    
@@ -689,15 +689,15 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="138">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="139" name="db"/>      
-      <multiplicity id="140" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="35" navigable="false">      
+      <attribute id="139" name="notes"/>      
+      <multiplicity id="140" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
+    <end type="TARGET" refId="36" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="141">    
-    <end type="SOURCE" refId="31" navigable="false">      
+    <end type="SOURCE" refId="28" navigable="false">      
       <attribute id="142" name="handler"/>      
       <multiplicity id="143" minimum="0" maximum="1"/>    
     </end>    
@@ -705,8 +705,8 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="144">    
-    <end type="SOURCE" refId="42" navigable="false">      
-      <attribute id="145" name="mFile"/>      
+    <end type="SOURCE" refId="23" navigable="false">      
+      <attribute id="145" name="file"/>      
       <multiplicity id="146" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
@@ -714,10 +714,10 @@
   </association>  
   <association id="147">    
     <end type="SOURCE" refId="24" navigable="false">      
-      <attribute id="148" name="list"/>      
-      <multiplicity id="149" minimum="0" maximum="2147483647"/>    
+      <attribute id="148" name="mCallbacks"/>      
+      <multiplicity id="149" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="27" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="150">    
@@ -728,18 +728,18 @@
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="153">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="154" name="adapter"/>      
-      <multiplicity id="155" minimum="0" maximum="1"/>    
+  <realization id="153">    
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="27"/>  
+  </realization>  
+  <association id="154">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="155" name="db"/>      
+      <multiplicity id="156" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="34" navigable="true"/>    
+    <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="156">    
-    <end type="SOURCE" refId="44"/>    
-    <end type="TARGET" refId="40"/>  
-  </nesting>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="false"/>    
