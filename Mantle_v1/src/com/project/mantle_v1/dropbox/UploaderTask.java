@@ -3,6 +3,10 @@ package com.project.mantle_v1.dropbox;
 import java.io.File;
 import java.io.FileInputStream;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -17,10 +21,27 @@ public class UploaderTask extends AsyncTask<Void, Long, Boolean> {
 	private UploadRequest mRequest;
 	private String FILE_DIR;
 
-	public UploaderTask(DropboxAPI<?> api, File f, String dir ) {
+	private final ProgressDialog mDialog;
+	
+	public UploaderTask(DropboxAPI<?> api, File f, String dir, Context cont) {
 		this.mApi = api;
 		this.mFile = f;
 		this.FILE_DIR = dir;
+		
+		mDialog = new ProgressDialog(cont);
+		mDialog.setMessage("Uploading ");
+		mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		mDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
+				new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// Annulla l'upload del file
+						mRequest.abort();
+					}
+				});
+		mDialog.show();
+		
+		
 	}
 
 	@Override
@@ -60,4 +81,9 @@ public class UploaderTask extends AsyncTask<Void, Long, Boolean> {
 			return false;
 		}
 	}
-}
+	
+	@Override
+	protected void onPostExecute(Boolean result) {
+		mDialog.dismiss();
+		}
+	}

@@ -53,7 +53,6 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 	private String mPath;
 	private File mFile;
 
-	private long mFileLen;
 	private UploadRequest mRequest;
 	private Context mContext;
 	private final ProgressDialog mDialog;
@@ -70,17 +69,14 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		// Inizializzazione delle variabili e della progress bar
 
 		mContext = context.getApplicationContext();
-		mFileLen = file.length();
 		mApi = api;
 		mPath = dropboxPath;
 		mFile = file;
 		fileKey = "";
 
 		mDialog = new ProgressDialog(context);
-		mDialog.setMax(100);
 		mDialog.setMessage("Uploading " + file.getName());
 		mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-		mDialog.setProgress(0);
 		mDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
 				new OnClickListener() {
 					@Override
@@ -92,11 +88,6 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		mDialog.show();
 	}
 
-	@Override
-	protected void onPreExecute() {
-		mDialog.setTitle("Please wait");
-		mDialog.show();
-	}
 
 	@Override
 	protected Integer doInBackground(Void... params) {
@@ -306,12 +297,6 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 					"https://www", "https://dl");
 		}
 	}
-
-	/*
-	 * @Override protected void onProgressUpdate(Long... progress) { int percent
-	 * = (int) (100.0 * (double) progress[0] / mFileLen + 0.5);
-	 * mDialog.setProgress(percent); }
-	 */
 
 	@Override
 	protected void onPostExecute(Integer result) {
