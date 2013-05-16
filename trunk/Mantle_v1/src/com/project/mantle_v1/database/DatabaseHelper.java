@@ -25,7 +25,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private String username;
 
-	// costruttore della classe
+	/**
+	 * Costruttore della classe
+	 * @param context
+	 */
 	public DatabaseHelper(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
 		db = this.getWritableDatabase();
@@ -34,7 +37,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		this.username = userDetails.getString("username", "");
 	}
 
-	// Creazione del database
+	/**
+	 * Creazione del database
+	 * @see android.database.sqlite.SQLiteOpenHelper#onCreate(android.database.sqlite.SQLiteDatabase)
+	 */
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
@@ -109,8 +115,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	// ============== QUERY FUNZIONALI PER L'APPLICAZIONE =============== //
 
-	// verifica se l'utente sarà mandata la richiesta d'amicizia è gia presente
-	// nella lista dei contatti
+	/**
+	 *  Verifica se l'utente a cui sarà mandata la richiesta d'amicizia è gia presente nella lista dei contatti
+	 * 	@param email indirizzo dell'utente cui si vuole fare la richiesta
+	 * 	@return <code>true</code> se l'utente è gia presente nel db <code>false</code> se non c'è
+	 */ 
 	public boolean isAlreadyFriend(String email) {
 
 		String[] columns = { "Username" };
@@ -128,7 +137,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	}
 
-	// verifica che il servizio mantle esiste
+	/**
+	 * Verifica se è presente una entry relativa al servizio mantle nella tabella Service
+	 * @return <code>true</code> se il servizio è presente nel db <code>false</code> se non c'è
+	 */
 	public boolean serviceMantle() {
 		String[] columns = { "service" };
 		String selection = "service = 'mantle'";
@@ -147,7 +159,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	}
 
-	// verifica se già esiste il team
+	
+/**
+ * Verifica se già esiste il team	
+ * @param team nome del nuovo team che si vuole creare
+ * @return <code>true</code> se il team è già presente nel db <code>false</code> se non c'è
+ */
 	public boolean teamExist(String team) {
 		String[] columns = { "idTeam" };
 		String selection = "description = ?";
@@ -164,8 +181,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	}
 
-	// verifica se l'utente è registrato e restituisce username e password
-	// oppure " "," " se l'utente non è registrato nel db
+	/**
+	 * Verifica se l'utente è registrato e restituisce username e password oppure " "," " se l'utente non è registrato nel db
+	 * @return String[] 
+	 */
 	public String[] login() {
 		String selection = "service = 'mantle'";
 		String[] columns = { "useracces", "passacces" };
@@ -210,7 +229,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	}
 
-	// esportare database
+	
+	/**
+	 *  
+	 * Crea un istanza del db e la salva mnt/sdcard/Mantle/db
+	 */
 	public void exportDB() {
 
 		try {
@@ -242,7 +265,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 	}
 
-	// importare database
+	/**
+	 * Cerca un istanza del db in mnt/sdcard/Mantle/db e la importa nel db dell'applicazione sovrascrivendo le modifiche
+	 */
 	public void importDB() {
 		// TODO Auto-generated method stub
 
