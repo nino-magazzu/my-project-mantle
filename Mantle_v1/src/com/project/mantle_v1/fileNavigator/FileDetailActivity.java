@@ -263,7 +263,7 @@ public class FileDetailActivity extends FragmentActivity {
 						}
 
 						cFile.uploadFile(new DropboxAuth(
-								getApplicationContext()).getAPI());
+								getApplicationContext()).getAPI(), getApplicationContext());
 
 						ParseJSON parser = new ParseJSON(new StringWriter());
 
