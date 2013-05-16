@@ -201,7 +201,7 @@ public class FileDetailActivity extends FragmentActivity {
 								
 								
 								if(selection.equals("Dropbox")){
-									file.uploadNotCipherFile(new DropboxAuth(FileDetailActivity.this).getAPI());
+									file.uploadNotCipherFile(new DropboxAuth(FileDetailActivity.this).getAPI(),FileDetailActivity.this);
 									dialog.cancel();
 									pDialog.cancel();
 									showToast("Download completato!");
