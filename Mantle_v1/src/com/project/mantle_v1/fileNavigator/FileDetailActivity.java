@@ -10,6 +10,7 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import org.xml.sax.SAXException;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -51,7 +52,7 @@ public class FileDetailActivity extends FragmentActivity {
 	protected static final int DIALOG_ALERT_ID = 1;
 	private final String TAG = this.getClass().getSimpleName();
 	private MantleFile file;
-
+	private String selection;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -168,14 +169,60 @@ public class FileDetailActivity extends FragmentActivity {
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
 						
-						file.downloadFileFromUrl(
-								MantleFile.FILE,
-								file.getFileName(),
-								Environment.getExternalStoragePublicDirectory(
-										Environment.DIRECTORY_DOWNLOADS)
-										.getAbsolutePath());
-						showToast("Download completato!");
+						
+						final String[] options = { "Dropbox", "Download "};
+						selection ="Download";
+						
+						AlertDialog.Builder builder = new AlertDialog.Builder(FileDetailActivity.this);
+						builder.setTitle("Scarica in : ");
+						builder.setCancelable(false);
+						builder.setSingleChoiceItems(options, 0 , new DialogInterface.OnClickListener() {
+						
+							@Override
+							public void onClick(DialogInterface dialog, int position) {
+								selection=options[position];
+								}
+							});
+						
+						builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								
+								ProgressDialog pDialog = new ProgressDialog(FileDetailActivity.this);
+								pDialog.setMessage("Download...");
+								pDialog.show();
+								
+								file.downloadFileFromUrl(
+										MantleFile.FILE,
+										file.getFileName(),
+										Environment.getExternalStoragePublicDirectory(
+												Environment.DIRECTORY_DOWNLOADS)
+												.getAbsolutePath());
+								
+								
+								if(selection.equals("Dropbox")){
+									file.uploadNotCipherFile(new DropboxAuth(FileDetailActivity.this).getAPI());
+									dialog.cancel();
+									pDialog.cancel();
+									showToast("Download completato!");
+								}else{
+									dialog.cancel();
+									pDialog.cancel();
+									showToast("Download completato!");
+								}
+							}
+						});
+						
+						builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.cancel();
+								}
+							});
+						
+						AlertDialog alert = builder.show();
 						return true;
+						
 					}
 				});
 
