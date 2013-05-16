@@ -67,6 +67,7 @@ public class NotificationListActivity extends FragmentActivity implements
 	private boolean mTwoPane;
 	private MyHandler handler;
 	private Context mContext;
+	private ReaderTask rt;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +79,11 @@ public class NotificationListActivity extends FragmentActivity implements
 		SharedPreferences userDetails = getSharedPreferences(
 				User.USER_DETAILS_PREF, 0);
 
-		ReaderTask rt = new ReaderTask(handler, userDetails.getString("email",
+		 rt = new ReaderTask(handler, userDetails.getString("email",
 				" "), userDetails.getString("emailpswd", " "));
 
 		mContext = this;
+		
 		if (!rt.isAlive())
 			rt.start();
 
@@ -315,10 +317,7 @@ public class NotificationListActivity extends FragmentActivity implements
 		SharedPreferences userDetails = getSharedPreferences(
 				User.USER_DETAILS_PREF, 0);
 		
-		ReaderTask rt = new ReaderTask(handler, userDetails.getString("email",
-				" "), userDetails.getString("emailpswd", " "));
-		
-		if (!rt.isAlive())
+		if (!rt.isAlive()) 
 			rt.start();
 	}
 }
