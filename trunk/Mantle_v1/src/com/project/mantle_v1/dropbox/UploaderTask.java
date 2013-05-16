@@ -11,14 +11,16 @@ import com.dropbox.client2.DropboxAPI.UploadRequest;
 import com.dropbox.client2.ProgressListener;
 
 public class UploaderTask extends AsyncTask<Void, Long, Boolean> {
-	final static private String FILE_DIR = "/storedFile/";
+	
 	private DropboxAPI<?> mApi;
 	private File mFile;
 	private UploadRequest mRequest;
+	private String FILE_DIR;
 
-	public UploaderTask(DropboxAPI<?> api, File f) {
+	public UploaderTask(DropboxAPI<?> api, File f, String dir ) {
 		this.mApi = api;
 		this.mFile = f;
+		this.FILE_DIR = dir;
 	}
 
 	@Override
