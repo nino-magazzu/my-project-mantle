@@ -144,7 +144,7 @@ public class NoteActivity extends Activity {
 							.parseInt(idFile));
 					for (int i = 0; i < emails.length; i++) {
 						new Sender(NoteActivity.this, parser.toString(),
-								emails[i], MantleMessage.SYSTEM).execute();
+								emails[i], MantleMessage.NOTE).execute();
 
 					}
 

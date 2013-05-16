@@ -79,14 +79,14 @@ public class FileDetailActivity extends FragmentActivity {
 						NotificationDetailFragment.ARG_ITEM_ID,
 						getIntent().getStringExtra(
 								NotificationDetailFragment.ARG_ITEM_ID));
+				
+				file = new MantleFile(getApplicationContext(), getIntent()
+						.getStringExtra(NotificationDetailFragment.ARG_ITEM_ID));
 
-				if (getIntent().hasExtra("Commento")) {
+				if (getIntent().hasExtra("Commento") && file.getPriority() != MantleFile.NOT_OWN_FILE) {
 					Log.d(TAG, "");
 					showMyDialog();
 				}
-
-				file = new MantleFile(getApplicationContext(), getIntent()
-						.getStringExtra(NotificationDetailFragment.ARG_ITEM_ID));
 
 			}
 
@@ -270,7 +270,7 @@ public class FileDetailActivity extends FragmentActivity {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Conferma");
 		final Note note = (Note) getIntent().getSerializableExtra("Commento");
-		builder.setMessage("Vuoi aggiungere il commento : " + note.getContent());
+		builder.setMessage("Vuole aggiungere il commento : " + note.getContent());
 		builder.setCancelable(false);
 		builder.setPositiveButton("Accetta",
 				new DialogInterface.OnClickListener() {

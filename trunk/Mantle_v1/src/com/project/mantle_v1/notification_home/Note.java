@@ -12,23 +12,28 @@ public class Note implements Serializable {
 	private String content;
 	private String date;
 	private String fileLink;
-
-	// l'ho inserito per rendere più immediato
-	// l'inserimento del commento nel corretto
-	// file xml.
 	private String commentLink;
 	private String sender_mail;
 
 	public Note() {
 		super();
 	}
+	
+	/**
+	 *  Notifica di sistema usata per mandare il messaggio di richiesta d'amicizia rifiutata
+	 *  
+	 *  @param user l'utente 
+	 *  				da cui parte la notifica
+	 *  @param content 
+	 *  				contenuto della notifica
+	 */
 
 	public Note(String user, String content) {
 		super();
 		this.user = user;
 		this.content = content;
 	}
-
+	
 	/**
 	 * Costruttore da usare per leggere i commenti provenienti dalle mail
 	 * 

@@ -305,4 +305,20 @@ public class NotificationListActivity extends FragmentActivity implements
 
 		return true;
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		handler = new MyHandler(getApplicationContext());
+
+		SharedPreferences userDetails = getSharedPreferences(
+				User.USER_DETAILS_PREF, 0);
+		
+		ReaderTask rt = new ReaderTask(handler, userDetails.getString("email",
+				" "), userDetails.getString("emailpswd", " "));
+		
+		if (!rt.isAlive())
+			rt.start();
+	}
 }
