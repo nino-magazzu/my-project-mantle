@@ -126,7 +126,7 @@ public class NoteActivity extends Activity {
 					}
 
 					DropboxAuth auth = new DropboxAuth(getApplicationContext());
-					cFile.uploadFile(auth.getAPI());
+					cFile.uploadFile(auth.getAPI(), getApplicationContext());
 					DatabaseHelper db = new DatabaseHelper(
 							getApplicationContext());
 

@@ -144,7 +144,7 @@ public class MantleFile implements Serializable {
 		}
 	}
 
-	public void uploadFile(DropboxAPI<?> mApi) {
+	public void uploadFile(DropboxAPI<?> mApi, Context cont) {
 
 		/*
 		 * TODO: cifrare il file contenuto in mFile che poi sarà passato alla
@@ -152,13 +152,13 @@ public class MantleFile implements Serializable {
 		 * cifratura usare la chiave contenuta in fileKey
 		 */
 
-		UploaderTask upl = new UploaderTask(mApi, this.mFile, FILE_DIR);
+		UploaderTask upl = new UploaderTask(mApi, this.mFile, FILE_DIR, cont);
 		upl.execute();
 		
 	}
 	
-	public void uploadNotCipherFile(DropboxAPI<?> mApi) {
-		UploaderTask upl = new UploaderTask(mApi, this.mFile, "/");
+	public void uploadNotCipherFile(DropboxAPI<?> mApi, Context cont) {
+		UploaderTask upl = new UploaderTask(mApi, this.mFile, "/", cont);
 		upl.execute();
 		
 	}
