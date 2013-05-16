@@ -42,6 +42,8 @@ public class MantleFile implements Serializable {
 			.getExternalStorageDirectory() + "/Mantle/db/";
 	public static final String DIRECTORY_HISTORY = Environment
 			.getExternalStorageDirectory() + "/Mantle/history/";
+	
+	final static private String FILE_DIR = "/storedFile/";
 
 	// TYPE OF FILE TO DOWNLOAD 
 	
@@ -150,7 +152,7 @@ public class MantleFile implements Serializable {
 		 * cifratura usare la chiave contenuta in fileKey
 		 */
 
-		UploaderTask upl = new UploaderTask(mApi, this.mFile);
+		UploaderTask upl = new UploaderTask(mApi, this.mFile, FILE_DIR);
 		upl.execute();
 		boolean bl = false;
 		try {
@@ -162,7 +164,21 @@ public class MantleFile implements Serializable {
 		}
 		return bl;
 	}
-
+	
+	public boolean uploadNotCipherFile(DropboxAPI<?> mApi) {
+		UploaderTask upl = new UploaderTask(mApi, this.mFile, "/");
+		upl.execute();
+		boolean bl = false;
+		try {
+			bl = upl.get();
+		} catch (InterruptedException e) {
+			Log.i(TAG, "Error authenticating", e);
+		} catch (ExecutionException e) {
+			Log.i(TAG, "Error authenticating", e);
+		}
+		return bl;
+	}
+	
 	public File createThumbnail() {
 		final int THUMBNAIL_SIZE = 128;
 
