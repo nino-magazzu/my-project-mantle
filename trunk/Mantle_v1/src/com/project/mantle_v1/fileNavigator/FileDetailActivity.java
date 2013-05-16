@@ -166,9 +166,7 @@ public class FileDetailActivity extends FragmentActivity {
 				new OnMenuItemClickListener() {
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
-						MantleFile file = MyHandler.FILE_MAP
-								.get(getIntent().getStringExtra(
-										FileDetailFragment.ARG_ITEM_ID));
+						
 						file.downloadFileFromUrl(
 								MantleFile.FILE,
 								file.getFileName(),
