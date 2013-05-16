@@ -262,10 +262,8 @@ public class FileDetailActivity extends FragmentActivity {
 							e.printStackTrace();
 						}
 
-						boolean bl = cFile.uploadFile(new DropboxAuth(
+						cFile.uploadFile(new DropboxAuth(
 								getApplicationContext()).getAPI());
-
-						Log.v(TAG, "upload: " + bl);
 
 						ParseJSON parser = new ParseJSON(new StringWriter());
 
