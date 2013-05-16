@@ -149,19 +149,20 @@ public class FileDetailActivity extends FragmentActivity {
 
 					}
 				});
-
-		menu.add("Condividi").setOnMenuItemClickListener(
-				new OnMenuItemClickListener() {
-					@Override
-					public boolean onMenuItemClick(MenuItem item) {
-						Intent intent = new Intent(getApplicationContext(),
-								FriendsList.class);
-						intent.putExtra("flag", 3);
-						startActivityForResult(intent, FRIEND_CHOOSED_CODE);
-						return true;
-					}
-				});
-
+		
+		if(file.getPriority() != MantleFile.NOT_OWN_FILE) {
+			menu.add("Condividi").setOnMenuItemClickListener(
+					new OnMenuItemClickListener() {
+						@Override
+						public boolean onMenuItemClick(MenuItem item) {
+							Intent intent = new Intent(getApplicationContext(),
+									FriendsList.class);
+							intent.putExtra("flag", 3);
+							startActivityForResult(intent, FRIEND_CHOOSED_CODE);
+							return true;
+						}
+					});
+		}
 		menu.add("Download").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					@Override
