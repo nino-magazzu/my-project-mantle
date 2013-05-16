@@ -144,7 +144,7 @@ public class MantleFile implements Serializable {
 		}
 	}
 
-	public boolean uploadFile(DropboxAPI<?> mApi) {
+	public void uploadFile(DropboxAPI<?> mApi) {
 
 		/*
 		 * TODO: cifrare il file contenuto in mFile che poi sarà passato alla
@@ -154,29 +154,13 @@ public class MantleFile implements Serializable {
 
 		UploaderTask upl = new UploaderTask(mApi, this.mFile, FILE_DIR);
 		upl.execute();
-		boolean bl = false;
-		try {
-			bl = upl.get();
-		} catch (InterruptedException e) {
-			Log.i(TAG, "Error authenticating", e);
-		} catch (ExecutionException e) {
-			Log.i(TAG, "Error authenticating", e);
-		}
-		return bl;
+		
 	}
 	
-	public boolean uploadNotCipherFile(DropboxAPI<?> mApi) {
+	public void uploadNotCipherFile(DropboxAPI<?> mApi) {
 		UploaderTask upl = new UploaderTask(mApi, this.mFile, "/");
 		upl.execute();
-		boolean bl = false;
-		try {
-			bl = upl.get();
-		} catch (InterruptedException e) {
-			Log.i(TAG, "Error authenticating", e);
-		} catch (ExecutionException e) {
-			Log.i(TAG, "Error authenticating", e);
-		}
-		return bl;
+		
 	}
 	
 	public File createThumbnail() {
