@@ -24,15 +24,15 @@ public class Notifica implements Serializable {
 	private String body;
 	private MantleFile mFile;
 	private Note note;
-
+	
 	/**
 	 * Costruttore da usare nel caso in cui la notifica sia relativa ad una
 	 * richiesta d'amicizia o all'accettazione della stessa
 	 * 
 	 * @param data
-	 *            : del momento in cui la mail è arrivata
+	 *            del momento in cui la mail è arrivata
 	 * @param who
-	 *            : Utente che desidera stringere l'amicizia
+	 *            Utente che desidera stringere l'amicizia
 	 */
 
 	public Notifica(String data, User user, String code) {
@@ -59,9 +59,9 @@ public class Notifica implements Serializable {
 	 * Costruttore da utilizzare in caso di notifiche di sistema
 	 * 
 	 * @param date
-	 *            : relativa alla creazione (invio) della mail
+	 *            relativa alla creazione (invio) della mail
 	 * @param body
-	 *            : corpo della notifica
+	 *            corpo della notifica
 	 */
 
 	public Notifica(String date, String body, String code) {
@@ -72,54 +72,39 @@ public class Notifica implements Serializable {
 		if (NotificationType.equals(MantleMessage.FRIENDSHIP_DENIED))
 			this.title = "Richiesta di amicizia rifiutata";
 		else
-			this.title = "Notifica di sistema";
+			this.title = "Nuovo commento";
 
 		this.body = body;
 	}
 
 	/**
-	 * Costruttore per le notifiche di condivisione di immagini o di nuovi
-	 * commenti alle foto
+	 * Crea la notifica relativa alla condivisione di un file 
 	 * 
-	 * @param data
-	 *            : del momento in cui la mail è arrivata
-	 * 
-	 * @param notificationType
-	 *            : per indicare con esattezza di che tipo di notifica si
-	 *            tratta. NEW_SHARED_PHOTO per le nuove condivisioni. NOTE per
-	 *            nuovo commento
-	 * 
-	 * @param who
-	 *            : nome di chi vuole condividere la foto o di chi ha commentato
-	 * 
-	 * @param notes
-	 *            : lista dei commenti alla foto
+	 * @param mFile 
+	 * 					file condiviso
 	 */
 
-	public Notifica(String notificationType, MantleFile mFile) {
+	public Notifica(MantleFile mFile) {
 		super();
 		this.mFile = mFile;
 		this.data = mFile.getDate();
-		this.NotificationType = notificationType;
-
-		Log.d("NOTIFICA", notificationType);
-
-		if (notificationType.equals(MantleMessage.NOTE))
-			this.title = mFile.getUsername() + " ha commentato una tua foto";
-		else
-			this.title = mFile.getUsername() + " ha condiviso una foto";
+		this.NotificationType = MantleMessage.SHARING_FILE;
+		
 	}
 
-	public Notifica(String notificationType, Note note) {
+	/**
+	 * Creata a seguito di un aggiunta di un commento da
+	 * parte di un utente ad un file
+	 * 
+	 * @param note Commento inserito
+	 */
+	
+	public Notifica(Note note) {
 		super();
 		this.data = note.getDate();
-		this.NotificationType = notificationType;
+		this.NotificationType = MantleMessage.NOTE;
 		this.note = note;
-
-		if (notificationType.equals(MantleMessage.NOTE))
-			this.title = note.getUser() + " ha commentato una tua foto";
-		else
-			this.title = note.getUser() + " ha condiviso una foto";
+		this.title = note.getUser() + " ha commentato una foto";
 	}
 
 	public String getData() {
