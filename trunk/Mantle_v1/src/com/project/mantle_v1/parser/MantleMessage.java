@@ -207,7 +207,7 @@ public class MantleMessage {
 				return new Notifica(note);
 	
 				/*
-				 *  ===== Messagi di sistema =====
+				 *  ===== Messaggi di sistema =====
 				 */
 				
 			case 006:

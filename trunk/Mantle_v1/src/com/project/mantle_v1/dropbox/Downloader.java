@@ -32,8 +32,8 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 
 	public Downloader(Context context, DropboxAPI<?> api, String file_path,
 			String saving_path) {
-		mApi = api;
-		mContext = context;// .getApplicationContext();
+		this.mApi = api;
+		this.mContext = context;
 		this.file_path = file_path;
 		this.saving_path = saving_path;
 
@@ -127,8 +127,6 @@ public class Downloader extends AsyncTask<Void, Long, Boolean> {
 	}
 
 	private void showToast(String msg) {
-		// Toast error = Toast.makeText(mContext, msg, Toast.LENGTH_LONG);
-		// error.show();
 		if (msg != null)
 			Log.v("DOWNLOADER", msg);
 		else

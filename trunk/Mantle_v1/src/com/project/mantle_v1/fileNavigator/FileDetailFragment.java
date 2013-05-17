@@ -105,7 +105,7 @@ public class FileDetailFragment extends Fragment {
 			if (!img.exists()) {
 				file.downloadFileFromUrl(MantleFile.THUMBNAIL,
 						getTumbName(file.getFileName()),
-						MantleFile.DIRECTORY_TEMP);
+						MantleFile.DIRECTORY_TEMP, getActivity().getApplicationContext());
 				img = file.getmFile();
 			}
 			ImageView iv = (ImageView) rootView.findViewById(R.id.sharedImage);

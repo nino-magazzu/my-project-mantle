@@ -90,8 +90,7 @@ public class DropboxAuthActivity extends Activity {
 				// NotificationListActivity.class);
 				// startActivity(intent);
 
-				File sd = new File(Environment.getExternalStorageDirectory()
-						+ "/Mantle/db");
+				File sd = new File(MantleFile.DIRECTORY_DB);
 				if (!sd.exists())
 					sd.mkdirs();
 
