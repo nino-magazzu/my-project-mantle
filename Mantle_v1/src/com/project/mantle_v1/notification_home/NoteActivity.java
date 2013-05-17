@@ -58,7 +58,7 @@ public class NoteActivity extends Activity {
 
 		if (filePath == null) {
 			cFile.downloadFileFromUrl(MantleFile.COMMENT, idFile + ".xml",
-					MantleFile.DIRECTORY_TEMP);
+					MantleFile.DIRECTORY_TEMP, NoteActivity.this);
 		}
 
 		else {

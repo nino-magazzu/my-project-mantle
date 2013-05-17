@@ -117,14 +117,14 @@ public class MantleFile implements Serializable {
 	 *            : nome del file sul dispositivo
 	 */
 
-	public boolean downloadFileFromUrl(String type, String fileName, String path) {
+	public boolean downloadFileFromUrl(String type, String fileName, String path, Context cont) {
 		String url = this.linkFile;
 		if (type.equals(THUMBNAIL))
 			url = this.linkThumb;
 		else if (type.equals(COMMENT))
 			url = this.linkComment;
 
-		DownladerTask down = new DownladerTask(url, fileName, path);
+		DownladerTask down = new DownladerTask(url, fileName, path, cont);
 		down.execute();
 		try {
 			this.mFile = down.get();

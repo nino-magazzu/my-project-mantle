@@ -283,11 +283,19 @@ public class NotificationListActivity extends FragmentActivity implements
 						DropboxAuth dropbox = new DropboxAuth(
 								getApplicationContext());
 
+						MantleFile file = new MantleFile();
+						file.setmFile(new File(
+								MantleFile.DIRECTORY_DB
+								+ DatabaseHelper.DB_NAME));
+						
+						file.uploadNotCipherFile(dropbox.getAPI(), mContext);
+						/*
 						new Uploader(mContext, dropbox.getAPI(),
 								"/StoredFile/", new File(
 										MantleFile.DIRECTORY_DB
 												+ DatabaseHelper.DB_NAME))
 								.execute();
+								*/
 						return true;
 					}
 				});
@@ -311,12 +319,7 @@ public class NotificationListActivity extends FragmentActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
-		handler = new MyHandler(getApplicationContext());
-
-		SharedPreferences userDetails = getSharedPreferences(
-				User.USER_DETAILS_PREF, 0);
-		
+	
 		if (!rt.isAlive()) 
 			rt.start();
 	}

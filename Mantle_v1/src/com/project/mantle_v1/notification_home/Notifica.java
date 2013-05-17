@@ -1,9 +1,6 @@
 package com.project.mantle_v1.notification_home;
 
 import java.io.Serializable;
-
-import android.util.Log;
-
 import com.project.mantle_v1.database.User;
 import com.project.mantle_v1.fileNavigator.MantleFile;
 import com.project.mantle_v1.parser.MantleMessage;
@@ -31,9 +28,11 @@ public class Notifica implements Serializable {
 	 * 
 	 * @param data
 	 *            del momento in cui la mail è arrivata
-	 * @param who
+	 * @param user
 	 *            Utente che desidera stringere l'amicizia
-	 */
+	 * @param code
+	 * 				tipo di notifica
+ 	 */
 
 	public Notifica(String data, User user, String code) {
 		super();
@@ -62,18 +61,22 @@ public class Notifica implements Serializable {
 	 *            relativa alla creazione (invio) della mail
 	 * @param body
 	 *            corpo della notifica
+	 * @param code
+	 * 				il tipo di notifica da creare
 	 */
 
-	public Notifica(String date, String body, String code) {
+	public Notifica(String data, String body, String code) {
 		super();
-		this.data = date;
+		this.data = data;
 		this.NotificationType = code;
 
 		if (NotificationType.equals(MantleMessage.FRIENDSHIP_DENIED))
 			this.title = "Richiesta di amicizia rifiutata";
-		else
+		else if (NotificationType.equals(MantleMessage.NOTE))
 			this.title = "Nuovo commento";
-
+		else
+			this.title = "Notifica di sistema";
+		
 		this.body = body;
 	}
 

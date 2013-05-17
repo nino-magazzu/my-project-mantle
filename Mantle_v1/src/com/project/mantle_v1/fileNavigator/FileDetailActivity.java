@@ -125,7 +125,7 @@ public class FileDetailActivity extends FragmentActivity {
 
 						file.downloadFileFromUrl(MantleFile.COMMENT,
 								file.getIdFile() + ".xml",
-								MantleFile.DIRECTORY_TEMP);
+								MantleFile.DIRECTORY_TEMP, FileDetailActivity.this);
 
 						Intent myIntent = new Intent(getApplicationContext(),
 								NoteActivity.class);
@@ -188,26 +188,20 @@ public class FileDetailActivity extends FragmentActivity {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 								
-								ProgressDialog pDialog = new ProgressDialog(FileDetailActivity.this);
-								pDialog.setMessage("Download...");
-								pDialog.show();
-								
 								file.downloadFileFromUrl(
 										MantleFile.FILE,
 										file.getFileName(),
 										Environment.getExternalStoragePublicDirectory(
 												Environment.DIRECTORY_DOWNLOADS)
-												.getAbsolutePath());
+												.getAbsolutePath(), FileDetailActivity.this);
 								
 								
 								if(selection.equals("Dropbox")){
 									file.uploadNotCipherFile(new DropboxAuth(FileDetailActivity.this).getAPI(),FileDetailActivity.this);
 									dialog.cancel();
-									pDialog.cancel();
 									showToast("Download completato!");
 								}else{
 									dialog.cancel();
-									pDialog.cancel();
 									showToast("Download completato!");
 								}
 							}
@@ -286,7 +280,7 @@ public class FileDetailActivity extends FragmentActivity {
 						MantleFile cFile = new MantleFile(
 								getApplicationContext(), String.valueOf(idFile));
 						cFile.downloadFileFromUrl(MantleFile.COMMENT, idFile
-								+ ".xml", MantleFile.DIRECTORY_TEMP);
+								+ ".xml", MantleFile.DIRECTORY_TEMP, FileDetailActivity.this);
 						WriterXml xml = new WriterXml();
 
 						try {

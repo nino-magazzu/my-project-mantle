@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -17,9 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.R.drawable;
 import com.project.mantle_v1.fileNavigator.MantleFile;
 import com.project.mantle_v1.parser.MantleMessage;
 
@@ -99,9 +96,6 @@ public class MyHandler extends Handler {
 				.setContentTitle("Mantle").setContentText(title)
 				.setSmallIcon(R.drawable.ic_launcher)
 				.setContentIntent(pIntent)
-				// .addAction(R.drawable.icon, "More", pIntent)
-				// .addAction(R.drawable.icon, "Call", pIntent)
-				// .addAction(R.drawable.icon, "And more", pIntent)
 				.build();
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
