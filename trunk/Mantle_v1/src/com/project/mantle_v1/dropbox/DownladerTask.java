@@ -10,7 +10,7 @@ import java.net.URLConnection;
 
 import org.apache.http.util.ByteArrayBuffer;
 
-import com.project.mantle_v1.fileNavigator.Spinner;
+//import com.project.mantle_v1.fileNavigator.Spinner;
 
 import android.app.ProgressDialog;
 import android.content.Context;
