@@ -187,7 +187,7 @@ public class MantleMessage {
 					Log.e(TAG, "Problema lettura: " + e.getMessage());
 				}
 				media.setSender_email(sender_email);
-				return new Notifica(media);
+				return new Notifica(media, MantleMessage.SHARING_PHOTO);
 	
 				/*
 				 *  ===== Commento ad una foto =====
@@ -237,7 +237,7 @@ public class MantleMessage {
 					Log.e(TAG, "Problema lettura: " + e.getMessage());
 				}
 				media.setSender_email(sender_email);
-				return new Notifica(media);
+				return new Notifica(media, MantleMessage.SHARING_FILE);
 	
 			default:
 				throw new Error("Codice Errato");

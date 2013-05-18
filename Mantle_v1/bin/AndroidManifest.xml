@@ -84,6 +84,9 @@
                 android:value=".FileListActivity" />
         </activity>
 
+        <service android:name="com.project.mantle_v1.database.DbSyncService" >
+        </service>
+        
         </application>
 
 </manifest>

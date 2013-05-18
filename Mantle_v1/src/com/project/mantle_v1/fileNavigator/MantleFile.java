@@ -42,8 +42,7 @@ public class MantleFile implements Serializable {
 			.getExternalStorageDirectory() + "/Mantle/db/";
 	public static final String DIRECTORY_HISTORY = Environment
 			.getExternalStorageDirectory() + "/Mantle/history/";
-	
-	final static private String FILE_DIR = "/storedFile/";
+	public static final  String FILE_DIR = "/storedFile/";
 
 	// TYPE OF FILE TO DOWNLOAD 
 	

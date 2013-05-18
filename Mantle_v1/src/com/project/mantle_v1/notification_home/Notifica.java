@@ -87,11 +87,12 @@ public class Notifica implements Serializable {
 	 * 					file condiviso
 	 */
 
-	public Notifica(MantleFile mFile) {
+	public Notifica(MantleFile mFile, String code) {
 		super();
 		this.mFile = mFile;
 		this.data = mFile.getDate();
-		this.NotificationType = MantleMessage.SHARING_FILE;
+		this.title = mFile.getUsername() + " ha condiviso con te questo file";
+		this.NotificationType = code;
 		
 	}
 

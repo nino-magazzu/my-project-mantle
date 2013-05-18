@@ -6,6 +6,7 @@ import java.util.Date;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.audiofx.NoiseSuppressor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.AddService;
+import com.project.mantle_v1.database.DbSyncService;
 import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.database.Team;
@@ -275,7 +277,7 @@ public class NotificationListActivity extends FragmentActivity implements
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
 								item.getTitle(), Toast.LENGTH_SHORT).show();
-						DatabaseHelper db = new DatabaseHelper(
+				/*		DatabaseHelper db = new DatabaseHelper(
 								getApplicationContext());
 
 						db.exportDB();
@@ -289,13 +291,14 @@ public class NotificationListActivity extends FragmentActivity implements
 								+ DatabaseHelper.DB_NAME));
 						
 						file.uploadNotCipherFile(dropbox.getAPI(), mContext);
-						/*
+
 						new Uploader(mContext, dropbox.getAPI(),
 								"/StoredFile/", new File(
 										MantleFile.DIRECTORY_DB
 												+ DatabaseHelper.DB_NAME))
 								.execute();
 								*/
+						startService(new Intent(NotificationListActivity.this, DbSyncService.class));
 						return true;
 					}
 				});
