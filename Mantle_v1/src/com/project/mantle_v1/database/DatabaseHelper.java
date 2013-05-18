@@ -117,13 +117,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	// ============== QUERY FUNZIONALI PER L'APPLICAZIONE =============== //
 
 	/**
-	 * Verifica se l'utente a cui sarà mandata la richiesta d'amicizia è gia
+	 * Verifica se l'utente a cui sarà mandata la richiesta d'amicizia e'
 	 * presente nella lista dei contatti
 	 * 
 	 * @param email
 	 *            indirizzo dell'utente cui si vuole fare la richiesta
-	 * @return <code>true</code> se l'utente è gia presente nel db
-	 *         <code>false</code> se non c'è
+	 * @return <code>true</code> se l'utente e' presente nel db
+	 *         <code>false</code> se non c'e'
 	 */
 	public boolean isAlreadyFriend(String email) {
 
@@ -143,11 +143,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * Verifica se è presente una entry relativa al servizio mantle nella
+	 * Verifica se e' presente una entry relativa al servizio mantle nella
 	 * tabella Service
 	 * 
-	 * @return <code>true</code> se il servizio è presente nel db
-	 *         <code>false</code> se non c'è
+	 * @return <code>true</code> se il servizio e' presente nel db
+	 *         <code>false</code> se non c'e'
 	 */
 	public boolean serviceMantle() {
 		String[] columns = { "service" };
@@ -166,6 +166,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 
 	}
+
 
 	/**
 	 * Verifica se già esiste il team

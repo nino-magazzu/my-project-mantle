@@ -103,6 +103,7 @@ public class FileDetailFragment extends Fragment {
 			File img = new File(MantleFile.DIRECTORY_TEMP,
 					getTumbName(file.getFileName()));
 			if (!img.exists()) {
+
 				file.downloadFileFromUrl(MantleFile.THUMBNAIL, getTumbName(file
 						.getFileName()), MantleFile.DIRECTORY_TEMP,
 						getActivity().getApplicationContext());

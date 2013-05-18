@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -126,13 +127,15 @@ public class MantleFile implements Serializable {
 
 		DownladerTask down = new DownladerTask(url, fileName, path, cont);
 		down.execute();
+		
 		try {
+		 
 			this.mFile = down.get();
-
-			/*
-			 * TODO: decifrare di mFile usando la chiave che si trova in
-			 * fileKey. Il file qui ottenuto va salvato in mFile
-			 */
+			
+		//	//  Da spostare all'interno del DownloaderTask
+			//  TODO: decifrare di mFile usando la chiave che si trova in
+			//  fileKey. Il file qui ottenuto va salvato in mFile
+			 
 
 			return true;
 		} catch (InterruptedException e) {
@@ -142,6 +145,8 @@ public class MantleFile implements Serializable {
 			Log.i(TAG, "Error authenticating", e);
 			return false;
 		}
+		
+		
 	}
 
 	public void uploadFile(DropboxAPI<?> mApi, Context cont) {
