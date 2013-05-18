@@ -54,8 +54,8 @@ public class ShowMembers extends Activity {
 			public boolean onItemLongClick(AdapterView<?> listView,
 					View itemView, int position, long itemId) {
 
-				String selectedFromList = (listView
-						.getItemAtPosition(position).toString());
+				String selectedFromList = (listView.getItemAtPosition(position)
+						.toString());
 				String[] contatto = selectedFromList.split(", user=");
 				String email = contatto[0].substring(7);
 				Log.d("SHOW_MEMBERS", email);

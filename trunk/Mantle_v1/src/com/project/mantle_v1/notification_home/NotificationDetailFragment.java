@@ -112,7 +112,7 @@ public class NotificationDetailFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				DatabaseHelper db = new DatabaseHelper(v.getContext());
-				if(!db.isAlreadyFriend(mItem.getUser().getEmail()))
+				if (!db.isAlreadyFriend(mItem.getUser().getEmail()))
 					db.insertUser(mItem.getUser().getEmail(), mItem.getUser()
 							.getUsername(), mItem.getUser().getName(), mItem
 							.getUser().getSurname(), mItem.getUser().getKey());

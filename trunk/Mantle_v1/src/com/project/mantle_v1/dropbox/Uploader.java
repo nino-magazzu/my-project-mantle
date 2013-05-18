@@ -88,7 +88,6 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		mDialog.show();
 	}
 
-
 	@Override
 	protected Integer doInBackground(Void... params) {
 		try {
@@ -139,8 +138,8 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 				SharedPreferences userDetails = mContext.getSharedPreferences(
 						USER_DETAILS_PREF, 0);
 
-				db.insertHistory(ID, userDetails.getInt("idUser", 1),
-						new Date(System.currentTimeMillis()).toString());
+				db.insertHistory(ID, userDetails.getInt("idUser", 1), new Date(
+						System.currentTimeMillis()).toString());
 
 				// if(mFile.getName().compareTo(MioDatabaseHelper.DB_NAME) != 0)
 				return uploadingXML(db);

@@ -25,14 +25,14 @@ import com.project.mantle_v1.dropbox.UploaderTask;
 
 public class MantleFile implements Serializable {
 
-	// PRIORITY TYPE 
+	// PRIORITY TYPE
 
 	public static final int NEEDFUL_FILE = 3;
 	public static final int NORMAL_FILE = 2;
 	public static final int USELESS_FILE = 1;
 	public static final int NOT_OWN_FILE = 0;
 
-	// APPLICATION DIRECTORY 
+	// APPLICATION DIRECTORY
 
 	public static final String DIRECTORY_TEMP = Environment
 			.getExternalStorageDirectory() + "/Mantle/tmp/";
@@ -42,10 +42,10 @@ public class MantleFile implements Serializable {
 			.getExternalStorageDirectory() + "/Mantle/db/";
 	public static final String DIRECTORY_HISTORY = Environment
 			.getExternalStorageDirectory() + "/Mantle/history/";
-	public static final  String FILE_DIR = "/storedFile/";
+	public static final String FILE_DIR = "/storedFile/";
 
-	// TYPE OF FILE TO DOWNLOAD 
-	
+	// TYPE OF FILE TO DOWNLOAD
+
 	public static final String THUMBNAIL = "thumbnail";
 	public static final String FILE = "full";
 	public static final String COMMENT = "comment";
@@ -116,7 +116,8 @@ public class MantleFile implements Serializable {
 	 *            : nome del file sul dispositivo
 	 */
 
-	public boolean downloadFileFromUrl(String type, String fileName, String path, Context cont) {
+	public boolean downloadFileFromUrl(String type, String fileName,
+			String path, Context cont) {
 		String url = this.linkFile;
 		if (type.equals(THUMBNAIL))
 			url = this.linkThumb;
@@ -153,15 +154,15 @@ public class MantleFile implements Serializable {
 
 		UploaderTask upl = new UploaderTask(mApi, this.mFile, FILE_DIR, cont);
 		upl.execute();
-		
+
 	}
-	
+
 	public void uploadNotCipherFile(DropboxAPI<?> mApi, Context cont) {
 		UploaderTask upl = new UploaderTask(mApi, this.mFile, "/", cont);
 		upl.execute();
-		
+
 	}
-	
+
 	public File createThumbnail() {
 		final int THUMBNAIL_SIZE = 128;
 

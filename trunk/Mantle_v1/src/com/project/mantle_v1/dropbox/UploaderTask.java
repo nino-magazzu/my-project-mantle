@@ -9,24 +9,25 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.util.Log;
+
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.UploadRequest;
 import com.dropbox.client2.ProgressListener;
 
 public class UploaderTask extends AsyncTask<Void, Long, Boolean> {
-	
+
 	private DropboxAPI<?> mApi;
 	private File mFile;
 	private UploadRequest mRequest;
 	private String FILE_DIR;
 
 	private final ProgressDialog mDialog;
-	
+
 	public UploaderTask(DropboxAPI<?> api, File f, String dir, Context cont) {
 		this.mApi = api;
 		this.mFile = f;
 		this.FILE_DIR = dir;
-		
+
 		mDialog = new ProgressDialog(cont);
 		mDialog.setMessage("Uploading ");
 		mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -39,8 +40,7 @@ public class UploaderTask extends AsyncTask<Void, Long, Boolean> {
 					}
 				});
 		mDialog.show();
-		
-		
+
 	}
 
 	@Override
@@ -80,9 +80,9 @@ public class UploaderTask extends AsyncTask<Void, Long, Boolean> {
 			return false;
 		}
 	}
-	
+
 	@Override
 	protected void onPostExecute(Boolean result) {
 		mDialog.dismiss();
-		}
 	}
+}

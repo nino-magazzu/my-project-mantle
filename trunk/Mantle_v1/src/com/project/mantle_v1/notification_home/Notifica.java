@@ -1,6 +1,7 @@
 package com.project.mantle_v1.notification_home;
 
 import java.io.Serializable;
+
 import com.project.mantle_v1.database.User;
 import com.project.mantle_v1.fileNavigator.MantleFile;
 import com.project.mantle_v1.parser.MantleMessage;
@@ -21,7 +22,7 @@ public class Notifica implements Serializable {
 	private String body;
 	private MantleFile mFile;
 	private Note note;
-	
+
 	/**
 	 * Costruttore da usare nel caso in cui la notifica sia relativa ad una
 	 * richiesta d'amicizia o all'accettazione della stessa
@@ -31,8 +32,8 @@ public class Notifica implements Serializable {
 	 * @param user
 	 *            Utente che desidera stringere l'amicizia
 	 * @param code
-	 * 				tipo di notifica
- 	 */
+	 *            tipo di notifica
+	 */
 
 	public Notifica(String data, User user, String code) {
 		super();
@@ -62,7 +63,7 @@ public class Notifica implements Serializable {
 	 * @param body
 	 *            corpo della notifica
 	 * @param code
-	 * 				il tipo di notifica da creare
+	 *            il tipo di notifica da creare
 	 */
 
 	public Notifica(String data, String body, String code) {
@@ -76,15 +77,15 @@ public class Notifica implements Serializable {
 			this.title = "Nuovo commento";
 		else
 			this.title = "Notifica di sistema";
-		
+
 		this.body = body;
 	}
 
 	/**
-	 * Crea la notifica relativa alla condivisione di un file 
+	 * Crea la notifica relativa alla condivisione di un file
 	 * 
-	 * @param mFile 
-	 * 					file condiviso
+	 * @param mFile
+	 *            file condiviso
 	 */
 
 	public Notifica(MantleFile mFile, String code) {
@@ -93,16 +94,17 @@ public class Notifica implements Serializable {
 		this.data = mFile.getDate();
 		this.title = mFile.getUsername() + " ha condiviso con te questo file";
 		this.NotificationType = code;
-		
+
 	}
 
 	/**
-	 * Creata a seguito di un aggiunta di un commento da
-	 * parte di un utente ad un file
+	 * Creata a seguito di un aggiunta di un commento da parte di un utente ad
+	 * un file
 	 * 
-	 * @param note Commento inserito
+	 * @param note
+	 *            Commento inserito
 	 */
-	
+
 	public Notifica(Note note) {
 		super();
 		this.data = note.getDate();

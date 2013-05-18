@@ -53,7 +53,7 @@ public class NoteActivity extends Activity {
 		this.filePath = bundle.getString("filePath");
 		this.idFile = bundle.getString("idFile");
 		this.cFile = new MantleFile(this, idFile);
-		
+
 		Log.v(TAG, idFile);
 
 		if (filePath == null) {
@@ -64,7 +64,6 @@ public class NoteActivity extends Activity {
 		else {
 			cFile.setmFile(new File(filePath));
 		}
-			
 
 		ReaderXml reader = new ReaderXml();
 		try {

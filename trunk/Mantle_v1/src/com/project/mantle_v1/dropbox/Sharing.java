@@ -14,8 +14,8 @@ import android.util.Log;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.database.DatabaseHelper;
+import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.database.Priority;
 import com.project.mantle_v1.database.User;
 import com.project.mantle_v1.fileChooser.FileChooser;
@@ -106,8 +106,7 @@ public class Sharing extends Activity {
 			if (contacts != null) {
 				MantleFile mt = new MantleFile(getApplicationContext(),
 						String.valueOf(FILE_ID));
-				DatabaseHelper db = new DatabaseHelper(
-						getApplicationContext());
+				DatabaseHelper db = new DatabaseHelper(getApplicationContext());
 				String fileKey = mt.getFileKey();
 				User user;
 				for (int j = 0; j < contacts.length; j++) {

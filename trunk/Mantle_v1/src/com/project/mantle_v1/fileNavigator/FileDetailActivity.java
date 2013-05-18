@@ -10,7 +10,6 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import org.xml.sax.SAXException;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,8 +24,8 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.widget.Toast;
 
 import com.project.mantle_v1.R;
-import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.database.DatabaseHelper;
+import com.project.mantle_v1.database.FriendsList;
 import com.project.mantle_v1.database.User;
 import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.gmail.Sender;
@@ -53,6 +52,7 @@ public class FileDetailActivity extends FragmentActivity {
 	private final String TAG = this.getClass().getSimpleName();
 	private MantleFile file;
 	private String selection;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,11 +79,12 @@ public class FileDetailActivity extends FragmentActivity {
 						NotificationDetailFragment.ARG_ITEM_ID,
 						getIntent().getStringExtra(
 								NotificationDetailFragment.ARG_ITEM_ID));
-				
+
 				file = new MantleFile(getApplicationContext(), getIntent()
 						.getStringExtra(NotificationDetailFragment.ARG_ITEM_ID));
 
-				if (getIntent().hasExtra("Commento") && file.getPriority() != MantleFile.NOT_OWN_FILE) {
+				if (getIntent().hasExtra("Commento")
+						&& file.getPriority() != MantleFile.NOT_OWN_FILE) {
 					Log.d(TAG, "");
 					showMyDialog();
 				}
@@ -125,7 +126,8 @@ public class FileDetailActivity extends FragmentActivity {
 
 						file.downloadFileFromUrl(MantleFile.COMMENT,
 								file.getIdFile() + ".xml",
-								MantleFile.DIRECTORY_TEMP, FileDetailActivity.this);
+								MantleFile.DIRECTORY_TEMP,
+								FileDetailActivity.this);
 
 						Intent myIntent = new Intent(getApplicationContext(),
 								NoteActivity.class);
@@ -150,8 +152,8 @@ public class FileDetailActivity extends FragmentActivity {
 
 					}
 				});
-		
-		if(file.getPriority() != MantleFile.NOT_OWN_FILE) {
+
+		if (file.getPriority() != MantleFile.NOT_OWN_FILE) {
 			menu.add("Condividi").setOnMenuItemClickListener(
 					new OnMenuItemClickListener() {
 						@Override
@@ -168,55 +170,67 @@ public class FileDetailActivity extends FragmentActivity {
 				new OnMenuItemClickListener() {
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
-						
-						
-						final String[] options = { "Dropbox", "Download "};
-						selection ="Download";
-						
-						AlertDialog.Builder builder = new AlertDialog.Builder(FileDetailActivity.this);
+
+						final String[] options = { "Dropbox", "Download " };
+						selection = "Download";
+
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								FileDetailActivity.this);
 						builder.setTitle("Scarica in : ");
 						builder.setCancelable(false);
-						builder.setSingleChoiceItems(options, 0 , new DialogInterface.OnClickListener() {
-						
-							@Override
-							public void onClick(DialogInterface dialog, int position) {
-								selection=options[position];
-								}
-							});
-						
-						builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								
-								file.downloadFileFromUrl(
-										MantleFile.FILE,
-										file.getFileName(),
-										Environment.getExternalStoragePublicDirectory(
-												Environment.DIRECTORY_DOWNLOADS)
-												.getAbsolutePath(), FileDetailActivity.this);
-								
-								
-								if(selection.equals("Dropbox")){
-									file.uploadNotCipherFile(new DropboxAuth(FileDetailActivity.this).getAPI(),FileDetailActivity.this);
-									dialog.cancel();
-									showToast("Download completato!");
-								}else{
-									dialog.cancel();
-									showToast("Download completato!");
-								}
-							}
-						});
-						
-						builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.cancel();
-								}
-							});
-						
-						AlertDialog alert = builder.show();
+						builder.setSingleChoiceItems(options, 0,
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int position) {
+										selection = options[position];
+									}
+								});
+
+						builder.setPositiveButton("Ok",
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+
+										file.downloadFileFromUrl(
+												MantleFile.FILE,
+												file.getFileName(),
+												Environment
+														.getExternalStoragePublicDirectory(
+																Environment.DIRECTORY_DOWNLOADS)
+														.getAbsolutePath(),
+												FileDetailActivity.this);
+
+										if (selection.equals("Dropbox")) {
+											file.uploadNotCipherFile(
+													new DropboxAuth(
+															FileDetailActivity.this)
+															.getAPI(),
+													FileDetailActivity.this);
+											dialog.cancel();
+											showToast("Download completato!");
+										} else {
+											dialog.cancel();
+											showToast("Download completato!");
+										}
+									}
+								});
+
+						builder.setNegativeButton("Annulla",
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										dialog.cancel();
+									}
+								});
+
+						AlertDialog alert = builder.create();
+						alert.show();
 						return true;
-						
+
 					}
 				});
 
@@ -239,8 +253,7 @@ public class FileDetailActivity extends FragmentActivity {
 				} catch (IOException e) {
 					Log.e(TAG, "--> " + e.getMessage());
 				}
-				DatabaseHelper db = new DatabaseHelper(
-						getApplicationContext());
+				DatabaseHelper db = new DatabaseHelper(getApplicationContext());
 
 				for (int j = 0; j < contacts.length; j++) {
 					Log.v("Dropbox", "--> " + "Ho inviato la mail a "
@@ -264,7 +277,8 @@ public class FileDetailActivity extends FragmentActivity {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Conferma");
 		final Note note = (Note) getIntent().getSerializableExtra("Commento");
-		builder.setMessage("Vuole aggiungere il commento : " + note.getContent());
+		builder.setMessage("Vuole aggiungere il commento : "
+				+ note.getContent());
 		builder.setCancelable(false);
 		builder.setPositiveButton("Accetta",
 				new DialogInterface.OnClickListener() {
@@ -280,7 +294,8 @@ public class FileDetailActivity extends FragmentActivity {
 						MantleFile cFile = new MantleFile(
 								getApplicationContext(), String.valueOf(idFile));
 						cFile.downloadFileFromUrl(MantleFile.COMMENT, idFile
-								+ ".xml", MantleFile.DIRECTORY_TEMP, FileDetailActivity.this);
+								+ ".xml", MantleFile.DIRECTORY_TEMP,
+								FileDetailActivity.this);
 						WriterXml xml = new WriterXml();
 
 						try {
@@ -304,7 +319,8 @@ public class FileDetailActivity extends FragmentActivity {
 						}
 
 						cFile.uploadFile(new DropboxAuth(
-								getApplicationContext()).getAPI(), getApplicationContext());
+								getApplicationContext()).getAPI(),
+								getApplicationContext());
 
 						ParseJSON parser = new ParseJSON(new StringWriter());
 

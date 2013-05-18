@@ -11,17 +11,19 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import android.app.Service;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.IBinder;
+import android.util.Log;
+
 import com.dropbox.client2.DropboxAPI.DropboxInputStream;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.dropbox.client2.DropboxAPI.UploadRequest;
 import com.dropbox.client2.exception.DropboxException;
 import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.fileNavigator.MantleFile;
-import android.app.Service;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.IBinder;
-import android.util.Log;
 
 public class DbSyncService extends Service {
 	private Entry ent;
@@ -37,6 +39,7 @@ public class DbSyncService extends Service {
 		Log.v(getClass().getSimpleName(), "Starting service");
 
 		new Thread() {
+			@Override
 			public void run() {
 				try {
 					ent = new DropboxAuth(getApplicationContext()).getAPI()
@@ -49,11 +52,14 @@ public class DbSyncService extends Service {
 
 					Log.v(getClass().getSimpleName(), "data Dropbox db: "
 							+ dataDropbox);
-					
-					Log.v(getClass().getSimpleName(), getDatabasePath(DatabaseHelper.DB_NAME).getAbsolutePath());
-				
-					
-					String dataLocale = dateFormat.format(new Date(getDatabasePath(DatabaseHelper.DB_NAME).lastModified()));
+
+					Log.v(getClass().getSimpleName(),
+							getDatabasePath(DatabaseHelper.DB_NAME)
+									.getAbsolutePath());
+
+					String dataLocale = dateFormat.format(new Date(
+							getDatabasePath(DatabaseHelper.DB_NAME)
+									.lastModified()));
 
 					Log.v(getClass().getSimpleName(), "data Device db: "
 							+ dataLocale);
@@ -117,13 +123,13 @@ public class DbSyncService extends Service {
 	 */
 
 	public void downloadDb() {
-		
-		new AsyncTask<Void, Long, Boolean> () {
-			DropboxAuth dropbox = new DropboxAuth(
-					getApplicationContext());
+
+		new AsyncTask<Void, Long, Boolean>() {
+			DropboxAuth dropbox = new DropboxAuth(getApplicationContext());
 			String file_path = MantleFile.FILE_DIR + DatabaseHelper.DB_NAME;
-			String saving_path = MantleFile.DIRECTORY_DB + DatabaseHelper.DB_NAME;
-			
+			String saving_path = MantleFile.DIRECTORY_DB
+					+ DatabaseHelper.DB_NAME;
+
 			@Override
 			protected Boolean doInBackground(Void... params) {
 				BufferedInputStream br = null;
@@ -131,7 +137,8 @@ public class DbSyncService extends Service {
 				DropboxInputStream downloadedFile = null;
 
 				try {
-					downloadedFile = dropbox.getAPI().getFileStream(file_path, null);
+					downloadedFile = dropbox.getAPI().getFileStream(file_path,
+							null);
 				} catch (Exception e) {
 					Log.e(getClass().getSimpleName(), e.getMessage());
 					return false;
@@ -139,8 +146,8 @@ public class DbSyncService extends Service {
 
 				br = new BufferedInputStream(downloadedFile);
 				try {
-					bw = new BufferedOutputStream(new FileOutputStream(new File(
-							saving_path)));
+					bw = new BufferedOutputStream(new FileOutputStream(
+							new File(saving_path)));
 					byte[] buffer = new byte[4096];
 					int read;
 					while (true) {
@@ -170,11 +177,12 @@ public class DbSyncService extends Service {
 				}
 				return true;
 			}
-			
+
 			@Override
 			protected void onPostExecute(Boolean result) {
 				if (result) {
-					DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+					DatabaseHelper db = new DatabaseHelper(
+							getApplicationContext());
 					db.importDB();
 					db.close();
 				}

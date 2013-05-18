@@ -61,8 +61,8 @@ public class FriendsList extends Activity {
 				Log.d("ListViewActivity", "con id = " + itemId
 						+ " e position = " + position);
 
-				String selectedFromList = (listView
-						.getItemAtPosition(position).toString());
+				String selectedFromList = (listView.getItemAtPosition(position)
+						.toString());
 				String[] contatto = selectedFromList.split(", user=");
 				String email = contatto[0].substring(7);
 
@@ -97,8 +97,8 @@ public class FriendsList extends Activity {
 				// Ottengo la stringa relativa al subitem "email" per verificare
 				// successivamente se è effettivamente un contatto o è la
 				// stringa TEAM
-				String selectedFromList = (listView
-						.getItemAtPosition(position).toString());
+				String selectedFromList = (listView.getItemAtPosition(position)
+						.toString());
 				String[] contatto = selectedFromList.split(", user=");
 				String email = contatto[0].substring(7);
 
