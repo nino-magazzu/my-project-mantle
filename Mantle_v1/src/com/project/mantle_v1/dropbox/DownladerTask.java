@@ -12,14 +12,13 @@ import org.apache.http.util.ByteArrayBuffer;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class DownladerTask extends AsyncTask<Void, Long, File> {
 
-	public DownladerTask(String fileUrl, String Filename, String path, Context cont) {
+	public DownladerTask(String fileUrl, String Filename, String path,
+			Context cont) {
 		try {
 			File root = new File(path);
 			if (!root.exists())
@@ -31,7 +30,7 @@ public class DownladerTask extends AsyncTask<Void, Long, File> {
 		} catch (IOException ex) {
 			Log.e(TAG, ex.getMessage());
 		}
-		
+
 		mDialog = new ProgressDialog(cont);
 		mDialog.setMessage("downloading data ");
 		mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -76,9 +75,8 @@ public class DownladerTask extends AsyncTask<Void, Long, File> {
 	@Override
 	protected void onPostExecute(File result) {
 		mDialog.dismiss();
-		}
+	}
 
-	
 	private final String TAG = this.getClass().getSimpleName();
 	private File mFile;
 	private URL mUrl;

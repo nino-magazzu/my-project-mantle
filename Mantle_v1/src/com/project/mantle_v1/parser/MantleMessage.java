@@ -117,130 +117,130 @@ public class MantleMessage {
 		Note note;
 
 		switch (CODE) {
-			
+
+		/*
+		 * ===== Richiesta d'amicizia =====
+		 */
+
+		case 001:
+			jsonText = message.substring(CODE_DIM, message.length());
+			Log.d(TAG, jsonText);
+			parser = new ParseJSON(new StringReader(jsonText));
+			try {
+				user = parser.readUserJson();
+			} catch (IOException e) {
+				Log.e(TAG, "Problema lettura: " + e.getMessage());
+
+			}
+			return new Notifica(
+					new Date(System.currentTimeMillis()).toString(), user,
+					FRIENDSHIP_REQUEST);
+
 			/*
-			 *  ===== Richiesta d'amicizia =====
+			 * ===== Richiesta d'amicizia accettata =====
 			 */
-			
-			case 001:
-				jsonText = message.substring(CODE_DIM, message.length());
-				Log.d(TAG, jsonText);
-				parser = new ParseJSON(new StringReader(jsonText));
-				try {
-					user = parser.readUserJson();
-				} catch (IOException e) {
-					Log.e(TAG, "Problema lettura: " + e.getMessage());
-	
-				}
-				return new Notifica(
-						new Date(System.currentTimeMillis()).toString(), user,
-						FRIENDSHIP_REQUEST);
-				
-				/*
-				 *  ===== Richiesta d'amicizia accettata =====
-				 */
-			
-			case 002:
-				jsonText = message.substring(CODE_DIM, message.length());
-				Log.d(TAG, jsonText);
-				parser = new ParseJSON(new StringReader(jsonText));
-				try {
-					user = parser.readUserJson();
-				} catch (IOException e) {
-					Log.e(TAG, "Problema lettura: " + e.getMessage());
-				}
-				db.insertUser(user.getEmail(), user.getUsername(), user.getName(),
-						user.getSurname(), user.getKey());
-				db.close();
-				return new Notifica(
-						new Date(System.currentTimeMillis()).toString(), user,
-						FRIENDSHIP_ACCEPTED);
-	
-				/*
-				 *  ===== Richiesta d'amicizia rifiutata =====
-				 */
-				
-			case 003:
-				jsonText = message.substring(CODE_DIM, message.length());
-				Log.d(TAG, jsonText);
-				parser = new ParseJSON(new StringReader(jsonText));
-				note = new Note();
-				try {
-					note = parser.readNote();
-				} catch (IOException e) {
-					Log.e(TAG, "Problema lettura: " + e.getMessage());
-				}
-				return new Notifica(note.getDate(), note.getContent(),
-						MantleMessage.FRIENDSHIP_DENIED);
-	
-				/*
-				 *  ===== Condivisione di una foto =====
-				 */
-				
-			case 004:
-				jsonText = message.substring(CODE_DIM, message.length());
-				Log.d(TAG, jsonText);
-				parser = new ParseJSON(new StringReader(jsonText));
-				try {
-					media = parser.readImageMediaJson();
-				} catch (IOException e) {
-					Log.e(TAG, "Problema lettura: " + e.getMessage());
-				}
-				media.setSender_email(sender_email);
-				return new Notifica(media, MantleMessage.SHARING_PHOTO);
-	
-				/*
-				 *  ===== Commento ad una foto =====
-				 */
-				
-			case 005:
-				jsonText = message.substring(CODE_DIM, message.length());
-				Log.d(TAG, jsonText);
-				parser = new ParseJSON(new StringReader(jsonText));
-				note = new Note();
-				try {
-					note = parser.readNote();
-				} catch (IOException e) {
-					Log.e(TAG, "Problema lettura: " + e.getMessage());
-				}
-				note.setSender_mail(sender_email);
-				return new Notifica(note);
-	
-				/*
-				 *  ===== Messaggi di sistema =====
-				 */
-				
-			case 006:
-				jsonText = message.substring(CODE_DIM, message.length());
-				Log.d(TAG, jsonText);
-				parser = new ParseJSON(new StringReader(jsonText));
-				note = new Note();
-				try {
-					note = parser.readNote();
-				} catch (IOException e) {
-					Log.e(TAG, "Problema lettura: " + e.getMessage());
-				}
-				return new Notifica(note.getDate(), note.getContent(),
-						MantleMessage.SYSTEM);
-	
-				/*
-				 *  ===== Condivisione di un file =====
-				 */
-				
-			case 007:
-				jsonText = message.substring(CODE_DIM, message.length());
-				Log.d(TAG, jsonText);
-				parser = new ParseJSON(new StringReader(jsonText));
-				try {
-					media = parser.readFileMediaJson();
-				} catch (IOException e) {
-					Log.e(TAG, "Problema lettura: " + e.getMessage());
-				}
-				media.setSender_email(sender_email);
-				return new Notifica(media, MantleMessage.SHARING_FILE);
-	
-			default:
-				throw new Error("Codice Errato");
+
+		case 002:
+			jsonText = message.substring(CODE_DIM, message.length());
+			Log.d(TAG, jsonText);
+			parser = new ParseJSON(new StringReader(jsonText));
+			try {
+				user = parser.readUserJson();
+			} catch (IOException e) {
+				Log.e(TAG, "Problema lettura: " + e.getMessage());
+			}
+			db.insertUser(user.getEmail(), user.getUsername(), user.getName(),
+					user.getSurname(), user.getKey());
+			db.close();
+			return new Notifica(
+					new Date(System.currentTimeMillis()).toString(), user,
+					FRIENDSHIP_ACCEPTED);
+
+			/*
+			 * ===== Richiesta d'amicizia rifiutata =====
+			 */
+
+		case 003:
+			jsonText = message.substring(CODE_DIM, message.length());
+			Log.d(TAG, jsonText);
+			parser = new ParseJSON(new StringReader(jsonText));
+			note = new Note();
+			try {
+				note = parser.readNote();
+			} catch (IOException e) {
+				Log.e(TAG, "Problema lettura: " + e.getMessage());
+			}
+			return new Notifica(note.getDate(), note.getContent(),
+					MantleMessage.FRIENDSHIP_DENIED);
+
+			/*
+			 * ===== Condivisione di una foto =====
+			 */
+
+		case 004:
+			jsonText = message.substring(CODE_DIM, message.length());
+			Log.d(TAG, jsonText);
+			parser = new ParseJSON(new StringReader(jsonText));
+			try {
+				media = parser.readImageMediaJson();
+			} catch (IOException e) {
+				Log.e(TAG, "Problema lettura: " + e.getMessage());
+			}
+			media.setSender_email(sender_email);
+			return new Notifica(media, MantleMessage.SHARING_PHOTO);
+
+			/*
+			 * ===== Commento ad una foto =====
+			 */
+
+		case 005:
+			jsonText = message.substring(CODE_DIM, message.length());
+			Log.d(TAG, jsonText);
+			parser = new ParseJSON(new StringReader(jsonText));
+			note = new Note();
+			try {
+				note = parser.readNote();
+			} catch (IOException e) {
+				Log.e(TAG, "Problema lettura: " + e.getMessage());
+			}
+			note.setSender_mail(sender_email);
+			return new Notifica(note);
+
+			/*
+			 * ===== Messaggi di sistema =====
+			 */
+
+		case 006:
+			jsonText = message.substring(CODE_DIM, message.length());
+			Log.d(TAG, jsonText);
+			parser = new ParseJSON(new StringReader(jsonText));
+			note = new Note();
+			try {
+				note = parser.readNote();
+			} catch (IOException e) {
+				Log.e(TAG, "Problema lettura: " + e.getMessage());
+			}
+			return new Notifica(note.getDate(), note.getContent(),
+					MantleMessage.SYSTEM);
+
+			/*
+			 * ===== Condivisione di un file =====
+			 */
+
+		case 007:
+			jsonText = message.substring(CODE_DIM, message.length());
+			Log.d(TAG, jsonText);
+			parser = new ParseJSON(new StringReader(jsonText));
+			try {
+				media = parser.readFileMediaJson();
+			} catch (IOException e) {
+				Log.e(TAG, "Problema lettura: " + e.getMessage());
+			}
+			media.setSender_email(sender_email);
+			return new Notifica(media, MantleMessage.SHARING_FILE);
+
+		default:
+			throw new Error("Codice Errato");
 		}
 	}
 }

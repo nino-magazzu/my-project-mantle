@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.database.DbSyncService;
@@ -185,7 +186,7 @@ public class LoginActivity extends Activity {
 				// /////////////
 				Log.d("LOGIN", "l'utente non è registrato");
 				// /////////////
-				
+
 				Intent intent = new Intent(LoginActivity.this,
 						DropboxAuthActivity.class);
 				intent.putExtra("username", mUsername);
@@ -206,7 +207,7 @@ public class LoginActivity extends Activity {
 				setPreferences();
 
 				startService(new Intent(LoginActivity.this, DbSyncService.class));
-				
+
 				startActivity(new Intent(LoginActivity.this,
 						NotificationListActivity.class));
 			}

@@ -24,13 +24,13 @@ import com.project.mantle_v1.parser.MantleMessage;
 
 /**
  * Thread per la lettura delle mail. Si occupa di analizzare si le mail presenti
- *  nella cartella INBOX non lette che di quelle che arrivano mentre il thread
- *  è in vita. 
+ * nella cartella INBOX non lette che di quelle che arrivano mentre il thread è
+ * in vita.
  * <p>
+ * 
  * @author ninux
- *
+ * 
  */
-
 
 public class Reader extends Authenticator {
 
@@ -42,13 +42,18 @@ public class Reader extends Authenticator {
 	private final MyHandler handler;
 
 	/**
-	 * Costruttre della classe 
+	 * Costruttre della classe
 	 * <p>
-	 * @param user di accesso alla casella di posta elettronica
-	 * @param password della suddetta casella
-	 * @param handler oggetto che ha il compito di creare e visualizzare le notifiche
+	 * 
+	 * @param user
+	 *            di accesso alla casella di posta elettronica
+	 * @param password
+	 *            della suddetta casella
+	 * @param handler
+	 *            oggetto che ha il compito di creare e visualizzare le
+	 *            notifiche
 	 */
-	
+
 	public Reader(String user, String password, MyHandler handler) {
 		TAG = this.getClass().getSimpleName();
 		this.handler = handler;
@@ -76,7 +81,7 @@ public class Reader extends Authenticator {
 	 * 
 	 * @throws Exception
 	 */
-	
+
 	public synchronized void detectMail() throws Exception {
 		try {
 			folder = store.getFolder("INBOX");
@@ -97,14 +102,15 @@ public class Reader extends Authenticator {
 			Log.e(TAG, e.getMessage(), e);
 		}
 	}
-	
+
 	/**
 	 * 
-	 * @param msg Vettore di messaggi non letti
+	 * @param msg
+	 *            Vettore di messaggi non letti
 	 * @throws IOException
 	 * @throws MessagingException
 	 */
-	
+
 	private void readMail(Message[] msg) throws IOException, MessagingException {
 		for (int i = 0; i < msg.length; i++) {
 			if (msg[i].getSubject() != null

@@ -2,6 +2,7 @@ package com.project.mantle_v1.login;
 
 import java.io.File;
 import java.util.concurrent.ExecutionException;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.database.User;
@@ -44,8 +46,7 @@ public class Register extends Activity {
 		emailPassEditText = (EditText) findViewById(R.id.emailPassEditText);
 		forward = (Button) findViewById(R.id.forwardButton);
 
-		final DatabaseHelper db = new DatabaseHelper(
-				getApplicationContext());
+		final DatabaseHelper db = new DatabaseHelper(getApplicationContext());
 
 		Intent theIntent = this.getIntent();
 		username = theIntent.getStringExtra("username");
@@ -121,7 +122,7 @@ public class Register extends Activity {
 					 * Il db potrebbe essere cifrato in maniera simmetriva
 					 * utilizando la chiave di accesso a mantle.
 					 */
-					
+
 					Uploader up = new Uploader(mContext, dropbox.getAPI(),
 							"/StoredFile/", file);
 					up.execute();

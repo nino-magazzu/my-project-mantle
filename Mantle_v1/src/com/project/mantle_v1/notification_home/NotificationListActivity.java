@@ -1,12 +1,8 @@
 package com.project.mantle_v1.notification_home;
 
-import java.io.File;
 import java.util.Date;
-
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.audiofx.NoiseSuppressor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -14,17 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.widget.Toast;
-
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.AddService;
+import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.database.DbSyncService;
 import com.project.mantle_v1.database.FriendsList;
-import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.database.Team;
 import com.project.mantle_v1.database.User;
-import com.project.mantle_v1.dropbox.DropboxAuth;
 import com.project.mantle_v1.dropbox.Sharing;
-import com.project.mantle_v1.dropbox.Uploader;
 import com.project.mantle_v1.fileNavigator.FileDetailActivity;
 import com.project.mantle_v1.fileNavigator.FileListActivity;
 import com.project.mantle_v1.fileNavigator.MantleFile;
@@ -68,7 +61,6 @@ public class NotificationListActivity extends FragmentActivity implements
 	 */
 	private boolean mTwoPane;
 	private MyHandler handler;
-	private Context mContext;
 	private ReaderTask rt;
 
 	@Override
@@ -81,11 +73,9 @@ public class NotificationListActivity extends FragmentActivity implements
 		SharedPreferences userDetails = getSharedPreferences(
 				User.USER_DETAILS_PREF, 0);
 
-		 rt = new ReaderTask(handler, userDetails.getString("email",
-				" "), userDetails.getString("emailpswd", " "));
+		rt = new ReaderTask(handler, userDetails.getString("email", " "),
+				userDetails.getString("emailpswd", " "));
 
-		mContext = this;
-		
 		if (!rt.isAlive())
 			rt.start();
 
@@ -140,8 +130,7 @@ public class NotificationListActivity extends FragmentActivity implements
 
 				Log.v("Notification List Activity", "FileDetailActivity");
 
-				DatabaseHelper db = new DatabaseHelper(
-						getApplicationContext());
+				DatabaseHelper db = new DatabaseHelper(getApplicationContext());
 
 				/*
 				 * TODO Decifrare la chiave contenuta in
@@ -179,8 +168,7 @@ public class NotificationListActivity extends FragmentActivity implements
 				 * condiviso
 				 */
 
-				DatabaseHelper db = new DatabaseHelper(
-						getApplicationContext());
+				DatabaseHelper db = new DatabaseHelper(getApplicationContext());
 				String fileUrl = db.getLinkfromLinkComment(n.getNote()
 						.getCommentLink());
 				String idFile = String.valueOf(db.getIdFile(fileUrl));
@@ -277,28 +265,25 @@ public class NotificationListActivity extends FragmentActivity implements
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
 								item.getTitle(), Toast.LENGTH_SHORT).show();
-				/*		DatabaseHelper db = new DatabaseHelper(
-								getApplicationContext());
-
-						db.exportDB();
-						db.close();
-						DropboxAuth dropbox = new DropboxAuth(
-								getApplicationContext());
-
-						MantleFile file = new MantleFile();
-						file.setmFile(new File(
-								MantleFile.DIRECTORY_DB
-								+ DatabaseHelper.DB_NAME));
-						
-						file.uploadNotCipherFile(dropbox.getAPI(), mContext);
-
-						new Uploader(mContext, dropbox.getAPI(),
-								"/StoredFile/", new File(
-										MantleFile.DIRECTORY_DB
-												+ DatabaseHelper.DB_NAME))
-								.execute();
-								*/
-						startService(new Intent(NotificationListActivity.this, DbSyncService.class));
+						/*
+						 * DatabaseHelper db = new DatabaseHelper(
+						 * getApplicationContext());
+						 * 
+						 * db.exportDB(); db.close(); DropboxAuth dropbox = new
+						 * DropboxAuth( getApplicationContext());
+						 * 
+						 * MantleFile file = new MantleFile(); file.setmFile(new
+						 * File( MantleFile.DIRECTORY_DB +
+						 * DatabaseHelper.DB_NAME));
+						 * 
+						 * file.uploadNotCipherFile(dropbox.getAPI(), mContext);
+						 * 
+						 * new Uploader(mContext, dropbox.getAPI(),
+						 * "/StoredFile/", new File( MantleFile.DIRECTORY_DB +
+						 * DatabaseHelper.DB_NAME)) .execute();
+						 */
+						startService(new Intent(NotificationListActivity.this,
+								DbSyncService.class));
 						return true;
 					}
 				});
@@ -318,12 +303,12 @@ public class NotificationListActivity extends FragmentActivity implements
 
 		return true;
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
-	
-		if (!rt.isAlive()) 
+
+		if (!rt.isAlive())
 			rt.start();
 	}
 }

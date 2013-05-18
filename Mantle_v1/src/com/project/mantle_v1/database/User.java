@@ -2,7 +2,6 @@ package com.project.mantle_v1.database;
 
 import android.content.Context;
 
-
 public class User {
 
 	private String idUser;

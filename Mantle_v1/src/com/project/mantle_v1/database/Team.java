@@ -84,8 +84,8 @@ public class Team extends Activity {
 			public void onItemClick(AdapterView<?> listView, View itemView,
 					int position, long itemId) {
 
-				String selectedFromList = (listView
-						.getItemAtPosition(position).toString());
+				String selectedFromList = (listView.getItemAtPosition(position)
+						.toString());
 				int lastChar = selectedFromList.indexOf("}");
 				// elimino dalla stringa selezionata i caratteri {team=...}
 				selectedFromList = selectedFromList.substring(6, lastChar);
@@ -106,8 +106,8 @@ public class Team extends Activity {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> listView,
 					View itemView, int position, long itemId) {
-				String selectedFromList = (listView
-						.getItemAtPosition(position).toString());
+				String selectedFromList = (listView.getItemAtPosition(position)
+						.toString());
 				int lastChar = selectedFromList.indexOf("}");
 				// elimino dalla stringa selezionata i caratteri {team=...}
 				selectedFromList = selectedFromList.substring(6, lastChar);
