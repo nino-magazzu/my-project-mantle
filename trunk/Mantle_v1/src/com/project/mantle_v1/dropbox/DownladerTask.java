@@ -10,16 +10,20 @@ import java.net.URLConnection;
 
 import org.apache.http.util.ByteArrayBuffer;
 
+import com.project.mantle_v1.fileNavigator.Spinner;
+
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class DownladerTask extends AsyncTask<Void, Long, File> {
-
+	
 	public DownladerTask(String fileUrl, String Filename, String path,
 			Context cont) {
 		try {
+			
 			File root = new File(path);
 			if (!root.exists())
 				root.mkdirs();
@@ -31,10 +35,10 @@ public class DownladerTask extends AsyncTask<Void, Long, File> {
 			Log.e(TAG, ex.getMessage());
 		}
 
-		mDialog = new ProgressDialog(cont);
-		mDialog.setMessage("downloading data ");
-		mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		mDialog.show();
+		//mDialog = new ProgressDialog(cont);
+		//mDialog.setMessage("downloading data ");
+		//mDialog.setProgressStyle(ProgressDialog.THEME_HOLO_LIGHT);
+		//mDialog.show();
 
 	}
 
@@ -74,12 +78,12 @@ public class DownladerTask extends AsyncTask<Void, Long, File> {
 
 	@Override
 	protected void onPostExecute(File result) {
-		mDialog.dismiss();
+		//mDialog.dismiss();
 	}
 
 	private final String TAG = this.getClass().getSimpleName();
 	private File mFile;
 	private URL mUrl;
-	private final ProgressDialog mDialog;
+	//private final ProgressDialog mDialog;
 
 }

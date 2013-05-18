@@ -178,15 +178,14 @@ public class FileDetailActivity extends FragmentActivity {
 								FileDetailActivity.this);
 						builder.setTitle("Scarica in : ");
 						builder.setCancelable(false);
-						builder.setSingleChoiceItems(options, 0,
-								new DialogInterface.OnClickListener() {
 
-									@Override
-									public void onClick(DialogInterface dialog,
-											int position) {
-										selection = options[position];
-									}
-								});
+						builder.setSingleChoiceItems(options, 0 , new DialogInterface.OnClickListener() {
+						
+							@Override
+							public void onClick(DialogInterface dialog, int position) {
+								selection=options[position];
+								}
+							});
 
 						builder.setPositiveButton("Ok",
 								new DialogInterface.OnClickListener() {
@@ -229,6 +228,7 @@ public class FileDetailActivity extends FragmentActivity {
 
 						AlertDialog alert = builder.create();
 						alert.show();
+
 						return true;
 
 					}
