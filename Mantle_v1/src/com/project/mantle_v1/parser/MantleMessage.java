@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.project.mantle_v1.database.DatabaseHelper;
@@ -40,7 +41,9 @@ public class MantleMessage {
 	private String message;
 	private Map<String, Integer> DECODE_MAP;
 	// private String history;
-
+	//private String username;
+	
+	
 	private final int CODE_DIM = FRIENDSHIP_REQUEST.length();
 
 	private Context context;
@@ -89,6 +92,13 @@ public class MantleMessage {
 				message.length());
 		this.context = c;
 		this.sender_email = email;
+		/*
+		SharedPreferences userDetails = context.getSharedPreferences(
+				User.USER_DETAILS_PREF, 0);
+		
+		this.username = userDetails.getString("username", " ");
+		*/
+		
 		// this.history = historyFileName;
 		DECODE_MAP = new HashMap<String, Integer>();
 
@@ -110,6 +120,7 @@ public class MantleMessage {
 		int CODE = DECODE_MAP.get(code);
 
 		DatabaseHelper db = new DatabaseHelper(context);
+		
 
 		ParseJSON parser = null;
 		User user = null;

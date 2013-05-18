@@ -74,7 +74,7 @@ public class Notifica implements Serializable {
 		if (NotificationType.equals(MantleMessage.FRIENDSHIP_DENIED))
 			this.title = "Richiesta di amicizia rifiutata";
 		else if (NotificationType.equals(MantleMessage.NOTE))
-			this.title = "Nuovo commento";
+			this.title = "Nuovo Commento";
 		else
 			this.title = "Notifica di sistema";
 
