@@ -79,11 +79,13 @@ public class Reader extends Authenticator {
 
 	/**
 	 * 
+	 * @throws MessagingException 
+	 * @throws IOException 
 	 * @throws Exception
 	 */
 
-	public synchronized void detectMail() throws Exception {
-		try {
+	public synchronized void detectMail() throws MessagingException, IOException {
+		
 			folder = store.getFolder("INBOX");
 			folder.open(Folder.READ_WRITE);
 
@@ -96,11 +98,8 @@ public class Reader extends Authenticator {
 
 			if (msg.length > 0) {
 				readMail(msg);
-
-			}
-		} catch (Exception e) {
-			Log.e(TAG, e.getMessage(), e);
-		}
+			} else 
+				folder.close(true);
 	}
 
 	/**
@@ -128,6 +127,7 @@ public class Reader extends Authenticator {
 				}
 			}
 		}
+		folder.close(true);
 	}
 
 	public void detectNewMail() throws Exception {

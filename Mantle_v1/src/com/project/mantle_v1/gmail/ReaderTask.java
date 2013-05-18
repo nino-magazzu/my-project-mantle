@@ -9,6 +9,7 @@ public class ReaderTask extends Thread {
 	private MyHandler handler;
 	private String account;
 	private String pass;
+	private Reader read;
 
 	public ReaderTask(MyHandler handler, String email, String pass) {
 		this.handler = handler;
@@ -27,8 +28,8 @@ public class ReaderTask extends Thread {
 			 * si volesse attuare un porting su dispositivi Apple
 			 */
 
-			Reader read = new Reader(account, pass, handler);
-			read.detectMail();
+			read = new Reader(account, pass, handler);
+		//	read.detectMail();
 			
 			while(true){
 				//Reader readerNew = new Reader(account, pass, handler);
@@ -41,6 +42,7 @@ public class ReaderTask extends Thread {
 		} catch (Exception e) {
 			Log.d(TAG, e.getMessage());
 			Log.d(TAG, account);
+			read = new Reader(account, pass, handler);
 		}
 	}
 }
