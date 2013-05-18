@@ -328,14 +328,13 @@ public class FileDetailActivity extends FragmentActivity {
 							parser.writeJson(note);
 						} catch (IOException ex) {
 							Log.e(TAG, ex.getMessage());
-
 						}
 
 						String[] emails = db.getEmailsFilesShared(idFile);
 						for (int i = 0; i < emails.length; i++) {
 							new Sender(FileDetailActivity.this, parser
 									.toString(), emails[i],
-									MantleMessage.SYSTEM).execute();
+									MantleMessage.NOTE).execute();
 						}
 
 						dialog.cancel();
