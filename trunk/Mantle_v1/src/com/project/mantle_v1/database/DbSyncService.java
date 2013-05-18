@@ -92,8 +92,7 @@ public class DbSyncService extends Service {
 			@Override
 			protected Boolean doInBackground(Void... params) {
 				try {
-					File mFile = new File(MantleFile.DIRECTORY_DB
-							+ DatabaseHelper.DB_NAME);
+					File mFile = getDatabasePath(DatabaseHelper.DB_NAME);
 					DropboxAuth dropbox = new DropboxAuth(
 							getApplicationContext());
 

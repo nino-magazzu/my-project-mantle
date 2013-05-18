@@ -95,6 +95,7 @@ public class LoginActivity extends Activity {
 
 					@Override
 					public void onClick(View v) {
+						startService(new Intent(LoginActivity.this, DbSyncService.class));
 						db.deleteAll();
 						File[] dirs = new File(MantleFile.MAIN_DIR).listFiles();
 						for (File ff : dirs) {
@@ -106,7 +107,6 @@ public class LoginActivity extends Activity {
 							} else
 								ff.delete();
 						}
-
 					}
 				});
 	}
