@@ -29,7 +29,14 @@ public class ReaderTask extends Thread {
 
 			Reader read = new Reader(account, pass, handler);
 			read.detectMail();
-			read.detectNewMail();
+			
+			while(true){
+				Reader readerNew = new Reader(account, pass, handler);
+				readerNew.detectMail();
+				Thread.sleep(10000);
+				Log.d(TAG, "Check for a new email");
+			}
+			
 
 		} catch (Exception e) {
 			Log.d(TAG, e.getMessage());
