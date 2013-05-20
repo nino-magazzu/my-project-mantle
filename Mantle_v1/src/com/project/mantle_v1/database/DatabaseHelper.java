@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
+import android.R.string;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,6 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final int DB_VERSION = 11;
 	final SQLiteDatabase db;
 	private String username;
+	private final String tag = getClass().getSimpleName();
 
 	/**
 	 * Costruttore della classe
@@ -205,14 +207,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				null, null);
 
 		Integer i = cursor.getCount();
-		Log.d("MIODATABASEHELPER", "i = " + i.toString());
+		Log.d(tag, "i = " + i.toString());
 
 		// non c'è il servizio mantle l'utente deve registrarsi
 		if (i < 1) {
 			String[] res = new String[2];
 			res[0] = " ";
 			res[1] = " ";
-			Log.d("MiodatabaseHelper",
+			Log.d(tag,
 					"L'utente non è registrato sto restituendo res[0]= "
 							+ res[0] + " res[1] = " + res[1]);
 			return res;
@@ -231,10 +233,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			while (cursor.moveToNext()) {
 				res[i] = cursor.getString(0);
 				res[i + 1] = cursor.getString(1);
-				Log.d("MIO_DATABASE_HELPER", res[i] + " " + res[i + 1]);
+				Log.d(tag, res[i] + " " + res[i + 1]);
 				i = i + 2;
 			}
-			Log.d("MIO_DATABASE_HELPER",
+			Log.d(tag,
 					"L'utente è registrato sto restituendo res[0]= " + res[0]
 							+ " res[1] = " + res[1]);
 			return res;
@@ -268,11 +270,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			dst.transferFrom(src, 0, src.size());
 			src.close();
 			dst.close();
-			Log.d("MIO_DATABASE_HELPER", "Mantle db exported");
+			Log.d(tag, "Mantle db exported");
 			// }
 		} catch (Exception e) {
 
-			Log.w("MIO_DATABASE_HELPER", "Mantle db not exported" + e);
+			Log.w(tag, "Mantle db not exported" + e);
 
 		}
 	}
@@ -303,10 +305,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			dst.transferFrom(src, 0, src.size());
 			src.close();
 			dst.close();
-			Log.d("MIO_DATABASE_HELPER", "Mantle db imported");
+			Log.d(tag, "Mantle db imported");
 			// }
 		} catch (Exception e) {
-			Log.w("MIO_DATABASE_HELPER", "Mantle db not imported " + e);
+			Log.w(tag, "Mantle db not imported " + e);
 		}
 	}
 
@@ -337,16 +339,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public long insertFile(String fileName, String linkFile,
 			String linkThumbnail, String linkComment, String fileKey,
 			String mimeType, int priority) {
-		ContentValues values = new ContentValues();
-		values.put("fileName", fileName);
-		values.put("linkFile", linkFile);
-		values.put("linkThumbnail", linkThumbnail);
-		values.put("linkComment", linkComment);
-		values.put("fileKey", fileKey);
-		values.put("priority", priority);
-		values.put("mimeType", mimeType);
-		long r = db.insert("File", null, values);
-		return r;
+		
+		String[] columns = { "idFile" };
+		String selection = "fileName = ? AND linkFile = ?";
+		String[] selectionArg = { fileName, linkFile };
+		Cursor cursor = db.query("File", columns, selection, selectionArg,
+				null, null, null);
+		Integer i = cursor.getCount();
+
+		if (i < 1) {
+			ContentValues values = new ContentValues();
+			values.put("fileName", fileName);
+			values.put("linkFile", linkFile);
+			values.put("linkThumbnail", linkThumbnail);
+			values.put("linkComment", linkComment);
+			values.put("fileKey", fileKey);
+			values.put("priority", priority);
+			values.put("mimeType", mimeType);
+			long r = db.insert("File", null, values);
+			return r;
+		} else {
+			Log.d(tag, "Il file e' gia stato inserito");
+			return cursor.getLong(0);
+		}
+		
+		
 	}
 
 	public long insertShare(int idFile, int idUser) {
@@ -440,7 +457,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.delete("User", whereClause, whereArgs);
 		db.delete("Members", whereClause, whereArgs);
 
-		Log.d("MIO_DATABASE_HELPER", "Ho elimnato l'utente richiesto : "
+		Log.d(tag, "Ho elimnato l'utente richiesto : "
 				+ email);
 
 	}
@@ -512,7 +529,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		c.moveToNext();
 		String idFile = c.getString(0);
 
-		Log.d("QUERY PER RICAVARE LA MAIL", "1/3) id del File = " + idFile);
+		Log.d(tag, "1/3) id del File = " + idFile);
 
 		// Da share con l'idFile ricavo utente proprietario
 		String[] columns2 = { "idUser" };
@@ -523,7 +540,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		c.moveToNext();
 		String idUser = c.getString(0);
 
-		Log.d("QUERY PER RICAVARE LA MAIL", "2/3) id dell'user = " + idUser);
+		Log.d(tag, "2/3) id dell'user = " + idUser);
 
 		// Dall'id dell'utente ricavo la mail
 		String[] columns3 = { "email" };
@@ -534,7 +551,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		c.moveToNext();
 		String email = c.getString(0);
 
-		Log.d("QUERY PER RICAVARE LA MAIL", "3/3) la mail dell'utente = "
+		Log.d(tag, "3/3) la mail dell'utente = "
 				+ email);
 
 		return email;
@@ -565,7 +582,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		while (c.moveToNext()) {
 			result[i] = c.getString(0) + " " + c.getString(1);
-			Log.d("MIO_DATABASE_HELPER", result[i]);
+			Log.d(tag, result[i]);
 			result[i + 1] = c.getString(2);
 			i = i + 2;
 		}
@@ -595,7 +612,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	// stato condiviso un file
 	public String[] getSharers(String idFile) {
 
-		Log.v("MIO DATABASE HELPER", idFile);
+		Log.v(tag, idFile);
 
 		String[] columns = { "idUser" };
 		String selection = "idFile=?";
@@ -606,7 +623,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		int i = c.getCount();
 
 		if (i < 1) {
-			Log.d("MIO_DATABASE_HELPER", "Il file non è stato mai condiviso");
+			Log.d(tag, "Il file non è stato mai condiviso");
 			String[] noResult = { "", "" };
 			return noResult;
 
@@ -633,7 +650,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				c.moveToNext();
 
 				result[i] = c.getString(0) + " " + c.getString(1);
-				Log.d("MIO_DATABASE_HELPER", "result[" + i + "]" + result[i]);
+				Log.d(tag, "result[" + i + "]" + result[i]);
 				result[i + 1] = c.getString(2);
 				i = i + 2;
 			}
@@ -653,7 +670,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		while (c.moveToNext()) {
 			result[i] = c.getString(0);
-			Log.d("MIO_DATABASE_HELPER", result[i]);
+			Log.d(tag, result[i]);
 			i++;
 		}
 
@@ -663,7 +680,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	// Ottenere tutti i membri relativi ad una particolare cerchia
 	public String[] getMembers(String teamName) {
-		Log.d("MIO_DATABASE_HELPER", "il nome del team = " + teamName);
+		Log.d(tag, "il nome del team = " + teamName);
 		String[] columns = { "idTeam" };
 		String selection = "description = ?";
 		String[] selectionArgs = { teamName };
@@ -825,6 +842,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			c = db.query("User", columns2, selection, selectionArgs2, null,
 					null, null);
 			c.moveToNext();
+			Log.d(tag,c.getString(0));
 			emails[j] = c.getString(0);
 		}
 
@@ -851,14 +869,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			mf.setUsername(username);
 			mf.setDate(getDateFile(Integer.parseInt(c.getString(0))));
 			arr.add(mf);
-			Log.d("MIO_DATABASE_HELPER",
+			Log.d(tag,
 					"ho aggiunto questo filename:" + c.getString(1));
 		}
 		return arr;
 	}
 
-	// ============== METODI PER LA VISUALIZZAZIONE DEL DATABASE SUL LOG
-	// ===============
+	// ============== METODI PER LA VISUALIZZAZIONE DEL DATABASE SUL LOG ===============
 
 	public void showAll() {
 
@@ -869,12 +886,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		String[] result = new String[i];
 		i = 0;
 
-		Log.d("MIO_DATABASE_HELPER", "------USER-----");
+		Log.d(tag, "------USER-----");
 		while (cursor.moveToNext()) {
 			result[i] = cursor.getString(0) + " " + cursor.getString(1) + " "
 					+ cursor.getString(2) + " " + cursor.getString(3) + " "
 					+ cursor.getString(4) + " " + cursor.getString(5);
-			Log.d("MIO_DATABASE_HELPER", result[i]);
+			Log.d(tag, result[i]);
 			i++;
 		}
 
@@ -882,11 +899,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		i = cursor.getCount();
 		result = new String[i];
 		i = 0;
-		Log.d("MIO_DATABASE_HELPER", "------SERVICE-----");
+		Log.d(tag, "------SERVICE-----");
 		while (cursor.moveToNext()) {
 			result[i] = cursor.getString(0) + " " + cursor.getString(1) + " "
 					+ cursor.getString(2);
-			Log.d("MIO_DATABASE_HELPER", result[i]);
+			Log.d(tag, result[i]);
 			i++;
 		}
 
@@ -894,13 +911,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		i = cursor.getCount();
 		result = new String[i];
 		i = 0;
-		Log.d("MIO_DATABASE_HELPER", "------FILE-----");
+		Log.d(tag, "------FILE-----");
 		while (cursor.moveToNext()) {
 			result[i] = cursor.getString(0) + " " + cursor.getString(1) + " "
 					+ cursor.getString(2) + " " + cursor.getString(3) + " "
 					+ cursor.getString(4) + " " + cursor.getString(5) + " "
 					+ cursor.getString(6) + " " + cursor.getString(7);
-			Log.d("MIO_DATABASE_HELPER", result[i]);
+			Log.d(tag, result[i]);
 			i++;
 		}
 
@@ -908,10 +925,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		i = cursor.getCount();
 		result = new String[i];
 		i = 0;
-		Log.d("MIO_DATABASE_HELPER", "------SHARE-----");
+		Log.d(tag, "------SHARE-----");
 		while (cursor.moveToNext()) {
 			result[i] = cursor.getString(0) + " " + cursor.getString(1);
-			Log.d("MIO_DATABASE_HELPER", result[i]);
+			Log.d(tag, result[i]);
 			i++;
 		}
 
@@ -919,11 +936,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		i = cursor.getCount();
 		result = new String[i];
 		i = 0;
-		Log.d("MIO_DATABASE_HELPER", "------HISTORY-----");
+		Log.d(tag, "------HISTORY-----");
 		while (cursor.moveToNext()) {
 			result[i] = cursor.getString(0) + " " + cursor.getString(1) + " "
 					+ cursor.getString(2);
-			Log.d("MIO_DATABASE_HELPER", result[i]);
+			Log.d(tag, result[i]);
 			i++;
 		}
 
@@ -931,10 +948,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		i = cursor.getCount();
 		result = new String[i];
 		i = 0;
-		Log.d("MIO_DATABASE_HELPER", "------TEAM-----");
+		Log.d(tag, "------TEAM-----");
 		while (cursor.moveToNext()) {
 			result[i] = cursor.getString(0) + " " + cursor.getString(1);
-			Log.d("MIO_DATABASE_HELPER", result[i]);
+			Log.d(tag, result[i]);
 			i++;
 		}
 
@@ -942,10 +959,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		i = cursor.getCount();
 		result = new String[i];
 		i = 0;
-		Log.d("MIO_DATABASE_HELPER", "------MEMBERS-----");
+		Log.d(tag, "------MEMBERS-----");
 		while (cursor.moveToNext()) {
 			result[i] = cursor.getString(0) + " " + cursor.getString(1);
-			Log.d("MIO_DATABASE_HELPER", result[i]);
+			Log.d(tag, result[i]);
 			i++;
 		}
 	}
