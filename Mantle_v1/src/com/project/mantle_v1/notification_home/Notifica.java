@@ -2,6 +2,8 @@ package com.project.mantle_v1.notification_home;
 
 import java.io.Serializable;
 
+import android.content.SharedPreferences;
+
 import com.project.mantle_v1.database.User;
 import com.project.mantle_v1.fileNavigator.MantleFile;
 import com.project.mantle_v1.parser.MantleMessage;
@@ -112,12 +114,17 @@ public class Notifica implements Serializable {
 	 *            Commento inserito
 	 */
 
-	public Notifica(Note note) {
+	public Notifica(Note note, String owner_username) {
 		super();
 		this.data = note.getDate();
 		this.NotificationType = MantleMessage.NOTE;
 		this.note = note;
-		this.title = note.getUser() + " ha commentato una foto";
+		
+		if(note.getUser().equals(owner_username))
+			this.title = "Commento al file accettato";
+		else
+			this.title = note.getUser() + " ha commentato una foto";
+		
 		this.status = NOT_SEEN;
 	}
 

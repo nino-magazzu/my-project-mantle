@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.database.User;
@@ -38,7 +39,7 @@ public class MantleMessage {
 	private String message;
 	private Map<String, Integer> DECODE_MAP;
 	// private String history;
-	//private String username;
+	private String username;
 	
 	
 	private final int CODE_DIM = FRIENDSHIP_REQUEST.length();
@@ -90,12 +91,10 @@ public class MantleMessage {
 		this.context = c;
 		this.sender_email = email;
 		
-		/*
 		SharedPreferences userDetails = context.getSharedPreferences(
 				User.USER_DETAILS_PREF, 0);
 		
 		this.username = userDetails.getString("username", " ");
-		*/
 		
 		// this.history = historyFileName;
 		
@@ -214,7 +213,7 @@ public class MantleMessage {
 				Log.e(TAG, "Problema lettura: " + e.getMessage());
 			}
 			note.setSender_mail(sender_email);
-			return new Notifica(note);
+			return new Notifica(note, username);
 
 			/*
 			 * ===== Messaggi di sistema =====
