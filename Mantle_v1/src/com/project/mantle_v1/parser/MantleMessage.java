@@ -5,11 +5,8 @@ import java.io.StringReader;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
-
 import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.database.User;
 import com.project.mantle_v1.fileNavigator.MantleFile;
@@ -92,6 +89,7 @@ public class MantleMessage {
 				message.length());
 		this.context = c;
 		this.sender_email = email;
+		
 		/*
 		SharedPreferences userDetails = context.getSharedPreferences(
 				User.USER_DETAILS_PREF, 0);
@@ -100,6 +98,7 @@ public class MantleMessage {
 		*/
 		
 		// this.history = historyFileName;
+		
 		DECODE_MAP = new HashMap<String, Integer>();
 
 		int i = 0;

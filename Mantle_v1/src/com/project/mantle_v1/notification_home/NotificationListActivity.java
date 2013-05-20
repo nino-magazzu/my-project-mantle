@@ -129,25 +129,35 @@ public class NotificationListActivity extends FragmentActivity implements
 							MantleMessage.SHARING_FILE)) {
 
 				Log.v("Notification List Activity", "FileDetailActivity");
-
 				DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-
-				/*
-				 * TODO Decifrare la chiave contenuta in
-				 * n.getmFile().getFileKey() con la chiave d'accesso a mantle e
-				 * salvarla all'intero del db (sostituendola alle viroglette)
-				 */
-
-				long ID = db.insertFile(n.getmFile().getFileName(), n
-						.getmFile().getLinkFile(), n.getmFile().getLinkThumb(),
-						n.getmFile().getLinkComment(), "", n.getmFile()
-								.getObjectType(), MantleFile.NOT_OWN_FILE);
-
-				n.getmFile().setIdFile(String.valueOf(ID));
-
-				int ID_User = db.getId(n.getmFile().getSender_email());
-				db.insertHistory((int) ID, ID_User,
-						new Date(System.currentTimeMillis()).toString());
+				long ID ;
+				if(!n.isSeen()) {
+					
+	
+					/*
+					 * TODO Decifrare la chiave contenuta in
+					 * n.getmFile().getFileKey() con la chiave d'accesso a mantle e
+					 * salvarla all'intero del db (sostituendola alle viroglette)
+					 */
+	
+					ID = db.insertFile(n.getmFile().getFileName(), n
+							.getmFile().getLinkFile(), n.getmFile().getLinkThumb(),
+							n.getmFile().getLinkComment(), "", n.getmFile()
+									.getObjectType(), MantleFile.NOT_OWN_FILE);
+	
+					n.getmFile().setIdFile(String.valueOf(ID));
+	
+					int ID_User = db.getId(n.getmFile().getSender_email());
+					db.insertHistory((int) ID, ID_User,
+							new Date(System.currentTimeMillis()).toString());
+					
+					n.setStatus(Notifica.SEEN);
+					
+				}
+				else {
+					Log.v("Notification List Activity", "Vista");
+					ID = db.getIdFile(n.getmFile().getLinkFile());
+				}
 				db.close();
 				Intent detailIntent = new Intent(this, FileDetailActivity.class);
 
