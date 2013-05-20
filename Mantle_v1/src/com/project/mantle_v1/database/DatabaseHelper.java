@@ -359,7 +359,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			long r = db.insert("File", null, values);
 			return r;
 		} else {
-			Log.d(tag, "Il file e' gia stato inserito");
+			cursor.moveToNext();
+			Log.d(tag, "Il file e' gia stato inserito con id "+ cursor.getLong(0));
 			return cursor.getLong(0);
 		}
 		
