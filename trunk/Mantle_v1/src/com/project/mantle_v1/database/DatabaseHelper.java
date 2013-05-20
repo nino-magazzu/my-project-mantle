@@ -340,14 +340,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			String linkThumbnail, String linkComment, String fileKey,
 			String mimeType, int priority) {
 		
-		String[] columns = { "idFile" };
-		String selection = "fileName = ? AND linkFile = ?";
-		String[] selectionArg = { fileName, linkFile };
-		Cursor cursor = db.query("File", columns, selection, selectionArg,
-				null, null, null);
-		Integer i = cursor.getCount();
-
-		if (i < 1) {
 			ContentValues values = new ContentValues();
 			values.put("fileName", fileName);
 			values.put("linkFile", linkFile);
@@ -358,12 +350,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			values.put("mimeType", mimeType);
 			long r = db.insert("File", null, values);
 			return r;
-		} else {
-			cursor.moveToNext();
-			Log.d(tag, "Il file e' gia stato inserito con id "+ cursor.getLong(0));
-			return cursor.getLong(0);
-		}
-		
 		
 	}
 
@@ -519,7 +505,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return c.getInt(0);
 	}
 
-	// Ricavare la mail di un tente a partire dal link del file che ha condiviso
+	// Ricavare la mail di un utente a partire dal link del file che ha condiviso
 	public String getEmailFromUrl(String url) {
 		// Dalla tabella file ricavo l'id del file
 		String[] columns = { "idFile" };
@@ -558,8 +544,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return email;
 	}
 
+	/*
 	// Ricavare il link di condivisione del file a partire dal link del file dei
 	// commenti
+	
 	public String getLinkfromLinkComment(String linkComment) {
 		String[] columns = { "linkFile" };
 		String selection = "linkComment = ?";
@@ -570,7 +558,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		String linkFile = c.getString(0);
 		return linkFile;
 	}
-
+	 */
 	// Ricavare un vettore contenente : 1)name,surname; 2)email; di tutti i
 	// contatti
 	public String[] getFriends() {
@@ -763,12 +751,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				c.getString(3), c.getString(4), c.getString(5));
 		return user;
 	}
-
+	
 	// Ottenere l'idFile conoscendo il link di condivisione
 	public int getIdFile(String linkFile) {
 		String[] columns = { "idFile" };
-		String selection = "linkFile=? OR linkComment=?";
-		String[] selectionArgs = { linkFile, linkFile };
+		String selection = "linkComment=?";
+		String[] selectionArgs = { linkFile };
 		Cursor c = db.query("File", columns, selection, selectionArgs, null,
 				null, null);
 		c.moveToNext();
