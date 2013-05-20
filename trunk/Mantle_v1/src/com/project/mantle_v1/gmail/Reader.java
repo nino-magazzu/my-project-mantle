@@ -92,7 +92,7 @@ public class Reader extends Authenticator {
 			Message[] msg = folder.search(new FlagTerm(new Flags(
 					Flags.Flag.SEEN), false));
 
-			Log.e(TAG,
+			Log.v(TAG,
 					"DetectMail: Messaggi non letti: "
 							+ String.valueOf(msg.length));
 
@@ -145,7 +145,7 @@ public class Reader extends Authenticator {
 				try {
 					Message[] msg = arg0.getMessages();
 
-					Log.e(TAG,
+					Log.v(TAG,
 							"DetectNewMail: Messaggi non letti: "
 									+ String.valueOf(msg.length));
 

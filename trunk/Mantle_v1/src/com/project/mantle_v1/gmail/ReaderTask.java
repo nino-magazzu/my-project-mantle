@@ -35,7 +35,6 @@ public class ReaderTask extends Thread {
 				//Reader readerNew = new Reader(account, pass, handler);
 				read.detectMail();
 				Thread.sleep(10000);
-				Log.d(TAG, "Check for a new email");
 			}
 			
 
