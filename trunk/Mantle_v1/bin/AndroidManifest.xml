@@ -81,7 +81,7 @@
             android:parentActivityName="com.project.mantle_v1.fileNavigator.FileListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".FileListActivity" />
+                android:value="com.project.mantle_v1.notification_home.NotificationListActivity" />
         </activity>
 
         <service android:name="com.project.mantle_v1.database.DbSyncService" >
