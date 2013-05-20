@@ -156,7 +156,7 @@ public class NotificationListActivity extends FragmentActivity implements
 				}
 				else {
 					Log.v("Notification List Activity", "Vista");
-					ID = db.getIdFile(n.getmFile().getLinkFile());
+					ID = db.getIdFile(n.getmFile().getLinkComment());
 				}
 				db.close();
 				Intent detailIntent = new Intent(this, FileDetailActivity.class);
@@ -179,9 +179,8 @@ public class NotificationListActivity extends FragmentActivity implements
 				 */
 
 				DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-				String fileUrl = db.getLinkfromLinkComment(n.getNote()
-						.getCommentLink());
-				String idFile = String.valueOf(db.getIdFile(fileUrl));
+				String idFile = String.valueOf(db.getIdFile(n.getNote()
+						.getCommentLink()));
 				Intent detailIntent = new Intent(this, FileDetailActivity.class);
 				detailIntent.putExtra(NotificationDetailFragment.ARG_ITEM_ID,
 						idFile);
