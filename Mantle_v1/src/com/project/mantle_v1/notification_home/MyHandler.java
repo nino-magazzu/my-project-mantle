@@ -36,6 +36,8 @@ public class MyHandler extends Handler {
 
 	public static NotificaAdapter adapter;
 
+	public final static String CLICKED_POS = "clickedpos";
+	
 	public MyHandler(Context context) {
 		super();
 
@@ -82,6 +84,11 @@ public class MyHandler extends Handler {
 			Log.d(TAG, "Adapter: " + adapter.toString());
 
 		}
+		
+		if(bundle.containsKey(CLICKED_POS)) {
+			int clickedpos = bundle.getInt(CLICKED_POS);
+			removeItem(clickedpos);
+		}
 	}
 
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -109,7 +116,11 @@ public class MyHandler extends Handler {
 		NOTIFICA_MAP.put(String.valueOf(NOTIFICA_MAP.size() + 1), item);
 		ITEMS.add(item);
 	}
-
+	
+	private static void removeItem(int clickedpos) {
+		adapter.remove(adapter.getItem(clickedpos));
+	}
+	
 	public static void addFile(MantleFile item) {
 		FILE_MAP.put(item.getIdFile(), item);
 	}
