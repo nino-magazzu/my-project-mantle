@@ -123,7 +123,7 @@ public class NotificationListActivity extends FragmentActivity implements
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
 			Notifica n = MyHandler.NOTIFICA_MAP.get(id);
-
+			notifyMessage(Integer.parseInt(id) - 1);
 			if (n.getNotificationType().equals(MantleMessage.SHARING_PHOTO)
 					|| n.getNotificationType().equals(
 							MantleMessage.SHARING_FILE)) {
@@ -132,8 +132,6 @@ public class NotificationListActivity extends FragmentActivity implements
 				DatabaseHelper db = new DatabaseHelper(getApplicationContext());
 				long ID ;
 				if(!n.isSeen()) {
-					
-	
 					/*
 					 * TODO Decifrare la chiave contenuta in
 					 * n.getmFile().getFileKey() con la chiave d'accesso a mantle e
@@ -319,5 +317,13 @@ public class NotificationListActivity extends FragmentActivity implements
 
 		if (!rt.isAlive())
 			rt.start();
+	}
+	
+	private void notifyMessage(int id) {
+		android.os.Message msg = handler.obtainMessage();
+		Bundle b = new Bundle();
+		b.putInt(MyHandler.CLICKED_POS, id);
+		msg.setData(b);
+		handler.sendMessage(msg);
 	}
 }
