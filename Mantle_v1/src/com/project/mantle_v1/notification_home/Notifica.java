@@ -15,8 +15,6 @@ public class Notifica implements Serializable {
 	 * per andare a creare le notifiche all'interno della home
 	 */
 
-	public static final boolean SEEN = true;
-	public static final boolean NOT_SEEN = false;
 	
 	private static final long serialVersionUID = 3324254621470042381L;
 	
@@ -27,7 +25,8 @@ public class Notifica implements Serializable {
 	private String body;
 	private MantleFile mFile;
 	private Note note;
-	private boolean status;
+	
+	private String positionMap;
 
 	/**
 	 * Costruttore da usare nel caso in cui la notifica sia relativa ad una
@@ -59,8 +58,6 @@ public class Notifica implements Serializable {
 					+ user.getUsername() + ")"
 					+ " ha accettato la tua richiesta di amicizia.";
 		
-		this.status = NOT_SEEN; 
-
 	}
 
 	/**
@@ -87,7 +84,6 @@ public class Notifica implements Serializable {
 			this.title = "Notifica di sistema";
 
 		this.body = body;
-		this.status = NOT_SEEN;
 	}
 
 	/**
@@ -103,7 +99,6 @@ public class Notifica implements Serializable {
 		this.data = mFile.getDate();
 		this.title = mFile.getUsername() + " ha condiviso con te questo file";
 		this.NotificationType = code;
-		this.status = NOT_SEEN;
 	}
 
 	/**
@@ -125,7 +120,6 @@ public class Notifica implements Serializable {
 		else
 			this.title = note.getUser() + " ha commentato una foto";
 		
-		this.status = NOT_SEEN;
 	}
 
 	public String getData() {
@@ -176,12 +170,12 @@ public class Notifica implements Serializable {
 		this.note = note;
 	}
 
-	public boolean isSeen() {
-		return status;
+	public String getPositionMap() {
+		return positionMap;
 	}
 
-	public void setStatus(boolean status) {
-		this.status = status;
+	public void setPositionMap(String positionMap) {
+		this.positionMap = positionMap;
 	}
 
 }

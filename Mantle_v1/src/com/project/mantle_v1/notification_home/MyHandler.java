@@ -113,7 +113,8 @@ public class MyHandler extends Handler {
 	}
 
 	private static void addItem(Notifica item) {
-		NOTIFICA_MAP.put(String.valueOf(NOTIFICA_MAP.size() + 1), item);
+		item.setPositionMap(String.valueOf(NOTIFICA_MAP.size() + 1));
+		NOTIFICA_MAP.put(item.getPositionMap(), item);
 		ITEMS.add(item);
 	}
 	
