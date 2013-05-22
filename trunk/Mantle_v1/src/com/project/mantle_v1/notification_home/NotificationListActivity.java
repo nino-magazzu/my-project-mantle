@@ -131,7 +131,6 @@ public class NotificationListActivity extends FragmentActivity implements
 				Log.v("Notification List Activity", "FileDetailActivity");
 				DatabaseHelper db = new DatabaseHelper(getApplicationContext());
 				long ID ;
-				if(!n.isSeen()) {
 					/*
 					 * TODO Decifrare la chiave contenuta in
 					 * n.getmFile().getFileKey() con la chiave d'accesso a mantle e
@@ -149,13 +148,7 @@ public class NotificationListActivity extends FragmentActivity implements
 					db.insertHistory((int) ID, ID_User,
 							new Date(System.currentTimeMillis()).toString());
 					
-					n.setStatus(Notifica.SEEN);
 					
-				}
-				else {
-					Log.v("Notification List Activity", "Vista");
-					ID = db.getIdFile(n.getmFile().getLinkComment());
-				}
 				db.close();
 				Intent detailIntent = new Intent(this, FileDetailActivity.class);
 
@@ -272,23 +265,6 @@ public class NotificationListActivity extends FragmentActivity implements
 					public boolean onMenuItemClick(MenuItem item) {
 						Toast.makeText(getApplicationContext(),
 								item.getTitle(), Toast.LENGTH_SHORT).show();
-						/*
-						 * DatabaseHelper db = new DatabaseHelper(
-						 * getApplicationContext());
-						 * 
-						 * db.exportDB(); db.close(); DropboxAuth dropbox = new
-						 * DropboxAuth( getApplicationContext());
-						 * 
-						 * MantleFile file = new MantleFile(); file.setmFile(new
-						 * File( MantleFile.DIRECTORY_DB +
-						 * DatabaseHelper.DB_NAME));
-						 * 
-						 * file.uploadNotCipherFile(dropbox.getAPI(), mContext);
-						 * 
-						 * new Uploader(mContext, dropbox.getAPI(),
-						 * "/StoredFile/", new File( MantleFile.DIRECTORY_DB +
-						 * DatabaseHelper.DB_NAME)) .execute();
-						 */
 						startService(new Intent(NotificationListActivity.this,
 								DbSyncService.class));
 						return true;
