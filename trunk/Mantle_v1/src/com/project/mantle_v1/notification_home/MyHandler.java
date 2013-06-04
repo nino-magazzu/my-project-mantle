@@ -38,16 +38,17 @@ public class MyHandler extends Handler {
 
 	public final static String CLICKED_POS = "clickedpos";
 	
+	private static int index = 0;
+	
 	public MyHandler(Context context) {
 		super();
-
 		// *** scelta del file storia *** //
 		// History his = new History();
 
 		// FILE_HISTORY_NAME = his.getLastFile();
 
 		this.context = context;
-
+		
 		if (ITEMS.isEmpty())
 			addItem(new Notifica(
 					new Date(System.currentTimeMillis()).toString(),
@@ -113,13 +114,17 @@ public class MyHandler extends Handler {
 	}
 
 	private static void addItem(Notifica item) {
-		item.setPositionMap(String.valueOf(NOTIFICA_MAP.size() + 1));
+		//item.setPositionMap(String.valueOf(NOTIFICA_MAP.size() + 1));
+		Log.w("MY HANDLER", "Index: " + index);
+		item.setPositionMap(String.valueOf(index++));
 		NOTIFICA_MAP.put(item.getPositionMap(), item);
 		ITEMS.add(item);
 	}
 	
 	private static void removeItem(int clickedpos) {
 		adapter.remove(adapter.getItem(clickedpos));
+		//ITEMS.remove(clickedpos);
+		//adapter.notifyDataSetChanged();
 	}
 	
 	public static void addFile(MantleFile item) {
