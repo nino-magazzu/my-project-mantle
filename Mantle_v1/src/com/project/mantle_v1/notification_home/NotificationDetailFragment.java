@@ -148,6 +148,7 @@ public class NotificationDetailFragment extends Fragment {
 					User user = new User(v.getContext());
 					Note note = new Note(user.getUsername(), user.getLongName()
 							+ " ha rifiutato la tua richiesta d'amicizia", new Date(System.currentTimeMillis()).toString());
+					note.setFileLink("");
 					parser.writeJson(note);
 				} catch (IOException e) {
 					Log.e(TAG, e.getMessage());
