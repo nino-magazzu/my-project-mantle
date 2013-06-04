@@ -38,7 +38,7 @@ public class MyHandler extends Handler {
 
 	public final static String CLICKED_POS = "clickedpos";
 	
-	private static int index = 0;
+	private static int index = 1;
 	
 	public MyHandler(Context context) {
 		super();
