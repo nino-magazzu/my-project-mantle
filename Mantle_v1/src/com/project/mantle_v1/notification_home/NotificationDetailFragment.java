@@ -2,6 +2,7 @@ package com.project.mantle_v1.notification_home;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Date;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -146,7 +147,7 @@ public class NotificationDetailFragment extends Fragment {
 				try {
 					User user = new User(v.getContext());
 					Note note = new Note(user.getUsername(), user.getLongName()
-							+ " ha rifiutato la tua richiesta d'amicizia");
+							+ " ha rifiutato la tua richiesta d'amicizia", new Date(System.currentTimeMillis()).toString());
 					parser.writeJson(note);
 				} catch (IOException e) {
 					Log.e(TAG, e.getMessage());
