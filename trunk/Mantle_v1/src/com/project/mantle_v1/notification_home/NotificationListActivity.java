@@ -123,7 +123,7 @@ public class NotificationListActivity extends FragmentActivity implements
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
 			Notifica n = MyHandler.NOTIFICA_MAP.get(id);
-			notifyMessage(Integer.parseInt(id) - 1);
+			notifyMessage(Integer.parseInt(id));
 			if (n.getNotificationType().equals(MantleMessage.SHARING_PHOTO)
 					|| n.getNotificationType().equals(
 							MantleMessage.SHARING_FILE)) {
