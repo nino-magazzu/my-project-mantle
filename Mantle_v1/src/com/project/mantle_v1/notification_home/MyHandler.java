@@ -83,7 +83,7 @@ public class MyHandler extends Handler {
 		if (bundle.containsKey("adapter")) {
 			adapter = (NotificaAdapter) bundle.get("adapter");
 			Log.d(TAG, "Adapter: " + adapter.toString());
-
+			
 		}
 		
 		if(bundle.containsKey(CLICKED_POS)) {
@@ -122,9 +122,15 @@ public class MyHandler extends Handler {
 	}
 	
 	private static void removeItem(int clickedpos) {
-		adapter.remove(adapter.getItem(clickedpos));
+		String pos = String.valueOf(clickedpos);
+		NOTIFICA_MAP.remove(NOTIFICA_MAP.get(pos));
+		for(Notifica not : ITEMS) {
+			if(not.getPositionMap().equals(pos))
+				ITEMS.remove(not);
+		}
+		//adapter.remove(adapter.getItem(clickedpos));
 		//ITEMS.remove(clickedpos);
-		//adapter.notifyDataSetChanged();
+		adapter.notifyDataSetChanged();
 	}
 	
 	public static void addFile(MantleFile item) {
