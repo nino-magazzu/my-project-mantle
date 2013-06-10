@@ -277,7 +277,7 @@ public class FileDetailActivity extends FragmentActivity {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Conferma");
 		final Note note = (Note) getIntent().getSerializableExtra("Commento");
-		builder.setMessage("Vuole aggiungere il commento: "
+		builder.setMessage(note.getUser() + " vuole aggiungere il commento: "
 				+ note.getContent());
 		builder.setCancelable(false);
 		builder.setPositiveButton("Accetta",
