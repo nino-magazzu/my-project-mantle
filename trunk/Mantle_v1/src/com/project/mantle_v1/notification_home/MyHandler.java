@@ -3,6 +3,7 @@ package com.project.mantle_v1.notification_home;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -124,7 +125,9 @@ public class MyHandler extends Handler {
 	private static void removeItem(int clickedpos) {
 		String pos = String.valueOf(clickedpos);
 		NOTIFICA_MAP.remove(NOTIFICA_MAP.get(pos));
-		for(Notifica not : ITEMS) {
+		Iterator<Notifica> it = ITEMS.iterator();
+		while(it.hasNext()) {
+			Notifica not = it.next();
 			if(not.getPositionMap().equals(pos))
 				ITEMS.remove(not);
 		}
