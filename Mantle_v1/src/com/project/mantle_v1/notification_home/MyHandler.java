@@ -122,14 +122,13 @@ public class MyHandler extends Handler {
 		ITEMS.add(item);
 	}
 	
-	private static void removeItem(int clickedpos) {
+	synchronized private static void removeItem(int clickedpos) {
 		String pos = String.valueOf(clickedpos);
 		NOTIFICA_MAP.remove(NOTIFICA_MAP.get(pos));
 		Iterator<Notifica> it = ITEMS.iterator();
 		while(it.hasNext()) {
-			Notifica not = it.next();
-			if(not.getPositionMap().equals(pos))
-				ITEMS.remove(not);
+			if(it.next().getPositionMap().equals(pos))
+				it.remove();
 		}
 		//adapter.remove(adapter.getItem(clickedpos));
 		//ITEMS.remove(clickedpos);
