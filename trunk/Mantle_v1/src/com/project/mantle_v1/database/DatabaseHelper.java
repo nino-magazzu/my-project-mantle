@@ -270,6 +270,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			dst.transferFrom(src, 0, src.size());
 			src.close();
 			dst.close();
+			
 			Log.d(tag, "Mantle db exported");
 			// }
 		} catch (Exception e) {
