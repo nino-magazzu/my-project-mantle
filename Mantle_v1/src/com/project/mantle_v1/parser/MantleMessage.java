@@ -79,6 +79,9 @@ public class MantleMessage {
 
 		if (type.equals(SHARING_FILE))
 			return MAGIC_NUMBER + type + jsonText;
+		
+		if (type.equals(SYSTEM))
+			return MAGIC_NUMBER + type + jsonText;
 
 		throw new Exception("Message Type Errato!");
 

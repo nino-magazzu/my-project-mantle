@@ -44,13 +44,12 @@ public class Sender extends AsyncTask<Void, Long, Boolean> {
 
 	private void sendEmail() {
 		Mail m = new Mail(email, psw);
-
+		
 		String[] toArr = { addressee };
 		m.setTo(toArr);
-
 		m.setFrom(email);
 		m.setSubject(Mail.SUBJECT);
-
+		
 		try {
 			m.setBody(new MantleMessage(link, code).getMessage());
 		} catch (Exception e1) {
@@ -66,7 +65,8 @@ public class Sender extends AsyncTask<Void, Long, Boolean> {
 			 * else { fl=false; }
 			 */
 		} catch (Exception e) {
-			Log.e("MailApp", "Could not send email", e);
+			Log.e("MAIL APP", e.getMessage());
+			Log.e("MailApp", "Could not send email");
 		}
 	}
 
