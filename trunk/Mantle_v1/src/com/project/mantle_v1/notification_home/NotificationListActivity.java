@@ -233,7 +233,7 @@ public class NotificationListActivity extends FragmentActivity implements
 			}
 		});
 
-		menu.add("File").setOnMenuItemClickListener(
+		menu.add("Handle File").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
@@ -247,7 +247,7 @@ public class NotificationListActivity extends FragmentActivity implements
 					}
 				});
 
-		menu.add("Nuovo Servizio").setOnMenuItemClickListener(
+		menu.add("Add Service").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
@@ -260,7 +260,7 @@ public class NotificationListActivity extends FragmentActivity implements
 					}
 				});
 
-		menu.add("Sincronizza").setOnMenuItemClickListener(
+		menu.add("Db Upload").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
@@ -272,7 +272,7 @@ public class NotificationListActivity extends FragmentActivity implements
 					}
 				});
 
-		menu.add("Cerchie").setOnMenuItemClickListener(
+		menu.add("Team").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
