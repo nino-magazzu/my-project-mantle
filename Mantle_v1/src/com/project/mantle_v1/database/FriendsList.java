@@ -200,7 +200,7 @@ public class FriendsList extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
-		menu.add("Elimina amici").setOnMenuItemClickListener(
+		menu.add("Delete friends").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
@@ -217,7 +217,7 @@ public class FriendsList extends Activity {
 				});
 		;
 
-		menu.add("Aggiungi un amico").setOnMenuItemClickListener(
+		menu.add("Add friends").setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
@@ -233,7 +233,7 @@ public class FriendsList extends Activity {
 		switch (flag) {
 
 		case 2:
-			menu.add("Aggiungi al gruppo").setOnMenuItemClickListener(
+			menu.add("Add to team").setOnMenuItemClickListener(
 					new OnMenuItemClickListener() {
 						@Override
 						public boolean onMenuItemClick(MenuItem item) {
@@ -260,7 +260,7 @@ public class FriendsList extends Activity {
 			break;
 
 		case 3:
-			menu.add("Condividi").setOnMenuItemClickListener(
+			menu.add("Share").setOnMenuItemClickListener(
 					new OnMenuItemClickListener() {
 						@Override
 						public boolean onMenuItemClick(MenuItem item) {
