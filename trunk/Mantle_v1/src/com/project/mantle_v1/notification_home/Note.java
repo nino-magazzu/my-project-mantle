@@ -2,11 +2,13 @@ package com.project.mantle_v1.notification_home;
 
 import java.io.Serializable;
 
+/**
+ * Oggetto che denota un commento ad un file raccogliendo quindi tutte 
+ * le informazioni che lo caratterizzano
+ * 
+ */
 public class Note implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3499183884482698945L;
 	private String user;
 	private String content;

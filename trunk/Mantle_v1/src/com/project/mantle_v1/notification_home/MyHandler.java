@@ -23,6 +23,26 @@ import com.project.mantle_v1.R;
 import com.project.mantle_v1.fileNavigator.MantleFile;
 import com.project.mantle_v1.parser.MantleMessage;
 
+/**
+ * Si occupa del ciclo di vita delle notifiche all'interno dell'applicazione.
+ * Gestisce la creazione delle stesse e la corretta visualizzazione all'interno
+ * della GUI e della loro eliminazione a seguito dell'interazione dell'utente.
+ * Questo processo è basato sullo scambio di messaggi fra le varie classi a
+ * seguito di eventi di maggior rilievo.
+ * 
+ * ITEMS e NOTIFICA_MAP sono due strutture dati atte a contenere le notifiche
+ * provenienti dalle mail. ITEMS è una semplice lista in cui verranno inserite
+ * le notifiche che bisogna ancora leggere ed eliminate quelle lette
+ * NOTIFICA_MAP invece è una Map che mi consente di accedere alla singola
+ * notifica da qualunque classe conoscendone semplicemente la chiave
+ * attribuitagli nella map
+ * 
+ * FILE_MAP raccoglie invece i dati relativi ai file presenti nel db, anch'essa
+ * implementata per una maggiore velocità di accesso alle informazioni
+ * 
+ * @author nino
+ * 
+ */
 public class MyHandler extends Handler {
 	private Context context;
 	private String link;
@@ -38,9 +58,9 @@ public class MyHandler extends Handler {
 	public static NotificaAdapter adapter;
 
 	public final static String CLICKED_POS = "clickedpos";
-	
+
 	private static int index = 1;
-	
+
 	public MyHandler(Context context) {
 		super();
 		// *** scelta del file storia *** //
@@ -49,13 +69,16 @@ public class MyHandler extends Handler {
 		// FILE_HISTORY_NAME = his.getLastFile();
 
 		this.context = context;
-		
+
 		if (ITEMS.isEmpty())
 			addItem(new Notifica(
 					new Date(System.currentTimeMillis()).toString(),
 					"Benvenuto in Mantle", MantleMessage.SYSTEM));
 	}
 
+	/**
+	 * Metodo attivato a seguito della ricezione di un messaggio
+	 */
 	@Override
 	public void handleMessage(Message msg) {
 
@@ -63,6 +86,10 @@ public class MyHandler extends Handler {
 
 		Bundle bundle = msg.getData();
 
+		/*
+		 * Condizione verificata nel momento in cui arriva una nuova mail da un
+		 * altro utente
+		 */
 		if (bundle.containsKey("body")) {
 			link = bundle.getString("body");
 			email = bundle.getString("email");
@@ -81,13 +108,20 @@ public class MyHandler extends Handler {
 			}
 		}
 
+		/*
+		 * comunicazione dell'adapter per la gestione delle notifiche
+		 * all'interno della home
+		 */
 		if (bundle.containsKey("adapter")) {
 			adapter = (NotificaAdapter) bundle.get("adapter");
 			Log.d(TAG, "Adapter: " + adapter.toString());
-			
+
 		}
-		
-		if(bundle.containsKey(CLICKED_POS)) {
+
+		/*
+		 * eliminazione di una notifica dopo che è stata visionata
+		 */
+		if (bundle.containsKey(CLICKED_POS)) {
 			int clickedpos = bundle.getInt(CLICKED_POS);
 			removeItem(clickedpos);
 		}
@@ -115,26 +149,23 @@ public class MyHandler extends Handler {
 	}
 
 	private static void addItem(Notifica item) {
-		//item.setPositionMap(String.valueOf(NOTIFICA_MAP.size() + 1));
 		Log.w("MY HANDLER", "Index: " + index);
 		item.setPositionMap(String.valueOf(index++));
 		NOTIFICA_MAP.put(item.getPositionMap(), item);
 		ITEMS.add(item);
 	}
-	
+
 	synchronized private static void removeItem(int clickedpos) {
 		String pos = String.valueOf(clickedpos);
 		NOTIFICA_MAP.remove(NOTIFICA_MAP.get(pos));
 		Iterator<Notifica> it = ITEMS.iterator();
-		while(it.hasNext()) {
-			if(it.next().getPositionMap().equals(pos))
+		while (it.hasNext()) {
+			if (it.next().getPositionMap().equals(pos))
 				it.remove();
 		}
-		//adapter.remove(adapter.getItem(clickedpos));
-		//ITEMS.remove(clickedpos);
 		adapter.notifyDataSetChanged();
 	}
-	
+
 	public static void addFile(MantleFile item) {
 		FILE_MAP.put(item.getIdFile(), item);
 	}
