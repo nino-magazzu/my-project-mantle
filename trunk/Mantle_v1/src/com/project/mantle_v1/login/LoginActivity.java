@@ -65,14 +65,12 @@ public class LoginActivity extends Activity {
 
 		// Controllare la connessione
 		if (!isNetworkAvailable()) {
-			Toast.makeText(this, "Connection ", Toast.LENGTH_LONG)
+			Toast.makeText(this, "Connection unavailable ", Toast.LENGTH_LONG)
 					.show();
-			Log.d("HOME","NON C'è la connessione");
 			finish();
 		}
 
 		else {
-			Log.d("HOME","C'è la connessione");
 			db = new DatabaseHelper(this);
 
 			// Set up the login form.
@@ -322,25 +320,28 @@ public class LoginActivity extends Activity {
 	}
 
 	private boolean isNetworkAvailable() {
-		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetworkInfo = connectivityManager
-				.getActiveNetworkInfo();
-		
-		Boolean isCon = activeNetworkInfo.isConnectedOrConnecting() && activeNetworkInfo!=null;
-		String state = activeNetworkInfo.getState().toString();
-	
-		Log.d("HOMEE","State = " + state);
-		
-		if(activeNetworkInfo==null){
-			Log.d("HOMEE","Info null");
-		}
-		
-		if(activeNetworkInfo.isConnectedOrConnecting()){
-			Log.d("HOMEE","ConnectOrCOnnecting TRUE");
-		}
-		
-		return isCon;
-		//return activeNetworkInfo.isConnectedOrConnecting();
-		//return activeNetworkInfo!=null && activeNetworkInfo.isConnected();
+	       ConnectivityManager connectivityManager = (ConnectivityManager)getApplication().getSystemService(Context.CONNECTIVITY_SERVICE);
+	        State state = State.DISCONNECTED;
+	        if (connectivityManager != null)
+	        {
+	            NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
+	            if (netInfo != null)
+	            {
+	                state = netInfo.getState();
+	            
+	                if (state == State.CONNECTED)
+	                {   
+	                    Log.v("Connection", "Currently connected to a network");
+	                    return true;
+	                }
+	                else
+	                {
+	                    Log.v("Connection", "Current network state = " + state);
+	                    return false;
+	                }
+	            }
+	            return false;
+	        }
+	        return false;
 	}
 }

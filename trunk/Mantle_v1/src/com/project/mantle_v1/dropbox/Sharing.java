@@ -102,9 +102,10 @@ public class Sharing extends Activity {
 
 		case FRIEND_CHOOSED_CODE:
 			Log.v(TAG, "FRIEND_CHOOSED_CODE)");
+			if(data != null && data.hasExtra("contacts")) {
 			Object[] contacts = (Object[]) data
 					.getSerializableExtra("contacts");
-			if (contacts != null) {
+				
 				MantleFile mt = new MantleFile(getApplicationContext(),
 						String.valueOf(FILE_ID));
 				DatabaseHelper db = new DatabaseHelper(getApplicationContext());
