@@ -33,6 +33,17 @@ import com.project.mantle_v1.parser.ParseJSON;
 import com.project.mantle_v1.xml.ReaderXml;
 import com.project.mantle_v1.xml.WriterXml;
 
+/**
+ * Consente la visualizzazione dei commenti ad un file e l'immissione da parte
+ * dell'utente di un commento ad un file proprio file o che gli è stato
+ * condiviso da un altro utente suo amico.
+ * 
+ * Nel caso venga aggiunto un commento ad un file di cui l'utente non 
+ * è proprietario
+ * 
+ * @author nino
+ * 
+ */
 public class NoteActivity extends Activity {
 
 	static private String TAG;

@@ -12,7 +12,12 @@ import com.project.mantle_v1.fileNavigator.MantleFile;
 import com.project.mantle_v1.notification_home.Note;
 
 public class ParseJSON {
-
+	
+	/**
+	 * Si occupa della generazione e lettura degli oggetti JSON costituenti i corpi delle mail
+	 * scambiate fra gli utenti 
+	 */
+	
 	final private String USERNAME = "username";
 	final private String PUBLISHED = "published";
 	final private String OBJECT_TYPE = "objectType";
@@ -31,14 +36,31 @@ public class ParseJSON {
 	final private String IMAGE = "image";
 	final private String FULL_IMAGE = "fullImage";
 
+	/**
+	 * Costruttore relativo alla lettura di un oggetto JSON
+	 * @param In relativo al JSON che bisogna analizzare
+	 */
+	
 	public ParseJSON(StringReader In) {
 		this.in = In;
 	}
 
+	/**
+	 * Costruttore relativo alla creazione dell'oggetto JSON 
+	 * @param Out conterrà la stringa rappresentativa del JSON
+	 */
+	
 	public ParseJSON(StringWriter Out) {
 		this.out = Out;
 	}
 
+	/**
+	 * 	Costruisce un JSON contenente i dati relativi ad un media condiviso su Mantle
+	 * @param mt media in questione
+	 * @return la stringa relativa al JSON
+	 * @throws IOException
+	 */
+	
 	public String writeJson(MantleFile mt) throws IOException {
 		this.writer = new JsonWriter(out);
 		writer.setIndent("  ");
@@ -52,6 +74,13 @@ public class ParseJSON {
 		return out.toString();
 	}
 
+	/**
+	 * Costruisce un JSON relativo ad un'immagine
+	 * 
+	 * @param media relativa all'immagine, contenente i dati della stessa
+	 * @throws IOException
+	 */
+	
 	private void writeImg(MantleFile media) throws IOException {
 		writer.beginObject();
 		writer.name(FILE_NAME).value(media.getFileName());
@@ -67,6 +96,13 @@ public class ParseJSON {
 		writer.endObject();
 	}
 
+	/**
+	 * Costruisce un JSON relativo ad un file generico
+	 *  
+	 * @param media relativo al file in questione, contenente i dati dello stesso
+	 * @throws IOException
+	 */
+	
 	private void writeFile(MantleFile media) throws IOException {
 		writer.beginObject();
 		writer.name(FILE_NAME).value(media.getFileName());
@@ -79,6 +115,14 @@ public class ParseJSON {
 		writer.endObject();
 	}
 
+	/**
+	 * Crea stringa contenente il JSON utilizzato per la diffusione dei commenti tra i vari utenti 
+	 * 
+	 * @param note oggetto relativo al commento in questione
+	 * @return Stringa rappresentativa del JSON
+	 * @throws IOException
+	 */
+	
 	public String writeJson(Note note) throws IOException {
 		this.writer = new JsonWriter(out);
 		writer.setIndent("  ");
@@ -86,7 +130,14 @@ public class ParseJSON {
 		writer.close();
 		return out.toString();
 	}
-
+	
+	/**
+	 * Crea il JSON relativo al commento, con tutte le informazioni che quindi sono collegate
+	 * allo stesso
+	 * @param note oggetto che denota il commento in questione
+	 * @throws IOException
+	 */
+	
 	private void writeNote(Note note) throws IOException {
 		writer.beginObject();
 		writer.name(USERNAME).value(note.getUser());
@@ -96,7 +147,14 @@ public class ParseJSON {
 		writer.endObject();
 
 	}
-
+	
+	/**
+	 * Crea stringa contenente il JSON utilizzato per la diffusione delle informazioni degli utenti nella community
+	 * @param user di cui si vogliono comunicare i dati
+	 * @return
+	 * @throws IOException
+	 */
+	
 	public String writeJson(User user) throws IOException {
 		this.writer = new JsonWriter(out);
 		writer.setIndent("  ");
@@ -104,7 +162,12 @@ public class ParseJSON {
 		writer.close();
 		return out.toString();
 	}
-
+	
+	/**
+	 * Crea il JSON relativo all'utente del quale bisogna diffondere i dati
+	 * @param user
+	 * @throws IOException
+	 */
 	private void writeUser(User user) throws IOException {
 		writer.beginObject();
 		writer.name(NAME).value(user.getName());
@@ -114,7 +177,12 @@ public class ParseJSON {
 		writer.name(PUBLIC_KEY).value(user.getKey());
 		writer.endObject();
 	}
-
+	
+	/**
+	 * JSON relativo alla condivisione di immagini raccogliendo le informazioni relative alla dimensione dell'icona della stessa
+	 * @param media
+	 * @throws IOException
+	 */
 	private void imageDetails(MantleFile media) throws IOException {
 		writer.beginObject();
 		writer.name(THUMB_LINK).value(media.getLinkThumb());
@@ -123,6 +191,11 @@ public class ParseJSON {
 		writer.endObject();
 	}
 
+	/**
+	 * JSON relativo alla condivisione di immagini raccogliendo le informazioni relative alla dimensione della stessa
+	 * @param media
+	 * @throws IOException
+	 */
 	private void fullImageDetails(MantleFile media) throws IOException {
 		writer.beginObject();
 		writer.name(FILE_LINK).value(media.getLinkFile());
@@ -131,6 +204,11 @@ public class ParseJSON {
 		writer.endObject();
 	}
 
+	/**
+	 * Colloca le informazioni lette da un JSON relative ad un commento in un oggetto di tipo Note
+	 * @return
+	 * @throws IOException
+	 */
 	public Note readNote() throws IOException {
 		this.reader = new JsonReader(in);
 		reader.setLenient(lenient);
@@ -142,7 +220,12 @@ public class ParseJSON {
 		}
 		return note;
 	}
-
+	
+	/**
+	 * Legge un oggetto di tipo Note da una JSON contenuto in una stringa
+	 * @param note
+	 * @throws IOException
+	 */
 	private void readNote(Note note) throws IOException {
 		reader.beginObject();
 		while (reader.hasNext()) {
@@ -159,7 +242,13 @@ public class ParseJSON {
 		}
 		reader.endObject();
 	}
-
+	
+	/**
+	 * Collocazioni delle informazioni lette da un JSON contentente i dati di un file condiviso
+	 * all'interno di un oggetto MantleFile
+	 * @return
+	 * @throws IOException
+	 */
 	public MantleFile readFileMediaJson() throws IOException {
 		this.reader = new JsonReader(in);
 		reader.setLenient(lenient);
@@ -171,7 +260,12 @@ public class ParseJSON {
 		}
 		return media;
 	}
-
+	
+	/**
+	 * Legge le informazioni relative ad un file da un JSON
+	 * @param media
+	 * @throws IOException
+	 */
 	private void readFileMedia(MantleFile media) throws IOException {
 		reader.beginObject();
 		while (reader.hasNext()) {
@@ -193,7 +287,13 @@ public class ParseJSON {
 		}
 		reader.endObject();
 	}
-
+	
+	/**
+	 * legge e inserisce all'interno di un oggetto MantleFile le informazioni lette da un JSON relative 
+	 * ad un file condiviso
+	 * @return
+	 * @throws IOException
+	 */
 	public MantleFile readImageMediaJson() throws IOException {
 		this.reader = new JsonReader(in);
 		reader.setLenient(lenient);
@@ -205,7 +305,12 @@ public class ParseJSON {
 		}
 		return media;
 	}
-
+	
+	/**
+	 * Lettore dei dati relativi ad un'immagine da un JSON
+	 * @param media
+	 * @throws IOException
+	 */
 	private void readImageMedia(MantleFile media) throws IOException {
 		reader.beginObject();
 		while (reader.hasNext()) {
@@ -229,7 +334,12 @@ public class ParseJSON {
 		}
 		reader.endObject();
 	}
-
+	
+	/**
+	 * lettore dei dati relativi all'icona di un'immagine
+	 * @param media
+	 * @throws IOException
+	 */
 	private void readImage(MantleFile media) throws IOException {
 		reader.beginObject();
 		String prova;
@@ -246,7 +356,12 @@ public class ParseJSON {
 		}
 		reader.endObject();
 	}
-
+	
+	/**
+	 * lettore dei dati relativi ad un'immagine
+	 * @param media
+	 * @throws IOException
+	 */
 	private void readFullImage(MantleFile media) throws IOException {
 		reader.beginObject();
 		String prova;
@@ -264,7 +379,12 @@ public class ParseJSON {
 		}
 		reader.endObject();
 	}
-
+	
+	/**
+	 * lettore di dati utente da un JSON, e salvataggio delle stesse in un oggetto User
+	 * @return oggetto User con i dati letti
+	 * @throws IOException
+	 */
 	public User readUserJson() throws IOException {
 		this.reader = new JsonReader(in);
 		reader.setLenient(lenient);
@@ -276,7 +396,12 @@ public class ParseJSON {
 		}
 		return user;
 	}
-
+	
+	/**
+	 * lettura e salvataggio dei dati letti da un JSON in un oggetto di tipo User passato
+	 * @param user
+	 * @throws IOException
+	 */
 	private void readUser(User user) throws IOException {
 		reader.beginObject();
 		while (reader.hasNext()) {

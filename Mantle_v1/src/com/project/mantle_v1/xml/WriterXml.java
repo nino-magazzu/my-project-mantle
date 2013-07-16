@@ -25,6 +25,9 @@ import android.util.Log;
 
 import com.project.mantle_v1.fileNavigator.MantleFile;
 
+/**
+ * Scrittore di file XML 
+ */
 public class WriterXml {
 
 	File f;
@@ -32,11 +35,19 @@ public class WriterXml {
 	BufferedWriter bw;
 	String path;
 
-	public WriterXml() {
+	public WriterXml() {	}
 
-	}
-
-	// Il metodo
+	/**
+	 * Crea un file xml 
+	 * @param Date dati da inserire nell'xml
+	 * @param filename nome del file xml
+	 * @param path path del file xml
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerException
+	 */
 	private void createXml(String Date, String filename, String path)
 			throws ParserConfigurationException, SAXException, IOException,
 			TransformerFactoryConfigurationError, TransformerException {
@@ -63,7 +74,16 @@ public class WriterXml {
 		}
 	}
 
-	// crea la struttura di un file Xml con il solo elemento root
+	/**
+	 *  crea la struttura di un file Xml con il solo elemento root
+	 * @param filename
+	 * @param path
+	 * @throws ParserConfigurationException
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
 	public void createComment(String filename, String path)
 			throws ParserConfigurationException,
 			TransformerFactoryConfigurationError, TransformerException,
@@ -84,9 +104,16 @@ public class WriterXml {
 		createXml(writer.toString(), filename, path);
 
 	}
-
-	// crea la struttura di un file xml per i commenti con un primo elemento
-	// inserito
+	
+	/**
+	 *  crea la struttura di un file xml per i commenti con un primo elemento
+	 *	inserito
+	 * @param Author autore del commento
+	 * @param Date data di immissione 
+	 * @param Content commento stesso
+	 * @param filename file a cui è riferito il commento
+	 * @throws Exception
+	 */
 	public void writeComment(String Author, String Date, String Content,
 			String filename) throws Exception {
 		Document doc = DocumentBuilderFactory.newInstance()
@@ -118,9 +145,20 @@ public class WriterXml {
 		String path = MantleFile.DIRECTORY_TEMP;
 		createXml(writer.toString(), filename, path);
 	}
-
-	// crea la struttura di un file xml per aggiungere un commento ad un file
-	// già esistente
+	
+	/**
+	 * crea la struttura di un file xml per aggiungere un commento ad un file
+	 * gia' esistente
+	 * @param Author autore del nuovo commento
+	 * @param Date data di inserimento
+	 * @param Content contenuto del commento
+	 * @param f file in cui inserire il commento
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerException
+	 */
 	public void addComment(String Author, String Date, String Content, File f)
 			throws ParserConfigurationException, SAXException, IOException,
 			TransformerFactoryConfigurationError, TransformerException {
@@ -157,12 +195,31 @@ public class WriterXml {
 		createXml(writer.toString(), f.getName(), path);
 
 	}
-
+	
+	/**
+	 * Cancella un file
+	 * @param f file da cancellare
+	 */
 	public void deleteComment(File f) {
 		f.delete();
 
 	}
 
+	/**
+	 * Gestione dell'history delle notifiche: Salvataggio dei dati relativi ad un nuovo 
+	 * commento
+	 * @param Url
+	 * @param ObjectType
+	 * @param Id
+	 * @param Published
+	 * @param Content
+	 * @param f
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerException
+	 */
 	public void addNoteJson(String Url, String ObjectType, String Id,
 			String Published, String Content, File f)
 			throws ParserConfigurationException, SAXException, IOException,
@@ -212,7 +269,22 @@ public class WriterXml {
 		createXml(writer.toString(), f.getName(), path);
 
 	}
-
+	
+	/**
+	 * Gestione dell'history delle notifiche: Salvataggio dati relativi ad una nuova
+	 * foto condivisa
+	 * @param ObjectType
+	 * @param Id
+	 * @param Published
+	 * @param Image
+	 * @param FullImage
+	 * @param f
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerException
+	 */
 	public void addPhotoJson(String ObjectType, String Id, String Published,
 			String[] Image, String[] FullImage, File f)
 			throws ParserConfigurationException, SAXException, IOException,
@@ -286,9 +358,24 @@ public class WriterXml {
 		// create XML file
 		String path = MantleFile.DIRECTORY_HISTORY;
 		createXml(writer.toString(), f.getName(), path);
-
 	}
 
+	/**
+	 * Gestione dell'history delle notifiche: salvataggio informazioni relative alla condivisione 
+	 * di un file generico
+	 * @param DisplayName
+	 * @param FileUrl
+	 * @param Url
+	 * @param ObjectType
+	 * @param Id
+	 * @param Published
+	 * @param f
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerException
+	 */
 	public void addFileJson(String DisplayName, String FileUrl, String Url,
 			String ObjectType, String Id, String Published, File f)
 			throws ParserConfigurationException, SAXException, IOException,
@@ -340,9 +427,23 @@ public class WriterXml {
 		// create XML file
 		String path = MantleFile.DIRECTORY_HISTORY;
 		createXml(writer.toString(), f.getName(), path);
-
 	}
-
+	
+	/**
+	 * Gestione dell'history delle notifiche: salvataggio informazioni relative ad una nuova
+	 * amicizia
+	 * @param Name
+	 * @param Surname
+	 * @param Username
+	 * @param Email
+	 * @param PublicKey
+	 * @param f
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerException
+	 */
 	public void addUserJson(String Name, String Surname, String Username,
 			String Email, String PublicKey, File f)
 			throws ParserConfigurationException, SAXException, IOException,
@@ -390,9 +491,20 @@ public class WriterXml {
 		// create XML file
 		String path = MantleFile.DIRECTORY_HISTORY;
 		createXml(writer.toString(), f.getName(), path);
-
 	}
 
+	/**
+	 * Gestione dell'history delle notifiche: salvataggio di messaggi di sistema
+	 * @param Content
+	 * @param Username
+	 * @param Published
+	 * @param f
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerException
+	 */
 	public void addSystemInfo(String Content, String Username,
 			String Published, File f) throws ParserConfigurationException,
 			SAXException, IOException, TransformerFactoryConfigurationError,
@@ -434,5 +546,4 @@ public class WriterXml {
 		createXml(writer.toString(), f.getName(), path);
 
 	}
-
 }

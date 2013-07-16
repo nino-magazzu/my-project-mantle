@@ -16,19 +16,35 @@ import org.xml.sax.SAXException;
 
 import com.project.mantle_v1.notification_home.Note;
 
+/**
+ * Lettore di file XML 
+ * @author nino
+ *
+ */
+
 public class ReaderXml {
 
 	ArrayList<Note> parsedComment = new ArrayList<Note>();
 
-	public ReaderXml() {
+	public ReaderXml() {	}
 
-	}
-
-	// metodo di accesso alla struttura dati
+	/**
+	 * Permette l'accesso alla struttura dati
+	 * @return
+	 */
 	public ArrayList<Note> getParsedData() {
 		return parsedComment;
 	}
-
+	
+	/**
+	 * Permette la lettura di un file XML che raccoglie tutti i commenti relativi ad un file condiviso.
+	 * I commenti letti verrano poi raccolti all'interno di una struttura dati accessibile attraverso 
+	 * il metodo {@link getParsedData}
+	 * @param f file contenente i commenti
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
 	public void parseComment(File f) throws ParserConfigurationException,
 			SAXException, IOException {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory
