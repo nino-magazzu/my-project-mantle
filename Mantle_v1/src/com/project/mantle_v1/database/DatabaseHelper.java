@@ -436,15 +436,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	}
 
-	// eliminare l'utente sia dalla tabella User,Members
+	// eliminare l'utente sia dalla tabella User,Members,History,Share
 	public void deleteFriend(String email) {
 
 		String whereClause = "email = ?";
 		String[] whereArgs = { email };
 
+		Integer id = getId(email);
+
 		db.delete("User", whereClause, whereArgs);
 		db.delete("Members", whereClause, whereArgs);
 
+		String whereClause2 = "idUser = ?";
+		String[] whereArgs2 = {id.toString()};
+		db.delete("History",whereClause2,whereArgs2);
+		db.delete("Share",whereClause2,whereArgs2);
+				
 		Log.d(tag, "Ho elimnato l'utente richiesto : "
 				+ email);
 
