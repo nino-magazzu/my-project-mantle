@@ -127,6 +127,7 @@ public class MyHandler extends Handler {
 		}
 	}
 
+	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public void createNotification(String title) {
 		// Prepare intent which is triggered if the
