@@ -6,9 +6,13 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.NetworkInfo.State;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,6 +23,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.DatabaseHelper;
@@ -57,58 +62,72 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_login);
-		db = new DatabaseHelper(this);
 
-		// Set up the login form.
-		mUsernameView = (EditText) findViewById(R.id.username);
-		mUsernameView.setText(mUsername);
+		// Controllare la connessione
+		if (!isNetworkAvailable()) {
+			Toast.makeText(this, "Connection ", Toast.LENGTH_LONG)
+					.show();
+			Log.d("HOME","NON C'è la connessione");
+			finish();
+		}
 
-		mPasswordView = (EditText) findViewById(R.id.password);
+		else {
+			Log.d("HOME","C'è la connessione");
+			db = new DatabaseHelper(this);
 
-		mPasswordView
-				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction(TextView textView, int id,
-							KeyEvent keyEvent) {
-						if (id == R.id.login || id == EditorInfo.IME_NULL) {
+			// Set up the login form.
+			mUsernameView = (EditText) findViewById(R.id.username);
+			mUsernameView.setText(mUsername);
+
+			mPasswordView = (EditText) findViewById(R.id.password);
+
+			mPasswordView
+					.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+						@Override
+						public boolean onEditorAction(TextView textView,
+								int id, KeyEvent keyEvent) {
+							if (id == R.id.login || id == EditorInfo.IME_NULL) {
+								attemptLogin();
+								return true;
+							}
+							return false;
+						}
+					});
+
+			mLoginFormView = findViewById(R.id.login_form);
+			mLoginStatusView = findViewById(R.id.login_status);
+			mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
+
+			findViewById(R.id.sign_in_button).setOnClickListener(
+					new View.OnClickListener() {
+						@Override
+						public void onClick(View view) {
 							attemptLogin();
-							return true;
 						}
-						return false;
-					}
-				});
+					});
 
-		mLoginFormView = findViewById(R.id.login_form);
-		mLoginStatusView = findViewById(R.id.login_status);
-		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
+			findViewById(R.id.textView1).setOnClickListener(
+					new View.OnClickListener() {
 
-		findViewById(R.id.sign_in_button).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						attemptLogin();
-					}
-				});
-
-		findViewById(R.id.textView1).setOnClickListener(
-				new View.OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						startService(new Intent(LoginActivity.this, DbSyncService.class));
-						db.deleteAll();
-						File[] dirs = new File(MantleFile.MAIN_DIR).listFiles();
-						for (File ff : dirs) {
-							if (ff.isDirectory()) {
-								File[] files = ff.listFiles();
-								for (File fl : files) {
-									fl.delete();
-								}
-							} else
-								ff.delete();
+						@Override
+						public void onClick(View v) {
+							startService(new Intent(LoginActivity.this,
+									DbSyncService.class));
+							db.deleteAll();
+							File[] dirs = new File(MantleFile.MAIN_DIR)
+									.listFiles();
+							for (File ff : dirs) {
+								if (ff.isDirectory()) {
+									File[] files = ff.listFiles();
+									for (File fl : files) {
+										fl.delete();
+									}
+								} else
+									ff.delete();
+							}
 						}
-					}
-				});
+					});
+		}
 	}
 
 	@Override
@@ -300,5 +319,28 @@ public class LoginActivity extends Activity {
 			mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
 			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
+	}
+
+	private boolean isNetworkAvailable() {
+		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetworkInfo = connectivityManager
+				.getActiveNetworkInfo();
+		
+		Boolean isCon = activeNetworkInfo.isConnectedOrConnecting() && activeNetworkInfo!=null;
+		String state = activeNetworkInfo.getState().toString();
+	
+		Log.d("HOMEE","State = " + state);
+		
+		if(activeNetworkInfo==null){
+			Log.d("HOMEE","Info null");
+		}
+		
+		if(activeNetworkInfo.isConnectedOrConnecting()){
+			Log.d("HOMEE","ConnectOrCOnnecting TRUE");
+		}
+		
+		return isCon;
+		//return activeNetworkInfo.isConnectedOrConnecting();
+		//return activeNetworkInfo!=null && activeNetworkInfo.isConnected();
 	}
 }
