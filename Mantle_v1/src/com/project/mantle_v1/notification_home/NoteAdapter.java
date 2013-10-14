@@ -11,6 +11,12 @@ import android.widget.TextView;
 
 import com.project.mantle_v1.R;
 
+/**
+ * Gestisce la formattazione dei commenti nel momento in cui questi vengono visualizzati. 
+ * @author nino
+ *
+ */
+
 public class NoteAdapter extends ArrayAdapter<Note> {
 
 	public NoteAdapter(Context context, int textViewResourceId,

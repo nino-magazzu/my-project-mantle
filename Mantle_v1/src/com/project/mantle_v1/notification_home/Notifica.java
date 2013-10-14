@@ -1,20 +1,19 @@
 package com.project.mantle_v1.notification_home;
 
 import java.io.Serializable;
-
-import android.content.SharedPreferences;
-
 import com.project.mantle_v1.database.User;
 import com.project.mantle_v1.fileNavigator.MantleFile;
 import com.project.mantle_v1.parser.MantleMessage;
 
 public class Notifica implements Serializable {
 
-	/**
-	 * Rappresenta una notifica ottenuta dalle mail. Raccoglie i dati essenziali
-	 * per andare a creare le notifiche all'interno della home
-	 */
-
+/**
+ * Denota la notifica. Per notifica viene intesa la comunicazione all'utente da parte del servizio
+ * di informazioni estratte dalle mail provenienti dagli altri utenti (notifica attiva) o dagli activity stream (notifica passiva). 
+ * 
+ * La classe permette quindi la creazione dei diversi tipi di notifica in relazione al diverso tipo di informazioni contenute 
+ * nella mail. Consente inoltre l'estrazione delle singole informazioni o la modifica delle stesse 
+ */
 	
 	private static final long serialVersionUID = 3324254621470042381L;
 	

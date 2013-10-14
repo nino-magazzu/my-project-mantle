@@ -12,12 +12,14 @@ import android.widget.TextView;
 
 import com.project.mantle_v1.R;
 
+/**
+ * Gestisce la formattazione delle notifiche nel momento in cui queste vengono visualizzate all'interno della home .
+ * @author nino
+ *
+ */
 public class NotificaAdapter extends ArrayAdapter<Notifica> implements
 		Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8456027792111038581L;
 
 	public NotificaAdapter(Context context, int textViewResourceId,
