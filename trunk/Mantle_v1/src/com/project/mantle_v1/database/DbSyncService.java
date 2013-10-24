@@ -69,7 +69,7 @@ public class DbSyncService extends Service {
 					else
 						uploadDb();
 				} catch (DropboxException e) {
-					Log.v(getClass().getSimpleName(), "Problema con le Entry");
+					Log.v(getClass().getSimpleName(), "Problema con le Entry: " + e.getMessage());
 				}
 			}
 		}.start();
