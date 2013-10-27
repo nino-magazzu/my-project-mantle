@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.project.mantle_v1"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />  
+	    
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher2"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.project.mantle_v1.login.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.project.mantle_v1.dropbox.Sharing"
+            android:launchMode="singleTop" />
+        <activity android:name="com.project.mantle_v1.fileChooser.FileChooser" />
+        <activity android:name="com.project.mantle_v1.dropbox.DropBoxFile" />
+        <activity android:name="com.project.mantle_v1.fileChooser.FileDownloadChooser" />
+        <activity android:name="com.project.mantle_v1.database.Priority" />
+        <activity android:name="com.project.mantle_v1.database.AddService" />
+        <activity android:name="com.project.mantle_v1.login.Register" />
+        <activity android:name="com.project.mantle_v1.database.AddFriend" />
+        <activity android:name="com.project.mantle_v1.dropbox.DropboxAuthActivity" />
+        <activity android:name="com.project.mantle_v1.database.FriendsList" />
+        <activity android:name="com.project.mantle_v1.database.ShowFriend" />
+        <activity android:name="com.project.mantle_v1.notification_home.NoteActivity" />
+        <activity android:name="com.project.mantle_v1.database.Team" />
+        <activity android:name="com.project.mantle_v1.database.ShowMembers" />
+        <activity
+            android:name="com.dropbox.client2.android.AuthActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <data android:scheme="db-6k7t4o9zc6jbz9n" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.project.mantle_v1.notification_home.NotificationListActivity"
+            android:label="@string/title_notification_list" >
+        </activity>
+        <activity
+            android:name="com.project.mantle_v1.notification_home.NotificationDetailActivity"
+            android:label="@string/title_notification_detail"
+            android:parentActivityName="com.project.mantle_v1.notification_home.NotificationListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.project.mantle_v1.notification_home.NotificationListActivity" />
+        </activity>
+        <activity
+            android:name="com.project.mantle_v1.fileNavigator.FileListActivity"
+            android:label="@string/title_file_list"
+            android:parentActivityName="com.project.mantle_v1.notification_home.NotificationListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.project.mantle_v1.notification_home.NotificationListActivity" />
+        </activity>
+        <activity
+            android:name="com.project.mantle_v1.fileNavigator.FileDetailActivity"
+            android:label="@string/title_file_detail"
+            android:parentActivityName="com.project.mantle_v1.fileNavigator.FileListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.project.mantle_v1.notification_home.NotificationListActivity" />
+        </activity>
+
+        <service android:name="com.project.mantle_v1.database.DbSyncService" >
+        </service>
+        
+        </application>
+
+</manifest>
