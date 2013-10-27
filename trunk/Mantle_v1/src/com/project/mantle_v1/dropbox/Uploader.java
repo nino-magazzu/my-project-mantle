@@ -115,9 +115,10 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 				Entry ent = mRequest.upload();
 
 				shareLink = mApi.share(ent.path);
-
-				String shareAddress = getShareURL(shareLink.url).replaceFirst(
-						"https://www", "https://dl");
+				
+				String shareAddress = shareLink.url.replaceFirst(
+				        "www.dropbox.com", "dl.dropboxusercontent.com"); //getShareURL(shareLink.url).replaceFirst(
+						//"https://www", "https://dl");
 
 				if (ent.mimeType.contains("image")) {
 					uploadingThumbnail();
@@ -254,8 +255,8 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		if (mRequest != null) {
 			ent = mRequest.upload();
 			shareLink = mApi.share(ent.path);
-			shareAddress = getShareURL(shareLink.url).replaceFirst(
-					"https://www", "https://dl");
+			shareAddress =shareLink.url.replaceFirst(
+			        "www.dropbox.com", "dl.dropboxusercontent.com");
 			db.insertLinkComment(ID, shareAddress);
 			mFile.delete();
 		}
@@ -292,8 +293,8 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 			Entry entThumb = mRequest.upload();
 			thumb.delete();
 			shareLink = mApi.share(entThumb.path);
-			ThumbAddress = getShareURL(shareLink.url).replaceFirst(
-					"https://www", "https://dl");
+			ThumbAddress = shareLink.url.replaceFirst(
+			        "www.dropbox.com", "dl.dropboxusercontent.com");
 		}
 	}
 
@@ -311,7 +312,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
 	}
 
-	private String getShareURL(String strURL) {
+/*	private String getShareURL(String strURL) {
 		URLConnection conn = null;
 		try {
 			URL inputURL = new URL(strURL);
@@ -324,7 +325,8 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		} catch (Exception e) {
 			Log.d(TAG, "Exception: " + e.getMessage());
 		}
+		Log.d(TAG, conn.getHeaderFields().toString());
 		return conn.getHeaderField("location");
 	}
-
+*/
 }
