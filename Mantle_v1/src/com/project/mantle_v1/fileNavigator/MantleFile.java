@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.channels.FileChannel;
 import java.util.concurrent.ExecutionException;
 
 import android.app.ProgressDialog;
@@ -322,6 +323,24 @@ public class MantleFile implements Serializable {
 	@Override
 	public String toString() {
 		return this.fileName;
+	}
+	
+	public void TransferFileTo(File dest) {
+		FileChannel src;
+		try {
+			src = new FileInputStream(mFile).getChannel();
+			FileChannel dst = new FileOutputStream(dest).getChannel();
+			dst.transferFrom(src, 0, src.size());
+			src.close();
+			dst.close();
+		
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private static final long serialVersionUID = 6107134499898867188L;

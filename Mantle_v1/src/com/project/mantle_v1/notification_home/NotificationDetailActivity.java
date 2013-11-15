@@ -20,6 +20,7 @@ import com.project.mantle_v1.R;
  * This activity is mostly just a 'shell' activity containing nothing more than
  * a {@link NotificationDetailFragment}.
  */
+
 public class NotificationDetailActivity extends FragmentActivity {
 
 	@Override

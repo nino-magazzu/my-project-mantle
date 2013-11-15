@@ -126,7 +126,6 @@ public class MyHandler extends Handler {
 			removeItem(clickedpos);
 		}
 	}
-
 	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public void createNotification(String title) {
