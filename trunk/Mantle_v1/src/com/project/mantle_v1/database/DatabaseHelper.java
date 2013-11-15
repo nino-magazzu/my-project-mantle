@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-
-import android.R.string;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;

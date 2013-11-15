@@ -44,7 +44,10 @@ public class LoginActivity extends Activity {
 	 */
 
 	private final String USER_DETAILS_PREF = "user";
-
+	final static private String ACCOUNT_PREFS_NAME = "prefs";
+	final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
+	final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
+	
 	// Values for Username and password at the time of the login attempt.
 	private String mUsername;
 	private String mPassword;
@@ -109,19 +112,27 @@ public class LoginActivity extends Activity {
 
 						@Override
 						public void onClick(View v) {
-							startService(new Intent(LoginActivity.this,
-									DbSyncService.class));
-							db.deleteAll();
-							File[] dirs = new File(MantleFile.MAIN_DIR)
-									.listFiles();
-							for (File ff : dirs) {
-								if (ff.isDirectory()) {
-									File[] files = ff.listFiles();
-									for (File fl : files) {
-										fl.delete();
-									}
-								} else
-									ff.delete();
+							
+							SharedPreferences prefs = getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
+							Editor editor = prefs.edit();
+							editor.putString(ACCESS_KEY_NAME, null);
+							editor.putString(ACCESS_SECRET_NAME, null);
+							editor.commit();
+							
+							if(db.login()[0] != " ") {
+								startService(new Intent(LoginActivity.this, DbSyncService.class));
+								db.deleteAll();
+								File[] dirs = new File(MantleFile.MAIN_DIR)
+										.listFiles();
+								for (File ff : dirs) {
+									if (ff.isDirectory()) {
+										File[] files = ff.listFiles();
+										for (File fl : files) {
+											fl.delete();
+										}
+									} else
+										ff.delete();
+								}
 							}
 						}
 					});

@@ -42,12 +42,22 @@ public class DbSyncService extends Service {
 			@Override
 			public void run() {
 				try {
+					DateFormat dateFormat = new SimpleDateFormat(
+							"EEE, dd MMM yyyy kk:mm:ss ZZZZZ", Locale.ITALY);
+					
+					String dataLocale = dateFormat.format(new Date(
+							getDatabasePath(DatabaseHelper.DB_NAME)
+									.lastModified()));
+					
+
+					MantleFile file = new MantleFile(getDatabasePath(DatabaseHelper.DB_NAME));
+					file.TransferFileTo(new File(MantleFile.DIRECTORY_TEMP, DatabaseHelper.DB_NAME));
+					
 					ent = new DropboxAuth(getApplicationContext()).getAPI()
 							.metadata("/storedFile/" + DatabaseHelper.DB_NAME,
 									1000, null, true, null);
 
-					DateFormat dateFormat = new SimpleDateFormat(
-							"EEE, dd MMM yyyy kk:mm:ss ZZZZZ", Locale.ITALY);
+					
 					String dataDropbox = ent.modified;
 
 					Log.v(getClass().getSimpleName(), "data Dropbox db: "
@@ -57,10 +67,7 @@ public class DbSyncService extends Service {
 							getDatabasePath(DatabaseHelper.DB_NAME)
 									.getAbsolutePath());
 
-					String dataLocale = dateFormat.format(new Date(
-							getDatabasePath(DatabaseHelper.DB_NAME)
-									.lastModified()));
-
+					
 					Log.v(getClass().getSimpleName(), "data Device db: "
 							+ dataLocale);
 
@@ -92,7 +99,7 @@ public class DbSyncService extends Service {
 			@Override
 			protected Boolean doInBackground(Void... params) {
 				try {
-					File mFile = getDatabasePath(DatabaseHelper.DB_NAME);
+					File mFile = new File(MantleFile.DIRECTORY_TEMP, DatabaseHelper.DB_NAME);
 					DropboxAuth dropbox = new DropboxAuth(
 							getApplicationContext());
 
@@ -103,8 +110,10 @@ public class DbSyncService extends Service {
 
 					if (mRequest != null) {
 						mRequest.upload();
+						mFile.delete();
 						return true;
 					}
+					new File(MantleFile.DIRECTORY_TEMP, DatabaseHelper.DB_NAME).delete();
 					return false;
 				} catch (Exception e) {
 					// This session wasn't authenticated properly or user
@@ -184,6 +193,7 @@ public class DbSyncService extends Service {
 							getApplicationContext());
 					db.importDB();
 					db.close();
+					new File(MantleFile.DIRECTORY_TEMP, DatabaseHelper.DB_NAME).delete();
 				}
 			}
 		}.execute();
@@ -193,5 +203,4 @@ public class DbSyncService extends Service {
 	public IBinder onBind(Intent intent) {
 		return null;
 	}
-
 }
