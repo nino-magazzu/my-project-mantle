@@ -75,6 +75,18 @@ public class DbSyncService extends Service {
 						downloadDb();
 					else
 						uploadDb();
+					
+					File[] dirs = new File(MantleFile.DIRECTORY_TEMP)
+					.listFiles();
+					for (File ff : dirs) {
+						if (ff.isDirectory()) {
+							File[] files = ff.listFiles();
+							for (File fl : files) {
+								fl.delete();
+							}
+						} else
+							ff.delete();
+					}
 				} catch (DropboxException e) {
 					Log.v(getClass().getSimpleName(), "Problema con le Entry: " + e.getMessage());
 				}

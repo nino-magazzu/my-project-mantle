@@ -4,17 +4,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
-
 import org.xml.sax.SAXException;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,7 +21,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.DropboxLink;
 import com.dropbox.client2.DropboxAPI.Entry;
@@ -321,17 +318,30 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 			showToast(mErrorMsg);
 		}
 	}
-
+	
 	private void showToast(String msg) {
 		Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
 	}
 
 	private String getShareURL(String strURL) {
 		URLConnection conn = null;
+		String result = strURL;
 		try {
-			URL inputURL = new URL(strURL);
-			conn = inputURL.openConnection();
-			
+	        String header;
+	            do {
+	                URL url = new URL(result);
+	                HttpURLConnection.setFollowRedirects(false);
+	                conn = url.openConnection();
+	                header = conn.getHeaderField(null);
+	                String location = conn.getHeaderField("location");
+	                
+	                Log.i("LOCATION......", location);
+
+	                if (location != null) {
+	                    result = location;
+	                }
+	            } while (header.contains("301"));
+	        
 		} catch (MalformedURLException e) {
 			Log.d(TAG, "Please input a valid URL: " + e.getMessage());
 		} catch (IOException ioe) {
@@ -339,7 +349,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 		} catch (Exception e) {
 			Log.d(TAG, "Exception: " + e.getMessage());
 		}
-		return conn.getHeaderField("location");
+		return result;
 	}
 
 }

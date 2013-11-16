@@ -125,7 +125,7 @@ public class LoginActivity extends Activity {
 								File[] dirs = new File(MantleFile.MAIN_DIR)
 										.listFiles();
 								for (File ff : dirs) {
-									if (ff.isDirectory()) {
+									if (ff.isDirectory() && ff.getName().compareTo("tmp") != 0) {
 										File[] files = ff.listFiles();
 										for (File fl : files) {
 											fl.delete();
