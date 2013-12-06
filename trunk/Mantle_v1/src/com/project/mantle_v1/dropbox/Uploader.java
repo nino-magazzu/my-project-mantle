@@ -112,16 +112,9 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 				Entry ent = mRequest.upload();
 
 				shareLink = mApi.share(ent.path);
-	
-				shareLink = mApi.share(ent.path);
 				String shareAddress =getShareURL(shareLink.url).replaceFirst(
 				        "www.dropbox.com", "dl.dropboxusercontent.com");
 				
-				/*
-				String shareAddress = shareLink.url.replaceFirst(
-				        "www.dropbox.com", "dl.dropboxusercontent.com"); //getShareURL(shareLink.url).replaceFirst(
-						//"https://www", "https://dl");
-*/
 				if (ent.mimeType.contains("image")) {
 					uploadingThumbnail();
 				}
@@ -260,10 +253,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 			shareLink = mApi.share(ent.path);
 			shareAddress =getShareURL(shareLink.url).replaceFirst(
 			        "www.dropbox.com", "dl.dropboxusercontent.com");
-			
-			/*shareAddress =shareLink.url.replaceFirst(
-			        "www.dropbox.com", "dl.dropboxusercontent.com");
-			*/
+		   
 			db.insertLinkComment(ID, shareAddress);
 			mFile.delete();
 		}
@@ -303,9 +293,7 @@ public class Uploader extends AsyncTask<Void, Long, Integer> {
 
 			ThumbAddress =getShareURL(shareLink.url).replaceFirst(
 			        "www.dropbox.com", "dl.dropboxusercontent.com");
-			/*
-			ThumbAddress = shareLink.url.replaceFirst(
-			        "www.dropbox.com", "dl.dropboxusercontent.com"); */
+		
 		}
 	}
 
