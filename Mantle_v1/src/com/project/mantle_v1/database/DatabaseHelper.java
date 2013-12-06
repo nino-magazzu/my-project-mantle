@@ -961,4 +961,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			i++;
 		}
 	}
+	
+	public void exportDB2() {
+
+		try {
+			File sd = new File (Environment.getExternalStorageDirectory()+ "/temp mantle/");
+			File data = Environment.getDataDirectory();
+
+			if (!sd.exists())
+				sd.mkdirs();
+
+			// if (sd.canWrite()) {
+			String currentDBPath = "/data/com.project.mantle_v1/databases/" + DB_NAME;
+			String backupDBPath = DB_NAME;
+
+			File currentDB = new File(data, currentDBPath);
+			File backupDB = new File(sd, backupDBPath);
+			
+			Log.i("percorso file backupDB" , backupDB.getPath());
+			
+			FileChannel src = new FileInputStream(currentDB).getChannel();
+			FileChannel dst = new FileOutputStream(backupDB).getChannel();
+			dst.transferFrom(src, 0, src.size());
+			src.close();
+			dst.close();
+			//backupDB.delete();
+			Log.d(tag, "Mantle db exported....exportDB2");
+			// }
+		} catch (Exception e) {
+
+			Log.w(tag, "Mantle db not exported" + e);
+
+		}
+	}
+	
 }

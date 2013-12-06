@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.channels.FileChannel;
 import java.util.concurrent.ExecutionException;
-
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -17,7 +15,6 @@ import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.os.Environment;
 import android.util.Log;
-
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.project.mantle_v1.database.DatabaseHelper;
@@ -341,6 +338,20 @@ public class MantleFile implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void emptyDirectory(String file) {
+		File[] dirs = new File(file)
+		.listFiles();
+		for (File ff : dirs) {
+			if (ff.isDirectory()) {
+				File[] files = ff.listFiles();
+				for (File fl : files) {
+					fl.delete();
+				}
+			} else
+				ff.delete();
+		} 
 	}
 
 	private static final long serialVersionUID = 6107134499898867188L;

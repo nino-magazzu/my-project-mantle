@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.project.mantle_v1.R;
 import com.project.mantle_v1.database.DatabaseHelper;
 import com.project.mantle_v1.database.DbSyncService;
+import com.project.mantle_v1.database.DbSyncServiceLogout;
 import com.project.mantle_v1.database.User;
 import com.project.mantle_v1.dropbox.DropboxAuthActivity;
 import com.project.mantle_v1.fileNavigator.MantleFile;
@@ -47,7 +48,7 @@ public class LoginActivity extends Activity {
 	final static private String ACCOUNT_PREFS_NAME = "prefs";
 	final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
 	final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
-	
+
 	// Values for Username and password at the time of the login attempt.
 	private String mUsername;
 	private String mPassword;
@@ -112,23 +113,43 @@ public class LoginActivity extends Activity {
 
 						@Override
 						public void onClick(View v) {
-							
-							SharedPreferences prefs = getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
+
+							SharedPreferences prefs = getSharedPreferences(
+									ACCOUNT_PREFS_NAME, 0);
 							Editor editor = prefs.edit();
 							editor.putString(ACCESS_KEY_NAME, null);
 							editor.putString(ACCESS_SECRET_NAME, null);
 							editor.commit();
-							
-							if(db.login()[0] != " ") {
-								startService(new Intent(LoginActivity.this, DbSyncService.class));
+
+							if (db.login()[0] != " ") {
+
+								// /////////////
+								Log.i("CONTROLLO DB",
+										"IL DB LOCALE E' GIA' VUOTO");
+								// /////////////
+							} else {
+
+								File tempdb = new File(
+										"/storage/emulated/0/temp mantle/MantleDbApplication");
+								tempdb.delete();
+								db.exportDB2();
+								startService(new Intent(LoginActivity.this,
+										DbSyncServiceLogout.class));
+
+								Log.i("DATABASE AZZERATO",
+										"......DATABASE VUOTO......");
+
 								db.deleteAll();
+
 								File[] dirs = new File(MantleFile.MAIN_DIR)
 										.listFiles();
 								for (File ff : dirs) {
-									if (ff.isDirectory() && ff.getName().compareTo("tmp") != 0) {
-										File[] files = ff.listFiles();
-										for (File fl : files) {
-											fl.delete();
+									if (ff.isDirectory()) {
+										if (ff.getName().compareTo("db") != 0) {
+											File[] files = ff.listFiles();
+											for (File fl : files) {
+												fl.delete();
+											}
 										}
 									} else
 										ff.delete();
@@ -331,28 +352,24 @@ public class LoginActivity extends Activity {
 	}
 
 	private boolean isNetworkAvailable() {
-	       ConnectivityManager connectivityManager = (ConnectivityManager)getApplication().getSystemService(Context.CONNECTIVITY_SERVICE);
-	        State state = State.DISCONNECTED;
-	        if (connectivityManager != null)
-	        {
-	            NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
-	            if (netInfo != null)
-	            {
-	                state = netInfo.getState();
-	            
-	                if (state == State.CONNECTED)
-	                {   
-	                    Log.v("Connection", "Currently connected to a network");
-	                    return true;
-	                }
-	                else
-	                {
-	                    Log.v("Connection", "Current network state = " + state);
-	                    return false;
-	                }
-	            }
-	            return false;
-	        }
-	        return false;
+		ConnectivityManager connectivityManager = (ConnectivityManager) getApplication()
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		State state = State.DISCONNECTED;
+		if (connectivityManager != null) {
+			NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
+			if (netInfo != null) {
+				state = netInfo.getState();
+
+				if (state == State.CONNECTED) {
+					Log.v("Connection", "Currently connected to a network");
+					return true;
+				} else {
+					Log.v("Connection", "Current network state = " + state);
+					return false;
+				}
+			}
+			return false;
+		}
+		return false;
 	}
 }

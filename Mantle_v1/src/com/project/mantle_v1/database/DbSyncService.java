@@ -42,23 +42,14 @@ public class DbSyncService extends Service {
 			@Override
 			public void run() {
 				try {
-					DateFormat dateFormat = new SimpleDateFormat(
-							"EEE, dd MMM yyyy kk:mm:ss ZZZZZ", Locale.ITALY);
-					
-					String dataLocale = dateFormat.format(new Date(
-							getDatabasePath(DatabaseHelper.DB_NAME)
-									.lastModified()));
-					
-
-					MantleFile file = new MantleFile(getDatabasePath(DatabaseHelper.DB_NAME));
-					file.TransferFileTo(new File(MantleFile.DIRECTORY_TEMP, DatabaseHelper.DB_NAME));
-					
 					ent = new DropboxAuth(getApplicationContext()).getAPI()
 							.metadata("/storedFile/" + DatabaseHelper.DB_NAME,
 									1000, null, true, null);
 
-					
+					DateFormat dateFormat = new SimpleDateFormat(
+							"EEE, dd MMM yyyy kk:mm:ss ZZZZZ", Locale.ITALY);
 					String dataDropbox = ent.modified;
+					Log.i("START DBSYNCSERVICE", ".....START DBSYNCSERVICE.....");
 
 					Log.v(getClass().getSimpleName(), "data Dropbox db: "
 							+ dataDropbox);
@@ -67,25 +58,22 @@ public class DbSyncService extends Service {
 							getDatabasePath(DatabaseHelper.DB_NAME)
 									.getAbsolutePath());
 
-					
+					String dataLocale = dateFormat.format(new Date(
+							getDatabasePath(DatabaseHelper.DB_NAME)
+									.lastModified()));
+
 					Log.v(getClass().getSimpleName(), "data Device db: "
 							+ dataLocale);
 
 					if (dataDropbox.compareTo(dataLocale) > 0)
+					{
+						Log.i("DOWNLOAD DATABASE DA DBSYNCSERVICE", ".....DOWNLOAD DATABASE.....");
 						downloadDb();
+					}
 					else
+					{
+						Log.i("UPLOAD DATABASE DA DBSYNCSERVICE", ".....UPLOAD DATABASE.....");
 						uploadDb();
-					
-					File[] dirs = new File(MantleFile.DIRECTORY_TEMP)
-					.listFiles();
-					for (File ff : dirs) {
-						if (ff.isDirectory()) {
-							File[] files = ff.listFiles();
-							for (File fl : files) {
-								fl.delete();
-							}
-						} else
-							ff.delete();
 					}
 				} catch (DropboxException e) {
 					Log.v(getClass().getSimpleName(), "Problema con le Entry: " + e.getMessage());
@@ -111,7 +99,7 @@ public class DbSyncService extends Service {
 			@Override
 			protected Boolean doInBackground(Void... params) {
 				try {
-					File mFile = new File(MantleFile.DIRECTORY_TEMP, DatabaseHelper.DB_NAME);
+					File mFile = getDatabasePath(DatabaseHelper.DB_NAME);
 					DropboxAuth dropbox = new DropboxAuth(
 							getApplicationContext());
 
@@ -122,10 +110,8 @@ public class DbSyncService extends Service {
 
 					if (mRequest != null) {
 						mRequest.upload();
-						mFile.delete();
 						return true;
 					}
-					new File(MantleFile.DIRECTORY_TEMP, DatabaseHelper.DB_NAME).delete();
 					return false;
 				} catch (Exception e) {
 					// This session wasn't authenticated properly or user
@@ -205,7 +191,6 @@ public class DbSyncService extends Service {
 							getApplicationContext());
 					db.importDB();
 					db.close();
-					new File(MantleFile.DIRECTORY_TEMP, DatabaseHelper.DB_NAME).delete();
 				}
 			}
 		}.execute();
@@ -215,4 +200,5 @@ public class DbSyncService extends Service {
 	public IBinder onBind(Intent intent) {
 		return null;
 	}
+
 }
