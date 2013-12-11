@@ -108,10 +108,11 @@ public class NotificationListActivity extends FragmentActivity implements
 	 */
 	@Override
 	public void onItemSelected(String id) {
-		/**
-		 * Codice che si occupa della visualizzazione della lista e dei file nei Tablet. Non funziona la visualizzazione. Bisogna rivedere questa 
-		 * parte per riuscire a poter ottimizzare l'interfaccia
-		 */
+		/*
+		  Codice che si occupa della visualizzazione della lista e dei file nei Tablet. Non funziona la visualizzazione. Bisogna rivedere questa 
+		  parte per riuscire a poter ottimizzare l'interfaccia   (altra parte commentata in FileList Activity)
+		*/
+		
 		/*
 		if (mTwoPane) {
 			// In two-pane mode, show the detail view in this activity by
@@ -125,7 +126,8 @@ public class NotificationListActivity extends FragmentActivity implements
 					.replace(R.id.notification_detail_container, fragment)
 					.commit();
 
-		} else {*/
+		} else {
+		*/
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
 			Notifica n = MyHandler.NOTIFICA_MAP.get(id);

@@ -30,7 +30,7 @@ public class FileListActivity extends FragmentActivity implements
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
 	 * device.
 	 */
-	private boolean mTwoPane;
+	//private boolean mTwoPane;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class FileListActivity extends FragmentActivity implements
 			// large-screen layouts (res/values-large and
 			// res/values-sw600dp). If this view is present, then the
 			// activity should be in two-pane mode.
-			mTwoPane = true;
+			//mTwoPane = true;
 
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
@@ -79,10 +79,10 @@ public class FileListActivity extends FragmentActivity implements
 	 */
 	@Override
 	public void onItemSelected(String id) {
-		/**
-		 * Da sistemare per poter visualizzare un'interfaccia ottimizzata per tablet
+		/*
+		  Da sistemare per poter visualizzare un'interfaccia ottimizzata per tablet
 		 */
-		/*	if (mTwoPane) {
+		/*if (mTwoPane) {
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
@@ -99,6 +99,6 @@ public class FileListActivity extends FragmentActivity implements
 			Intent detailIntent = new Intent(this, FileDetailActivity.class);
 			detailIntent.putExtra(FileDetailFragment.ARG_ITEM_ID, id);
 			startActivity(detailIntent);
-		}
+		//}
 	}
-//}
+}
