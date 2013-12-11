@@ -114,14 +114,9 @@ public class LoginActivity extends Activity {
 						@Override
 						public void onClick(View v) {
 
-							SharedPreferences prefs = getSharedPreferences(
-									ACCOUNT_PREFS_NAME, 0);
-							Editor editor = prefs.edit();
-							editor.putString(ACCESS_KEY_NAME, null);
-							editor.putString(ACCESS_SECRET_NAME, null);
-							editor.commit();
 
-							if (db.login()[0] != " ") {
+
+							if (db.login()[0] == " ") {
 
 								// /////////////
 								Log.i("CONTROLLO DB",
@@ -137,7 +132,7 @@ public class LoginActivity extends Activity {
 										DbSyncServiceLogout.class));
 
 								Log.i("DATABASE AZZERATO",
-										"......DATABASE VUOTO......");
+										"......IL DATABASE ORA E' VUOTO......");
 
 								db.deleteAll();
 

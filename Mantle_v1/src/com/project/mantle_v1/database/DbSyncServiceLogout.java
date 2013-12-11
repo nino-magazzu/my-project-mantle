@@ -14,6 +14,8 @@ import java.util.Locale;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
@@ -23,10 +25,17 @@ import com.dropbox.client2.DropboxAPI.Entry;
 import com.dropbox.client2.DropboxAPI.UploadRequest;
 import com.dropbox.client2.exception.DropboxException;
 import com.project.mantle_v1.dropbox.DropboxAuth;
+import com.project.mantle_v1.dropbox.DropboxAuthActivity;
 import com.project.mantle_v1.fileNavigator.MantleFile;
+import com.project.mantle_v1.login.LoginActivity;
 
 public class DbSyncServiceLogout extends Service {
 	private Entry ent;
+
+	private final String USER_DETAILS_PREF = "user";
+	final static private String ACCOUNT_PREFS_NAME = "prefs";
+	final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
+	final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
 
 	@Override
 	public void onCreate() {
@@ -36,16 +45,18 @@ public class DbSyncServiceLogout extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.v(getClass().getSimpleName(), "Starting service");
+		Log.v(getClass().getSimpleName(), "Starting service DbSyncServiceLogout ");
 
 		new Thread() {
 			@Override
 			public void run() {
 				try {
+										
 					ent = new DropboxAuth(getApplicationContext()).getAPI()
 							.metadata("/storedFile/" + DatabaseHelper.DB_NAME,
 									1000, null, true, null);
-
+					
+					
 					DateFormat dateFormat = new SimpleDateFormat(
 							"EEE, dd MMM yyyy kk:mm:ss ZZZZZ", Locale.ITALY);
 					String dataDropbox = ent.modified;
@@ -77,10 +88,12 @@ public class DbSyncServiceLogout extends Service {
 					}
 				} catch (DropboxException e) {
 					Log.v(getClass().getSimpleName(), "Problema con le Entry: " + e.getMessage());
+					
+
 				}
 			}
 		}.start();
-		return Service.START_STICKY;
+		return Service.START_NOT_STICKY;
 	}
 
 	/**
@@ -110,6 +123,13 @@ public class DbSyncServiceLogout extends Service {
 
 					if (mRequest != null) {
 						mRequest.upload();
+						Log.i("AZZERAMENTO SHARED.PREFERENCE",".........AZZERAMENTO SHARED.PREFERENCE.......");
+						SharedPreferences prefs = getSharedPreferences(
+								ACCOUNT_PREFS_NAME, 0);
+						Editor editor = prefs.edit();
+						editor.putString(ACCESS_KEY_NAME, null);
+						editor.putString(ACCESS_SECRET_NAME, null);
+						editor.commit();
 						//mFile.delete();
 						return true;
 					}
@@ -120,6 +140,7 @@ public class DbSyncServiceLogout extends Service {
 					Log.e("UploaderTask", e.getMessage());
 					return false;
 				}
+				
 			}
 		}.execute();
 
@@ -146,6 +167,12 @@ public class DbSyncServiceLogout extends Service {
 				try {
 					downloadedFile = dropbox.getAPI().getFileStream(file_path,
 							null);
+					SharedPreferences prefs = getSharedPreferences(
+							ACCOUNT_PREFS_NAME, 0);
+					Editor editor = prefs.edit();
+					editor.putString(ACCESS_KEY_NAME, null);
+					editor.putString(ACCESS_SECRET_NAME, null);
+					editor.commit();
 				} catch (Exception e) {
 					Log.e(getClass().getSimpleName(), e.getMessage());
 					return false;
@@ -178,6 +205,13 @@ public class DbSyncServiceLogout extends Service {
 						if (br != null) {
 							br.close();
 						}
+						
+						SharedPreferences prefs = getSharedPreferences(
+								ACCOUNT_PREFS_NAME, 0);
+						Editor editor = prefs.edit();
+						editor.putString(ACCESS_KEY_NAME, null);
+						editor.putString(ACCESS_SECRET_NAME, null);
+						editor.commit();
 					} catch (IOException e) {
 						Log.e(getClass().getSimpleName(), e.getMessage());
 					}

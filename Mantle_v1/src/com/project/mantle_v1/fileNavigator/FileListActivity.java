@@ -79,7 +79,10 @@ public class FileListActivity extends FragmentActivity implements
 	 */
 	@Override
 	public void onItemSelected(String id) {
-		if (mTwoPane) {
+		/**
+		 * Da sistemare per poter visualizzare un'interfaccia ottimizzata per tablet
+		 */
+		/*	if (mTwoPane) {
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
@@ -90,7 +93,7 @@ public class FileListActivity extends FragmentActivity implements
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.file_detail_container, fragment).commit();
 
-		} else {
+		} else {*/
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
 			Intent detailIntent = new Intent(this, FileDetailActivity.class);
@@ -98,4 +101,4 @@ public class FileListActivity extends FragmentActivity implements
 			startActivity(detailIntent);
 		}
 	}
-}
+//}
