@@ -147,7 +147,7 @@ public class MantleFile implements Serializable {
 		
 	}
 
-	public void uploadFile(DropboxAPI<?> mApi, Context cont) {
+public void uploadFile(DropboxAPI<?> mApi, Context cont) {
 
 		/*
 		 * TODO: cifrare il file contenuto in mFile che poi sarà passato alla
