@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Mantle</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="db">Dropbox</string>
+    <string name="gett">Gett</string>
+    <string name="gd">Google Drive</string>
+    <string name="welcome">Welcome</string>
+    <string name="download">Download</string>
+    <string name="upload">Upload</string>
+    <string name="dbLogin">Login</string>
+    <string name="rubrica">Rubrica</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="ok">Ok</string>
+    <string name="esci">Exit</string>
+    <string name="title_notification_list">Notifications</string>
+    <string name="title_notification_detail">Notification Detail</string>
+    <string name="prompt_username">Username</string>
+    <string name="prompt_pass">Password</string>
+    <string name="accetta">Accept</string>
+    <string name="rifiuta">Refuse</string>
+    <string name="comment">Comment</string>
+    <string name="title_filf_list">Items</string>
+    <string name="title_filf_detail">FilF Detail</string>
+    <string name="title_file_list">Files</string>
+    <string name="title_file_detail">File Detail</string>
+    <string name="title_activity_set_priority">SetPriority</string>
+    <string name="action_settings">Settings</string>
+    <string name="name">Name</string>
+    <string name="ChangeAccount"><u>Change Account</u></string>
+</resources>
